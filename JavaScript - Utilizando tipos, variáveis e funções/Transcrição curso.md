@@ -259,7 +259,7 @@ Trocamos a let estudante para const estudante, o valor é o mesmo. Deixamos a pr
 **Lidando com um erro**  
 No terminal, pressionamos seta para cima do teclado, node variaveis.js e agora ao invés do retorno no terminal, temos um erro. Mas os erros são bons porque eles normalmente nos avisam quando tem algo errado no nosso código.
 
-Se precisar, utilize as ferramentas de tradução dos navegadores para entender bem as mensagens de erro que recebemos no terminal ou no navegador porque elas são importantes para nós.
+> Se precisar, utilize as ferramentas de tradução dos navegadores para entender bem as mensagens de erro que recebemos no terminal ou no navegador porque elas são importantes para nós.
 
 Neste caso, o Node retornou um type error (erro de tipo), falaremos mais sobre erros de tipo durante o curso, e ele passa uma mensagem avisando o que deu errado.
 
@@ -271,7 +271,7 @@ Um pouco mais para cima, ele avisa o nome do arquivo, variaveis.js:4, que é jus
 
 O que precisamos fazer agora é deletar a linha 4, onde tentamos fazer a reatribuição, porque isso não é possível fazer com const.
 
-Modos de lidar com variáveis
+**Modos de lidar com variáveis**
 let e const não são formas originais, digamos assim, do JavaScript de trabalhar com variáveis. Elas foram criadas posteriormente.
 
 A forma original é var, que você pode encontrar em alguns conteúdos na internet ainda. Então, var estudante e var professora. var e let trabalham de formas similares, ambas podem ser reatribuídas ao contrário da const. Porém, existem algumas outras diferenças entre var, let e const que veremos nos próximos vídeos.
@@ -282,24 +282,426 @@ A maior parte dos guias vai dizer para usar sempre const. A não ser que realmen
 
 Hoje em dia não se utiliza mais o var. Veremos o porquê futuramente. O var é muito solto, ela nos permite fazer muitos outros tipos de alteração que normalmente não queremos fazer no código. Então, qual utilizar? const ou let.
 
-Use let só quando tiver certeza de que precisa alterar a variável e const em todos os outros casos.
+> Use let só quando tiver certeza de que precisa alterar a variável e const em todos os outros casos.
 
 Além disso, outra diferença entre let e const é que não conseguimos criar uma const sem atribuir um valor a ela. O VSC até reclama se tentarmos fazer isso, ele acusa grifado em vermelho no nome da variável.
 
 Já uma let pode ser criada sem um valor e podemos atribuir um valor a ela depois, passando professora = 'Ana'. Isso pode ser feito com let, mas não pode ser feito com const.
 
+```JavaScript
 const estudante = 'Caroline';
 let professora;
 
 professora = 'Ana';
 
 console.log(estudante, professora);
-Copiar código
+```
+
 Agora que já descobrimos coisas novas, vamos continuar praticando e entendendo mais diferenças entre var, let e const e por que elas são importantes.
 
-### Aula 2 -  - Vídeo 2
-### Aula 2 -  - Vídeo 3
-### Aula 2 -  - Vídeo 4
-### Aula 2 -  - Vídeo 5
-### Aula 2 -  - Vídeo 6
-### Aula 2 -  - Vídeo 7
+### Aula 2 - Para saber mais: padrão de nomes do JavaScript
+
+Um detalhe muito importante, mas que às vezes não percebemos quando começamos a programar, é que cada linguagem possui seus próprios padrões. Eles servem não somente para a escrita de códigos que funcionem, mas também para criar nomes de variáveis, estruturar um programa e muito mais.
+
+A primeira coisa que precisamos ter em mente é que o JavaScript é case-sensitive, ou seja, diferencia maiúsculas e minúsculas. Isso significa que tudo o que escrevemos, sejam instruções próprias da linguagem (como console.log) ou quando damos nome a uma variável, tem que ser feito em um mesmo padrão, o que inclui a questão de maiúsculas e minúsculas.
+
+Para ilustrar, o JavaScript trata os quatro exemplos abaixo como variáveis diferentes e não apresentará nenhum erro se você executar o programa:
+
+```JavaScript
+const minhaVar = 1;
+const MinhaVar = "texto";
+const minhavar = "3";
+const MINHAVAR = 2;
+
+console.log(minhaVar, MinhaVar, minhavar, MINHAVAR)
+```
+
+Podemos perceber que, em um programa muito grande, a possibilidade de problemas é grande. Então como sabemos a forma certa de nomear? Aí entra o que chamamos de convenções, para padronizar estes aspectos do código.
+
+Existem várias convenções para nomes e cada linguagem de programação tem o seu. Seguem alguns deles:
+
+- camelCase: inicia com letra minúscula e a primeira letra de cada palavra em seguida é escrita com letra maiúscula. Por exemplo: minhaVar ou senhaDoUsuario. Esta é a convenção utilizada pelo JavaScript para variáveis e funções.
+
+- snake_case: os espaços são substituídos pelo caractere _ (underline), com todas as palavras em letra minúscula. Por exemplo: minha_variavel ou senha_do_usuario. É o padrão utilizado, por exemplo, pela linguagem Python.
+
+- kebab-case: similar ao anterior, porém com os espaços substituídos por hífens. Por exemplo: minha-var ou senha-do-usuario. Esta convenção não pode ser utilizada no JavaScript para variáveis e funções, pois o sinal - representa um operador de subtração. Porém, pode ser utilizada para nomear arquivos, como por exemplo exercicios-variaveis.js.
+
+- PascalCase: similar ao CamelCase, porém neste caso todas as palavras começam com letra maiúscula. Por exemplo: MinhaVar ou SenhaDoCliente.
+
+> Importante: nunca utilize espaço nem caracteres especiais e também não inicie os nomes das variáveis com números.
+
+Quando falamos de convenção, estamos falando de boas práticas e padronização. Se você utilizar qualquer um dos padrões acima para nomear variáveis com JavaScript (com exceção do padrão kebab-case), seu código continuará funcionando, mas seguir as convenções é parte de desenvolver um código legível e bem escrito.
+
+Esse é um assunto vasto e com muitos detalhes, e é parte do nosso trabalho no cotidiano como pessoas que desenvolvem garantir que os chamados guias de estilo definidos para um produto de código sejam seguidos.
+
+Você pode ir aprendendo os detalhes aos poucos, enquanto estuda, e observá-los sendo aplicados nos códigos que encontrar durante seus estudos.
+
+### Aula 2 - Escopo de variável - Vídeo 2
+
+Transcrição  
+Agora que já entendemos que existem três formas de se declarar variáveis no JavaScript e vimos as diferenças entre elas, vamos continuar explorando.
+
+Vamos criar um novo arquivo dentro da nossa pasta, usando o botão New File. Vamos chamar esse arquivo de escopo.js. Logo veremos o que significa escopo.
+
+Até agora, aprendemos que proteger dados que estão numa variável de serem alterados é muito importante. No entanto, existem outras formas de proteger nosso código de alteração externa, sendo a alteração externa aquela feita por outras partes do código.
+
+Testando formas de alterar variáveis
+Dentro do arquivo escopo.js, vamos criar uma condicional, um if, que já vimos nos cursos de iniciante em programação, e vamos criar uma variável dentro desse if.
+
+Então, vamos lá: Por exemplo, if (1 > 0). 1 é sempre maior do que 0, então, isso garante que vamos acessar o código dentro desse if. Então, abrimos e fechamos as chaves em seguida. Dentro das chaves do if, vamos criar uma var, como vimos anteriormente, estudante = 'Caroline';, e vamos pedir também um console.log no valor da variável estudante;.
+
+Fora do if, depois das chaves, vamos fazer parecido com o que fizemos anteriormente, vamos chamar a variável estudante, sem o var, igual a "Ana", para tentarmos reatribuir esse valor. E vamos também chamar um outro console.log para vermos o resultado disso tudo. Então, console.log em estudante.
+
+```JavaScript
+if (1 > 0) {
+    var estudante = 'Caroline';
+    console.log(estudante);
+}
+
+estudante = 'Ana';
+console.log(estudante);
+```
+
+Vamos abrir novamente o terminal, em New Terminal lá no menu superior Terminal, garantir que estamos na pasta certa, e vamos chamar o node com o nome do nosso arquivo, agora o nosso arquivo é escopo.js.
+
+Então, node escopo.js, executaremos pressionando a tecla Enter e o retorno será "Caroline" e "Ana", ou seja, entrou dentro do if, porque a condição de 1 maior que 0 é uma condição true, criou a variável estudante com o nome de "Caroline", deu um console.log, exibiu "Caroline", primeiro valor.
+
+Em seguida, lembrando sempre, JavaScript vai ler de cima para baixo, linha por linha, ele achou a linha 6, onde reatribuímos o valor de estudante, o valor de estudante deixou de ser "Caroline" e passou a ser "Ana", e o novo console.log refletiu essa alteração, e o segundo valor no nosso terminal é "Ana". Até aí, tudo bem.
+
+O que estávamos querendo testar aqui nesse código? É possível criar uma variável dentro de um bloco. O que é um bloco?
+
+Um bloco é todo o código que fica separado, por exemplo, dentro de chaves.
+
+Então, uma função é um bloco de código, uma condicional é um bloco de código. Onde declaramos a var estudante e o console.log é um código que está preso dentro de um bloco. Quando reatribuímos fora desse bloco um novo valor a estudante, isso quer dizer que uma variável criada dentro de um bloco pode ser modificada pelo lado de fora.
+
+Vamos fazer um novo teste, então. Dentro do bloco, vamos trocar a variável de var para let. Então, agora, em vez de var estudante, temos uma let estudante.
+
+Vamos deixar o resto tudo como está, voltar no terminal, pressionar a seta para cima do teclado e reexecutar o arquivo. Novamente, exibir o "Caroline" e "Ana". Parece que está tudo funcionando da mesma forma, mas não está.
+
+```JavaScript
+if (1 > 0) {
+    let estudante = 'Caroline';
+    console.log(estudante);
+}
+
+estudante = 'Ana';
+console.log(estudante);
+```
+
+Agora, temos duas variáveis diferentes. A variável criada dentro do bloco com let, que é "Caroline", e, na linha 6, o nosso estudante = 'Ana' é outra variável.
+
+Se criamos uma variável sem passar nenhuma palavra-chave, como let, const ou var, e essa variável não existe, automaticamente o JavaScript cria essa variável com um var escondido.
+
+Então, agora temos duas variáveis, let estudante = 'Caroline' e var estudante = 'Ana'. Não é a mesma variável. Isso é muito importante entender a diferença entre let e var.
+
+Essa modificação acontece devido ao que chamamos de escopo, que é o nome do nosso arquivo. O JavaScript trabalha com três escopos:
+
+- Bloco
+- Função
+- Global
+
+Um escopo é um termo em programação que normalmente significa um limite, um espaço dentro do qual trabalhamos. Por isso que chamamos de escopo de bloco o código que está preso dentro do bloco, preso entre as chaves do if ou as chaves de uma função.
+
+As variáveis criadas com escopo global, ou seja, elas não estão dentro de nenhum bloco ou de condicional ou de função, elas podem sempre ser acessadas ou modificadas dentro dos blocos.
+
+Por isso é importante sempre usar const para evitar que as variáveis sejam alteradas de maneira aleatória pelo restante do código.
+
+Vamos fazer mais um teste. No arquivo, vamos adicionar uma linha, lá no topo do arquivo, vamos chamar de let estudante, vamos criar essa let sem valor nenhum, só estamos criando ali um espaço na memória. Dentro do nosso if vamos tirar o let estudante, deixa só estudante = 'Caroline';, ou seja, estamos tentando reatribuir um valor ou colocar um valor dentro da nossa let estudante. Do lado de fora vamos tirar a nossa let estudante = 'Ana'; da linha 8, e vamos deixar só o console.log.
+
+```JavaScript
+let estudante;
+
+if (1 > 0) {
+    estudante = 'Caroline';
+    console.log(estudante);
+}
+
+console.log(estudante);
+```
+
+Voltando no terminal, vamos usar o atalho Ctrl + L, que serve tanto no Windows quanto no Linux, para limpar o nosso terminal das informações anteriores.
+
+Aí pressionaremos a seta para cima, exibindo o comando node escopo.js, agora ele exibe "Caroline" e "Caroline", ou seja, isso significa que uma variável que está fora de um bloco, consegue ser alterada por dentro do bloco. Então, criamos a variável do lado de fora, alteramos do lado de dentro das chaves da condicional if.
+
+Esse é um dos motivos pelo qual só utilizamos let quando realmente precisamos alterar alguma coisa, porque o ideal é que utilizemos uma const. Assim, já criamos o valor com "Caroline" onde ele tem que ficar, e aí podemos acessar. Então, dentro do if podemos acessar essa variável estudante e pegar um console.log, mas não conseguimos alterar essa variável.
+
+Agora já vimos as três formas de se declarar variável, let, const e var. E por que é importante usar const e já sabemos o que é o escopo, no caso escopo de bloco ou escopo global. Então, vamos seguir vendo mais características do JavaScript para back-end.
+
+### Aula 2 - Para saber mais: versões do JS
+
+**Atualizações do JavaScript**
+O JavaScript, ao longo de sua evolução, passou por várias versões, cada uma trazendo novos recursos e melhorias para a linguagem. Uma das versões mais significativas é o ECMAScript 6 (também conhecido como ES6), lançado em 2015, que introduziu uma série de recursos poderosos e modernos para a linguagem. Entre eles estão:
+
+**Let e const**  
+
+```JavaScript
+let variavel = 10;
+const constante = 20;
+```
+
+**Template literals ou template strings**  
+
+```JavaScript
+const nome = 'Alice';
+console.log(`Olá, meu nome é ${nome}.`);
+```
+
+**Escopo de bloco com let**  
+
+```JavaScript
+if (1 > 0) {
+  let nome = ‘Ana’;
+  console.log(nome); // ‘Ana’
+}
+// variável `nome` não está acessível
+console.log(nome); // Error: nome is not defined
+```
+
+Ainda existem muitas outras funcionalidades do que chamamos de “JavaScript moderno” (do ES6 em diante), que vão fazer mais sentido conforme estudamos mais a fundo as funcionalidades da linguagem.
+
+Você pode conferir todas as atualizações neste guia do ES6.
+
+Apesar da atualização de 2015 ser a mais famosa, são lançadas atualizações anualmente! A lista de novidades da versão 2023 (mais recente no momento em que escrevemos) pode ser conferida no [site do ECMA](https://tc39.es/ecma262/2023/), consórcio internacional que gerencia o desenvolvimento da linguagem.
+
+**Compatibilidade**  
+A retrocompatibilidade é uma característica importante do JavaScript. Isso significa que, em grande parte, o código escrito em versões anteriores do JavaScript deve continuar funcionando em versões mais recentes. Por exemplo, um código escrito em ES5 deve ser compatível com um ambiente ES6 ou posterior. No entanto, o contrário pode não ser verdadeiro, pois novos recursos introduzidos em versões mais recentes podem não ser suportados em ambientes mais antigos.
+
+Para garantir a compatibilidade, ferramentas como transpiladores (por exemplo, [Babel](https://babeljs.io/)) são utilizadas para converter código escrito em versões mais recentes do JavaScript (como ES6+) para versões mais antigas, permitindo que seja executado em ambientes que não suportam esses recursos mais recentes.
+
+A retrocompatibilidade é essencial para usar o JavaScript em front-end por basicamente dois motivos:
+
+- Não é possível garantir que os computadores clientes que acessam as páginas web estejam sempre atualizados com as últimas versões dos navegadores.
+- Os próprios navegadores levam algum tempo para atualizarem seus interpretadores de acordo com as últimas atualizações da linguagem.
+
+No caso do Node.js este problema não é tão grande, pois quem desenvolve a aplicação escolhe qual a versão que quer utilizar do Node.js e adequa o computador-servidor para que execute o código de acordo. Porém, a questão da retrocompatibilidade fez com que alguns comportamentos das primeiras versões do JS não pudessem ser corrigidos, como o null que veremos mais adiante neste curso.
+
+A evolução do JavaScript continua, e novas versões trouxeram e continuarão a trazer mais funcionalidades, melhorias na linguagem e facilitação no desenvolvimento de aplicações modernas.
+
+#### Aula 2 - Escopo
+
+Analise o seguinte bloco condicional if:
+
+```JavaScript
+if (true) {
+  let num1 = 10;
+  var num2 = 20;
+}
+```
+
+Perceba que, dentro do bloco, são declaradas as variáveis num1 com let e num2 com var.
+
+A partir disso, qual a diferença de escopo das variáveis num1 e num2 após a execução do bloco condicional?
+
+Selecione 2 alternativas
+
+1. Apenas num2 é acessível fora do bloco condicional.
+
+Embora a variável num2 tenha sido declarada com var dentro do bloco condicional, ela não está restrita ao escopo do bloco como ocorre com variáveis let e const. Variáveis var têm escopo de função ou global (se declaradas fora de uma função), e o bloco condicional (if)não cria um escopo novo para elas.
+
+2. num1 não é acessível fora do bloco condicional.
+
+A variável num1 foi declarada usando let, o que a limita ao escopo do bloco em que foi criada. Como resultado, num1 só é acessível dentro do bloco if`. Tentar acessá-la fora desse bloco resultaria em um erro.
+
+### Aula 2 - Lidando com erros - Vídeo 3
+
+Transcrição  
+Antes de continuarmos, vamos analisar com mais detalhes o que ocorre quando surgem erros. Ou seja, vamos examinar cuidadosamente as mensagens de erro que o Node fornece.
+
+Vamos criar um novo arquivo chamado erros.js e realizar alguns testes de código para ver os erros ocorrendo. O primeiro passo é chamar console.log e passar para dentro do console uma variável que não existe no nosso arquivo. Portanto, vamos apenas passar a variavel, sem aspas. É importante lembrar que, quando colocamos entre aspas, o JavaScript interpretará como um texto.
+
+Entendendo a mensagem de erro
+Então, passamos console.log(variavel), vamos voltar ao terminal, escrever node erros.js, e ele já retorna um erro. Vamos analisar a mensagem de erro por partes.
+
+juliana@juliana:~/Desktop/3513-js-funds1$ node erros.js
+/home/juliana/Desktop/3513-js-funds1/erros.js:1 console.log(variavel);
+
+ReferenceError: variavel is not defined
+    at Object.`<anonymous>` (/home/juliana/Desktop/3513-js-funds1/erros.js:1:13)
+    at Module. compile (node:internal/modules/cjs/loader: 1256:14)
+    at Module. extensions..js (node: internal/modules/cjs/loader: 1310:10)
+    at Module.load (node: internal/modules/cjs/loader: 1119:32)
+    at Module. load (node:internal/modules/cjs/loader: 960:12)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:81:12)
+        at node:internal/main/run_main_module:23:47
+
+A primeira coisa que o Node nos fornece é o caminho do arquivo onde ocorreu o erro. É a nossa pasta, é o nosso arquivo erros.js, seguido de :1, que é o número da linha onde ele identificou o erro.
+
+Em seguida, ele está copiando o código e assinala com uma seta exatamente onde na linha ocorreu o erro, ou seja, até a parte do console.log ele leu sem problemas. Quando chegou em variavel, ele já não conseguiu, porque estamos tentando passar para o console uma variável que não existe, literalmente.
+
+Logo após, ele apresenta uma mensagem, pois o Node consegue inferir o tipo de erro e fornecer uma mensagem correspondente. Neste caso, ele fornece uma mensagem de erro de referência.
+
+variavel, que é o nome da nossa variável, is not defined (não está definida). E é literalmente o que está ocorrendo. Ele está dizendo que essa variável não existe, ela não foi definida, então ele não consegue acessá-la. Esta é uma mensagem que pode ser útil caso você precise, utilize as ferramentas de tradução para entender exatamente o que está acontecendo.
+
+**Stack Trace**  
+A parte seguinte, que geralmente assusta um pouco, é o que chamamos de Stack Trace. O que é Stack Trace? É esta lista de arquivos estranhos e mensagens estranhas que enchem o nosso terminal de informações. Ela passa uma quantidade de nomes de arquivos, uma quantidade de caminhos de arquivos que não sabemos onde estão.
+
+O que é o Stack Trace? É uma pilha de comandos que foram chamados internamente pelo Node para executar o programa. Ou seja, quando executamos um programa que está dentro de variáveis.js, escopo.js, internamente o Node chama muitas outras ferramentas nos bastidores, e isso ocorre de forma silenciosa normalmente.
+
+Então, o Node chama as ferramentas que estão dentro dos arquivos para executar o nosso código, e normalmente não vemos isso acontecendo. Só vemos isso ocorrer quando há um erro, porque qualquer erro que ocorra no programa, além da mensagem de erro, ele exibe todo o código que rodou sem o nosso conhecimento, silenciosamente, que são os códigos internos do Node.js.
+
+Por isso recebemos esse grande aviso, fornecendo muitas informações, é o que chamamos de Stack Trace, a pilha de comandos que foram utilizados para executar o nosso código.
+
+Vamos realizar mais um teste, vamos comentar o nosso console.log(variavel), vamos criar outro console.log, que vamos apenas passar oi. Vamos passar oi, entre aspas, para ser uma string, mas vamos deletar o fechamento dos parênteses. O VSC já indica o erro, ele já sublinha em vermelho, dizendo que tem algum erro aqui, mas vamos ignorar apenas para testar.
+
+> console.log('oi'
+
+Então, sempre começamos observando o VSC, se estiver sublinhado em vermelho, já sabemos que há algo errado, porém, se isso falhar, vamos tentar executar este arquivo e ele retornará outro erro.
+
+Então, no terminal, node erros.js, ele fez também a primeira parte igual, informou qual é o arquivo que deu erro, qual foi a linha que deu erro, linha 2, assinalou onde exatamente na linha começou a dar erro, que foi justamente onde tentamos escrever oi e não fechamos os parênteses, mas agora é um outro tipo de erro, é um erro de sintaxe.
+
+Então, aviso que o Node dá, syntax error (erro de sintaxe), e ele já indica o que está ocorrendo, ele diz que falta um fechamento de parênteses após a lista de argumentos. Lista de argumentos porque console.log é uma função que recebe uma lista de argumentos, e faltou fechar essa lista.
+
+**Os tipos de erro**  
+Então, já notamos que existem dois tipos de erro, erro de referência e erro de sintaxe, eles são tipos de erro muito comuns, os sintáticos normalmente pegamos mais rápido porque quase sempre eles vão aparecer no VSC, assinalados em vermelho, porém sempre temos que interpretar a mensagem.
+
+Então, os erros de sintaxe, eles normalmente são mais fáceis de identificar, porém erros de lógica, como o que fizemos anteriormente na variável que não existe, são um pouco mais difíceis de identificar algumas vezes porque o VSC normalmente não vai indicar esse erro, porque ele não sabe que a variável não foi declarada.
+
+Então, sempre temos que interpretar a nossa stack trace, ver onde no arquivo que deu erro e tentar descobrir o que ocorreu. Não se esqueça de sempre utilizar o tradutor quando necessário para entender melhor os avisos.
+
+Existem vários métodos para lidar com erros no JavaScript que não vamos ver neste curso, porque é um conteúdo um pouco mais avançado, mas à medida que formos trabalhando nas nossas aplicações, vamos abordar este tema.
+
+Então, erros são nossos amigos: sempre que ocorrer com você, preste atenção neles, tente entender onde eles estão ocorrendo e as mensagens de erro que o Node fornece. Agora, vamos continuar codando, sabendo que não precisamos ter medo dos erros.
+
+### Aula 2 - Para saber mais: tipos de erros do Node.js
+
+Qualquer pessoa desenvolvedora, independente da linguagem ou área de atuação, precisa saber como identificar, compreender e corrigir erros no código. Afinal, essas habilidades são fundamentais para garantir a estabilidade, segurança e eficiência de um software.
+
+No artigo [Lidando com erros no Node.js](https://www.alura.com.br/artigos/lidando-com-erros-node-js), temos exemplos de erros comuns que podemos encontrar quando trabalhamos com essa ferramenta.
+
+### Aula 2 - Para saber mais: o console.log()
+
+Quando se trata de desenvolvimento em JavaScript, uma ferramenta essencial para devs é o console.log(). Este é um método utilizado para exibir mensagens ou depurar o código durante o desenvolvimento de aplicativos web.
+
+**O que é o console.log()?**  
+O console.log() é uma função disponível nos navegadores e no ambiente Node.js. Sua principal finalidade é imprimir mensagens ou valores no console do navegador ou terminal, facilitando o acompanhamento e depuração do código.
+
+**Como usar o console.log()?**  
+Para usar o console.log(), basta inserir a função seguida pelos dados que você deseja exibir no console, como strings, variáveis, objetos, arrays, entre outros. Acompanhe alguns exemplos simples:
+
+Exibir uma string no console:
+
+>console.log('Olá, Mundo!');
+
+Mostrar o valor de uma variável:
+
+> let idade = 25;  
+  console.log('A idade é:', idade);
+
+**Por que o console.log() é importante?**  
+O console.log() é uma ferramenta valiosa durante o desenvolvimento devido à sua capacidade de exibir informações úteis sobre o código. Ajuda a identificar possíveis erros, acompanhar o fluxo de execução do programa e visualizar os valores das variáveis em momentos específicos, permitindo a correção de problemas e otimização do código.
+
+Utilizá-lo em seus projetos irá melhorar sua experiência de desenvolvimento e aprimorar a qualidade do seu código.
+
+A função log() é a mais geral e a mais utilizada, porém o objeto Console tem várias outras ferramentas mais específicas para serem utilizadas conforme o caso. Você pode conferir a lista completa na [documentação do MDN sobre o objeto Console](https://developer.mozilla.org/pt-BR/docs/Web/API/console).
+
+### Aula 2 - Faça como eu fiz: escopos
+
+Durante esta aula vimos exemplos do funcionamento de escopos no JavaScript.
+
+Aproveite este momento para conferir mais alguns exemplos abaixo e faça os testes em seu computador! Isso vai te ajudar a fixar na prática os conceitos mostrados em vídeo.
+
+Vamos começar relembrando o que é um escopo: podemos definir como um contexto de execução onde os valores e as expressões podem ser acessados ou referenciados (conforme a [documentação do MDN sobre escopos](https://developer.mozilla.org/pt-BR/docs/Glossary/Scope)).
+
+O JavaScript trabalha com três escopos:
+
+- Global
+- Bloco
+- Função
+
+Vamos fazer mais testes com cada um desses escopos.
+
+**Escopo global**  
+Qualquer variável que esteja no escopo global pode ser acessada por outras partes do programa. Uma variável é considerada global quando não é declarada dentro de nenhuma função ou bloco.
+
+```JavaScript
+const nome = ‘Camila’; // variável global
+
+function cumprimentar() {
+  console.log(`Olá, ${nome}!`); // Acessa a var global
+}
+
+cumprimentar(); // ‘Olá, Camila!”
+```
+
+**Escopo de bloco**  
+Variáveis declaradas dentro de chaves { }, como no caso de if, for, while etc., não ficam acessíveis para código que esteja de fora. Chamamos o código dentro das { } de bloco.
+
+```JavaScript
+if (1 > 0) {
+  let nome = ‘Ana’;
+  console.log(nome); // ‘Ana’
+}
+// variável `nome` não está acessível
+console.log(nome); // Error: nome is not defined
+```
+
+IMPORTANTE:
+
+Variáveis declaradas com var não seguem a regra do escopo de bloco! Elas serão consideradas globais e poderão ser acessadas de fora do bloco. Faça o teste:
+
+```JavaScript
+if (1 > 0) {
+  var nome = ‘Ana’;
+  console.log(nome); // ‘Ana’
+}
+
+console.log(nome); // ‘Ana’
+```
+
+A falta de “controle” de escopo é um dos motivos pelo qual o uso de var foi abandonado e as boas práticas atuais recomendam apenas o uso de const e let.
+
+**Escopo de função**  
+Variáveis declaradas dentro de uma função são consideradas “locais” (ou seja, o oposto de “globais”) e não podem ser acessadas por código que esteja fora do bloco da função.
+
+```JavaScript
+function cumprimentar() {
+  const nome = 'Camila'; // variável local
+  const cumprimento = 'Olá'; // variável local
+  console.log(`${cumprimento}, ${nome}!`); // “Olá, Camila!”
+}
+// as variáveis não podem ser acessada de fora da função
+console.log(`${cumprimento}, ${nome}!`); // Dará erro de “not defined” no console
+```
+
+### Aula 2 - Lista de exercícios
+
+ Programação é prática! Criamos mais uma lista de atividades (não obrigatórias) para você exercitar e reforçar ainda mais seu aprendizado. Bora praticar?
+
+1. Declare três variáveis diferentes (uma para cada tipo: string, número e booleano) e atribua valores a elas. Em seguida, exiba o tipo de cada variável no console.
+
+2. Crie duas variáveis, uma contendo seu primeiro nome e outra contendo seu último nome. Em seguida, combine-as em uma terceira variável usando o operador + e em uma quarta variável usando template strings. Por fim, imprima os resultados obtidos no console.
+
+3. Declare duas variáveis, uma contendo um número e outra contendo uma string. Em seguida, combine-as em uma terceira variável usando template strings para montar uma frase e exiba o resultado no console.
+
+4. Crie uma variável inicializada com um valor de qualquer tipo e, em seguida, reatribua um novo valor a essa variável. Imprima ambos os valores no console após atribuí-los.
+
+5. Declare uma variável usando var fora de um bloco de código (por exemplo, if) e outra dentro desse bloco. Tente acessar essas variáveis dentro do bloco e fora dele utilizando console.log e analise os resultados. Faça o mesmo processo utilizando let e compare com os resultados anteriores.
+
+6. Declare uma variável booleana que informa se está chovendo e utilize-a em uma estrutura condicional (if) para exibir uma mensagem informando se é preciso levar um guarda-chuva ou não dependendo do valor da variável.
+
+Caso precise de ajuda, opções de solução das atividades estarão disponíveis na seção “Opinião”.
+
+Opinião do instrutor
+
+Para te ajudar a verificar seus códigos,está disponível uma possível resolução dos [desafios neste link](https://github.com/alura-cursos/3513-JS-fundamentos1/tree/exercicios-aula2) para você construir ou validar suas soluções.
+
+Bons estudos!
+
+### Aula 2 - O que aprendemos?
+
+Nessa aula, você aprendeu a:
+
+- Diferenciar var, let e const e identificar qual a melhor forma para armazenar dados de acordo com cada situação;
+- A proteger dados em uma variável de serem alterados, utilizando const;
+- Lidar com mensagens de erro, entendendo o que o Node.js está tentando nos dizer com elas, para realizar correções no código;
+- Trabalhar com escopos e entender como os escopos funcionam para “limitar” o acesso do código a uma variável.
+
+## Aula 3 - Tipos de Dados
+
+### Aula 3 - Number - Vídeo 1
+
+### Aula 3 -  - Vídeo 2
+### Aula 3 -  - Vídeo 3
+### Aula 3 -  - Vídeo 4
+### Aula 3 -  - Vídeo 5
+### Aula 3 -  - Vídeo 6
