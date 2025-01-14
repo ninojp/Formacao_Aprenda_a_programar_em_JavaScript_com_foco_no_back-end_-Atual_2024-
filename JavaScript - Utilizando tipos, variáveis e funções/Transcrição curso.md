@@ -700,8 +700,614 @@ Nessa aula, você aprendeu a:
 
 ### Aula 3 - Number - Vídeo 1
 
-### Aula 3 -  - Vídeo 2
-### Aula 3 -  - Vídeo 3
-### Aula 3 -  - Vídeo 4
+Transcrição  
+Nos exemplos anteriores, criamos algumas variáveis no arquivo variaveis.js, como estudante e professora, que guardavam strings (sequências de caracteres, como textos).
+
+Agora, trabalharemos com outros tipos de informação que podemos guardar em variáveis. Faz diferença informar para o programa se queremos guardar um texto ou um número? Sim e vamos entender isso agora!
+
+**Number**  
+Criando o arquivo tipo-number.js
+Criaremos um novo arquivo chamado tipo-number.js. Nesse arquivo, vamos adicionar algumas variáveis para trabalhar com nossos tipos.
+
+Começaremos criando uma const que chamaremos de notaPrimeiroBi, igual a 8. Passamos para a variável o valor 8 sem aspas, porque queremos que seja um número.
+
+tipo-number.js:
+
+```JavaScript
+const notaPrimeiroBi = 8;
+```
+
+Em seguida, vamos criar outra const chamada notaSegundoBi, igual a 6.3. É importante saber que, no JavaScript, se quisermos usar um número decimal, deve ser com ponto e não com vírgula.
+
+> const notaSegundoBi = 6.3;
+
+Feito isso, criaremos outra constante para somar esses dois valores. Portanto, vamos criar uma const chamada total, que receberá a soma dos valores das duas variáveis notaPrimeiroBi e notaSegundoBi.
+
+> const total = notaPrimeiroBi + notaSegundoBi;
+
+Com isso, o JavaScript irá pegar o valor da primeira variável, o valor da segunda variável, somar esses dois valores, e passar ambos para dentro da variável total.
+
+Importante: sempre que o JavaScript passa por uma linha que faz uma atribuição de variável, primeiro ele analisa o que está à direita do igual (=), depois pega o resultado e passa para a variável que está à esquerda do igual.
+
+Testando o código  
+Vamos verificar se tudo está correto com o método console.log(). Entre os parênteses, pediremos para exibir o valor de total no terminal.
+
+> console.log(total);
+
+Com o terminal aberto, executaremos o seguinte comando:
+
+> node tipo-number.js
+
+Como retorno, foi exibido o valor 14.3.
+
+Entendemos que o JavaScript aceita como valor numérico números inteiros e números não inteiros, o que chamamos nesse caso de ponto flutuante. Nós não chamamos de decimal, conforme explicado nos materiais extras disponibilizados, e todos eles são do tipo number. Nós usamos o operador de adição (+) para somar estes dois números e exibir no console.
+
+Adicionando outras notas  
+Vamos adicionar mais algumas notas ao código de tipo-number.js, porque um ano letivo tem mais de dois bimestres. Primeiramente, criaremos uma constante notaTerceiroBi, que será -2.
+
+Outra const será a notaQuartoBi, com o valor 5. Porém, nesse caso específico, vamos colocar a nota entre aspas simples, ou seja, agora o valor é 5, mas quando o colocamos entre aspas, ele teoricamente é uma string, não um número. Vamos entender o que acontece no código quando usamos dessa forma.
+
+Feito isso, atualizaremos a constante total para somar todas as notas. Assim, teremos notaPrimeiroBi mais notaSegundoBi, mais notaTerceiroBi, mais notaQuartoBi.
+
+O console.log() pode ser mantido como está.
+
+tipo-number.js:
+
+```JavaScript
+const notaPrimeiroBi = 8;
+const notaSegundoBi = 6.3;
+const notaTerceiroBi = -2;
+const notaQuartoBi = '5';
+
+const total = notaPrimeiroBi + notaSegundoBi + notaTerceiroBi + notaQuartoBi;
+
+console.log(total);
+```
+
+Ao voltar no terminal e executar o mesmo comando anterior (node tipo-number.js), temos o valor 12.35. O que podemos entender disso? O valor 5, que estava como string, não deu nenhum erro; o Node.js não acusou que temos valores de número e valores de string e tentamos somar essas coisas.
+
+Porém, onde foi parar esse valor 5? Se prestarmos atenção, o 5 foi parar junto com o número. Se fizéssemos a soma de 8, 6.3 e -2, daria 12.3. Esse 5 que aparece ao final do resultado é o 5 em formato de string, que simplesmente foi colado no final da conta.
+
+Por que isso aconteceu? Porque o mesmo operador de mais (+) que usamos para somar números, também é utilizado para concatenar textos.
+
+Concatenando strings  
+Como exemplo, vamos criar mais duas constantes ao final do código. A primeira será uma const chamada nome, recebendo uma string com o nome "Juliana".
+
+Daremos um console.log() na linha abaixo e passaremos uma frase entre parênteses e aspas simples. A frase será "meu nome é ", seguida de um sinal de mais e da variável nome.
+
+```JavaScript
+// código omitido
+const nome = 'Juliana';
+console.log('meu nome é ' + nome);
+```
+
+Dessa forma, concatenamos duas strings. A primeira string é "meu nome é ", e a segunda string é "Juliana", que está dentro da variável nome.
+
+Vamos voltar ao terminal, limpá-lo com "Ctrl + L", e executar novamente o mesmo comando. Como retorno, temos a mensagem "meu nome é Juliana".
+
+Agora conseguimos pensar no problema que é misturar strings e números, porque a situação que criamos, em vez de somar a nota do quarto bimestre, concatenou e colocou o 5 após a conta toda.
+
+Quando fazemos operações em um programa, isso não pode acontecer. Portanto, é muito importante sempre ter em mente os tipos de dado que guardamos nas variáveis. No nosso exemplo, temos o tipo number, que pode ser inteiro, ponto flutuante, ou um número negativo.
+
+Porém, quando colocamos um número dentro de strings (entre aspas simples), ele não é mais um número, e sim uma string, não importa que o valor dentro dela seja 5, 12, 10, ou 0.
+
+Convertendo string em número  
+É normal, em diversas situações, termos acesso aos números na nossa aplicação como string, por exemplo, quando eles chegam a partir de formulários. Existem algumas formas de converter.
+
+Vamos passar uma das formas possíveis de usar o JavaScript para converter uma string para um número. Em const notaQuartoBi, vamos passar Number.parseInt() e, entre parênteses, colocar o número 5.
+
+> const notaQuartoBi = Number.parseInt('5');
+
+Agora, se executarmos o arquivo novamente, temos o resultado 17.3 no terminal. O 5 ao final não existe mais e todos os quatro valores são tratados como números.
+
+Calculando a média  
+Podemos finalizar o nosso cálculo de média. Em const total, vamos englobar o cálculo da soma das quatro notas entre parênteses e dividir o resultado por 4.
+
+> const total = (notaPrimeiroBi + notaSegundoBi + notaTerceiroBi + notaQuartoBi) / 4;
+
+Após salvar o arquivo e testar novamente no terminal, temos 4.325. É possível também modificar o retorno, se quisermos reduzir a quantidade de casas decimais, utilizando outra função do JavaScript.
+
+Vamos fechar o console.log() passando primeiro a string "a média é " seguida do operador de mais (+). Na sequência, o total recebe uma função para reduzir o número de casas decimais. Assim, teremos total.toFixed(2), para fixar 2 casas após a vírgula.
+
+> console.log('a média é ' + total.toFixed(2));
+
+De volta ao terminal, executamos novamente o comando node tipo-number.js. Agora, temos como retorno a média de 4.33, ou seja, funcionou conforme esperado.
+
+**Conclusão**  
+Queremos frisar que é muito importante termos certeza dos tipos que cada variável guarda para evitar, por exemplo, problemas em contas ou em concatenação de texto.
+
+Além disso, aprendemos que existem funções prontas para cada tipo. Por exemplo: toFixed() é uma função que utilizamos para números, mas há outras funções que utilizamos também para strings que conheceremos durante o curso. Vamos lá?
+
+### Aula 3 - Para saber mais: NaN
+
+Como vimos em vídeo, NaN representa, literalmente, “not a number”, ou “não é um número”. Na maior parte dos casos, NaN é o valor retornado como resultado de uma operação aritmética mal formada, por exemplo:
+
+> console.log(5 * 'a'); // NaN
+
+Agora vamos ver um outro exemplo. O que você acha que vai ser retornado no console?
+
+> console.log(5 * '5');
+
+Nesse caso, o resultado é 25 e não NaN como esperado, afinal de contas estamos tentando multiplicar números e letras. O JavaScript, nestes casos, sempre tenta converter de forma implícita a string em número antes de tentar efetuar a operação aritmética.
+
+É sempre importante lembrar da conversão implícita quando estamos trabalhando com operações entre dados, e garantir que estas operações estejam recebendo apenas dados do tipo Number.
+
+O caso de operações mal formadas é uma das ocorrências mais comuns de NaN no código, mas não é a única. Existem cinco tipos de operações que podem retornar NaN:
+
+Tentativas de converter para números valores que não podem ser convertidos, como parseInt(‘texto’) ou Number(undefined). Os valores booleanos true e false podem ser convertidos para 1 e 0 usando Number(), porém retornarão NaN caso a tentativa de conversão seja feita com parseInt().
+
+Operações matemáticas que não resultam em números reais, por exemplo Math.sqrt(-1).
+
+Operações onde um dos valores é NaN ou pode ser convertido para NaN, por exemplo 5 * ‘a’, 5 + NaN.
+
+Formatos indeterminados como Infinity / Infinity, Infinity - Infinity. O valor Infinity existe no JavaScript e você pode conferir mais sobre ele na [documentação do MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Infinity).
+
+Outros casos onde um valor não pode ser representado como número.
+
+Como verificar se um valor é NaN?
+Você pode utilizar os métodos Number.isNaN() ou isNaN():
+
+```JavaScript
+const numero = 10;
+const nome = 'Ana';
+
+Number.isNaN(numero) // false
+Number.isNaN(nome) // false
+Number.isNaN(NaN) // true
+```
+
+Observe que nome não é avaliado como NaN nesse contexto. Porém, observe este novo exemplo, utilizando a função isNaN() ao invés de Number.isNan():
+
+```JavaScript
+isNaN(10) // false
+isNaN(nome) // true
+isNaN(NaN) // true
+```
+
+A diferença é que Number.isNaN() irá retornar true apenas se o valor for efetivamente NaN, enquanto a função isNaN() irá retornar true inclusive para casos em que o valor pode ser avaliado como NaN se tentar ser convertido para número. Você pode utilizar um ou outro dependendo da sua necessidade.
+
+Parte do conteúdo desta atividade usou de apoio a [documentação do MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NaN). Você pode conferir mais exemplos e casos avançados do NaN direto no verbete NaN no MDN.
+
+### Aula 3 - Para saber mais: tipos numéricos
+
+Os tipos numéricos desempenham um papel fundamental na manipulação de valores em programas, permitindo a representação de diferentes formas de números. Neste contexto, podemos destacar os seguintes tipos de números:
+
+**Números Inteiros (Int)**  
+Em JavaScript, todos os números são do tipo Number, o que significa que não há um tipo específico para inteiros. No entanto, os números podem ser representados sem casas decimais, como exemplificado abaixo:
+
+```JavaScript
+let numeroInteiro = 10;
+console.log(numeroInteiro); // Saída: 10
+```
+
+**Números de Ponto Flutuante (Float)**  
+Os números de ponto flutuante incluem valores com casas decimais, mesmo que estas sejam zero. Enquanto o sistema decimal é baseado no número 10 e é utilizado no cotidiano para representar números de forma exata, o ponto flutuante é um método binário de representação de números reais em computadores, usando a notação científica para proporcionar uma ampla gama de valores com uma precisão limitada.
+
+Exemplo:
+
+```JavaScript
+let numeroFlutuante = 3.14;
+console.log(numeroFlutuante); // Saída: 3.14
+```
+
+**Números Hexadecimais**  
+Os números hexadecimais são representados na base 16, começando com 0x seguido pelo valor hexadecimal. Acompanhe o exemplo:
+
+```JavaScript
+let numHex = 0xA; // Representa o número 10 em hexadecimal
+console.log(numHex); // Saída: 10
+```
+
+**Números Octais**  
+Apesar de não terem uma representação direta em JavaScript, os números octais podem ser representados usando o prefixo 0o seguido pelo valor octal, como no exemplo abaixo:
+
+```JavaScript
+let numOctal = 0o10; // Isso representa o número 8 em octal
+console.log(numOctal); // Saída: 8
+```
+
+Embora os números inteiros e de ponto flutuante sejam utilizados com maior frequência, os números hexadecimais e octais são representações especiais utilizadas em situações específicas, fornecendo flexibilidade adicional para lidar com diferentes bases numéricas.
+
+### Aula 3 - String - Vídeo 2
+
+Transcrição  
+Dando continuidade à nossa aula sobre tipos de dados, já conhecemos o tipo number (número), muito importante para realizar operações usando o JavaScript. Agora, vamos continuar com um tipo que já trabalhamos anteriormente: o tipo string.
+
+**String**
+Criando o arquivo tipo-string.js
+Vamos criar um novo arquivo no Visual Studio Code chamado tipo-string.js. Temos trabalhado com strings desde o início do curso. O que mais precisamos saber sobre o tipo string?
+
+String é o nome que usamos para representar cadeias de caracteres. Qualquer conjunto de caracteres entre aspas, sejam simples, duplas ou crases, são strings para o JavaScript. Vamos observar isso na prática?
+
+Criaremos uma const chamada estudante e atribuiremos a ela o valor "Caroline" entre aspas duplas. Lembrando que o JavaScript aceita aspas duplas. Em seguida, vamos criar outra const chamada docente e atribuir a ela o valor "Ana" usando aspas simples, o que também é aceito.
+
+tipo-string.js:
+
+```JavaScript
+const estudante = "Caroline";
+const docente = 'Ana';
+```
+
+Porém, e se precisarmos colocar algo entre aspas dentro de um texto? Vamos criar outra constante chamada cumprimento e atribuir a ela o valor "nosso lema é 'estudar bastante!'", usando aspas simples entre aspas duplas. O JavaScript aceita citações com aspas dentro de aspas.
+
+> const cumprimento = "nosso lema é 'estudar bastante!'";
+
+Também podemos utilizar crases (acento grave) como notação de string no JavaScript. Por exemplo: vamos criar outra const chamada citacao e atribuir a ela o valor Ju diz: "nosso lema é 'estudar bastante!'". Podemos colocar aspas duplas e aspas simples dentro das crases e também irá funcionar.
+
+> const citacao = `Ju diz: "nosso lema é 'estudar bastante!'"`;
+
+Por último, vamos imprimir com console.log() os valores das constantes cumprimento e citacao para conferir se tudo está correto.
+
+```JavaScript
+console.log(cumprimento);
+console.log(citacao);
+```
+
+Testando o código
+Executando o arquivo tipo-string.js no Node.js, recebemos o resultado esperado.
+
+node tipo-string.js
+
+Retorno do comando:
+
+> nosso lema é 'estudar bastante!'  
+  Ju diz: "nosso lema é 'estudar bastante!'"
+
+Assim, entendemos que podemos usar aspas simples ou aspas duplas, como preferirmos. O importante é ser consistente: se decidir usar só aspas simples, use-as sempre, e o mesmo se aplica às aspas duplas.
+
+**Usando template strings**
+A crase tem um uso um pouco mais específico. Já vimos anteriormente que o sinal de mais (+), o operador de adição, é usado para concatenar, ou seja, unir strings, além de fazer contas.
+
+Por exemplo: se criarmos um console.log() abaixo recebendo 'a estudante se chama ' + estudante, irá funcionar, mas a concatenação pode ser complicada de fazer e tornar a leitura confusa. Se precisarmos concatenar muito texto, fica complicado identificar onde estão os espaços e onde colocar o sinal de +.
+
+Alternativamente, há outra forma de concatenar strings em JavaScript, que são as template strings. Para isso, usamos a crase. Nesse caso, em vez de concatenar texto com +, envolvemos todo o texto que queremos criar com crases, e onde queremos incluir um valor variável, usamos ${}.
+
+Por exemplo: em vez de dizer 'a estudante se chama ' + estudante, diríamos a estudante se chama ${estudante}. Assim, a leitura fica muito mais fluida e não precisamos nos preocupar em concatenar texto com variável.
+
+> console.log(`a estudante chama ${estudante}`);
+
+Ao executar novamente o comando node tipo-string.js, temos o seguinte retorno:
+
+```JavaScript
+nosso lema é 'estudar bastante!'  
+Ju diz: "nosso lema é 'estudar bastante!'"
+a estudante chama Caroline
+```
+
+Podemos usar sempre a template string em vez de concatenação, pois ela é de versões mais antigas do JavaScript. As template strings são mais modernas.
+
+**Testando funções do JavaScript**  
+Além disso, o JavaScript tem diversas operações que podemos fazer com strings e que já estão incluídas na linguagem. Deixaremos um [link para a documentação do MDN Web Docs](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/String), onde são listadas todas as funções prontas do JavaScript para fazer alterações de string.
+
+Vamos fazer um teste em uma dessas funções para entender o que é alterar uma string. Suponha que temos uma const chamada senha e atribuímos a ela o valor "SenhaSegura123" como uma string.
+
+Para tornar essa senha ainda mais segura, vamos concatenar o valor da senha com o valor de estudante, e vamos colocar o nome da pessoa estudante em caixa alta usando o método toUpperCase().
+
+Feito isso, podemos dar um console.log() na variável senha para verificar o resultado.
+
+```JavaScript
+const senha = 'SenhaSegura123' + estudante.toUpperCase();
+console.log(senha);
+```
+
+A nossa senha segura agora é "SenhaSegura123CAROLINE".
+
+É muito importante lembrar que o JavaScript é case sensitive, ou seja, maiúsculas e minúsculas em nomes de variáveis e em comandos sempre fazem diferença. O método toUpperCase() deve ser escrito no seu código exatamente da forma que escrevemos acima para funcionar.
+
+Além disso, tudo que não está entre strings para o JavaScript é considerado, por exemplo, variável ou função. Então, se houver algum erro de string, sempre confira se elas estão entre aspas corretamente, senão o JavaScript não vai entender que aquilo é uma sequência de caracteres.
+
+**Conclusão**  
+Continuaremos conhecendo os tipos de dados do JavaScript no próximo vídeo!
+
+### Aula 3 - Para saber mais: conversão de textos
+
+Acabamos de aprender que usamos o tipo string sempre que queremos trabalhar com sequências de caracteres alfanuméricos, como textos, senhas e dados como CPF. Mas se pararmos para pensar, vários idiomas utilizam caracteres diferentes, como acentos e ideogramas. Como as linguagens de programação lidam com isso? E o que dizer dos emojis <p>&#129300<p/>? Você já visitou algum site e notou que os caracteres dos textos não pareciam corretos, que no lugar de alguns deles apareciam sinais de interrogação, quadrados ou traços?
+
+Isso tem a ver com a codificação de caracteres, ou character encoding. Nas últimas décadas, foram desenvolvidos diversos conjuntos de caracteres especiais, cada um com seus próprios códigos, para que pessoas que escrevem e leem em linguagens diferentes do inglês pudessem utilizar computadores em seus próprios idiomas.
+
+Como um computador decifra caracteres especiais?
+Para que o computador consiga decifrar caracteres especiais, é preciso utilizar um sistema específico que tenha basicamente um código para cada caractere. O computador precisa acessar esse sistema para fazer a conversão - uma ideia similar a que está por trás da criptografia.
+
+Foram desenvolvidos diversos conjuntos de caracteres, desde os específicos de cada linguagem como Western, Latin-US, Japanese e assim por diante, até o ASCII (American Standard Code for Information Interchange ou ”Código Padrão Americano para o Intercâmbio de Informação”). Só a partir de 2007 foi adotado o formato Unicode.
+
+O padrão UTF (de Unicode Transformation Format ou “formato de conversão de unicode”, em tradução livre) é utilizado como padrão na web até hoje.
+
+O Unicode tem códigos específicos para “cifrar” e “decifrar” caracteres de mais de 150 idiomas antigos e modernos, e também outros conjuntos de caracteres como símbolos matemáticos e inclusive emojs. A [Wikipedia tem uma lista extensa](https://en.wikipedia.org/wiki/List_of_Unicode_characters) de todas as tabelas com os códigos Unicode e os caracteres, como por exemplo os que estão abaixo:
+
+caractere UTF-16 descrição oficial
+
+`$ - U+0024 DOLLAR SIGN
+ A - U+0041 LATIN CAPITAL LETTER A
+✅ - U+2705 CHECK MARK
+ぁ - U+3041 HIRAGANA LETTER SMALL A`
+
+Podemos testar a transformação/conversão do código Unicode em caractere utilizando o console.log(). Faça o teste:
+
+```JavaScript
+const cifrao = '\u0024'
+const aMaiusculo = '\u0041'
+const tique = '\u2705'
+const hiragana = '\u3041'
+
+console.log(cifrao)
+console.log(aMaiusculo)
+console.log(tique)
+console.log(hiragana)
+```
+
+Os caracteres \u no início do código são caracteres de escape que usamos para sinalizar ao JavaScript de que estamos falando de códigos Unicode, e não de strings de texto usuais.
+
+O JavaScript usa, por padrão, o UTF-16. O número 16 está relacionado aos espaços em bits ocupados por cada caractere, 16 neste caso. Não vamos nos aprofundar na relação entre tipos de dados e espaço de memória ocupado por cada tipo - você pode pesquisar mais sobre o assunto, assim como sobre o que são caracteres de escape! - mas por enquanto é importante entendermos como o Unicode funciona.
+
+Bancos de dados podem aceitar outros tipos de codificação de caracteres, o que faz sentido se pensarmos que o UTF-16 utiliza uma quantidade relativamente grande de espaço em memória para salvar cada caractere. 16 bits parece pouco, mas algumas vezes os bancos precisam salvar quantidades enormes de dados! Porém, com as tecnologias de armazenamento e tráfego de dados que temos hoje, esta já não é uma preocupação tão grande, a não ser em casos muito específicos.
+
+Não é comum utilizar uma codificação diferente da UTF em bancos, mesmo em caso de grandes volumes de dados, mas sempre vai depender muito de cada caso.
+
+Mais detalhes precisos e documentação sobre o Unicode na [página da Unicode Foundation](https://home.unicode.org/).
+
+### Aula 3 - Boolean - Vídeo 3
+
+Transcrição  
+Vamos continuar conhecendo os tipos de dados do JavaScript, em especial, os tipos primitivos.
+
+**Boolean**  
+Por exemplo: em variaveis.js, se o valor de uma variável não é um texto, um nome, uma informação ou um número, o que ela pode ser? Quais outros valores podemos usar?
+
+Criando o arquivo tipo-boolean.js
+Vamos criar mais um arquivo, chamado tipo-boolean.js, que é o tipo que vamos abordar nesse vídeo: o tipo booleano. O que é um tipo booleano?
+
+Trata-se de um tipo especial que só tem dois valores. Vamos criar nesse novo arquivo uma const chamada estudante e atribuir a ela o valor "Fernando".
+
+tipo-boolean.js:
+
+> const estudante = 'Fernando';
+
+Queremos saber se esse estudante está aprovado ou não. O que podemos fazer nesse caso? Podemos criar uma const chamada estaAprovado. Se está aprovado, poderíamos criar uma string com o texto "sim".
+
+No entanto, essa não é a melhor solução; "sim" está em português, teríamos que identificar o que significa "sim", porque o JavaScript não sabe o que é. Para ele, é apenas uma sequência de três letras.
+
+Para isso, utilizamos o tipo booleano que só tem dois valores: true ou false (verdadeiro ou falso, respectivamente), sim ou não, ou está ou não está. Então, se o estudante Fernando está aprovado, utilizamos o valor true, com "T" minúsculo.
+
+> const estaAprovado = true;
+
+Como utilizamos normalmente um booleano em nosso código? Vamos fazer um teste e criar uma condicional, ou seja, um bloco if, e dizer que se estaAprovado === true, ou seja, se o valor da variável estaAprovado for igual a true, passamos uma mensagem no console.log() ("parabéns, boas festas").
+
+Agora podemos usar o else, com o qual já trabalhamos nos cursos de iniciante em programação, que é o outro lado do if. Se a condição que passamos para o if não se conclui, ou seja, se não dá true, o código automaticamente cai no else e executa o que está dentro dele. No escopo do else, vamos passar outro console.log() dizendo "REPROVADO, boas festas".
+
+```JavaScript
+if (estaAprovado === true) { 
+  console.log('parabéns, boas festas');
+} else {
+  console.log('REPROVADO, boas festas');
+}
+```
+
+Testando o código
+Agora podemos testar esse código. Executaremos o seguinte comando no terminal:
+
+> node tipo-boolean.js
+
+O console exibiu "parabéns, boas festas", porque o valor da variável estaAprovado é true, então ele entrou no bloco if, executou o que estava dentro dele, e ignorou automaticamente o else.
+
+Quando trabalhamos com booleanos, há uma questão muito importante para sempre prestarmos atenção. Por exemplo: a condição do if diz que, para o if ser executado, o valor da variável estaAprovado precisa ser true.
+
+No entanto, o código JavaScript não faz um juízo de valor se é sim ou não, o que importa é o resultado da comparação. O resultado da comparação é true, porque as informações batem.
+
+Nós esperamos o valor de uma variável na comparação e recebemos o valor dessa variável. Ou seja, se trocarmos o valor da variável estaAprovado para false e pedirmos para a comparação no if ser estaAprovado === false, ao executar o código, ele entra no if normalmente, porque o que importa quando utilizamos booleanos é o resultado da comparação.
+
+Não é o valor da variável ser true que faz com que entre no bloco if ou não.
+
+Essa distinção é muito importante para entendermos como as comparações utilizando booleanos funcionam. Vamos fazer outro teste, porque é uma forma muito comum de trabalharmos com JavaScript.
+
+Já sabemos que o importante é o resultado da comparação. Como o valor da variável é true, podemos, nesse caso, suprimir a comparação e passar apenas a variável estaAprovado. Se tirarmos o === true e executarmos o código, ele ainda funcionará normalmente, porque o valor da variável é true.
+
+```JavaScript
+if (estaAprovado === true)
+```
+
+Criando uma nova condicional  
+Para entendermos melhor essa questão da avaliação da condição, vamos criar mais um bloco if. Criaremos um if que vai analisar se o valor de estudante é igual a 'Fernando', valor da variável.
+
+No escopo do if, vamos exibir com console.log() a mensagem olá, ${estudante}" usando template string. Dessa forma, aparecerá no terminal "Olá, Fernando".
+
+No bloco else, vamos colocar outra informação para dizer que houve falha. Para isso, passaremos um console.log() com o texto "quem é vc".
+
+```JavaScript
+if (estudante === 'Fernando') {
+  console.log(`olá, ${estudante}`);
+} else {
+  console.log('quem é vc');
+}
+```
+
+De volta ao terminal, podemos limpá-lo e executar o código novamente. Agora ele passa a mensagem "olá, Fernando". Portanto, a avaliação feita no if é se o valor da variável estudante é exatamente igual a "Fernando". Quando é feita essa avaliação, o resultado dela é true, porque as informações batem. É por isso que o JavaScript acessa o código dentro do bloco e executa, dispensando o else.
+
+Foi feita uma avaliação entre o valor da variável estudante e o que esperamos que tenha dentro, e esse valor é true, porque é verdadeiro, ou seja, a comparação deu certo. Por isso conseguimos entrar no if. É importante ter isso em mente quando trabalhamos com comparações e com booleanos.
+
+O tipo booleano não é somente um valor, um tipo de dado, mas é também o resultado de qualquer comparação (ou seja, quando usamos ===) feita no código. Então, qualquer comparação que façamos irá sempre resultar em true ou false.
+
+Conclusão
+Vamos deixar materiais extra sobre booleanos e alguns exercícios para fixar. Na sequência, continuaremos abordando os últimos tipos de dados do JavaScript!
+
+### Aula 3 - Para saber mais: coerção e conversão de tipos
+
+Coerção e conversão de tipos são conceitos em JavaScript que envolvem a maneira como os valores são tratados e convertidos entre diferentes tipos de dados. Vamos entender melhor com exemplos:
+
+**Coerção de Tipos em JavaScript**  
+A coerção de tipos em JavaScript refere-se à conversão automática e implícita de um tipo de dado para outro durante operações. Isso pode acontecer em operações matemáticas, comparações ou concatenações de strings.
+
+Exemplo de Coerção de Tipos:
+
+```JavaScript
+let valorString = '10';
+let valorNumero = 5;
+
+let resultado = valorString + valorNumero;
+console.log(resultado); // Saída: '105' (o número 5 foi convertido para string e concatenado com a string ‘10’)
+```
+
+Neste exemplo, a operação de adição entre uma string e um número resultou em uma concatenação de strings, pois o JavaScript coage (converte) o número para uma string para realizar a operação.
+
+Conversão de Tipos em JavaScript
+A conversão de tipos é a transformação explícita de um tipo de dado em outro. Isso pode ser feito de várias maneiras, como utilizando funções ou operadores específicos para converter um tipo em outro.
+
+Exemplo de Conversão de Tipos:
+
+```JavaScript
+let valorString = '20';
+let valorNumero = parseInt(valorString);
+
+console.log(valorNumero); // Saída: 20 (valor convertido para número usando parseInt)
+```
+
+Neste exemplo, utilizamos a função parseInt() para converter a string '20' em um número inteiro.
+
+Além do parseInt(), existem outras funções como parseFloat() para converter strings em números de ponto flutuante, Number() para converter valores em números, String() para converter valores em strings, entre outros métodos e operadores que permitem a conversão explícita de tipos em JavaScript.
+
+A compreensão da coerção e conversão de tipos em JavaScript é essencial para evitar comportamentos inesperados e para garantir que os dados sejam manipulados da maneira desejada em suas aplicações.
+
+### Aula 3 - null e undefined - Vídeo 4
+
+Transcrição  
+Sabemos que as informações dos nossos programas são, normalmente, textos ou números. Além disso, também sabemos como estabelecer fluxos: está aprovado ou reprovado, é verdadeiro ou falso, a informação existe ou não existe. Para isso, usamos os booleanos.
+
+Porém, existe um caso muito comum que precisamos assinalar: a ausência de valores. Como trabalhar no código quando não existe nenhum valor para ser trabalhado?
+
+**Null e Undefined**  
+Criando o arquivo tipo-null-undefined.js
+Para testar, vamos criar um novo arquivo chamado tipo-null-undefined.js.
+
+Faz sentido trabalhar com a ausência de valores? Sim, faz sentido. Vamos criar alguns exemplos. Começaremos criando uma variável com a palavra reservada let, chamada nomeEstudante.
+
+Lembrando que quando criamos uma variável com let, podemos criá-la sem atribuir nenhum valor a essa variável, apenas reservando o espaço de memória para atribuir o valor depois.
+
+Portanto, criamos a variável nomeEstudante e vamos dar um console.log() nessa variável.
+
+tipo-null-undefined.js:
+
+```JavaScript
+let nomeEstudante;
+console.log(nomeEstudante);
+```
+
+Feito isso, vamos ao terminal executar o seguinte comando:
+
+node tipo-null-undefined.js
+
+O único resultado que temos é "undefined" (indefinido).
+
+Vamos fazer outro exemplo: criaremos outro console.log() na linha abaixo, e em vez de passar apenas o nome da variável nomeEstudante, vamos passar a palavra-chave typeof antes.
+
+> console.log(typeof nomeEstudante);
+
+Ao executar novamente, obtemos o seguinte:
+
+undefined
+undefined
+
+O primeiro console.log() nos informa que não traz nenhum valor, porque não tem nenhum valor para ser buscado na variável. Ele nos diz que o valor dessa variável é indefinido, um tipo especial de dado.
+
+Já no segundo console.log(), pedimos para informar qual é o tipo de dado que tem na variável nomeEstudante. Com isso, ele nos diz que essa variável é do tipo undefined, porque não atribuímos nenhum valor a essa variável. Ou seja, a variável existe, mas não tem nada dentro dela.
+
+Atribuindo o valor null
+Existe outra forma de trabalhar com a ausência de valores: o null. Se criarmos, por exemplo, uma variável let chamada telefoneEstudante, e atribuirmos null a ela, afirmamos que não existe nenhum valor dentro da variável telefoneEstudante.
+
+> let telefoneEstudante = null;
+
+Porém, não existir nenhum valor é diferente de valor indefinido. No caso acima, nitidamente usamos o operador de atribuição (=) para atribuir um tipo de dado a essa variável. Simplesmente dizemos que não há nenhum valor de telefone de estudante neste cadastro.
+
+O null é muito útil, por exemplo, em situações de cadastro, quando há um campo sem nenhum valor. Porém, o campo ainda existe, então, no exemplo acima, existe o campo telefoneEstudante no cadastro, porém ele não tem nada, apenas um valor null. Literalmente, nulo.
+
+Essa é a diferença entre null e undefined. Existe outra diferença muito importante que é como eles se comportam em operações. Por acaso, se aparecer null em uma operação matemática, como se comporta? Vamos fazer uma conta para testar: passaremos console.log(telefoneEstudante + 3).
+
+> console.log(telefoneEstudante + 3);
+
+Após executar no terminal, o valor retornado foi 3, porque o null se comportou como 0 dentro de uma operação matemática. Se tentássemos fazer essa mesma operação passando a variável nomeEstudante, que é uma variável indefinida, o que aconteceria?
+
+> console.log(nomeEstudante + 3);
+
+Em vez de 3, o terminal retorna NaN (Not a Number, em português, Não é um número).
+
+O NaN é um valor do tipo número que representa qualquer operação matemática mal formada. Ou seja, tentamos somar um valor indefinido com 3, e o JavaScript retornou para nós que esse resultado não é um número. Por incrível que pareça, NaN é um valor do tipo número.
+
+Verificando o tipo de dado  
+Sendo assim, como verificamos se uma variável é null, undefined, number, e assim por diante? Conforme abordado anteriormente, utilizamos a palavra-chave typeof. Portanto, sempre que quisermos verificar um tipo de dado, podemos utilizar o typeof no console.log().
+
+Vamos criar outra variável, por exemplo, uma const chamada professora que será igual à string "Ana", e também pedir o typeof dessa variável. Além disso, vamos pedir o console.log() do typeof de telefoneEstudante, que está definido como null.
+
+```JavaScript
+let nomeEstudante;
+const professora = 'Ana';
+
+console.log(nomeEstudante);
+console.log(typeof nomeEstudante);
+console.log(typeof professora);
+
+let telefoneEstudante = null;
+
+console.log(typeof telefoneEstudante);
+```
+
+Ao executar, temos o seguinte resultado:
+
+```JavaScript
+undefined 
+undefined 
+string 
+object
+```
+
+Ele trouxe os dois undefined anteriores, e também trouxe a informação string, porque pedimos typeof da variável professora, que é uma string de fato. Porém, observe que a variável telefoneEstudante, que é do tipo null, foi devolvida como object. O que aconteceu?
+
+Isso é algo muito importante quando utilizamos o typeof para fazer verificações de tipo no JavaScript. Por um erro do JavaScript nas primeiras versões, o tipo null quando utilizamos o typeof para verificar devolve o tipo objeto.
+
+Portanto, sempre que quisermos verificar se o valor de uma variável é null, não podemos usar o typeof. Vamos deixar no material extra como contornar esse erro!
+
+O que precisamos saber sobre null e undefined? Null representa normalmente a ausência intencional de algum valor, ou seja, não há o telefone da pessoa estudante no cadastro.
+
+O undefined é normalmente o tipo assumido pelo JavaScript quando uma variável não está associada a nenhum valor no momento em que o código foi executado. Ela pode ser associada a um valor posteriormente ao momento em que passamos por essa linha.
+
+Normalmente, o undefined dá uma dica de que alguma operação não ocorreu como deveria, porque não retorna um valor, mas sim "undefined"; ou de que o código está tentando pegar algum valor que não está acessível naquele momento; ou é o resultado de alguma função que não tem return, algo que abordaremos mais adiante no curso.
+
+Sendo assim, variáveis que acabaram sem valor nenhum, ou seja, que não conseguimos atribuir durante o código nenhum valor a essa variável, são retornadas como undefined.
+
+Ambos são tipos primitivos, mas o null é comum em diversas linguagens, enquanto o undefined não existe em diversas linguagens. Não são todas as linguagens que trabalham com undefined, sendo o JavaScript uma delas. O undefined foi criado para evitar alguns tipos de erros em páginas web no começo, quando o JavaScript ainda não podia ser trabalhado fora do navegador.
+
+Saber que o undefined, muitas vezes, é retornado no lugar de possíveis erros é muito importante, porque nos ajuda a debugar. Portanto, muitas vezes o JavaScript não vai indicar erro no código, mas vai retornar undefined, e normalmente é uma dica de que tem algo a ser visto naquele ponto do código.
+
+Conclusão  
+Nesta aula, conhecemos os tipos primitivos do JavaScript: string, number, boolean, null e undefined. Agora podemos começar a fazer mais operações com esses tipos. Vamos lá!
+
+### Aula 3 - Para saber mais: tipo Symbol
+
+Nesta aula falamos sobre três tipos primitivos: Number, String e Boolean. Mas existe mais um que não abordamos com profundidade: Symbol.
+
+O tipo Symbol é um dos tipos primitivos em JavaScript, introduzido no ES6 (ECMAScript 2015), e representa um identificador único e imutável. Símbolos são frequentemente utilizados para criar propriedades de objeto que são únicas e não interferem com outras propriedades existentes.
+
+```JavaScript
+Exemplo de uso do Tipo Symbol:
+// Criando um símbolo
+const meuSimbolo = Symbol();
+
+// Símbolos podem receber uma descrição (opcional)
+const simboloComDescricao = Symbol('descricao_do_simbolo');
+
+// Símbolos são únicos
+const outroSimbolo = Symbol();
+console.log(meuSimbolo === outroSimbolo); // Saída: false
+
+// Símbolos podem ser usados como chaves de propriedades de objetos
+const obj = {
+  [meuSimbolo]: 'valor_do_simbolo'
+};
+
+// Acessando a propriedade usando o símbolo como chave
+console.log(obj[meuSimbolo]); // Saída: 'valor_do_simbolo'
+```
+
+Dado que os símbolos são únicos, mesmo quando criados com a mesma descrição, tornam-se ideais para a criação de chaves de propriedades de objetos. Essa característica evita conflitos com outras chaves, prevenindo a sobrescrita acidental de propriedades.
+
+Além disso, símbolos também podem ser usados para adicionar propriedades "escondidas" em objetos, tornando-as inacessíveis sem a referência direta ao símbolo correspondente. Essa prática é particularmente útil em bibliotecas ou frameworks, contribuindo para evitar colisões de nomes de propriedades.
+
 ### Aula 3 -  - Vídeo 5
 ### Aula 3 -  - Vídeo 6

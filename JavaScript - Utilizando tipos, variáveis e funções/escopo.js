@@ -27,6 +27,5 @@ if (true) {
     console.log('LET: ' + num1);
     console.log('VAR: ' + num2);
 }
-console.log('LET: ' + num1);//Erro
+// console.log('LET: ' + num1);//Erro
 console.log('VAR: ' + num2);
-
