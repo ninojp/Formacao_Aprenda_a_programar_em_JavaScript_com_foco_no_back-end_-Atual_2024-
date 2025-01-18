@@ -1309,5 +1309,167 @@ Dado que os símbolos são únicos, mesmo quando criados com a mesma descrição
 
 Além disso, símbolos também podem ser usados para adicionar propriedades "escondidas" em objetos, tornando-as inacessíveis sem a referência direta ao símbolo correspondente. Essa prática é particularmente útil em bibliotecas ou frameworks, contribuindo para evitar colisões de nomes de propriedades.
 
-### Aula 3 -  - Vídeo 5
-### Aula 3 -  - Vídeo 6
+### Aula 3 - Para saber mais: tipagem dinâmica e estática
+
+Nesta aula, exploramos os tipos primitivos do JavaScript e discutimos como trabalhar com esses tipos ao criar variáveis.
+
+A sintaxe do JS não requer que o tipo seja definido de forma explícita quando declaramos variáveis, uma vez que JavaScript é uma linguagem dinamicamente tipada. Isso implica que:
+
+o tipo do dado contido na variável é avaliado no momento da execução do código e
+uma mesma variável pode ter diferentes tipos de dados (nos casos de let e var).
+Exemplo de tipagem dinâmica em JavaScript
+
+```JavaScript
+let exemplo = 10; // exemplo é do tipo número (Number)
+console.log(exemplo); // Saída: 10
+
+exemplo = 'Olá, mundo!'; // agora exemplo é uma string (String)
+console.log(exemplo); // Saída: Olá, mundo!
+
+exemplo = true; // exemplo agora é um booleano (Boolean)
+console.log(exemplo); // Saída: true
+```
+
+Como podemos notar, a variável exemplo começa como um número, depois é alterada para uma string e, por fim, para um booleano. Houve uma mudança dinâmica de tipos.
+
+Essa característica proporciona flexibilidade ao desenvolvimento, mas também demanda maior atenção na manipulação de dados, já que uma mesma variável pode armazenar diferentes tipos de dados ao longo do programa, o que pode resultar em erros se o programa receber um tipo de dado diferente do esperado.
+
+No artigo [O que são as tipagens estática e dinâmica em programação](https://www.alura.com.br/artigos/o-que-sao-as-tipagens-estatica-e-dinamica-em-programacao#o-que-sao-tipos?) podemos entender melhor quais as diferenças entre linguagens de tipagem estática e dinâmica.
+
+### Aula 3 - Faça como eu fiz: convertendo números e textos
+
+Não deixe de praticar, executando os exemplos desta atividade em seu computador!
+
+Vamos revisar os métodos do JavaScript para conversão de strings e números e também conhecer outros que não praticamos em vídeo.
+
+Conversão para números
+
+> Number()
+
+Esta função converte qualquer outro tipo de dado em um tipo Number. Caso o valor não possa ser convertido, retornará NaN.
+
+```JavaScript
+Number("1"); // retorna o número 1 
+Number("Alura"); // retorna NaN
+Number(undefined); // retorna NaN
+Number(null); // retorna 0
+```
+
+> Number.parseInt() e Number.parseFloat()
+
+Ambos funcionam de forma parecida, porém, 'parseIntvai tentar converter o valor em um número inteiro eparseFloat`, em um número de ponto flutuante.
+
+```JavaScript
+parseInt('4'); // retorna o número 4
+parseInt('4.5'); // retorna o número 4
+
+parseFloat('4'); // retorna o número 4
+parseFloat('4.5'); // retorna o número 4.5
+parseFloat('4.5abc'); // retorna o número 4.5
+```
+
+Uma outra forma de fazer a coerção de tipos (quando o JavaScript tenta “forçar” de forma implícita a conversão de um valor de um tipo para outro) é utilizando o operador unário +. Por exemplo:
+
+```JavaScript
++'45' // retorna o número 45
++true // retorna o número 1
+
+console.log(typeof +'45'); // retorna ‘number’
+console.log(typeof +true); // retorna ‘number’
+```
+
+> Importante: embora seja prático, o uso do operador + para coerção de tipos não é tão conhecido e sua função no código não fica tão óbvia quanto a das funções. Se for o caso, combine o seu uso junto às outras pessoas que trabalharão no mesmo código.
+
+Qual a diferença?  
+As funções parseInt() e parseFloat() funcionam de forma similar a Number(), porém convertem apenas strings, enquanto Number() é capaz de converter outros tipos de dados conforme os exemplos acima.
+
+Confira mais usos detalhados de cada um na documentação do MDN:
+
+- [number](https://developer.mozilla.org/pt-br/docs/Web/JavaScript/Reference/Global_Objects/Number);
+- [parseInt](https://developer.mozilla.org/pt-br/docs/Web/JavaScript/Reference/Global_Objects/Number/parseInt);
+- [parseFloat](https://developer.mozilla.org/pt-br/docs/Web/JavaScript/Reference/Global_Objects/Number/parseFloat);
+
+Conversão para strings  
+Assim como Number(), o JavaScript também disponibiliza a função global String() quando é necessário converter outros tipos de dado em formato de texto.
+
+```JavaScript
+String(2); // retorna '2'
+String(undefined); // retorna 'undefined'
+String(true); // retorna 'true'
+```
+
+É possível utilizar diversos métodos do JavaScript para modificar strings. Confira abaixo alguns dos mais comuns:
+
+> [includes()](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/String/includes)
+
+Determina se um conjunto de caracteres pode ser encontrado dentro de uma string, retornando true ou false:
+
+> 'estudando JavaScript'.includes('Java'); // retorna true
+
+É sempre possível passar o valor a ser convertido a partir de uma variável:
+
+```JavaScript
+const texto = 'estudando JavaScript';
+texto.includes('Java'); // retorna true
+```
+
+> [toLowerCase()](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/String/toLowerCase)  
+Converte todos os caracteres da string para letras minúsculas.
+
+```JavaScript
+'POR FAVOR, NÃO GRITE'.toLowerCase(); // retorna 'por favor, não grite'
+```
+
+Assim como no exemplo anterior, a string que será convertida pode estar em uma variável:
+
+```JavaScript
+const texto = 'POR FAVOR, NÃO GRITE';
+texto.toLowerCase(); // retorna 'por favor, não grite'
+```
+
+Da mesma forma que existe um método para transformar textos em minúsculas, também é possível usar [texto.toUpperCase()](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/String/toUpperCase) para converter em maiúsculas.
+
+Confira a lista completa de [métodos de string na documentação do MDN](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/String#m%C3%A9todos).
+
+### Aula 3 - Para saber mais: links da aula
+
+Confira abaixo a lista de links utilizados durante a aula e/ou links complementares ao conteúdo:
+
+Documentação do MDN: [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number);
+Documentação do MDN: [Lista de métodos de string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String#instance_methods);
+Documentação do MDN: [diferença entre nulll e undefined](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/null#difference_between_null_and_undefined).
+
+### Aula 3 - Lista de exercícios
+
+Programação é prática! Criamos mais uma lista de atividades (não obrigatórias) para você exercitar e reforçar ainda mais seu aprendizado. Bora praticar?
+
+1. Crie uma variável contendo uma frase. Em seguida, exiba no console o comprimento da frase e a mesma frase com letras maiúsculas.
+
+2. Declare duas variáveis, uma inicializada com valor null e outra que não recebe atribuição (resultando em undefined). Exiba os valores no console.
+
+3. Crie 3 variáveis de tipos diferentes, utilize template strings para combinar os diferentes tipos de dados (number, string, boolean) em uma única string e exiba o resultado no console.
+
+4. Crie uma variável numérica e uma string. Faça a conversão da variável numérica para string e da string para número. Exiba os tipos de dados resultantes no console.
+
+5. Crie uma variável com uma string e utilize métodos de manipulação de strings, como toUpperCase, toLowerCase, slice ou outros, para modificar a string original. Exiba os resultados finais no console.
+
+Caso precise de ajuda, opções de solução das atividades estarão disponíveis na seção “Opinião”.
+
+### Aula 3 - O que aprendemos?
+
+Nessa aula, você aprendeu a:  
+
+- Armazenar dados utilizando variáveis e quais tipos de dados podemos armazenar para utilizar posteriormente em programas desenvolvidos;
+- Converter um dado do tipo string em number para realizar operações;
+- Realizar operações com strings e como trabalhar utilizando template strings para criar expressões embutidas e tornar o código mais legível;
+- Trabalhar com o tipo booleano para representar valores lógicos, realizar controle de fluxo, tomada de decisões e validações.
+
+## Aula 4 - Operadores
+
+### Aula 4 - Operadores aritméticos - Vídeo 1
+
+### Aula 4 -  - Vídeo 2
+### Aula 4 -  - Vídeo 3
+### Aula 4 -  - Vídeo 4
+### Aula 4 -  - Vídeo 5
+### Aula 4 -  - Vídeo 6
