@@ -1468,8 +1468,513 @@ Nessa aula, você aprendeu a:
 
 ### Aula 4 - Operadores aritméticos - Vídeo 1
 
-### Aula 4 -  - Vídeo 2
-### Aula 4 -  - Vídeo 3
+Transcrição  
+Para continuarmos a entender as partes principais de uma linguagem de programação como o JavaScript, é importante que separemos as funções básicas de um programa.
+
+A primeira função básica de um programa costuma ser realizar cálculos ou operações matemáticas. A segunda é trabalhar com algoritmos, ou seja, com fluxos de tarefas finitos (que têm um início e um fim). Partindo das informações, conseguimos definir o fluxo dessa tarefa.
+
+![alt text](image.png)
+
+Fluxograma simples de processo de avaliação escolar sobre fundo escuro quadriculado. À esquerda, um oval com a palavra "início" conecta-se a um retângulo com o texto "notas das provas", que por sua vez conecta-se a outro retângulo com o texto "calcula média". A partir deste, uma seta aponta para um losango com a condição "média >= 7" escrita. Duas saídas são possíveis a partir deste ponto de decisão: uma seta apontando para a direita com a palavra "TRUE" leva até um retângulo com bordas arredondadas e o texto "aprovado", enquanto uma seta apontando para cima com a palavra "FALSE" conduz a um retângulo com bordas arredondadas e o texto "reprovado".
+
+Por exemplo, podemos afirmar que em nosso sistema escolar, uma pessoa estudante só será aprovada se a média for igual ou maior do que 7. Então, temos um dado, o número 7, e para o programa definir se a pessoa estudante está aprovada ou não, e dar a informação correspondente no sistema, precisamos utilizar alguns símbolos para cruzar essas informações.
+
+Para comparar 7 com uma média estabelecida, perguntamos: a média é maior ou igual que 7? Isso vai depender da pessoa estudante. Ela tirou 6.5? Tirou 10? Todos os fluxos de um algoritmo precisam desse tipo de informação.
+
+Por exemplo, se a média de uma pessoa estudante for 6.5, é menor do que 7, nosso programa define um fluxo para isso, indicando que a pessoa estudante está reprovada. Por outro lado, se a pessoa estudante tirou 10, está aprovada. Mas para o programa criar esses fluxos e decidir a partir deles, precisamos de alguns símbolos, que chamamos de operadores.
+
+**Operadores aritméticos**  
+Vamos voltar ao Visual Studio Code para praticar um pouco com os operadores do JavaScript. Acessaremos o arquivo tipo-number.js que trabalhamos anteriormente. Copiaremos as quatro constantes que foram criadas, a constante total e o console.log(). São as primeiras linhas do arquivo.
+
+```JavaScript
+const notaPrimeiroBi = 8;
+const notaSegundoBi = 6.3;
+const notaTerceiroBi = -2;
+const notaQuartoBi = Number.parseInt('5');
+
+const total = (notaPrimeiroBi + notaSegundoBi + notaTerceiroBi + notaQuartoBi) / 4;
+
+console.log('a média é ' + total.toFixed(2));
+```
+
+Podemos fechar o tipo-number.js, criar um novo arquivo e nomeá-lo como operadores-aritmeticos.js. Nesse novo arquivo, vamos colar o que copiamos.
+
+Temos const notaPrimeiroBi = 8, const notaSegundoBi = 6.3, vamos retirar o número negativo de notaTerceiroBi, que estava como -2 para 7, porque uma nota negativa não faz sentido, foi só para dar um exemplo. E o notaQuartoBi, vamos trocar o 5 que estava sendo "parseado" por 9.3.
+
+```JavaScript
+const notaPrimeiroBi = 8;
+const notaSegundoBi = 6.3;
+const notaTerceiroBi = 7;
+const notaQuartoBi = 9.3;
+const total = (notaPrimeiroBi + notaSegundoBi + notaTerceiroBi + notaQuartoBi) / 4;
+console.log('a média é ' + total.toFixed(2));
+```
+
+Em relação à nossa constante total, vamos mudar seu nome para media. Nela, estamos fazendo uma conta que é a soma das notas dos bimestres dividida por 4.
+
+```JavaScript
+const notaPrimeiroBi = 8;
+const notaSegundoBi = 6.3;
+const notaTerceiroBi = 7;
+const notaQuartoBi = 9.3;
+const media = (notaPrimeiroBi + notaSegundoBi + notaTerceiroBi + notaQuartoBi) / 4;
+console.log('a média é ' + total.toFixed(2));
+```
+
+Vamos adicionar mais um teste em nosso programa. Se a pessoa estudante tem uma média maior do que 7 ou igual, ela ganha um bônus na nota de um décimo dessa média.
+
+Portanto, construiremos esse fluxo. Já que é uma condição — se a pessoa estudante tiver uma média 7 ou maior — podemos usar um if. Então, if (media >= 7) {}. Precisamos pegar o valor da média e adicionar um décimo de nota.
+
+```JavaScript
+const notaPrimeiroBi = 8;
+const notaSegundoBi = 6.3;
+const notaTerceiroBi = 7;
+const notaQuartoBi = 9.3;
+const media = (notaPrimeiroBi + notaSegundoBi + notaTerceiroBi + notaQuartoBi) / 4;
+if (media >= 7) {
+ media
+}
+console.log('a média é ' + total.toFixed(2));
+```
+
+Nesse caso, teríamos que alterar o valor da variável media. Se estamos alterando o valor da variável media, quer dizer que nossa media não pode mais ser uma constante, tem que ser, por enquanto, uma let.
+
+Portanto, esta é uma situação em que não podemos usar constantes. Nesse caso específico, utilizamos a let, porque precisamos adicionar um valor, isto é, modificar o valor da nossa variável media.
+
+```JavaScript
+const notaPrimeiroBi = 8;
+const notaSegundoBi = 6.3;
+const notaTerceiroBi = 7;
+const notaQuartoBi = 9.3;
+let media = (notaPrimeiroBi + notaSegundoBi + notaTerceiroBi + notaQuartoBi) / 4;
+if (media >= 7) {
+ media
+}
+console.log('a média é ' + total.toFixed(2));
+```
+
+Então, se média for maior ou igual a 7, if (media >= 7), diremos que media += media * 0.1;. Podemos aproveitar para ajustar o console.log().
+
+```JavaScript
+const notaPrimeiroBi = 8;
+const notaSegundoBi = 6.3;
+const notaTerceiroBi = 7;
+const notaQuartoBi = 9.3;
+let media = (notaPrimeiroBi + notaSegundoBi + notaTerceiroBi + notaQuartoBi) / 4;
+if (media >= 7) {
+ media += media * 0.1;
+}
+console.log(`a média é ${media}`);
+```
+
+Vamos abrir o terminal para testar. Então, no menu acessaremos "Terminal > New Terminal", passaremos o comando node e o nome do arquivo: operadores-aritmeticos.js.
+
+node operadores-aritmeticos.js
+
+> A média é 8.415000000000001
+
+**O que fizemos até aqui?**  
+Utilizamos um operador de adição, isto é, um operador aritmético para fazer a soma, um operador de divisão para fazer uma divisão e um operador de comparação, ou seja, se media >= 7 (se média for maior ou igual a 7).
+
+Assim como temos o >= (maior igual), temos o <= (menor igual) e o = (igual), que já utilizamos anteriormente. Além disso, utilizamos outro operador, que é o += (mais, igual). Ele pega o valor da variável que está à esquerda e adiciona o que está à direita. Lembrando que sempre que temos uma atribuição, analisamos primeiro o que está à direita da atribuição para depois passar para o lado esquerdo.
+
+No nosso caso, temos media multiplicada por 0.1. Após essa operação ter sido feita, ela será adicionada ao valor da variável já existente, media. Para isso, utilizamos +=.
+
+Existe, por exemplo, *= (vezes, igual) para fazer o mesmo processo multiplicando. Uma lista de operadores será disponibilizada, mas, basicamente, o que temos são operadores diferentes que nos permitem, justamente, fazer esses fluxos de comparação, alterar variáveis, fazer contas, etc.
+
+Para fixar o ponto flutuante em dois dígitos, basta fazer media.toFixed(2), sendo "2" a quantidade de casas que queremos.
+
+```JavaScript
+const notaPrimeiroBi = 8;
+const notaSegundoBi = 6.3;
+const notaTerceiroBi = 7;
+const notaQuartoBi = 9.3;
+let media = (notaPrimeiroBi + notaSegundoBi + notaTerceiroBi + notaQuartoBi) / 4;
+if (media >= 7) {
+ media += media * 0.1;
+}
+console.log(`a média é ${media.toFixed(2)}`);
+```
+
+Agora, vamos testar novamente no terminal.
+
+node operadores-aritmeticos.js
+
+> a média é 8.42
+
+O [link da documentação do MDN](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Operators) será disponibilizado com toda a lista de operadores do JavaScript. Então, temos operadores de atribuição, por exemplo, o = (igual) para atribuir variáveis, comparação foi o que já utilizamos, === (igual, igual, igual), >= (maior igual), <= (menor igual), operadores aritméticos, etc.
+
+### Aula 4 - Operador de incremento
+
+Julia está criando um programa para controlar o número de visitantes em um site. Para isso, ela está implementando um contador que registra a quantidade de visitas a cada vez que alguém acessa uma página específica.
+
+O contador é representado pela variável contadorVisitas, inicializada com o valor zero. A cada visita à página, o contador deve ser incrementado em uma unidade.
+
+Julia está considerando diferentes maneiras de realizar o incremento na variável contadorVisitas. Ela tentou as seguintes abordagens:
+
+```JavaScript
+let contadorVisitas = 0;
+contadorVisitas = contadorVisitas + 1;
+contadorVisitas += 1;
+contadorVisitas++;
+```
+
+Quais alternativas descrevem a relação entre as formas de incrementar o contador:
+
+- As três formas de incremento são equivalentes e atualizam o contador contadorVisitas da mesma maneira.
+
+Esta alternativa é correta. As três formas de incremento (contadorVisitas = contadorVisitas + 1, contadorVisitas += 1 e contadorVisitas++) realizam a mesma ação de adicionar uma unidade ao valor da variável contadorVisitas. Todas as formas resultam no aumento do valor de contadorVisitas em 1 unidade.
+
+- Embora haja uma diferença sutil na implementação, contadorVisitas += 1 e contadorVisitas++ resultam no mesmo valor para contadorVisitas.
+
+Para o propósito prático deste exercício, ambas as operações resultam no incremento de contadorVisitas em 1 unidade. Porém, há uma diferença sutil entre elas. A expressão contadorVisitas += 1 é uma operação de atribuição aditiva que incrementa contadorVisitas em 1 unidade, enquanto a operação contadorVisitas++ é um operador de incremento pós-fixo que primeiro retorna o valor original de contadorVisitas e depois o incrementa em 1.
+
+### Aula 4 - Controle de estoque
+
+Você está desenvolvendo um programa para controlar o estoque de produtos de uma loja.
+
+O trecho de código a seguir é parte do sistema de registro de vendas e atualização de estoque:
+
+> let estoqueProdutoA = 50;
+
+O próximo passo que deve ser desenvolvido é a funcionalidade de vendas. Com ela queremos verificar se os produtos estão disponíveis em estoque, atualizar o estoque após a venda e, caso a venda seja realizada, exibir uma mensagem informando que a venda foi realizada com sucesso.
+
+Para criar essa solução, qual trecho pode ser implementado?
+
+```JavaScript
+function realizarVenda(quantidade) {
+    if (quantidade > estoqueProdutoA) {
+        console.log("Quantidade insuficiente em estoque.");
+    } else {
+        estoqueProdutoA -= quantidade;
+        console.log(`Venda realizada com sucesso. Novo estoque: ${estoqueProdutoA}`);
+    }
+}
+```
+
+Nesta opção, observamos a lógica de verificar se a quantidade solicitada está disponível no estoque antes de realizar a venda, a mensagem de feedback para incluir uma declaração explícita indicando que a venda foi realizada com sucesso, fornecendo informações sobre a quantidade vendida e o novo estoque após a venda. Além disso, caso a quantidade exceda o estoque disponível, a mensagem informa que a venda não foi realizada devido à quantidade insuficiente em estoque.
+
+### Aula 4 - Operadores lógicos - Vídeo 2
+
+Transcrição  
+Até agora, nós trabalhamos com alguns tipos de operadores, como, por exemplo, o operador de atribuição, que usamos sem nem perceber ao criar uma variável com o sinal de "igual (=)".
+
+Outro operador de atribuição que conhecemos anteriormente é o "mais, igual (+=)", usado para incrementar e atribuir a uma variável. Temos também os operadores de comparação, como o "maior, igual (>=)", "três iguais (===)" para comparar exatamente e assim por diante.
+
+Agora, vamos trabalhar com outro tipo de operador fundamental para a criação de algoritmos e fluxos: os operadores lógicos.
+
+**Operadores lógicos**  
+Vamos criar um novo arquivo chamado operadores-logicos.js e elaborar alguns exemplos para um melhor entendimento.
+
+Suponha que em nossa escola, uma pessoa estudante vai reprovar se, além da nota, tiver uma quantidade X de faltas. Então, podemos dizer que, se a nota final da pessoa estudante for menor do que 7 e a quantidade de faltas for maior do que 4, ela reprovará.
+
+```JavaScript
+if (notaFinal < 7 faltas > 4) {
+ console.log('reprovado, boas festas');
+}
+```
+
+Porém, notaFinal < 7 e faltas > 4 são duas condições. Queremos que o if obedeça as duas. Neste caso, usamos um operador lógico de OU. Em JavaScript, o símbolo do operador lógico OU são dois pipes, ||, que são dois riscos verticais.
+
+No teclado, geralmente ficam perto da barra. Isso significa que a condição do if só será verdadeira se uma das condições ou a outra estiver correta.
+
+```JavaScript
+if (notaFinal < 7 || faltas > 4) {
+ console.log('reprovado, boas festas');
+}
+```
+
+Vamos criar uma constante notaFinal, e atribuir o valor 7. Também vamos criar outra constante, faltas, e atribuir o valor 3, um a menos do que o permitido. Vamos colocar um else depois do if para, caso nenhuma das condições seja atendida, o console exibir não foi reprovado por falta.
+
+```JavaScript
+const notaFinal = 7;
+const faltas = 3; 
+if (notaFinal < 7 || faltas > 4) {
+ console.log('reprovado, boas festas');
+} else {
+  console.log('não foi reprovado por falta');
+}
+```
+
+Ao executar o código, o console exibe não foi reprovado por falta, porque nenhuma das condições faz com que entremos no bloco do if.
+
+> node operadores-logicos.js
+
+não foi reprovado por falta
+
+Porém, se alterarmos apenas uma delas, por exemplo, mudando o valor de faltas para 5, a saída do console será reprovado, boas Festas, porque o operador OU requer que apenas uma das condições seja verdadeira para entrar no bloco do if.
+
+Agora, vamos considerar uma situação onde a pessoa estudante só reprova se, além da nota ser menor que 7, tiver mais do que 4 faltas. Nesse caso, queremos que ambas as condições sejam verdadeiras para que a pessoa estudante seja reprovada. Para isso, vamos usar outro operador lógico importante, o operador E (&&).
+
+```JavaScript
+const notaFinal = 7;
+const faltas = 3; 
+if (notaFinal < 7 && faltas > 4) {
+ console.log('reprovado, boas festas');
+} else {
+  console.log('não foi reprovado por falta');
+}
+```
+
+Ao fazer isso, o programa só entrará no bloco do if se ambas as condições, tanto nota, quanto faltas, forem avaliadas como "true", isto é, foram verdadeiras forem verdadeiras. Portanto, precisamos que a "nota" seja menor que 7 e "faltas" seja maior que 4. Então, alteramos o valor de notaFinal para 6 e mantemos o valor de faltas como 5.
+
+```JavaScript
+const notaFinal = 6;
+const faltas = 5;
+if (notaFinal < 7 && faltas > 4) {
+  console.log('reprovado, boas festas');
+} else {
+  console.log('não foi reprovado por falta');
+}
+```
+
+Agora, ao executar o código novamente, o console exibirá reprovado, boas festas, porque o operador E estabelece que o bloco do if só será avaliado como verdadeiro se todas as condições envolvidas na comparação forem verdadeiras.
+
+> node operadores-logicos
+> reprovado, boas festas
+
+Isso garante que, quando temos muitas condições em um fluxo, podemos estabelecer se só algumas das condições são necessárias para dar certo, ou se precisamos de todas as condições para dar certo.
+
+Além disso, o JavaScript ainda tem um outro operador lógico, que é o operador de negação, mas abordaremos ele posteriormente.
+
+### Aula 4 - Para saber mais: tabela da verdade
+
+A Tabela Verdade é uma representação lógica que exibe todas as possíveis combinações de valores de verdade (true ou false) para diferentes proposições. Vamos conhecer algumas delas!
+
+Tabela da Verdade para os Operadores Lógicos Básicos:
+
+**Operador Lógico AND (&&):**
+
+| Expressão       | Resultado |
+| --------------- | --------- |
+| true && true    | true      |
+| true && false   | false     |
+| false && true   | false     |
+| false && false  | false     |
+
+O operador && (E lógico) retorna true apenas se ambos os operandos forem true. Caso contrário, retorna false.
+
+```JavaScript
+const idade = 25;
+const possuiCarteira = true;
+if (idade >= 18 && possuiCarteira) {
+    console.log("Pode dirigir, possui idade suficiente e carteira de motorista.");
+} else {
+    console.log("Não pode dirigir.");
+}
+```
+
+**Operador Lógico OR (||):**
+
+| Expressão       | Resultado |
+| --------------- | --------- |
+| true OR true    | true      |
+| true OR false   | true      |
+| false OR true   | true      |
+| false OR false  | false     |
+
+O operador || (OU lógico) retorna true se pelo menos um dos operandos for true. Retorna false apenas se ambos os operandos forem false.
+
+```JavaScript
+const temExperiencia = true;
+const temDiploma = false;
+if (temExperiencia || temDiploma) {
+    console.log("Pode se candidatar ao emprego, pois possui experiência ou diploma.");
+} else {
+    console.log("Não pode se candidatar ao emprego.");
+}
+```
+
+**Operador Lógico NOT (!):**
+
+|Expressão|Resultado|
+|---------|---------|
+|!true    | false   |
+|!false   | true    |
+
+O operador ! (NÃO lógico ou negação) inverte o valor do operando. Se o operando for true, ! retorna false. Se o operando for false, ! retorna true.
+
+```JavaScript
+const chuva = false;
+if (!chuva) {
+    console.log("Não está chovendo. Pode sair de casa.");
+} else {
+    console.log("Está chovendo. Melhor ficar em casa.");
+}
+```
+
+Sempre que você tiver dúvida sobre a lógica de funcionamento de operadores, pode consultar essas tabelas! Afinal, são ferramentas que ajudam a prever os resultados de expressões condicionais em programação e a tomar decisões baseadas na lógica booleana.
+
+### Aula 4 - Truthy e Falsy - Vídeo 3
+
+Transcrição  
+Existe mais um operador lógico, além do E e do O, que é o operador de negação, ou seja, o NOT. Para entendermos melhor como ele funciona, precisamos voltar um pouco atrás e observar um conceito muito importante do JavaScript, que é o conceito de valores truthy e false. Ou seja, valores que são avaliados como verdadeiros e avaliados como falsos.
+
+**[Truthy](https://developer.mozilla.org/pt-BR/docs/Glossary/Truthy) e [false](https://developer.mozilla.org/pt-BR/docs/Glossary/Falsy)**  
+Na tela, duas documentações do MDN estão sendo apresentadas e o link será disponibilizado na parte de links da aula.
+
+O que são valores true e false?  
+Já sabemos que existem booleanos true ou false, existem valores numéricos, de zero a infinito, para mais ou para menos. Existem também strings, que são nomes, sequências de caracteres, etc. O JavaScript consegue avaliar esses valores como valores verdadeiros e falsos quando necessário.
+
+Portanto, por exemplo, quais tipos de valores são avaliados como verdadeiros? O próprio valor true booleano, um objeto vazio, um array vazio, um valor numérico qualquer que não seja zero, uma string qualquer com qualquer sequência de caracteres dentro deles, etc. A lista completa ficará disponível na documentação.
+
+```JavaScript
+if (true)
+if ({})
+if ([])
+if (42)
+if ("foo")
+if (new Date())
+if (-42)
+if (3.14)
+if (-3.14)
+if (Infinity)
+if (-Infinity)
+```
+
+Por outro lado, o JavaScript avalia alguns outros tipos, outros valores de dados, como valores falsos. Quais são eles?
+O próprio booleano, o null também é avaliado como falso, bem como o undefined, zero numérico, menos zero numérico, NAN (not a number), strings vazias, ou seja, aspas abertas e fechadas sem nada dentro. Na documentação, você também encontrará a lista completa e as descrições completas.
+
+O que significa um valor ser avaliado como true ou como false?
+Isso é muito importante também, pois quando trabalhamos com operadores, normalmente trabalhamos com comparação entre valores, ou com operações entre valores.
+
+O que quer dizer com operações entre valores?
+Se voltarmos em operadores aritméticos, e se quisermos, por exemplo, fazer a conta que anterior da nossa variável let media, todas as operações são realizadas entre um valor que está à esquerda do operador e um valor que está à direita da operação.
+
+```JavaScript
+const notaPrimeiroBi = 8;
+const notaSegundoBi = 6.3;
+const notaTerceiroBi = 7;
+const notaQuartoBi = 9.3;
+let media = (notaPrimeiroBi + notaSegundoBi + notaTerceiroBi + notaQuartoBi) / 4;
+if (media >= 7) {
+ media += media * 0.1;
+}
+console.log(`a média é ${media.toFixed(2)}`);
+```
+
+No caso da adição é um pouco diferente, conseguimos concatenar valores. Mas, por exemplo, no if (media >=7), temos valores à esquerda do operador e valores à direita do operador. Então, esses dois valores vão ser colocados em situação dependendo do operador.
+
+Aqui, o operador está pedindo para comparar se o valor da esquerda é maior ou igual ao valor da direita. Quando estudamos tipos booleanos, usamos outro operador, que é o de comparação de igualdade estrita. Então, comparamos o valor da esquerda, se a variável estudante tinha um valor exatamente igual a uma string.
+
+```JavaScript
+const estudante = 'Fernando';
+const estaAprovado = true;
+
+if (estaAprovado === true) { 
+  console.log('parabéns, boas festas');
+} else {
+  console.log('REPROVADO, boas festas');
+}
+
+if (estudante === 'Fernando') {
+  console.log(`olá, ${estudante}`);
+} else {
+  console.log('quem é vc');
+}
+```
+
+Quando trabalhamos com esse tipo de comparação, ela sempre vai ser avaliada em um booleano, true ou false. Toda comparação é feita dessa forma.
+
+**Utilizando o operador de negação**  
+Agora vamos criar um novo arquivo para praticarmos com esse último operador lógico. Assim, entenderemos melhor o que são as comparações avaliadas em true ou false. Então, vamos voltar no nosso arquivo de operadores lógicos para criar mais um exemplo e utilizarmos esse último operador.
+
+Vamos dizer que a pessoa estudante vai receber um bônus de nota se, além de faltas, tiver menos de duas faltas e nenhuma advertência. Vamos criar uma nova const e chamaremos de advertencias, passando zero. Ou seja, a pessoa estudante não teve nenhuma advertência.
+
+```JavaScript
+const notaFinal = 6;
+const faltas = 5; 
+const advertencias = 0;
+
+if (notaFinal < 7 && faltas > 4) {
+ console.log('reprovado, boas festas');
+} else {
+  console.log('não foi reprovado por falta');
+}
+```
+
+Portanto, estamos supondo que a pessoa estudante não teve nenhuma advertência durante o semestre ou o ano e vamos criar um novo fluxo de comparação para isso, que será: se a quantidade de faltas for menor ou igual a duas e a pessoa estudante não tiver nenhuma advertência, ela vai receber um bônus na nota. Ou seja: if (faltas <=2 && ).
+
+```JavaScript
+const notaFinal = 6;
+const faltas = 5; 
+const advertencias = 0;
+
+if (notaFinal < 7 && faltas > 4) {
+ console.log('reprovado, boas festas');
+} else {
+  console.log('não foi reprovado por falta');
+}
+
+if (faltas <=2 && )
+```
+
+**Como utilizar o operador de negação?**  
+Para dizer que a pessoa estudante não pode ter advertências para receber o bônus, vamos utilizar o operador de negação. Vamos verificar o que está escrito na [documentação do MDN](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Operators/Logical_NOT).
+
+> NOT
+ lógico (!)  
+ !expr - (Negação lógica) Retorna falso caso o único operando possa ser convertido para verdadeiro; senão, retorna verdadeiro.
+
+A documentação informa que a negação é representada pelo símbolo de exclamação, !, então, retornaremos ao código e adicionaremos essa exclamação na frente da variável, sem espaços.
+
+```JavaScript
+const notaFinal = 6;
+const faltas = 5; 
+const advertencias = 0;
+
+if (notaFinal < 7 && faltas > 4) {
+  console.log('reprovado, boas festas');
+} else {
+  console.log('não foi reprovado por falta');
+}
+
+if (faltas <=2 && !advertencias)
+```
+
+O que quer dizer converter um valor de operando para verdadeiro?  
+Significa que o JavaScript pegará o valor da variável advertencias e usará o conceito de truthy ou false que estudamos anteriormente. Então, se usarmos este conceito na variável advertencias, que tem um valor de zero numérico, qual será o valor retornado?
+
+Voltando à documentação, na parte de false, lista de valores, perceberemos que o zero numérico é um dos valores que, ao aplicarmos o conceito, retorna "falso", ou seja, é avaliado como falso.
+
+Além disso, caso o valor seja convertido para verdadeiro, a negação retorna falso. Mas esse não é o nosso caso. O nosso operando advertencias vai retornar "falso", porque seu valor é zero. Isso significa que a nossa negação não vai retornar "falso", mas, sim, verdadeiro.
+
+Lembrando: retorna falso caso o único operando possa ser convertido para verdadeiro; senão, retorna verdadeiro.
+
+Isso acontece por estarmos fazendo uma dupla negação, isto é, estamos negando um valor que é falso. O que acontece quando ambas as condições em if retornam true? Temos o && ("e" comercial), quer dizer que o if deu certo e poderemos acessar o que está dentro do bloco de código.
+
+Vamos adicionar uma exclamação na frente da variável advertências, ou seja, if (faltas <=2 && !advertencias). E, então, abrimos o if. Podemos até copiar o console.log, já que essa parte será igual: ou ela vai ser reprovada, ou ela vai receber um bônus, ou ela não vai receber um bônus.
+
+Então, vamos copiar a parte do bloco do if, só que o nosso console vai dizer teve bônus ou não teve bônus.
+
+```JavaScript
+const notaFinal = 6;
+const faltas = 5; 
+const advertencias = 0;
+
+if (notaFinal < 7 && faltas > 4) {
+  console.log('reprovado, boas festas');
+} else {
+  console.log('não foi reprovado por falta');
+}
+
+if (faltas <=2 && !advertencias){
+  console.log('recebeu bônus');
+} else {
+  console.log('não recebeu bônus');
+}
+```
+
+Agora, se alterarmos o valor de faltas para 2 e a advertência 0, esperamos receber no console o resultado do if que é receber o bônus. Vamos voltar no terminal e executar:
+
+> node operadores-logicos.js  
+  não foi reprovado por falta  
+  recebeu bônus
+
+A pessoa estudante recebeu bônus, porque o valor de advertencias é um valor falso. Ele é um valor falso, porque é um zero numérico. E quando colocamos a exclamação, colocamos o operador de negação na frente dele, estamos negando um valor falso e esse valor se torna verdadeiro.
+
+Parece um pouco nebuloso, precisa de um pouco de prática e disponibilizaremos exercícios para você praticar, só que essa lógica é muito importante para conseguirmos criar fluxos em algoritmo. Então, tanto o "ou" quanto o "e" e a negação são muito utilizados em algoritmos, porque precisamos deles para fazer com que os nossos fluxos funcionem.
+
 ### Aula 4 -  - Vídeo 4
 ### Aula 4 -  - Vídeo 5
 ### Aula 4 -  - Vídeo 6
