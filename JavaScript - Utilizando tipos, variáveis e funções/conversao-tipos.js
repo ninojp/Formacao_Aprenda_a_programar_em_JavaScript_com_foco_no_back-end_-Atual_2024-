@@ -49,3 +49,9 @@ let valor3 = 0;
 console.log(valor1, typeof valor1); // retorna undefined, TIPO undefined
 console.log(valor2, typeof valor2); // retorna null, TIPO object
 console.log(valor3, typeof valor3); // retorna 0, TIPO number
+
+let dataAtualPtBr = new Date().toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo'});
+document.getElementById('pDataAtual').innerText = `Data Atual: ${dataAtualPtBr}`;
+console.log(dataAtualPtBr); // retorna o timestamp atual
+
+

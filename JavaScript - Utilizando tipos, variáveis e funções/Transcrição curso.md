@@ -1975,6 +1975,492 @@ A pessoa estudante recebeu bônus, porque o valor de advertencias é um valor fa
 
 Parece um pouco nebuloso, precisa de um pouco de prática e disponibilizaremos exercícios para você praticar, só que essa lógica é muito importante para conseguirmos criar fluxos em algoritmo. Então, tanto o "ou" quanto o "e" e a negação são muito utilizados em algoritmos, porque precisamos deles para fazer com que os nossos fluxos funcionem.
 
-### Aula 4 -  - Vídeo 4
-### Aula 4 -  - Vídeo 5
-### Aula 4 -  - Vídeo 6
+### Aula 4 - Operadores de comparação - Vídeo 4
+
+Transcrição  
+Continuando com operadores, anteriormente, ao estudarmos o tipo booleano, trabalhamos com operadores de comparação, quando comparamos o valor de uma variável com o tipo booleano true. Para essa comparação, utilizamos o operador de três iguais ===.
+
+```JavaScript
+const estudante = 'Fernando';
+const estaAprovado = true;
+
+if (estaAprovado === true) { 
+  console.log('parabéns, boas festas');
+} else {
+  console.log('REPROVADO, boas festas');
+}
+
+if (estudante === 'Fernando') {
+  console.log(`olá, ${estudante}`);
+} else {
+  console.log('quem é vc');
+}
+```
+
+Durante os cursos anteriores da formação de iniciante, utilizamos outro operador, composto por dois iguais, ==. Vamos entender a diferença entre ambos.
+
+**Operadores de comparação**  
+Criaremos um novo arquivo chamado operadores-comparacao.js e faremos alguns testes. Vamos começar gerando uma constante chamada estaAprovado para definirmos se uma pessoa estudante está aprovada ou não. Estabeleceremos um valor true para essa variável.
+
+> const estaAprovado = true
+
+Então, quando chamarmos essa variável estaAprovado, ela indicará que a pessoa estudante está aprovada. Vamos fazer uma comparação simples com if:
+
+```JavaScript
+if (estaAprovado === true) {
+  console.log('aprovado');
+}
+```
+
+Até aqui, nenhuma novidade. Já usamos bastante o operador de comparação. Lembrando que trabalhamos com operandos, então, o que está à esquerda do operador e o que está à sua direita. Nesse caso, comparamos um valor de uma variável que é true com o tipo de dado true.
+
+Se rodarmos esse código no terminal com node operadores-comparacao.js, perceberemos que entrou no if e rodou corretamente.
+
+> node operadores-comparacao.js  
+> aprovado
+
+Agora, vamos entender a diferença entre == (dois iguais) e === (três iguais), que é muito importante. Vamos criar um novo fluxo de comparação, comparando uma string com número zero e usaremos dois iguais para compará-la com o número zero;
+
+```JavaScript
+// Código omitido.
+if ("0" == 0) {
+  console.log('Passou na comparação');
+} else {
+  console.log('Não passou na comparação');
+}
+```
+
+Se rodarmos esse código novamente, notaremos que ele passou na comparação.
+
+> node operadores-comparacao.js  
+> aprovado
+
+passou na comparação
+
+Isso significa que o JavaScript avaliou que uma string contendo o número zero dentro é a mesma coisa que o número zero, logo, avaliou essa comparação como true, ou seja, as duas coisas são iguais.
+
+Agora, vamos mudar os dois iguais da comparação por três iguais:
+
+```JavaScript
+// Código omitido. 
+if ("0" === 0) {
+  console.log('Passou na comparação');
+} else {
+  console.log('Não passou na comparação');
+}
+```
+
+Ao rodar o código novamente, notamos que não passou na comparação.
+
+> node operadores-comparacao.js  
+> não passou na comparação
+
+O motivo é que o JavaScript está comparando não apenas o valor, mas também o tipo de dado. Quando utilizamos dois iguais ==, o JavaScript compara o valor, então, o valor zero em string e valor zero em número. Internamente, ele faz alguns tipos de conversão para conseguir fazer essa comparação.
+
+Quando adicionamos três iguais ===, o JavaScript não compara apenas o valor, mas compara também o tipo de dado. Apesar de zero ser igual a zero, número e string não são a mesma coisa, então, ele avaliará essa comparação como falso e entrará no else.
+
+Outros operadores de comparação estão listados na documentação (que será disponibilizada), incluindo o não igual (!=), ou seja, diferente; estritamente igual (===); maior que (>); maior ou igual (>=); menor ou igual (<=).
+
+Agora, vamos criar um exemplo para trabalharmos com o operador ternário. Imagine que temos uma excursão para fazer na escola e a pessoa estudante, se for menor de 18 anos, precisa de uma autorização dos responsáveis.
+
+Então, vamos criar uma const idadeMinima e dizer que uma pessoa alcança a maioridade com 18 anos. Em seguida, criaremos uma const idadeEstudante, indicando que a pessoa estudante tem 16 anos.
+
+Também criaremos um fluxo para realizar essa verificação.
+
+```JavaScript
+const idadeMinima = 18;
+const idadeEstudante = 16;
+
+if (idadeEstudante >= idadeMinima) {
+  console.log('não precisa de autorização');
+} else {
+  console.log('precisa de autorização');
+}
+```
+
+Ao executarmos esse código, o retorno será precisa de autorização, porque a idade da pessoa estudante é 16, que é menor de 18 anos.
+
+> node operadores-comparacao.js  
+> não passou na comparação  
+> precisa de autorização
+
+**Qual operador devemos utilizar?**  
+Sempre utilizaremos === (três iguais). Embora os três não sejam originais do JavaScript, tenham sido adicionados em versões posteriores, os dois iguais não deixaram de funcionar.
+
+Para garantirmos que o código funcione da melhor forma possível e não tenhamos bugs, por exemplo, ao compararmos uma string com um número e receber true, sempre utilizamos os === (três iguais) em qualquer comparação.
+
+Agora, temos uma ideia melhor do que são os operadores. A lista é extensa, então recomendamos que você consulte a [documentação MDN](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Guide/Expressions_and_operators#operador_comparacao) e confira os exercícios.
+
+### Aula 4 - Para saber mais: aprendendo com memes
+
+Até agora aprendemos muito sobre o JavaScript e suas aplicações, mas que tal acrescentar uma pitada de diversão na nossa trilha de aprendizado?
+
+Com a nossa websérie Memes do JavaScript você pode continuar aprendendo de um jeito único, cheio de humor e conhecimento!
+
+Por que o JavaScript é assim? | [Memes do JavaScript #01](https://www.youtube.com/watch?v=VHxoyduIt18&list=PLh2Y_pKOa4UeJOI2P-N6J8nGyV3aCuO3O&index=2)
+
+baNaNa | [Memes do JavaScript #2](https://www.youtube.com/watch?v=HBVCsBtsmzA&list=PLh2Y_pKOa4UeJOI2P-N6J8nGyV3aCuO3O&index=2)
+
+Patrick | [Memes do JavaScript #3](https://www.youtube.com/watch?v=0zArD_Ih3NQ&list=PLh2Y_pKOa4UeJOI2P-N6J8nGyV3aCuO3O&index=5)
+
+Brendan Eich | [Memes do Javascript #4](https://www.youtube.com/watch?v=0zArD_Ih3NQ&list=PLh2Y_pKOa4UeJOI2P-N6J8nGyV3aCuO3O&index=5)
+
+Tudo é objeto? | [Memes do JavaScript #5](https://www.youtube.com/watch?v=r_v5PBV8ltE&list=PLh2Y_pKOa4UeJOI2P-N6J8nGyV3aCuO3O&index=6)
+
+### Aula 4 - Faça como eu fiz: operador ternário
+
+Não deixe de praticar com os exemplos desta atividade!
+
+Durante seus estudos você pode ter se deparado com a seguinte estrutura:
+
+```JavaScript
+const valor = 50;
+const texto = valor < 50 ? ‘valor insuficiente’ : ‘valor suficiente’;
+console.log(texto); // retorna ‘valor suficiente’
+```
+
+O valor da variável texto representa o que chamamos de operador ternário e sua sintaxe é a seguinte:
+
+```JavaScript
+//condição ?      caso 'true'    :     caso 'false'
+valor < 50 ? 'valor insuficiente' : 'valor suficiente';
+```
+
+O operador ternário tem esse nome pois é o único em JavaScript que utiliza três operandos:
+
+a condição, seguida do sinal ?
+o código a ser executado se a condição for true, seguida de :
+o código a ser executado se a condição for false.
+O operador ternário é normalmente utilizado em substituição ao if…else em que as condições têm apenas uma linha de retorno.
+
+Confira abaixo alguns exemplos de blocos if nos quais é possível utilizar o operador ternário:
+
+```JavaScript
+let matriculaAtiva = true;
+
+function verificaMatriculaAtiva() {
+ if (matriculaAtiva === true) {
+   return 'matrícula ativa no sistema';
+ } else {
+   return 'matrícula não está ativa';
+ }
+}
+
+console.log(verificaMatriculaAtiva());
+// retorna 'matrícula ativa no sistema'
+```
+
+O exemplo acima mostra um if em que os códigos dentro dos blocos {} são compostos por somente uma linha cada, retornando uma string para cada caso.
+
+A mesma lógica, usando o operador ternário:
+
+```JavaScript
+let matriculaAtiva = true;
+
+function verificaMatriculaAtiva() {
+ return matriculaAtiva ? 'matrícula ativa no sistema' : 'matrícula não está ativa';
+}
+
+console.log(verificaMatriculaAtiva());
+// retorna 'matrícula ativa no sistema'
+```
+
+Agora a função, ao invés de retornos (return) diferentes para if e else, tem apenas um retorno, que é o resultado da condicional feita pelo operador ternário.
+
+Podemos interpretar a linha do return em português, da seguinte forma: “A matrícula está ativa? Em caso positivo (true), retorne o texto ’matrícula ativa no sistema’. Em caso negativo (false), retorne o texto ’matrícula não está ativa’.
+
+Observe que o sinal ? separa a condição, enquanto o sinal : separa os casos true e false.
+
+Notou que, em vez de matriculaAtiva === true, escrevemos apenas matriculaAtiva na condição? Nesses casos, quando a condição avalia se algo é “igual a true”, podemos suprimir a parte === true. A regra do JavaScript de valores truthy e falsy também se aplica aqui!
+
+Vamos praticar com mais um exemplo:
+
+```JavaScript
+let idadeEstudante = 16;
+let precisaDeAutorizacao;
+if (idadeEstudante < 18) {
+ precisaDeAutorizacao = true;
+} else {
+ precisaDeAutorizacao = false;
+}
+console.log(precisaDeAutorizacao);
+```
+
+Mantendo o mesmo fluxo com operador ternário:
+
+```JavaScript
+let idadeEstudante = 16;
+const precisaDeAutorizacao = idadeEstudante < 18 ? true : false;
+console.log(precisaDeAutorizacao); // true
+```
+
+Dessa forma o operador ternário substituiu todas as linhas do if…else, retornando true ou false conforme o caso e salvando o valor direto na variável precisaDeAutorizacao.
+
+O operador ternário deixa o código bem enxuto, mas pode dificultar a leitura e a compreensão caso as condições fiquem muito “compridas”. Analise caso a caso e quebre o código em um if…else caso tenha que executar lógicas mais complexas.
+
+### Aula 4 - Para saber mais: links da aula
+
+Confira abaixo a lista de links utilizados durante a aula e/ou links complementares ao conteúdo:
+
+Documentação do MDN: [lista completa de operadores](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_operators);
+Documentação do MDN: [operadores aritméticos](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_operators#arithmetic_operators);
+Documentação do MDN: [operadores de comparação](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_operators#comparison_operators);
+Documentação do MDN: [operadores lógicos](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_operators#logical_operators);
+Documentação do MDN: [truthy](https://developer.mozilla.org/en-US/docs/Glossary/Truthy);
+Documentação do MDN: [falsy](https://developer.mozilla.org/en-US/docs/Glossary/Falsy).
+
+### Aula 4 - Lista de exercícios
+
+Programação é prática! Criamos mais uma lista de atividades (não obrigatórias) para você exercitar e reforçar ainda mais seu aprendizado. Bora praticar?
+
+1. Crie variáveis que armazenem o valor do saldo, de depósito e de um saque de uma conta bancária, depois realize operações de adição e subtração entre eles utilizando uma variável chamada operacao, considerando a função de cada variável criada anteriormente. Exiba os resultados finais no console.
+
+2. Crie uma variável numérica com um valor. Utilize um operador ternário para verificar se esse valor é par ou ímpar. Exiba o resultado no console.
+
+3. Considere uma situação em que você está verificando se um usuário está logado e tem permissão de administrador para acessar determinada funcionalidade. Utilize variáveis booleanas para simular essas condições e use o operador AND para verificar se ambas são verdadeiras.
+
+4. Declare duas variáveis booleanas e use o operador OR para verificar se pelo menos uma delas é verdadeira. Exiba o resultado no console.
+
+5. Imagine um sistema que determina se um usuário tem idade suficiente para comprar o ingresso para um show. Declare duas variáveis que determinem a idade mínima e qual a idade do usuário e utilize estruturas condicionais (if, else) para determinar se o usuário pode realizar a compra.
+
+Caso precise de ajuda, opções de solução das atividades estarão disponíveis na seção “Opinião”.
+
+### Aula 4 - O que aprendemos?
+
+Nessa aula, você aprendeu a:
+
+- Fazer cálculos e manipulações numéricas utilizando operadores aritméticos;
+- Criar fluxos de tomada de decisão em algoritmos através dos operadores lógicos;
+- Criar lógicas condicionais e aplicar lógica de programação com operadores de comparação.
+
+## Aula 5 - Funções
+
+### Aula 5 - Relembrando funções - Vídeo 1
+
+Transcrição  
+Até agora, trabalhamos com três partes fundamentais de qualquer linguagem de programação: como declarar variáveis, os tipos de dados que essa linguagem trabalha e os operadores, que são indispensáveis para programar e criar fluxos e algoritmos.
+
+Vamos agora para a última parte fundamental que iremos aprender neste curso de linguagens de programação, no caso do JavaScript, que são as funções.
+
+**Relembrando funções**  
+Para isso, criaremos um novo arquivo denominado funcoes.js e revisaremos como declarar funções em JavaScript e como executá-las. É importante destacar que já lidamos com funções na formação de iniciantes, mas é útil relembrar. Criaremos uma função utilizando a palavra-chave function e atribuiremos um nome que geralmente descreve sua função com um verbo.
+
+Criaremos uma função para exibir o nome de um estudante. Portanto, a função será function exibeNomeEstudante, seguindo o padrão CamelCase do JavaScript, iniciando com letra minúscula e separando as palavras com letras maiúsculas.
+
+Outro componente importante da função são os parênteses que aparecem logo após o nome. Neste caso, vamos deixar esses parênteses vazios, apenas abrindo e fechando, e em seguida usaremos as chaves para iniciar o bloco da função. Um bloco é um conjunto de um código que está contido dentro das chaves.
+
+funcoes.js
+
+```JavaScript
+function exibeNomeEstudante() {
+
+}
+```
+
+Vamos declarar que essa função vai apenas exibir um console.log, como sempre, e será uma string com o nome da estudante, que será Caroline.
+
+funcoes.js
+
+```JavaScript
+function exibeNomeEstudante() {
+    console.log('Caroline');
+}
+```
+
+No entanto, ao abrir o terminal e executar o arquivo de funções com o comando node funcoes.js, o terminal não retorna nada.
+
+> node funcoes.js
+
+Isso acontece porque é importante lembrar que as funções têm dois momentos, por assim dizer.
+
+O primeiro é quando declaramos o que a função faz, isto é, quando escrevemos a palavra function e criamos o bloco escrevendo o código que deve ser executado. O segundo momento é quando invocamos essa função, ou chamamos essa função, como dizemos, ou também, às vezes, falamos em executar a função. Então, chamar a função, executar a função, é a mesma coisa.
+
+Como pedimos para o código executar a função para nós? Pegamos o nome da função, colocamos parênteses abrindo e fechando, e pronto: exibeInfosEstudante().
+
+funcoes.js
+
+```JavaScript
+function exibeNomeEstudante() {
+    console.log('Caroline');
+}
+exibeNomeEstudante();
+```
+
+Ao retornarmos ao terminal e executarmos novamente o arquivo, veremos o nome "Caroline" sendo exibido.
+
+Rodamos:
+
+> node funcoes.js
+
+E obtemos o nome:
+
+Caroline
+
+Isso ocorre porque declaramos a função com a palavra-chave function e incluímos todas as partes essenciais, como os parênteses indicando os argumentos e o bloco de código. Em seguida, executamos, chamamos ou invocamos essa função usando seu nome e passando os parênteses, simplesmente abrindo e fechando-os.
+
+Parâmetros da função
+Além dessa questão dos dois momentos, existem outras duas coisas importantes que sempre precisamos identificar e saber sobre funções. A primeira é a questão dos parâmetros ou argumentos, e a segunda é a questão do retorno.
+
+funcoes.js
+
+```JavaScript
+// parâmetros/argumentos
+// retorno
+function exibeNomeEstudante() {
+    console.log('Caroline');
+}
+exibeNomeEstudante();
+```
+
+No caso, essa função que acabamos de criar, exibeNomeEstudante(), é uma função que não tem nenhum parâmetro, porque os parênteses estão vazios, e ela também não tem retorno, mas vamos verificar sobre o retorno em alguns momentos.
+
+Para que serve uma função? Uma função é um bloco de código que executa alguma instrução quando ela é chamada. Uma característica da função exibeNomeEstudante(), normalmente pensamos nela para exibir um nome de estudante qualquer. Portanto, não seria muito apropriado colocar no código de forma hardcoded (código fixo), o nome Caroline, porque essa função só funciona para Caroline.
+
+Mas se desejamos exibir nomes de estudantes, teoricamente essa função precisa exibir o nome de qualquer estudante. Para isso, utilizamos os parâmetros ou argumentos para passar para dentro da função, por exemplo, o nome que ela tem que exibir. Esses argumentos, que podem ser nenhum nesse caso, ou vários, são inseridos dentro dos parênteses.
+
+Então vamos dizer que a função exibeNomeEstudante() recebe nome. Vamos apenas escrever nome para referenciar dentro dos parênteses. Agora, o console.log() vai exibir, ao invés da string Caroline, vai exibir nome.
+
+funcoes.js
+
+```JavaScript
+// parâmetros/argumentos
+// retorno
+function exibeNomeEstudante(nome) {
+    console.log(nome);
+}
+exibeNomeEstudante();
+```
+
+Para executar essa função, muda um pouco, porque quando analisamos o código da declaração, percebemos que ela precisa receber uma informação que estamos chamando de nome.
+
+Quando executamos essa função, precisamos passar para dentro da função esse dado, neste momento uma string. Portanto, chamamos a função com exibirNomeEstudante(), passando dentro dos parênteses Caroline.
+
+funcoes.js
+
+```JavaScript
+// parâmetros/argumentos
+// retorno
+function exibeNomeEstudante(nome) {
+    console.log(nome);
+}
+exibeNomeEstudante('Caroline');
+```
+
+Testamos no terminal rodando o comando node funcoes.js e obtemos o nome como retorno:
+
+Caroline
+
+Lembram que comentamos que teoricamente uma função que exibe nome de estudante tem que funcionar para qualquer nome de estudante? Isso significa que podemos copiar a chamada da função, exibirNomeEstudante(), e trocar o nome. Vamos colocar que o nome da outra estudante é Ana.
+
+funcoes.js
+
+```JavaScript
+// parâmetros/argumentos
+// retorno
+function exibeNomeEstudante(nome) {
+    console.log(nome);
+}
+exibeNomeEstudante('Caroline');
+exibeNomeEstudante('Ana');
+```
+
+A primeira chamada da função vai receber uma string Caroline, a segunda chamada da função vai receber uma string Ana. Ambos são strings de nomes de estudantes, então presumimos que a função vai funcionar exatamente da mesma forma para as duas chamadas.
+
+Vamos verificar no terminal rodando novamente o comando. Obtemos:
+
+Caroline
+
+Ana
+
+É exatamente o que aconteceu, ela executou da mesma forma com as duas strings e devolveu exatamente o que esperávamos. Isso é algo importante também sobre funções, a partir do momento que ela recebe o tipo de dado esperado, uma string com o nome, ela tem que funcionar exatamente da mesma maneira.
+
+Concluindo a discussão sobre parâmetros ou argumentos, é importante observar que uma função pode aceitar uma quantidade variável "N" de parâmetros, podendo ser nenhum, como mencionado anteriormente, um único parâmetro ou múltiplos parâmetros.
+
+Suponhamos que desejamos exibir exibeinfosEstudantes em vez de nomeEstudante e queremos mostrar o nome e a nota de qualquer estudante ao chamar essa função. Vamos incluir um parâmetro nesta função denominado nota. No console.log(), criaremos um texto usando template strings, afirmando "o nome é ${nome} e a nota é ${nota}".
+
+Agora na chamada de função do nosso novo teste, temos que passar duas informações referentes aos dois parâmetros. O primeiro parâmetro é nome, que já tem, e vamos adicionar uma nota que será um número.
+
+Por exemplo, para Caroline, adicionamos a nota 10, então exibeNomeEstudante Caroline, 10, e a nota da Ana foi 7, então também adicionamos esse parâmetro na chamada de estudante, exibeNomeEstudante('Ana',7);.
+
+Lembrando que na chamada trocamos o nome da função, então agora exibeInfosEstudante() tanto para Caroline quanto para Ana.
+
+funcoes.js
+
+```JavaScript
+// parâmetros/argumentos
+// retorno
+function exibeInfosEstudante(nome, nota) {
+    console.log(`o nome é ${nome} e a nota é ${nota}`);
+}
+exibeInfosEstudante('Caroline',10);
+exibeInfosEstudante('Ana',7);
+```
+
+Faremos um novo teste no terminal, node funcoes.js e obtemos
+
+o nome é Caroline e a nota é 10
+
+o nome é Ana e a nota é 7.
+
+É muito importante que os parâmetros sejam sempre inseridos em ordem, então se invertêssemos a ordem em que os parâmetros são passados para dentro da função na chamada, por exemplo, invertendo Caroline com 10, também inverteria na execução do código. Portanto, se rodarmos novamente, dirá que o nome é 10 e a nota é Caroline.
+
+Nesse caso, não está causando muito prejuízo, porém essa questão pode causar grandes problemas no seu código. Portanto, sempre tenha em mente que os parâmetros têm que ser passados para dentro da função na ordem em que eles são declarados quando criamos a função.
+
+Agora, sobre parâmetros e argumentos, vamos a uma parte muito importante da função que são os retornos.
+
+**Retorno da função**  
+E quanto ao que denominamos de retorno de função? O retorno é indicado pela palavra-chave return, a qual incorporaremos em nossa função. Essa palavra-chave é importante, pois assegura que todo o processamento realizado dentro da função estará acessível para uso externo.
+
+Vamos realizar um teste agora. Substituiremos o console.log por return, e assim ele entregará, sem os parênteses, a string que construímos, "o nome é ${nome} e a nota é ${nota}".
+
+funcoes.js
+
+```JavaScript
+// parâmetros/argumentos
+// retorno
+function exibeInfosEstudante(nome, nota) {
+    return `o nome é ${nome} e a nota é ${nota}`;
+}
+exibeInfosEstudante('Caroline',10);
+exibeInfosEstudante('Ana',7);
+```
+
+Ao executarmos novamente o código com node funcoes.js, não ocorre nenhum erro, mas o terminal também não exibe nada. Por quê? Isso acontece porque o return seguido dos dados que precisamos retornar está saindo da função, por assim dizer.
+
+Embora a função esteja retornando essa informação, nosso código não a está utilizando em nenhum lugar. E por quê? Porque é o console.log() que faz com que o código seja exibido no terminal.
+
+Isso é algo muito importante, qual é a diferença entre return e console.log? O console.log é uma função que apenas registra alguma informação, alguma parte do código no terminal, no console, mas ele não faz nenhum processamento.
+
+Assim, se desejássemos exibir, por exemplo, o conteúdo retornado por essa função, ou seja, a string que a função está gerando, no terminal, teríamos que incluir a chamada da função dentro do console.log.
+
+Portanto, a estrutura seria a seguinte: console.log(), e dentro dos parênteses do console.log(), colocamos a chamada da função com seus parâmetros. Realizamos esse procedimento na primeira chamada, e na segunda, repetimos a mesma operação: console.log(), incluindo a chamada da função dentro dos parênteses do console.log().
+
+funcoes.js
+
+```JavaScript
+// parâmetros/argumentos
+// retorno
+function exibeInfosEstudante(nome, nota) {
+  return `o nome é ${nome} e a nota é ${nota}`;
+}
+console.log(exibeInfosEstudante('Caroline', 10));
+console.log(exibeInfosEstudante('Ana', 7));
+```
+
+Se voltarmos ao terminal e executarmos o código, agora tudo voltou a funcionar.
+
+o nome é Caroline e a nota é 10
+
+o nome é Ana e a nota é 7.
+
+Mas isso é muito importante, o console.log() não faz nenhum processamento, apenas exibe na tela. Portanto, se quisermos pegar o resultado de qualquer processamento de função e fazer com que o restante do código utilize esse processamento, temos que utilizar a palavra-chave return.
+
+Vamos dar mais exemplos nos exercícios e assim conseguiremos praticar mais.
+
+Sobre funções, é isso? Não é isso. O JavaScript tem mais duas formas de se trabalhar com funções que aprenderemos em seguida.
+
+### Aula 5 -  - Vídeo 2
+### Aula 5 -  - Vídeo 3
+### Aula 5 -  - Vídeo 4
+### Aula 5 -  - Vídeo 5
+### Aula 5 -  - Vídeo 6
