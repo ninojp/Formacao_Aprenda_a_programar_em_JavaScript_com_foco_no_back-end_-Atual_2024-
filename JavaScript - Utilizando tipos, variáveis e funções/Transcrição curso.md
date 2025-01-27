@@ -2459,8 +2459,463 @@ Vamos dar mais exemplos nos exercícios e assim conseguiremos praticar mais.
 
 Sobre funções, é isso? Não é isso. O JavaScript tem mais duas formas de se trabalhar com funções que aprenderemos em seguida.
 
-### Aula 5 -  - Vídeo 2
-### Aula 5 -  - Vídeo 3
-### Aula 5 -  - Vídeo 4
-### Aula 5 -  - Vídeo 5
-### Aula 5 -  - Vídeo 6
+### Aula 5 - Faça como eu fiz: parâmetros e retorno
+
+Não deixe de praticar com os exemplos desta atividade!
+
+Funções são blocos de código essenciais em programação. Assim, é importante que você tenha familiaridade com a estrutura das funções e suas partes:
+
+```JavaScript
+// declaração da função
+function somarDoisNumeros(numA, numB) {
+ return numA + numB;
+}
+// execução (ou chamada) da função
+somarDoisNumeros(2, 2);
+// atribuindo o retorno de uma função a uma variável
+const resultado = somarDoisNumeros(2, 2);
+console.log(resultado);
+```
+
+**Parâmetros**  
+Os parâmetros servem como “inputs” da função, é por onde uma função recebe os valores que precisa para executar corretamente;
+Podem ser qualquer tipo de dado válido do JavaScript: números, strings, booleanos, arrays, objetos (os dois últimos vamos estudar nos próximos cursos);
+É possível passar qualquer quantidade de parâmetros a uma função, separados por vírgula. Caso a função não precise receber nenhum parâmetro, declare apenas ();
+
+Os parâmetros devem ser passados para a função no momento de execução, na ordem em que estão declarados.
+Acompanhe este exemplo:
+
+```JavaScript
+function dividir(dividendo, divisor) {
+ return dividendo / divisor;
+}
+const resultado = dividir(10, 2);
+console.log(`o resultado é ${resultado}`); // o resultado é 5
+```
+
+Na chamada da função, o JavaScript atribuiu o primeiro parâmetro a dividendo e o segundo a divisor, conforme a ordem que está na declaração da função.
+
+Se por algum motivo os valores de dividendo e divisor forem passados na ordem invertida no momento da execução da função, o resultado não será o mesmo:
+
+```JavaScript
+const resultado = dividir(2, 10);
+console.log(`o resultado é ${resultado}`); // o resultado é 0.2
+```
+
+Sempre observe quais são os parâmetros que a função espera receber e se estão sendo passados com o tipo de dado correto e na ordem correta!
+
+**Retorno**  
+O valor de retorno serve como “output” da função. Ele representa o resultado final obtido após a função executar o código dentro do bloco;
+Para que a função retorne um valor, é utilizada a palavra-chave return seguida do valor que se deseja “retornar”. Se nenhum valor for informado, a função por padrão retorna undefined;
+A linha do retorno é sempre a última linha do bloco. Qualquer código escrito abaixo dessa linha se torna unreachable (“inalcançável”) para o JavaScript;
+Nem todas as funções retornam valores; dependendo do caso, uma função pode executar diversas instruções sem a necessidade de retornar nenhum valor no final.
+Vamos analisar o código abaixo:
+
+```JavaScript
+function dividir(dividendo, divisor) {
+ dividendo / divisor;
+}
+const resultado = dividir(10, 2);
+console.log(`o resultado é ${resultado}`); // o resultado é undefined
+```
+
+No exemplo acima, a função retorna undefined, pois a operação de divisão foi feita, mas o resultado dessa operação não foi “retornado”, ou seja, não foi passado como output da função, ficando assim indisponível para ser armazenado na variável resultado.
+
+Corrigindo o código acima:
+
+```JavaScript
+function dividir(dividendo, divisor) {
+ return dividendo / divisor;
+}
+const resultado = dividir(10, 5);
+console.log(`o resultado é ${resultado}`); // o resultado é 2
+```
+
+Agora a função tem um “output”, ou como costumamos dizer, “está retornando um valor” que pode ser utilizado pelo restante do código.
+
+Lembrando que o return deve ser a última linha do bloco:
+
+```JavaScript
+function dividir(dividendo, divisor) {
+ return dividendo / divisor;
+ // este console não é executado
+ console.log('fim da função');
+}
+const resultado = dividir(10, 5);
+console.log(`o resultado é ${resultado}`); // o resultado é 2
+```
+
+O código acima não gerará erro, porém o console.log não será executado pois foi declarado depois da linha do retorno.
+
+E se uma função tiver mais de um bloco de código?
+
+```JavaScript
+function dividir(dividendo, divisor) {
+ if (divisor !== 0) {
+   return dividendo / divisor;
+ } else {
+   return 'favor não dividir por zero';
+ }
+}
+const resultado = dividir(10, 5);
+console.log(resultado); // 2
+const resultadoZero = dividir(10, 0);
+console.log(resultadoZero); // 'favor não dividir por zero'
+```
+
+É possível que uma função tenha mais de um return, pois estão em blocos diferentes e excludentes: de acordo com a nossa lógica, a função obrigatoriamente vai executar ou o if ou ou else, e cada um dos blocos {} contém seu próprio return sendo a última instrução.
+
+#### Aula 5 - Estrutura da função
+
+Um sistema de chat em tempo real foi implementado e, ao receber um novo usuário, o sistema envia uma saudação personalizada utilizando a funçãosaudacao. Quando a usuária "Maria" se conecta ao sistema, a função saudacao("Maria") é chamada para criar a mensagem de boas-vindas para ela.
+
+Para isso, o seguinte código foi criado:
+
+```JavaScript
+function saudacao(nome) {
+    return `Olá, ${nome}!`;
+}
+const mensagem = saudacao("Maria");
+console.log(mensagem);
+```
+
+Considerando essa situação, assinale a opção que melhor descreve o comportamento do código em relação à execução da função saudacao e à exibição da saudação para a usuária "Maria".
+
+Resposta: A variável mensagem armazena o valor retornado pela função saudacao, que cumprimenta a pessoa com o nome "Maria".
+
+O código chama a função saudacao("Maria"), que retorna a saudação "Olá, Maria!". Esse valor retornado é atribuído à variável mensagem.
+
+### Aula 5 - Expressão de função - Vídeo 2
+
+Transcrição  
+Como discutido anteriormente, o JavaScript apresenta três abordagens para lidar com funções. A forma mais clássica, a primeira a ser aprendida, é conhecida como declaração de função. Exploraremos seu significado mais adiante. O que constitui uma declaração de função? Possui a palavra-chave function, o nome da função e a estrutura já mencionada, com parâmetros e corpo da função contidos entre chaves.
+
+**Entendendo a expressão de função**  
+A segunda forma, denominada expressão de função, merece nossa atenção agora. Criaremos um novo arquivo denominado expressao-funcao.js e conduziremos alguns testes. Desenvolveremos uma função para avaliar se um estudante foi reprovado, conforme discutido anteriormente.
+
+A função será denominada estudanteReprovou(). O que ela requer? A verificação da presença de parâmetros. Para determinar se um estudante foi reprovado, é essencial conhecer a nota final e o número de faltas. Portanto, essas informações serão fornecidas como parâmetros.
+
+O primeiro parâmetro será denominado notaFinal e o segundo, faltas. Vale ressaltar que, dessa maneira, é possível inserir qualquer notaFinal e qualquer quantidade de faltas para qualquer estudante.
+
+Realizaremos nossa comparação dentro da função. No contexto do if() (se), considerando a abordagem anterior, se a notaFinal for inferior a 7 e o número de faltas exceder 4, a diferença entre console.log e return é evidente. Prosseguiremos com mais testes utilizando return.
+
+Ao efetuarmos a verificação para identificar a reprovação, estabeleceremos que, caso a notaFinal seja inferior a 7 e o número de faltas seja superior a 4, o retorno será true. Abandonaremos o uso de console.log neste contexto, e o else{} indicará false, pois nesse cenário o estudante foi aprovado, resultando em um retorno falso. Essa abordagem é consistente com nossas ações anteriores.
+
+expressao-funcao.js
+
+```JavaScript
+function estudanteReprovou(notaFinal, faltas) {
+  if (notaFinal < 7 && faltas > 4) {
+    return true;
+  } else {
+    return false;
+  }
+}
+```
+
+Agora, qual será nossa próxima ação? Transformaremos essa função em uma expressão de função. Como o código se apresenta? Em vez de usar function, iniciaremos o código com uma const e atribuiremos o nome da função, estudanteReprovou(), como nome da const. Assim, const estudanteReprovou = function, omitimos o nome da função em seguida, e passamos imediatamente os parâmetros.
+
+expressao-funcao.js
+
+```JavaScript
+const estudanteReprovou = function (notaFinal, faltas) {
+  if (notaFinal < 7 && faltas > 4) {
+    return true;
+  } else {
+    return false;
+  }
+}
+```
+
+Dessa maneira, transformamos uma declaração de função em uma expressão de função.
+
+Verifiquemos por que se trata de uma expressão de função; o que importa aqui é que agora criamos uma função e a atribuímos como o valor de uma variável. Assim, temos uma const, que é uma variável, e seu valor é uma função, em vez de uma string (cadeia de caracteres) ou um número. Essa prática é bastante comum no JavaScript.
+
+Vamos realizar um teste. Como fizemos anteriormente, invocaremos um console.log() e, dentro dele, solicitaremos a execução da função estudanteReprovou(), fornecendo a notaFinal e as faltas. Dessa forma, podemos inserir qualquer notaFinal e qualquer quantidade de faltas.
+
+Passamos por dois casos: notaFinal 6 e faltas 5, além do segundo caso, que envolve notaFinal 10 e faltas 2.
+
+expressao-funcao.js
+
+```JavaScript
+const estudanteReprovou = function (notaFinal, faltas) {
+  if (notaFinal < 7 && faltas > 4) {
+    return true;
+  } else {
+    return false;
+  }
+}
+console.log(estudanteReprovou(6, 5));
+console.log(estudanteReprovou(10, 2));
+```
+
+Ao executarmos tudo isso com node expressao-funcao.js, as duas informações serão exibidas no console, os dados retornados sendo true e false.
+
+> node expressao-funcao.js
+
+Obtemos:
+
+> true  
+  false
+
+Com base nisso, poderemos empregar essa informação em outras partes do código, a fim de criar uma função que, por exemplo, apresente um texto.
+
+Um aspecto muito importante das funções também é que elas devem ser pequenas e fazer uma coisa só. Então, essa função agora, ao invés de retornar, de criar textos dizendo se a pessoa estudante reprovou ou não, ela apenas faz a verificação. Então, tudo continua funcionando, essa é uma expressão de função.
+
+Observamos que as duas formas operam de maneira relativamente similar. Há alguma diferença? Uma das diferenças principais está relacionada ao arquivo funcoes, onde faremos um teste.
+
+Ao utilizar a função declarada dentro do arquivo funcoes, se reorganizarmos nosso console.log e posicionarmos a chamada da função antes de sua declaração para conduzir um teste, conforme abaixo:
+
+funcoes.js
+
+```JavaScript
+// parâmetros/argumentos
+// retorno
+console.log(exibeInfosEstudante('Caroline', 10));
+console.log(exibeInfosEstudante('Ana', 7));
+
+function exibeInfosEstudante(nome, nota) {
+  return `o nome é ${nome} e a nota é ${nota}`;
+}
+```
+
+Ao executar node funcoes.js no terminal, verificamos que tudo continua funcionando:
+
+> o nome é Caroline e a nota é 10  
+  o nome é Ana e a nota é 7.
+
+Agora, ao retornarmos ao arquivo expressao-funcao e tentarmos realizar o mesmo teste, inserindo o console.log() – ou seja, executando a função antes de sua declaração – ao salvar e conduzir o teste com node expressao-funcao, o terminal nos apresenta um erro indicando que não é possível acessar a função estudanteReprovou() antes da inicialização.
+
+expressao-funcao.js
+
+```JavaScript
+console.log(estudanteReprovou(6, 5));
+console.log(estudanteReprovou(10, 2));
+
+const estudanteReprovou = function (notaFinal, faltas) {
+  if (notaFinal < 7 && faltas > 4) {
+    return true;
+  } else {
+    return false;
+  }
+}
+```
+
+Assim, uma das diferenças entre expressão e declaração fica evidente.
+
+As funções declaradas, aquelas escritas com a palavra-chave function na estrutura já mencionada, possuem um recurso interno que ocorre de maneira imperceptível, um recurso do JavaScript conhecido como hoisting (içamento).
+
+O que faz exatamente isso? Quando o arquivo é carregado, ele é lido pelo JavaScript, as funções declaradas e variáveis criadas com var, elas são puxadas, elas são levantadas para o começo, para o topo do arquivo.
+
+Ou seja, isso faz com que o JavaScript leia essas linhas antes de qualquer coisa. Ou seja, literalmente, quando executamos o console.log(), essa função já foi lida, a função exibirInfosEstudante() já foi indexada, digamos assim, então o JavaScript já sabe o que ela é.
+
+Quando nos referimos a expressão de função, isso já não acontece, o JavaScript só vai saber que a expressão de função existe, que ela está sendo atribuída a uma variável, no momento em que o interpretador passar por essa linha.
+
+Se colocamos a chamada dela antes, no momento em que passa pela linha do console.log(), a função para o interpretador ainda não existe, porque ele ainda não chegou nas linhas abaixo. É isso que causa o erro dizendo que não consegue acessar uma função que está dentro de uma variável antes que ela seja iniciada.
+
+As expressões de função são funções anônimas, o que acontece é que conseguimos chamá-las, porque atribuímos elas, colocamos elas dentro de uma variável, que é uma característica do JavaScript.
+
+Conclusão  
+Ainda há mais sobre funções para explorar, e concluiremos com nosso último tipo de função, as arrow functions (funções de seta).
+
+### Aula 5 - Escrevendo funções
+
+Considere a seguinte função:
+
+```JavaScript
+function calculaProduto(a, b = 2, c = 1) {
+  return a * b * c;
+}
+const resultado1 = calculaProduto(3);
+const resultado2 = calculaProduto(2, 4);
+const resultado3 = calculaProduto(1, 2, 3);
+const resultado4 = calculaProduto(2, undefined, 5);
+
+console.log("Resultado 1:", resultado1);
+console.log("Resultado 2:", resultado2);
+console.log("Resultado 3:", resultado3);
+console.log("Resultado 4:", resultado4);
+```
+
+Neste código, temos uma função calculaProduto que recebe três parâmetros, onde b e c têm valores padrão definidos.
+
+Qual será a saída produzida pelo código acima?
+
+Resposta:  
+Resultado 1: 6  
+Resultado 2: 8  
+Resultado 3: 6  
+Resultado 4: 20
+
+Todas as respostas estão de acordo com as operações feitas no código.
+
+### Aula 5 - Arrow functions - Vídeo 3
+
+Transcrição  
+Vamos para a última forma de escrever funções em JavaScript: a arrow function (função de seta).
+
+Vamos criar um novo arquivo chamado arrow-function.js e copiar nele a função que criamos anteriormente no arquivo expressao-funcao.js.
+
+Primeiramente, vamos alterar a forma como a função é escrita para entender como funciona a arrow function. Ela também é uma expressão de função, então ainda vamos criar uma variável, mas agora não usamos mais a palavra function. Vamos deletá-la, manter os parênteses com os parâmetros (ou argumentos), e entre os parênteses e as chaves que abrem o bloco da função, vamos colocar um = e >, formando o desenho de uma seta para a direita.
+
+arrow-function.js
+
+```JavaScript
+const estudanteReprovou = (notaFinal, faltas) => {
+  if (notaFinal < 7 && faltas > 4) {
+    return true;
+  } else {
+    return false;
+  }
+}
+```
+
+A sintaxe da arrow function é basicamente essa. Podemos testá-la novamente, copiando os dois console.log() do arquivo anterior e colando em arrow-function.js. No terminal, ao executar node arrow-function.js, observamos que a função continua funcionando - o primeiro console.log dá true, estudante reprovado, e o segundo dá false, estudante não foi reprovado.
+
+As arrow functions são mais modernas, surgiram em versões mais recentes do JavaScript e, assim como as expressões de função, elas são funções anônimas e não são "içadas", ou seja, não são movidas para o topo do código. Portanto, não funciona tentar chamá-la antes de declará-la.
+
+Inclusive, no arquivo expressao-funcao.js, vamos devolver os console.log para a parte final do código, senão ele não funcionará.
+
+Além dessa forma que utiliza chaves para abrir e fechar blocos, se uma arrow function tiver apenas uma linha de instrução dentro dela, podemos escrever de uma forma um pouco mais resumida.
+
+Vamos criar outra arrow function chamada const exibeNome, adicionamos = () e passamos dentro dos parâmetros o nome que queremos exibir. Depois adicionamos a seta, =>.
+
+Se tivermos apenas uma linha, por exemplo, para dar um return no nome, podemos escrever apenas nome, suprimindo tanto as chaves quanto a palavra-chave return.
+
+const exibeNome = (nome) => nome;
+Copiar código
+Também podemos fazer da forma convencional, abrindo e fechando chaves e usando a palavra-chave return:
+
+```JavaScript
+const exibeNome = (nome) => {
+    return nome;
+}
+```
+
+O formato mais resumido é muito utilizado para trabalhar com funções dentro de funções, as chamadas callback functions (funções de retorno, que conheceremos melhor em cursos posteriores), e também para funções mais curtas, que realmente só têm uma linha de retorno.
+
+Podemos testá-la com console.log() executando exibeNome(), passando o nome de uma pessoa estudante, por exemplo, 'Caroline'.
+
+> console.log(exibeNome('Caroline'))
+
+No terminal, vamos executar node arrow-function.js novamente. O nome Caroline é exibido perfeitamente!
+
+No entanto, se a sua função tiver mais de uma linha de código, você precisará usar tanto as chaves quanto o return.
+
+**Recapitulando funções**  
+As arrow functions são mais práticas e mais curtas, mas não substituem as outras formas. Alguns usos mais restritos da arrow function não serão abordados neste curso, porque estão relacionados a objetos, o que veremos no curso de objetos.
+
+Também é importante lembrar que elas não podem ser passadas para o topo do arquivo, pois são expressões de função, e que elas são muito utilizadas em callbacks, que também serão abordadas em cursos futuros.
+
+Relembrando: a função é uma parte fundamental das linguagens de programação. É um bloco de código é declarado uma vez, mas pode ser executado quantas vezes for necessário, passando via parâmetro as informações exigidas e desejadas a cada vez.
+
+Utilizamos funções para quebrar partes de código e fazer com que sejam executados apenas no momento necessário.
+
+No JavaScript, o arquivo é carregado de cima para baixo, e se o código não estiver dentro de uma função, ele será executado, quer queiramos ou não. Portanto, a função vai "prender" um código para executá-lo apenas no momento necessário, e também para separar responsabilidades.
+
+Por exemplo, a nossa função estudanteReprovou() faz apenas uma checagem dos estudantes que reprovaram ou não. Qualquer outra tarefa que queiramos executar, como passar uma mensagem para o estudante, exigirá o uso de outra função. As funções trabalham em conjunto, cada uma realizando uma pequena tarefa do código.
+
+Uma função pode ou não receber parâmetros, se necessário, e pode ou não ter retorno, se necessário. Vai depender do que você quer que ela execute.
+
+Já sabemos para que as funções servem e os tipos do JavaScript. Agora vamos praticar bastante com os exercícios propostos nessa aula.
+
+#### Aula 5 - Exercício, Arrow function
+
+Ana criou o seguinte programa:
+
+```JavaScript
+// Função de calculadora simples
+function calculadoraSimples(a, b, operacao) {
+    let resultado;
+    if (operacao === 'soma') {
+        resultado = a + b;
+    } else if (operacao === 'subtracao') {
+        resultado = a - b;
+    } else if (operacao === 'multiplicacao') {
+        resultado = a * b;
+    } else if (operacao === 'divisao') {
+        resultado = a / b;
+    } else {
+        resultado = 'Operação não reconhecida';
+    }
+    return resultado;
+};
+```
+
+Após aprender sobre arrow function, Ana decidiu refatorar o código criado e implementar o que aprendeu no último vídeo.
+
+Como a calculadora de Ana vai ficar?
+
+Resposta:
+
+```JavaScript
+const calculadoraSimples = (a, b, operacao) => {
+    if (operacao === 'soma') {
+        return a + b;
+    } else if (operacao === 'subtracao') {
+        return a - b;
+    } else if (operacao === 'multiplicacao') {
+        return a * b;
+    } else if (operacao === 'divisao') {
+        return a / b;
+    } else {
+        return 'Operação não reconhecida';
+    }
+};
+```
+
+Essa implementação segue a estrutura esperada de uma arrow function, mantendo a simplicidade e clareza na definição das operações matemáticas.
+
+### Aula 5 - Lista de exercícios
+
+Programação é prática! Criamos mais uma lista de atividades (não obrigatórias) para você exercitar e reforçar ainda mais seu aprendizado. Bora praticar?
+
+1. Crie uma função que receba o nome de uma pessoa como argumento e retorne uma saudação personalizada. Em seguida, chame a função e exiba a saudação no console.
+
+2. Crie uma função que receba a idade de uma pessoa e retorne se ela é maior de idade (idade >= 18). Imprima o resultado no console.
+
+3. Crie uma função que receba uma string e verifique se é um palíndromo (uma palavra que é lida da mesma forma de trás para frente) utilizando o método de string reverse(). Retorne true se for um palíndromo e false caso contrário. Imprima o resultado no console.
+
+4. Crie uma função que receba três números como parâmetros e determine qual é o maior entre eles. Utilize estruturas condicionais (if, else) para comparar os valores e determinar o maior. Imprima o maior valor no console.
+
+5. Crie uma arrow function chamada calculaPotencia que receba dois parâmetros: a base e o expoente. A função deve calcular a potência da base elevada ao expoente e retornar o resultado.
+
+Caso precise de ajuda, opções de solução das atividades estarão disponíveis na seção “Opinião”.
+
+Para te ajudar a verificar seus códigos,está disponível uma possível resolução dos desafios [neste link](https://github.com/alura-cursos/3513-JS-fundamentos1/tree/exercicios-aula5) para você construir ou validar suas soluções.
+
+### Aula 5 - Referências
+
+[Techguide: Node.js](https://techguide.sh/pt-BR/path/nodejs/)
+> Guia com referência de temas e ferramentas para auxiliar na sua trilha de estudos
+
+[Guia de JavaScript](https://www.alura.com.br/artigos/javascript): o que é e como aprender a linguagem mais popular do mundo?
+> Artigo detalhado sobre a linguagem, do básico a paradigmas de programação.
+
+Livro: [Primeiros passos com Node.js](https://www.casadocodigo.com.br/products/livro-primeiros-passos-node) (pago)
+> Pratique JavaScript com foco em Node.js do básico até as primeiras aplicações.
+
+Livro: [JavaScript, the definitive guide](https://www.oreilly.com/library/view/javascript-the-definitive/9781491952016/) (pago, disponível em português)
+> Principal guia de referência técnica em JavaScript, aborda as especificações da linguagem em sua totalidade.
+
+### Aula 5 - O que aprendemos?
+
+Nessa aula, você aprendeu a:  
+
+- Declarar e executar corretamente uma função para realizar tarefas;
+- Utilizar uma expressão de função para tornar o código mais dinâmico e funcional;
+- Trabalhar com arrow functions para criar funções mais curtas e em casos que precisamos chamar uma função dentro de outra.
+
+### Aula 5 - Conclusão - Vídeo 4
+
+Transcrição  
+Parabéns por ter concluído este curso de Fundamentos do JavaScript para Back-end.
+
+O que aprendemos?  
+Durante o curso, compreendemos o que é o Node.js, nossa ferramenta de execução do JavaScript. Praticamos com elementos fundamentais da linguagem, como variáveis, funções, tipos de dados e operadores. Também exploramos algumas características específicas do JavaScript relacionadas a esses fundamentos.
+
+Deixe seu comentário sobre o curso  
+Não se esqueça de avaliar o curso, deixe seu feedback, explique o que podemos melhorar e o que apreciou. Caso ainda não tenha feito os exercícios ou revisado todo o material extra disponível, retorne, faça uma pausa agora e realize essa tarefa. Há muito conteúdo extra que complementa os vídeos, todos preparados com muita dedicação e atenção para você.
+
+Compartilhe e tire dúvidas  
+O fórum e o Discord estão abertos e disponíveis, aguardando para tirar suas dúvidas, possibilitar que conheça a comunidade e compartilhe o que tem criado com nossos conteúdos de curso.
