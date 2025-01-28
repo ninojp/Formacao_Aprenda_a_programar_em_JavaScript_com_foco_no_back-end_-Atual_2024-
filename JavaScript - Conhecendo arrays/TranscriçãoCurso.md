@@ -530,10 +530,582 @@ Nessa aula, você aprendeu:
 
 ## Aula 2 - Alterando Arrays
 
-### Aula 2 -  - Vídeo 1
-### Aula 2 -  - Vídeo 2
-### Aula 2 -  - Vídeo 3
-### Aula 2 -  - Vídeo 4
-### Aula 2 -  - Vídeo 5
-### Aula 2 -  - Vídeo 6
-### Aula 2 -  - Vídeo 7
+### Aula 2 - Dividindo com slice() - Vídeo 1
+
+Transcrição  
+Partindo para o próximo desafio, temos uma lista de estudantes e precisamos dividir essa lista em duas, com a mesma quantidade de estudantes.
+
+Desafio: dividindo salas  
+Divida os alunos da sala abaixo em duas listas com a mesma quantidade de estudantes:
+
+```JavaScript
+'João', 'Juliana', 'Ana', 'Caio', 'Lara', 'Marjorie', 'Guilherme', 'Aline', 'Fabiana', 'André', 'Carlos', 'Paulo', 'Bia', 'Vivian', 'Isabela', 'Vinícius', 'Renan', 'Renata', 'Daisy', 'Camilo'
+```
+
+Na tela, está mostrando uma lista com diversos nomes. Podemos copiar do GitHub para evitar digitar ou criar seus próprios nomes.
+
+Criamos no Visual Studio Code um arquivo chamado dividir-array.js, com uma constante chamada listaEstudantes e dentro dessa variável, criamos o array com o nome de cada estudante.
+
+dividir-array.js
+
+```JavaScript
+const listaEstudantes = ['João', 'Juliana', 'Ana', 'Caio', 'Lara', 'Marjorie', 'Guilherme', 'Aline', 'Fabiana', 'André', 'Carlos', 'Paulo', 'Bia', 'Vivian', 'Isabela', 'Vinícius', 'Renan', 'Renata', 'Daisy', 'Camilo'];
+```
+
+Lembrando que, por serem strings (cadeias de caracteres), sempre devem estar entre aspas duplas ou simples.
+
+Como dividimos esse array em dois arrays com a mesma quantidade de elementos, sem ter que contar manualmente a quantidade de elementos em cada um? A primeira coisa que faremos é criar uma constante que chamaremos de sala1. O valor dessa constante será nosso array cortado pela metade.
+
+Para isso, temos um método do JavaScript chamado slice(), que fará esse trabalho para nós. Passamos a listaEstudantes.slice().
+
+dividir-array.js
+
+```JavaScript
+const listaEstudantes = ['João', 'Juliana', 'Ana', 'Caio', 'Lara', 'Marjorie', 'Guilherme', 'Aline', 'Fabiana', 'André', 'Carlos', 'Paulo', 'Bia', 'Vivian', 'Isabela', 'Vinícius', 'Renan', 'Renata', 'Daisy', 'Camilo'];
+
+const sala1 = listaEstudantes.slice()
+```
+
+A função slice(), como qualquer função que utilizamos, seja ela criada por nós ou prontas no JavaScript, requer parâmetros e precisamos entender quais são eles. É importante sempre entender quais são os parâmetros que cada função precisa receber ao programar.
+
+Deixaremos novamente o link da documentação do Array.prototype.slice() .
+
+Na documentação, sempre dirá quais são os parâmetros a serem fornecidos. O MDN, onde estamos procurando a documentação, informará na seção "Sintaxe" que slice precisa de um parâmetro, que é o início do array onde queremos fazer o corte, e o final é opcional.
+
+Exemplo retirado da documentação:
+
+> arr.slice([início[,fim]])
+
+A sintaxe da função slice, diz que ela precisa de parâmetros, um que está sendo chamado de início, que é opcional, e o final também é opcional. O início é onde desejamos que comece o corte. Com base nisso, faremos uns testes com slice e pensar em como pegar o meio de um array.
+
+Sabemos que para termos acesso ao comprimento de um array, usamos uma propriedade chamada length.
+
+Então, listaEstudantes.slice(listaEstudantes.length), retornará a quantidade de elementos. Se queremos metade dessa lista, seria metade dos elementos. O que podemos fazer? ListaEstudantes.length é um número e podemos dividir esse número por dois. Então, listaEstudantes.length/2.
+
+No entanto, o valor desejado para o término da nossa primeira lista é aquele em que ela começa no primeiro estudante e se encerra na metade do array. O slice, nosso primeiro parâmetro, deve ser configurado considerando que os parâmetros são sempre ordenados, sendo o início o primeiro deles. Portanto, o índice inicial é 0, e o índice final é listaEstudantes.length dividido por dois.
+
+dividir-array.js
+
+```JavaScript
+const listaEstudantes = ['João', 'Juliana', 'Ana', 'Caio', 'Lara', 'Marjorie', 'Guilherme', 'Aline', 'Fabiana', 'André', 'Carlos', 'Paulo', 'Bia', 'Vivian', 'Isabela', 'Vinícius', 'Renan', 'Renata', 'Daisy', 'Camilo'];
+
+const sala1 = listaEstudantes.slice(0, listaEstudantes.length/2);
+```
+
+Se voltarmos à documentação, estará exatamente de acordo com o que o método slice() espera receber, um parâmetro de início e um parâmetro de fim. Para fazer o restante da lista criaremos uma constante, sala2, igual, listaEstudantes.slice().
+
+Utilizaremos outra opção do método slice(), passando apenas um parâmetro, o parâmetro de início, indicando o ponto de corte do meio para o final. Se passarmos apenas um parâmetro para o slice, como listaEstudantes.length/2, especificamos somente o ponto inicial do corte.
+
+dividir-array.js
+
+```JavaScript
+const listaEstudantes = ['João', 'Juliana', 'Ana', 'Caio', 'Lara', 'Marjorie', 'Guilherme', 'Aline', 'Fabiana', 'André', 'Carlos', 'Paulo', 'Bia', 'Vivian', 'Isabela', 'Vinícius', 'Renan', 'Renata', 'Daisy', 'Camilo'];
+
+const sala1 = listaEstudantes.slice(0, listaEstudantes.length/2);
+const sala2 = listaEstudantes.slice(listaEstudantes.length/2);
+```
+
+A partir disso, o JavaScript entende que é desse ponto para o final e não precisamos passar o parâmetro do final.
+
+Vamos testar tudo isso para verificar se está funcionando. Para isso, chamaremos o console.log(), o primeiro com sala1 e o segundo console, copiamos e colamos, mostrando o sala2.
+
+dividir-array.js
+
+```JavaScript
+const listaEstudantes = ['João', 'Juliana', 'Ana', 'Caio', 'Lara', 'Marjorie', 'Guilherme', 'Aline', 'Fabiana', 'André', 'Carlos', 'Paulo', 'Bia', 'Vivian', 'Isabela', 'Vinícius', 'Renan', 'Renata', 'Daisy', 'Camilo'];
+
+const sala1 = listaEstudantes.slice(0, listaEstudantes.length/2);
+const sala2 = listaEstudantes.slice(listaEstudantes.length/2);
+
+console.log(sala1);
+console.log(sala2);
+```
+
+Voltaremos no terminal, pediremos para o Node executar o arquivo dividir-array:
+
+> node dividir-array.js
+
+No terminal, obtemos dois arrays:
+
+```JavaScript
+[
+'João',
+'Ana',
+'Juliana',
+'Caio',
+'Lara',
+'Marjorie',
+'Guilherme',
+'Aline',
+'Fabiana',
+'André'
+]
+[
+'Carlos',
+'Paulo',
+'Bia',
+'Vivian',
+'Isabela',
+'Renan',
+'Daisy',
+'Vinícius',
+'Renata',
+'Camilo'
+```
+
+O primeiro começando em João, que é o primeiro índice do array, e indo até André, que é a metade. Não vamos contar, mas é a metade do array, é um array de 20 elementos, então, teremos 10 em cada um. O segundo array começa em Carlos e vai até Camilo.
+
+Porém, há dois detalhes que gostaríamos de destacar. Se passamos o final, listaEstudantes.length/2, e passamos o começo da outra lista também, .length/2, não teria que ter um valor repetido, que é o valor do meio?
+
+Isso ocorre porque, quando temos um parâmetro de fim, o elemento exato do fim do array não é incluído. No entanto, quando passamos apenas o começo, o índice do começo é incluído.
+
+O índice 10, que é a metade do nosso array, não foi incluído na primeira listagem, paramos no índice 9. Ou seja, isso está inclusive na documentação, que quando criamos um sub-array entre as posições início e fim, o fim não é incluído.
+
+Então, passamos o índice 10 para incluir até o índice 9, do índice 0 ao índice 9. Ao contrário do parâmetro de início, que é a partir do início, então a lista seguinte começa no índice 10. Assim, temos uma lista terminando no índice 9 e outra lista começando no índice 10.
+
+Outro ponto importante, mencionamos anteriormente que alguns métodos de array alteram o próprio array e outros geram um novo array que precisamos, por exemplo, salvar uma variável. Por isso, que salvamos nossos resultados em sala1 com parte do array e sala2 com o restante do array.
+
+Deixaremos o link da documentação, pratique bastante com os exemplos e continuaremos com nossos desafios!
+
+### Aula 2 - Alterando com splice() - Vídeo 2
+
+Transcrição  
+Seguindo com nossos desafios, agora temos que atualizar uma lista.
+
+Desafio: atualizando listas  
+> 'João', 'Ana', 'Caio', 'Lara', 'Marjorie', 'Leo'
+
+Porém, Ana e Caio mudaram de escola e o Rodrigo entrou nessa sala. Atualize a lista.
+
+Teremos uma lista de chamadas com seis estudantes. No entanto, Ana e Caio, que são duas pessoas estudantes, mudaram de escola e Rodrigo entrou nessa sala no lugar delas. Ou seja, agora temos que manipular uma lista, um array.
+
+Vamos ao Visual Studio Code criar um novo arquivo que chamaremos de atualizar-lista.js. Para isso, clicamos no primeiro ícone do lado superior esquerdo. Criaremos nossa constante listaEstudantes, com os nomes: João, Ana, Caio, Lara, Marjorie e Léo.
+
+atualizar-lista.js
+
+> const listaEstudantes = ['João', 'Ana', 'Caio', 'Lara', 'Marjorie', 'Leo'];
+
+Temos duas alterações a fazer: retirar itens desse array e adicionar itens nesse array.
+
+Excluindo Ana e Caio da lista
+O JavaScript possui um método para fazer esse tipo de alteração: splice().
+
+Array.prototype.splice()
+
+Da mesma forma que conversamos sobre parâmetros de função quando trabalhamos com slice(), o método splice() também vai poder receber uma quantidade de parâmetros. Portanto, índice, se algum elemento será excluído, se algum elemento será adicionado, precisamos passar esses parâmetros em ordem para tudo funcionar.
+
+No caso, escrevemos listaEstudantes.splice(1, 2). O Visual Studio Code já está dando uma dica dos parâmetros que o splice() aceita. O primeiro parâmetro é o start (início), que é um número, e o deleteCount, ou seja, quantos elementos serão excluídos a partir do início.
+
+Os estudantes a serem excluídos são Ana e Caio, localizados nos índices 1 e 2. Estamos transmitindo para o splice o primeiro parâmetro, o ponto inicial do nosso processo. Iniciaremos o processo a partir do índice 1, incluindo. Isso é muito importante, como aprendemos anteriormente: neste caso, incluímos o índice 1.
+
+O segundo parâmetro é a quantidade de itens que serão excluídos: no caso, dois elementos. Portanto, dois elementos excluídos a partir do índice 1 são Ana e Caio, índice 1 e índice 2. Não confunda esse número 2 do listaEstudantes(1, 2). Ele se refere à quantidade de elementos, não a uma posição no array.
+
+Vamos fazer um teste para verificar o que aconteceu.
+
+Digitamos console.log(listaEstudantes). Se estamos pedindo um console.log direto em listaEstudantes, podemos concluir que splice() é um método que altera o próprio array.
+
+atualizar-lista.js
+
+```JavaScript
+const listaEstudantes = ['João', 'Ana', 'Caio', 'Lara', 'Marjorie', 'Leo'];
+
+listaEstudantes.splice(1, 2);
+
+console.log(listaEstudantes);
+```
+
+Lembrando dessa diferença quando um método altera o próprio array e quando temos que criar um novo array e salvar em uma variável.
+
+Vamos testar para verificar se está tudo funcionando. No terminal, rodamos:
+
+> node atualizar-lista.js
+
+Obtemos:
+
+> [ 'João', 'Lara', 'Marjorie', 'Leo' ]
+
+A primeira parte do nosso desafio já está resolvida, porque excluiu Ana e Caio. Agora, nossa lista só tem João, Lara, Marjorie e Léo.
+
+Adicionando o Rodrigo à lista  
+Agora temos a segunda parte: adicionar Rodrigo, que entrou no lugar de Ana e Caio. Poderíamos utilizar o push, que já usamos anteriormente. Então, poderíamos fazer listaEstudantes.push('Rodrigo').
+
+No entanto, o splice() já junta esses dois métodos. Ele reúne a possibilidade de excluir elementos específicos, não apenas do final, e também adicionar elementos em um lugar específico.
+
+Portanto, comentamos o push() e, voltando ao splice(), temos 1, onde começa a alteração, 2, quantidade de itens a serem removidos, e o terceiro parâmetro que vamos trabalhar, que é o elemento que será incluído nesse local.
+
+atualizar-lista.js
+
+```JavaScript
+const listaEstudantes = ['João', 'Ana', 'Caio', 'Lara', 'Marjorie', 'Leo'];
+
+listaEstudantes.splice(1, 2, 'Rodrigo');
+// listaEstudantes.push('Rodrigo');
+
+console.log(listaEstudantes);
+```
+
+Se testarmos novamente, agora visualizamos que no lugar de Ana e Caio entrou Rodrigo:
+
+> [ 'João', 'Rodrigo', 'Lara', 'Marjorie', 'Leo' ]
+
+Observe que o splice, assim como vários métodos de array, tem uma quantidade de opções que podemos usar, de parâmetros, e utilizamos ou não utilizamos esses parâmetros de acordo com a necessidade.
+
+Recomendamos a leitura da documentação, que deixaremos o link, ela está em português, e testar todas as possibilidades do splice().
+
+### Aula 2 - Concatenando arrays - Vídeo 3
+
+Transcrição  
+Nosso próximo desafio é unificar salas.
+
+Haverá uma palestra sobre padrões de projetos para as salas de JavaScript e Python
+
+Junte ambas as salas em uma única lista que exiba todas as estudantes.
+
+> Sala JS: 'Evaldo', 'Camis', 'Mari'  
+  Sala Python: 'Ju', 'Leo', 'Raquel'
+
+Haverá uma palestra sobre padrões de projeto para salas de JavaScript e Python. Nós precisamos unir ambas as salas em uma única lista que exiba todas as pessoas estudantes.
+
+Neste caso, já criamos um arquivo chamado juntar-salas.js e também criamos dois arrays com as duas salas.
+
+juntar-salas.js
+
+```JavaScript
+const salaJS = ['Evaldo', 'Camis', 'Mari'];
+const salaPython = ['Ju', 'Leo', 'Raquel'];
+```
+
+Temos salaJS com Evaldo, Cubs e Mari no nosso array, três strings, e salaPython com Ju, Léo e Raquel, outro array de strings.
+
+Vamos trabalhar com métodos do JavaScript para resolver os nossos problemas. Nesse caso, podemos usar um método chamado concat. Como seria então?
+
+Criamos uma constante, const salasUnificadas, e nesse caso, vamos concatenar, concat é de concatenar, ou seja, vamos unir duas coisas. Por exemplo, juntar salaJS.concat() e passar como parâmetro do método concat() o que queremos unir com esse array. Então, desejamos unir salaPython.
+
+Podemos testar agora com console.log(salasUnificadas) e verificar se deu tudo certo.
+
+juntar-salas.js
+
+```JavaScript
+const salaJS = ['Evaldo', 'Camis', 'Mari'];
+const salaPython = ['Ju', 'Leo', 'Raquel'];
+
+const salasUnificadas = salaJS.concat(salaPython);
+console.log(salasUnificadas);
+```
+
+No terminal, executamos node juntar-salas.js:
+
+> node juntar-salas.js
+
+Obtemos:
+
+> [ 'Evaldo', 'Camis', 'Mari', 'Ju', 'Leo', 'Raquel' ]
+
+Obtemos um array com todas as pessoas, sendo que, primeiro, temos Evaldo, Camis e Mari, que é o array onde solicitamos a concatenação, e, em seguida, os elementos do segundo array, que foi o array que passamos por parâmetro para o concat.
+
+Concatenar é um termo comum em programação, ele é usado em diversos contextos. Aqui, estamos usando, literalmente, para unir coisas.
+
+Vamos passar o [link da documentação do MDN](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/concat) sobre o concat. No primeiro parágrafo da documentação, já nos avisa que este método não altera os arrays existentes; mas, em vez disso, retorna um novo array.
+
+Isso reforça a questão de entender qual é o retorno, o que o método vai fazer com o nosso array original, se ele vai alterar ou se precisamos salvar em uma nova variável o resultado do método, como fizemos, salvando em salasUnificadas.
+
+Se quiser testar invertendo, passando salaPython.conca(salaJS), o resultado será o inverso. Primeiro, os elementos da sala de Python e, em seguida, os elementos da sala de JavaScript. Nesse caso, não fez muita diferença.
+
+### Aula 2 - Array de duas dimensões - Vídeo 4
+
+Transcrição  
+Para o nosso próximo desafio, precisamos criar uma lista de listas.
+
+Crie uma lista com os seguintes nomes de estudantes:  
+> 'João', 'Juliana', 'Caio', 'Ana'
+
+Crie uma lista com as seguintes médias:  
+> 10, 8, 7.5, 9
+
+Crie uma lista que contém as duas listas acima.
+
+Teremos uma lista com alguns nomes de estudantes, como João, Juliana, Caio e Ana; e uma lista com as médias desses estudantes, 10, 8, 7.5 e 9. O que precisamos fazer é criar uma lista que contenha dentro dela essas duas listas.
+
+Você pode estar pensando, "agora é só usar o concat()". Na verdade, vai ser um pouco diferente.
+
+No Visual Studio Code, já criamos um arquivo, chamado array-de-arrays, e já criamos os nossos dois arrays, as duas listas com as quais vamos trabalhar. Uma chamada alunos, com os nomes dos estudantes, e outra chamada medias, com as médias de cada pessoa.
+
+array-de-arrays.js
+
+```JavaScript
+const alunos = ['João', 'Juliana', 'Caio', 'Ana'];
+const medias = [10, 8, 7.5, 9];
+```
+
+Para criar um array e colocar elementos dentro dele, criamos uma nova constante, que chamaremos de lista. Abrimos os colchetes, e dentro desses colchetes, colocamos dois elementos. O primeiro será alunos, e o segundo será medias.
+
+Fazendo isso, estamos criando um array. Abrimos e fechamos colchetes, e dentro deste array, já estamos colocando o valor da variável alunos e o valor da variável medias.
+
+Na prática, isso significa que o valor da variável alunos é um array, logo, ele entra como o primeiro índice. Lembrando que mencionamos anteriormente que podemos colocar um array dentro de um array, da mesma forma que podemos colocar uma string, um número, um objeto, etc.
+
+O Medias também é um array, então, este array inteiro entra como o segundo elemento do array lista que estamos criando neste momento. Para conferir isso, passamos o console.log(lista).
+
+array-de-arrays.js
+
+```JavaScript
+const alunos = ['João', 'Juliana', 'Caio', 'Ana'];
+const medias = [10, 8, 7.5, 9];
+
+const lista = [alunos, medias];
+
+console.log(lista);
+```
+
+No terminal, executamos:
+
+> node array-de-arrays.js
+
+Obtemos:
+
+> [['João', 'Juliana', 'Caio', 'Ana' ], [ 10, 8, 7.5, 9 ]]
+
+Agora, o terminal exibe um único array contendo dentro dele dois elementos. No índice zero, todo o array de nomes, e no segundo elemento, todo o array de notas. É muito importante que nos acostumemos a identificar a sintaxe e consigamos observar dentro do array onde os índices começam e terminam, separados por vírgula.
+
+Como acessamos os valores de cada um desses arrays? Suponhamos que desejamos exibir no console a estudante Juliana e a nota dela, que é 8. Lembrando que o array tem posições fixas, então João tem nota 10, Juliana tem nota 8, etc.
+
+Vamos examinar como podemos fazer isso. Dentro do console.log(), criamos, com o template string (modelo de texto), um texto para concatenar algumas informações.
+
+Abriremos dentro do console.log() com crase, passaremos um texto: "A aluna da posição 1 da lista é: ${}", o cifrão e as chaves são para passar um dado variável, e passaremos lista, que é o nosso array de arrays. Como acessamos Juliana e o 8? Primeiro, vamos fazer lista[0][1].
+
+array-de-arrays.js
+
+const alunos = ['João', 'Juliana', 'Caio', 'Ana'];
+const medias = [10, 8, 7.5, 9];
+
+const lista = [alunos, medias];
+
+console.log(
+`a aluna da posição 1 da lista é: ${lista[0][1]}`
+);
+Copiar código
+Vamos testar para ver se está tudo certo. Obtemos:
+
+a aluna da posição 1 da lista é: Juliana
+
+E se quiséssemos, além disso, pegar também a nota da Juliana? Dentro do template string, quebramos a linha. Quando utilizamos template string, conseguimos dar "enter" e quebrar linhas, o que não conseguimos quando utilizamos aspas em strings.
+
+Adicionamos mais um texto, "A nota dessa estudante é:", e como pegamos a nota, então? Para capturar a nota, usamos cifrão e chaves, chamaremos nossa variável lista; e passaremos lista[1][1].
+
+array-de-arrays.js
+
+const alunos = ['João', 'Juliana', 'Caio', 'Ana'];
+const medias = [10, 8, 7.5, 9];
+
+const lista = [alunos, medias];
+
+console.log(
+`a aluna da posição 1 da lista é: ${lista[0][1]}.
+a nota dessa aluna é ${lista[1][1]}`
+);
+Copiar código
+Vamos testar e entender o que fizemos. Rodamos novamente o comando node array-de-arrays.js no terminal.
+
+Obtemos como retorno:
+
+a aluna da posição 1 da lista é: Juliana.
+
+a nota dessa aluna é 8
+
+Tudo está funcionando, mas o que está acontecendo aqui? O que são essas sequências de colchetes que inserimos no código? Desejamos pegar, primeiro, o nome da Juliana. O nome da Juliana está dentro da lista alunos.
+
+Se observarmos o array inteiro, ele tem dois elementos. Se são strings, se são números, se são arrays, não importa, o que importa é que um array está na posição 0 e um array está na posição 1.
+
+O array alunos está na posição 0. Então, para o JavaScript acessar esse elemento, é como fizemos anteriormente, acessamos a lista na posição 0. Só que agora desejamos acessar um índice que está dentro do array de alunos.
+
+E podemos passar para o JavaScript: entre no array de posição 0 e dentro dele acesse um elemento específico. Portanto, dentro do array de alunos, que está na posição 0, acessamos o elemento que está na posição 1, Juliana.
+
+Se pedíssemos lista apenas na posição 0 através do console.log()? Vamos colocar isso no código e testar.
+
+array-de-arrays.js
+
+const alunos = ['João', 'Juliana', 'Caio', 'Ana'];
+const medias = [10, 8, 7.5, 9];
+
+const lista = [alunos, medias];
+
+console.log(
+`a aluna da posição 1 da lista é: ${lista[0][1]}.
+a nota dessa aluna é ${lista[1][1]}`
+);
+
+console.log(lista[0]);
+Copiar código
+Temos como retorno o array completo conforme estávamos trabalhando anteriormente, mas com números e strings. Mas é a mesma lógica: um array inteiro está no índice 0 e outro no índice 1.
+
+[ 'João', 'Juliana', 'Caio', 'Ana' ]
+
+Para que usamos arrays de arrays em programas? Por exemplo, para fazer operações matemáticas que envolvem matrizes, para também organizar dados de forma lógica em linhas e colunas, podemos acessar a posição 0 na linha 1, posição 2 na linha 4.
+
+Você pode também fazer esses testes com outros arrays de arrays, e também para representar grids (grades), por exemplo, se quiser fazer um jogo da velha, consegue representar grids usando arrays de arrays.
+
+Conseguimos fazer um array de arrays e acessar os dados dentro deles, vamos continuar então com os nossos desafios.
+
+### Aula 2 - Para saber mais: matrizes
+
+Durante a aula vimos as listas com duas dimensões, ou seja, arrays que contêm arrays, podendo ter um único array ou vários dentro do principal. Como no exemplo a seguir:
+
+```JavaScript
+const nomes = ["Ana", "Juliana", "Leonardo"];
+const idades = [30, 35, 28];
+const faculdade = [false, true, true];
+ 
+const funcionarios = [nomes, idades, faculdade];
+```
+
+O array funcionarios é um array de duas dimensões. Há 3 arrays dentro dele, e para acessar os valores em funcionarios precisamos de 2 colchetes “[ ] [ ]”. O primeiro colchete será usado para escolher qual dos 3 arrays dentro de funcionarios será acessado, podendo ser:
+
+0 -> nomes
+1 -> idades
+2 -> faculdade
+O segundo colchete será usado para acessar a informação dentro do array escolhido.
+
+Outra forma de chamar os arrays de 2 dimensões é matrizes. Matrizes podem ser visualizadas como uma tabela do Excel, em que cada campo representa um elemento, e precisamos de uma linha e uma coluna para acessar um campo. Então, as linhas são o primeiro colchete e a coluna o segundo colchete.
+
+Arrays têm seu principal uso quando temos uma grande quantidade de informações com propósitos similares, como as notas de um aluno. Matrizes, por sua vez, são utilizadas quando precisamos de vários arrays similares ou com informações ligadas às outras, como as notas de uma classe com vários alunos.
+
+Uma outra forma comum de trabalharmos com várias informações semelhantes é utilizando objetos.
+
+As matrizes não são limitadas a 2 dimensões, podendo ter mais dimensões, de modo que cada dimensão é representada por um colchete. Porém, tome cuidado para não se perder dentro delas, já que se uma matriz passa a ter, por exemplo, 4 ou 5 dimensões, se torna bem difícil saber exatamente o que está sendo acessado e começamos a ter problemas para fazer a manutenção do código.
+
+### Aula 2 - Faça como eu fiz: concatenando arrays e dados
+
+Durante a aula usamos o método concat() para unir (concatenar) arrays gerando um novo array com o resultado da concatenação. Neste caso, o método funcionou da seguinte forma:
+
+> array1.concat(array2)
+
+Logo, o método foi utilizado com um array (no caso acima, array1) e recebeu como parâmetro outro array (array2). O resultado foi um novo array com todos os elementos de array1 e array2; isso acontece pois, quando o concat() recebe um array como parâmetro, apenas os elementos dentro dele que são concatenados, e não o array em si.
+
+E se tentarmos usar esse método passando como parâmetro outro tipo de dado, que não seja array? Tente fazer isso a partir do que você aprendeu ao longo da aula.
+
+Boa prática!
+
+Ver opinião do instrutor
+
+Abra um arquivo index.js em seu computador e execute o seguinte código:
+
+```JavaScript
+const arrayOriginal = ["Maria", "Carlos", "Eduardo", "Samanta"]
+const arrayConcat = arrayOriginal.concat("André", "Fernanda")
+ 
+console.log(arrayConcat)
+console.log(arrayOriginal)
+```
+
+O resultado deve ser:
+
+```JavaScript
+[ 'Maria', 'Carlos', 'Eduardo', 'Samanta', 'André', 'Fernanda' ]
+[ 'Maria', 'Carlos', 'Eduardo', 'Samanta' ]
+```
+
+Com o exemplo acima, vemos que o JavaScript concatena o array principal e as strings de texto passadas como parâmetro para criar outro array, mantendo o original sem alterações.
+
+Vamos fazer um novo teste, mas passando mais de um array como parâmetro.
+
+```JavaScript
+const arrayOriginal = ["Maria", "Carlos", "Eduardo", "Samanta"]
+const arrayConcat = arrayOriginal.concat(["André", "Fernanda"], ["Ricardo", "Ana"], ["Marcelo", "Bia"])
+ 
+console.log(arrayConcat)
+console.log(arrayOriginal)
+```
+
+O resultado é:
+
+```JavaScript
+[ 'Maria', 'Carlos', 'Eduardo', 'Samanta', 'André', 'Fernanda', 'Ricardo', 'Ana', 'Marcelo', 'Bia' ]
+[ 'Maria', 'Carlos', 'Eduardo', 'Samanta' ]
+```
+
+Podemos passar mais de um array como parâmetro para que seus elementos sejam concatenados em um único array, junto com o que está sendo chamado com o método no caso, arrayOriginal.
+
+Como um último teste, vamos ver o que acontece se um dos parâmetros for um array com dois elementos, um número e um array:
+
+```JavaScript
+const arrayOriginal = [50, 60, 70]
+const arrayConcat = arrayOriginal.concat([80, [90, 100]])
+ 
+console.log(arrayConcat)
+console.log(arrayOriginal)
+```
+
+O resultado no terminal agora é:
+
+```JavaScript
+[ 50, 60, 70, 80, [ 90, 100 ] ]
+[ 50, 60, 70 ]
+```
+
+Vimos anteriormente que, quando recebe um array como parâmetro, concat() vai concatenar apenas os elementos. Porém, este método não extrai os elementos do array de forma recursiva; ou seja, não vai extrair os elementos de arrays que estejam “aninhados”. Dessa forma, 80 foi extraído do array com sucesso, porém 90 e 100 não, o método considerou [90, 100] como um único elemento.
+
+concat() é um método útil quando não se deseja alterar o array original, e sim fazer uma cópia alterada. Caso isso não seja necessário, considere utilizar push() ou splice() para inserir novos elementos ou fazer alterações no array original.
+
+Continue com os seus estudos, e se houver dúvidas, não hesite em recorrer ao nosso fórum!
+
+### Aula 2 - Para saber mais: links da aula
+
+Confira abaixo a lista de links utilizados durante a aula e/ou links complementares ao conteúdo:
+
+- Documentação do MDN: [array.slice()](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/slice);
+- Documentação do MDN: [array.splice()](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/splice);
+- Documentação do MDN: [array.concat()](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/concat).
+
+### Aula 2 - Desafio: exercícios
+
+Dominar o uso de arrays é fundamental em programação e uma base essencial na manipulação de dados. Praticar regularmente é a chave para se tornar mais confiante!
+
+Para isso criamos uma lista de exercícios que não apenas ajudam a explorar os métodos de manipulação de arrays, mas também vão te preparar para lidar eficientemente com dados em aplicações reais.
+
+1. Crie uma função que receba dois arrays e os concatene em um único array.
+
+2. Crie um array chamado numeros contendo números de 1 a 10. Utilize o método slice para criar um novo array chamado parteNumeros que contenha apenas os números de índice 3 a 7 de numeros.
+
+3. Dado o array frutas contendo frutas que desejamos comprar na feira:
+
+const frutas = ['Maçã', 'Banana', 'Laranja', 'Limão', 'Abacaxi']
+
+Utilize o método splice para remover as frutas no índice 2 e 3 e, em seguida, adicione as frutas 'Kiwi' e 'Pêssego' nesses mesmos índices.
+
+4. Crie dois arrays chamados menuPrincipal e menuDeSobremesas contendo opções do cardápio de um restaurante. Utilize o método concat para criar um novo array menuCompleto contendo todos os elementos de menuPrincipal seguidos pelos elementos de menuDeSobremesas.
+
+5. Crie uma lista bidimensional com 3 linhas e 3 colunas, onde cada elemento seja uma matriz 3x3 com valores iniciando em 1 e aumentando em 1 a cada elemento.
+
+Dicas:
+
+comece com um array vazio, por exemplo const matriz = [] e adicione valores nele com push;
+você pode resolver usando um for dentro de outro for.
+6. Acesse e imprima o elemento na segunda linha e terceira coluna da lista bidimensional matriz criada no exercício anterior.
+
+7. Adicione um novo elemento (por exemplo,15) na terceira linha e segunda coluna da lista bidimensional matriz criada anteriormente.
+
+Caso precise de ajuda, opções de solução das atividades estarão disponíveis na seção “Opinião”.
+
+Opinião do instrutor
+
+Disponibilizamos uma possível resolução dos desafios [neste link](https://github.com/alura-cursos/3530-js-arrays/tree/exercicios-aula2) para você construir ou validar suas soluções.
+
+### Aula 2 - O que aprendemos?
+
+Nessa aula, você aprendeu como:
+
+- Separar um array em partes com slice():
+  - Utilizamos para obter dois novos arrays a partir de um.
+- Remover e incluir novos elementos em um array com splice():
+  - Esse método permite remover elementos de qualquer posição do array. Além disso, podemos incluir um novo elemento no local dos removidos.
+- Concatenar elementos em um único array com concat():
+  - Utilizamos essa estratégia pois é uma forma facilitada de juntar dois arrays.
+- Trabalhar com arrays de duas dimensões:
+  - Vimos que uma lista também pode guardar outras listas! Para acessar elementos das listas mais internas, devemos informar primeiro os índices das mais externas e depois os das mais internas, como por exemplo com funcionarios`[0][2]`.
+
+## Aula 3 - Laços de Repetição
+
+### Aula 3 -  - Vídeo 1
+### Aula 3 -  - Vídeo 2
+### Aula 3 -  - Vídeo 3
+### Aula 3 -  - Vídeo 4
+### Aula 3 -  - Vídeo 5
