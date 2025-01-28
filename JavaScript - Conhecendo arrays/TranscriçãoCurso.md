@@ -226,8 +226,10 @@ Para isso, vamos ao Visual Studio Code e criar um novo arquivo que será nomeado
 
 adicionar-nota.js:
 
+```JavaScript
 const notas = [10, 6, 8];
-Copiar código
+```
+
 Usando o método push()
 Com a constante notas criada, precisamos adicionar um valor ao array. Nesse caso, será um pouco diferente do processo quando temos um valor dentro de uma variável let e queremos apenas substituir.
 
@@ -237,30 +239,31 @@ No entanto, ao trabalhar com listas, o processo é diferente. Precisamos utiliza
 
 O valor que passamos como parâmetro do push() é o valor que queremos inserir no array. Portanto, para resolver nosso desafio, escrevemos notas.push(7).
 
+```JavaScript
 // código omitido
-
 notas.push(7);
-Copiar código
-Criando a constante media
+```
+
+Criando a constante media  
 Em seguida, criaremos a constante media. Podemos copiar a linha de código onde a constante media foi criada anteriormente no arquivo calculo-media.js, para economizar tempo.
 
 A constante media continua funcionando da mesma forma: vamos acessar notas[0], notas[1], notas[2] e notas[3] e dividir pelo comprimento do array (notas.length).
 
 Por fim, exibimos a média com console.log(media).
 
+```JavaScript
 // código omitido
-
 const media = (notas[0] + notas[1] + notas[2] + notas[3]) / notas.length;
-
 console.log(media);
-Copiar código
+```
+
 No terminal, vamos executar o comando node seguido do nome do arquivo adicionar-nota.js.
 
-node adicionar-nota.js
-Copiar código
+> node adicionar-nota.js
+
 Como retorno, recebemos a média 7.75.
 
-Observações
+Observações  
 Um detalhe importante é que o método push(), nativo do JavaScript, sempre adiciona o valor no final do array. Conforme discutido anteriormente, o array é uma lista de posição fixa, então o valor 10 sempre estará no índice 0, exceto se manipularmos esse array. Portanto, é crucial entender que o push() sempre colocará o valor no final do array como o último elemento.
 
 Em relação ao que discutimos anteriormente sobre const e let, uma const é uma variável cujo valor não pode ser modificado. Teoricamente, se quiséssemos modificar o array notas, deveríamos usar let notas. No entanto, atribuímos arrays a algumas const e conseguimos manipular esse array.
@@ -269,9 +272,268 @@ Uma const significa que um valor não pode ser reatribuído, mas um array que é
 
 Note também que usamos o termo "método" para nos referirmos ao push(). Um método é uma função do JavaScript associada a um tipo de dado específico. O push() só funciona se estiver associado a um array, razão pela qual usamos a sintaxe notas.push().
 
-Conclusão
+Conclusão  
 Vamos continuar com nossos desafios, onde exploraremos outros métodos específicos de array!
 
-### Aula 1 -  - Vídeo 5
-### Aula 1 -  - Vídeo 6
-### Aula 1 -  - Vídeo 7
+### Aula 1 - Faça como eu fiz: array esparso
+
+Não deixe de praticar em seu projeto com os exemplos abaixo!
+
+Até agora trabalhamos com arrays que representam listas de dados (notas de alunos em uma escola). Mas o que acontece se declaramos um array sem nenhum valor na lista?
+
+Crie um arquivo script.js em seu computador e escreva o seguinte código:
+
+```JavaScript
+const arrayVazia = [];
+
+console.log(arrayVazia)
+console.log(arrayVazia.length)
+```
+
+Executando este código com node script.js (não esqueça de conferir se está executando o comando dentro da pasta/diretório certo), o resultado é:
+
+> []  
+  0
+
+No exemplo acima, podemos notar que o JavaScript criou o array e a guardou na variável arrayVazia, mas seu length é 0.
+
+Vamos então ver o que acontece se usarmos a notação de colchetes para tentar acessar o índice 0 do array (lembrando que o índice zero se refere à primeira posição):
+
+```JavaScript
+const arrayVazia = [];
+console.log(arrayVazia[0])
+```
+
+Desta vez, o resultado é:
+
+> undefined
+
+Parece um pouco confuso? Vamos executar mais um teste e ver o que acontece:
+
+```JavaScript
+const arrayVazia = [,,,];
+console.log(arrayVazia.length)
+console.log(arrayVazia[0])
+console.log(arrayVazia[1])
+console.log(arrayVazia[2])
+```
+
+Confira os resultados no terminal:
+
+```JavaScript
+3
+undefined
+undefined
+undefined
+```
+
+O que fizemos aqui, afinal?
+
+Criamos um array com 3 posições, porém, em nenhuma dessas posições existe um valor. De certa forma, podemos pensar que este array foi criado como um gaveteiro com três gavetas e todas elas estão “vazias”, sem nenhum valor de dado guardado.
+
+Para finalizar, faça um último teste. Vamos usar o método push() visto anteriormente para adicionar um valor - lembrando que este método sempre vai adicionar o valor no final do array!
+
+```JavaScript
+const arrayVazia = [,,,];
+console.log(arrayVazia.length)
+arrayVazia.push(50)
+console.log(arrayVazia)
+console.log(arrayVazia.length)
+```
+
+Conferindo os resultados:
+
+```JavaScript
+3
+[ <3 empty items>, 50 ]
+4
+```
+
+O JavaScript manteve as posições vazias e adicionou o 50 ao final do array. Após a execução, ele passou a ter 4 posições, mas somente um elemento (o número 50).
+
+### Aula 1 - Excluindo elementos - Vídeo 5
+
+Transcrição  
+Continuando com nossos desafios, o próximo é excluir elementos!
+
+Desafio: excluindo elementos  
+Suponha que um professor tenha acidentalmente lançado 5 notas de uma pessoa estudante no sistema, sendo elas: 10, 6, 8, 5.5 e 10. Para corrigir, precisamos remover a última nota e fazer o cálculo da média correta. Portanto, a nota que está por último, o último índice do array, é a nota que foi incluída sem querer e precisa ser removida.
+
+Criando o arquivo excluir-elementos.js  
+No Visual Studio Code, vamos criar um arquivo novo chamado excluir-elementos.js. Primeiro, precisamos criar a constante notas, que receberá um array contendo as notas 10, 6, 8, 5.5 e 10.
+
+excluir-elementos.js:
+
+> const notas = [10, 6, 8, 5.5, 10];
+
+Usando o método pop()  
+Utilizamos anteriormente o método push() do JavaScript para adicionar um elemento ao final do array. Agora podemos pensar o seguinte: existe algum método pronto para remover elementos do final?
+
+A resposta é sim, existe. Usaremos o método pop(), que vamos chamar da seguinte forma: notas.pop(). É importante notar que, diferente do push(), com o método pop(), sempre retiramos o último elemento do array, então não é necessário passar nenhum parâmetro para ele.
+
+> // código omitido  
+  notas.pop();
+
+Refazendo o cálculo da média  
+Para refazer o cálculo da média, podemos voltar ao arquivo anterior (adicionar-nota.js) e copiar novamente a variável media e o console.log(). Continua sendo o mesmo cálculo com quatro elementos e já temos a constante media entre os parênteses de console.log().
+
+```JavaScript
+// código omitido
+const media = (notas[0] + notas[1] + notas[2] + notas[3]) / notas.length;
+
+console.log(media);
+```
+
+Vamos fazer um teste executando no terminal o comando abaixo:
+
+> node excluir-elementos.js
+
+Foi retornada a nota 7.375. Se quisermos reduzir a quantidade de casas decimais, podemos utilizar o método toFixed(), que já conhecemos, e passar entre parênteses a quantidade de casas desejadas.
+
+> console.log(media.toFixed(2));
+
+Nesse caso, selecionamos duas casas, então foi retornado 7.38.
+
+Agora que já conversamos sobre métodos, podemos observar o media.toFixed(). Assim como o JavaScript tem funções prontas que funcionam para arrays, como é o caso do pop(), também temos funções prontas que funcionam para números. media é um valor numérico, o valor 7.375, e podemos associá-la a uma função pronta do JavaScript chamada toFixed().
+
+Deixaremos o link da documentação do toFixed() e do Array.prototype.pop() para você conferir mais exemplos e testar o método em funcionamento.
+
+Um último detalhe importante é que o método pop() modifica o array notas. Porém, alguns métodos não modificam o array original, criando outro array. Portanto, ao trabalhar com arrays, preste sempre atenção se a modificação é feita no próprio array, pois isso pode ser relevante no seu programa.
+
+### Aula 1 - Para saber mais: arrays truthy ou falsy
+
+Em JavaScript, os termos "truthy" e "falsy" referem-se à avaliação de valores de acordo com seu contexto booleano. Um valor "falsy" é aquele que é considerado falso quando avaliado como um booleano, enquanto um valor "truthy" é considerado verdadeiro nesse mesmo contexto.
+
+Valores "falsy" em JavaScript são aqueles que, ao serem convertidos para booleanos, são interpretados como falso. Isso inclui:
+
+- Zero: O valor numérico zero (0);
+- String vazia (''): Uma string sem nenhum caractere;
+- NaN: Representa "Not-A-Number", frequentemente resultante de operações matemáticas inválidas;
+- null: Indica a ausência intencional de um valor ou referência nula;
+- undefined: Indica uma variável que foi declarada, mas ainda não teve um valor atribuído.
+
+Valores "truthy", por outro lado, são valores que, quando convertidos para booleanos, são interpretados como verdadeiros. Estes incluem:
+
+- Strings não vazias: Qualquer string que contenha pelo menos um caractere;
+- Números diferentes de zero: Qualquer número que não seja zero, incluindo números negativos e decimais;
+- Arrays: Mesmo um array vazio é considerado "truthy";
+- Objetos: Objetos em JavaScript são "truthy", mesmo se estiverem vazios;
+
+Aqui está um exemplo mais detalhado, demonstrando como os arrays podem ser avaliados como "truthy":
+
+```JavaScript
+const arrayVazio = [];
+const arrayNaoVazio = [1, 2, 3];
+
+console.log(Boolean(arrayVazio)); // Saída: true - Mesmo sendo um array vazio, é "truthy"
+console.log(Boolean(arrayNaoVazio)); // Saída: true - Um array com elementos também é "truthy"
+```
+
+No exemplo acima, tanto o arrayVazio (um array sem elementos) quanto o arrayNaoVazio (um array com elementos) são avaliados como "truthy" quando usados em um contexto booleano.
+
+Entender os conceitos de "truthy" e "falsy" em JavaScript é extremamente importante ao lidarmos com lógica condicional em estruturas como if, while e operadores lógicos, para garantir que o código funcione conforme esperado.
+
+### Aula 1 - Para saber mais: métodos de array
+
+Já utilizamos alguns métodos de arrays nessa aula, e ainda vamos praticar com outros. Porém, pode ainda ter ficado a dúvida: o que são os métodos?
+
+Um método é uma função chamada (executada) no contexto de um objeto (array, number, string, etc).
+
+Métodos realizam tarefas pré-definidas usando o valor que está no contexto (por exemplo, um array) e dos parâmetros que passamos para eles, como adicionar, remover ou até encontrar elementos.
+
+Vamos entender com mais detalhes o que são propriedades de objetos durante o curso de fundamentos do JavaScript: objetos.
+
+Os interpretadores de JavaScript implementam vários métodos “prontos” que podemos usar para manipular e fazer operações com números, strings, arrays, objetos, etc. Com algumas exceções, os métodos são próprios de cada tipo: por exemplo, não conseguimos usar métodos de arrays para manipular números e vice-versa.
+
+Exemplos de métodos:
+
+```JavaScript
+(9.999).toFixed(2); // toFixed é um método de Number
+'string'.toUpperCase(); // toUpperCase é um método de String
+[1, 2, 3].push(4); // push é um método de Array
+```
+
+Existem muitos métodos para conseguir lembrar de todos, mas vamos trabalhar com vários outros durante o curso!
+
+### Aula 1 - Criando nosso primeiro array
+
+Após os primeiros passos com arrays, Ana decidiu praticar para colocar o conhecimento em prática. Ela escreveu o seguinte código:
+
+```JavaScript
+const lista = [7, 13, 'JavaScript', 'Alura', true];
+lista.push(false);
+console.log(lista.length); // 6
+```
+
+Analise o primeiro array de Ana e marque as alternativas corretas:
+
+Alternativa correta  
+Todo array do JavaScript possui a propriedade length, além de determinados métodos.
+
+Todo array criado no JavaScript vem com automaticamente com a propriedade length, que indica sua quantidade de elementos, e métodos como push e pop, que servem para realizar operações com o array, como modificá-lo.
+
+### Aula 1 - Jantar de hoje
+
+O push e pop são usados para adicionar/remover elementos de uma lista, como mostra o seguinte código:
+
+```JavaScript
+const jantarDeHoje = [‘burguer’, ‘hot dog’, ‘pizza’];
+jantarDeHoje.pop()
+jantarDeHoje.pop()
+jantarDeHoje.push('ovo frito')
+jantarDeHoje.push('salada')
+jantarDeHoje.push('maçã')
+console.log(jantarDeHoje)
+```
+
+Analisando o código, selecione a alternativa que corresponde ao que teremos como saída do console do jantarDeHoje .
+
+> [ 'burguer', 'ovo frito', 'salada', 'maçã' ]
+
+Certo! No jantar de hoje, a pizza e o hot dog não estão presentes por conta do código jantarDeHoje.pop(), que remove o último elemento da lista e o ovo, a salada e a maçã verde entraram na lista com comando push.
+
+#### Aula 1 - Para saber mais: links da aula
+
+Confira abaixo a lista de links utilizados durante a aula e/ou links complementares ao conteúdo:
+
+Documentação do MDN: [array.push()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push);
+Documentação do MDN: [array.pop()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/pop).
+
+### Aula 1 - Desafio: exercícios
+
+Dominar o uso de arrays é fundamental em programação e uma base essencial na manipulação de dados. Praticar regularmente é a chave para se tornar mais confiante!
+
+Para isso criamos uma lista de exercícios que não apenas ajudam a explorar os métodos de manipulação de arrays, mas também vão te preparar para lidar eficientemente com dados em aplicações reais.
+
+1. Um array esparso é um tipo de array no qual a maioria dos elementos tem valores indefinidos. Crie um array esparso e atribua valores a alguns elementos do array (por exemplo, defina valores nos índices 1, 3 e 7). Imprima no console o array e também a informação de comprimento do array.
+2. Crie um programa em Node.js que inicie com um array cinco elementos e atribua um novo valor para a primeira posição (índice 0) desse array. Em seguida, exiba o array antes e depois da alteração.
+3. Crie um array vazio chamado meuArray e adicione 3 números inteiros de sua escolha utilizando o método push(). Imprima no console os itens presentes no array para verificar se os números foram adicionados. Em seguida, substitua o primeiro elemento do array (índice 0) pelo dobro do seu valor atual. Imprima no console o array atualizado para verificar a mudança.
+4. Desenvolva um programa em Node.js que crie um array vazio e atribua valores a ele utilizando o método push(). Adicione três números inteiros ao array e, em seguida, exiba o array resultante.
+5. Desenvolva um programa em Node.js que simule uma clínica veterinária. Crie um array vazio chamado clinica que representará a fila de animais na clínica. Em um primeiro momento, simule a chegada de três animais diferentes e exiba a lista de animais no console. Após a exibição, remova os animais da lista um por vez e, por fim, exiba no console o estado final da lista.
+
+Caso precise de ajuda, opções de solução das atividades estarão disponíveis na seção “Opinião”.
+
+Disponibilizamos uma possível resolução dos [desafios neste link](https://github.com/alura-cursos/3530-js-arrays/tree/exercicios-aula1) para você construir ou validar suas soluções.
+
+### Aula 1 - O que aprendemos?
+
+Nessa aula, você aprendeu:
+
+- As características principais de arrays:
+  - Um array é uma lista ordenada de dados. Você aprendeu a sintaxe de um array e como acessar seus valores.
+- Os conceitos de elemento e índice:
+  - Elementos são os valores que um array guarda, e índice é o identificador único e numérico de cada elemento do array.
+- Como utilizar a propriedade .length:
+  - Todos os arrays do JavaScript possuem essa propriedade, que indica a quantidade de elementos do array.
+- Como utilizar os métodos .push() e .pop():
+  - Fizemos as primeiras alterações em um array, adicionando um novo item ao final ou removendo o último item.
+
+## Aula 2 - Alterando Arrays
+
+### Aula 2 -  - Vídeo 1
+### Aula 2 -  - Vídeo 2
+### Aula 2 -  - Vídeo 3
+### Aula 2 -  - Vídeo 4
+### Aula 2 -  - Vídeo 5
+### Aula 2 -  - Vídeo 6
+### Aula 2 -  - Vídeo 7
