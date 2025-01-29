@@ -1,5 +1,5 @@
 'use strict';
-import { metodoPush, calculaMedia, metodoPop, metodoSplice, metodoSlice, metodoConcat, buscarAlunoNota } from './arrays-metodos.js';
+import { metodoPush, calculaMedia, metodoPop, metodoSplice, metodoSlice, metodoConcat, buscarAlunoNota, metodoForEach } from './arrays-metodos.js';
 // const metodoPush = require('./arrays-metodos.js');
 
 let notas = [10, 6, 8];
@@ -117,6 +117,7 @@ console.log("O valor de valorB é:", valorB);
 // Laços de repetição - (for - for in - for of - while - do while - .forEach)
 
 // for classico - for (let indice = 0; indice < array.length; indice++) {};
+// O retorno é o índice do array.
 const notas3 = [10, 8, 7.5, 9, 7.5];
 document.getElementById('idParagrafo8').innerHTML += `Array notas3: ${JSON.stringify(notas3)}<br>`;
 let somaNotas = 0;
@@ -128,3 +129,41 @@ for (let indice = 0; indice < notas3.length; indice++) {
 };
 let mediaNotas3 = somaNotas / notas3.length;
 document.getElementById('idParagrafo8').innerHTML += `A Média de todas as notas é: ${mediaNotas3}<br>`;
+//---------------------------------------------------------------------------------------------------------------
+
+// for of - for (let elemento of array) {};
+// O for of, percorre os elementos do array, e não os índices.
+// O retorno é o elemento do array. Porque o for of não altera o array original.
+document.getElementById('idParagrafo9').innerHTML += `for of - for (let elemento of array) {} ${JSON.stringify(notas3)}<br>`;
+for (const element of notas3) {
+    console.log(`Nota: ${element}`);
+    document.getElementById('idParagrafo9').innerHTML += `FOR OF - Nota: ${element}<br>`;
+}
+
+//---------------------------------------------------------------------------------------------------------------
+
+// for in - for (let indice in array) {};
+// O for in, percorre os índices do array, e não os elementos.
+document.getElementById('idParagrafo10').innerHTML += `for in - for (let indice in array) {} ${JSON.stringify(notas3)}<br>`;
+for (const indice in notas3) {
+    console.log(`Indice: ${indice} Nota: ${notas3[indice]}`);
+    document.getElementById('idParagrafo10').innerHTML += `FOR IN - Indice: ${indice} Nota: ${notas3[indice]}<br>`;
+}
+//---------------------------------------------------------------------------------------------------------------
+
+// .forEach() - array.forEach((elemento, indice, array) => {});
+// O método forEach() executa uma dada função em cada elemento de um array. E retorna undefined.
+document.getElementById('idParagrafo11').innerHTML += `forEach() - array.forEach((elemento, indice, array) => {}) ${JSON.stringify(notas3)}<br>`;
+metodoForEach(notas3);
+//---------------------------------------------------------------------------------------------------------------
+
+// while - O laço de repetição while executa a instrução especificada enquanto a condição especificada for verdadeira.
+let controle = 0;
+let arrayContagem = [];
+while (controle < 10) {
+    // console.log(controle);
+    arrayContagem.push(controle);
+    controle++;
+};
+document.getElementById('idParagrafo12').innerHTML += `while(condição) {} - ${JSON.stringify(arrayContagem)}<br>`;
+console.log("Fim do laço while", arrayContagem);

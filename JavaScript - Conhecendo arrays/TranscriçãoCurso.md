@@ -1417,5 +1417,239 @@ Com isso usamos o for para passar por todos os elementos da matriz, e nesse caso
 
 Continue com os seus estudos, e se houver dúvidas, não hesite em recorrer ao nosso fórum!
 
-### Aula 3 -  - Vídeo 4
-### Aula 3 -  - Vídeo 5
+### Aula 3 - Média com for...of - Vídeo 4
+
+Transcrição  
+Nosso próximo desafio é continuar calculando médias, utilizando uma outra ferramenta do JavaScript, o "for… of". Os valores são os mesmos. Já criamos no Visual Studio Code um arquivo novo chamado for-of.js.
+
+Nesse arquivo, declaramos a constante notas, com quatro valores: 10, 6.5, 8, 7.5. Também criamos a variável somaDasNotas para armazenar o resultado final dessa soma.
+
+Vamos então analisar a sintaxe do "for… of". Ela é similar à do for clássico, mas com a diferença de que não temos mais o controle exigido no for clássico com as três expressões.
+
+Para exemplificar, vamos abrir o arquivo for-classico.js. Com o for clássico, tínhamos a opção de refinar como queríamos que o nosso looping acontecesse.
+
+Podíamos, por exemplo, iniciar o looping a partir do primeiro índice, do índice 0, ou iniciar a partir de qualquer outro índice desejado. Também podíamos controlar o incremento, querendo pular de 2 em 2, ou acessar apenas os elementos que estão em índice par etc.
+
+No "for… of", a sintaxe é mais simples, pois ele responde a casos em que queremos simplesmente percorrer do primeiro índice do array até o último.
+
+Criamos uma variável nota que vai armazenar os valores. Agora, não estamos mais guardando o número de índice, estamos armazenando o elemento. Assim, a variável nota vai conter os valores 10, 6.5, 8, 7.5 a cada iteração.
+
+A sintaxe é let nota of notas, sendo notas o nome do nosso array. O nome que escolhemos para a variável let, let nota of notas, é para facilitar a leitura.
+
+Por exemplo, let compra of listaDeCompras vai guardar cada um dos itens. Apenas associamos o nome da variável a algo que faça sentido, mas poderia também ser let i se preferíssemos, para simplificar a leitura.
+
+E como a variável nota agora guarda o elemento, não guarda mais o índice, só precisamos resgatar o valor dessa variável a cada uma das iterações e incrementar a variável somaDasNotas com o operador +=, como fizemos anteriormente.
+
+```JavaScript
+const notas = [10, 6.5, 8, 7.5];
+let somaDasNotas = 0;
+for (let nota of notas) {
+    somaDasNotas += nota;
+}
+const media = somaDasNotas / notas.length;
+console.log("a média das notas é ${media}");
+```
+
+Vamos deixar no material extra a documentação do "for… of" com mais exemplos. Pratiquem bastante, pois o for é indispensável no dia a dia de programação e também para resolver exercícios de algoritmos. Vamos continuar trabalhando com laços de repetição em JavaScript.
+
+### Aula 3 - Quando usar for ou for...of
+
+Caroline está praticando com os laços de repetição que aprendemos durante a aula. Para isso, ela criou dois laços diferentes, um usando o for e um usando o for…of, para calcular um desconto de 10% sobre uma lista de preços:
+
+```JavaScript
+const precos = [5.5, 6.2, 14, 19.5];
+let desconto = 0.90;
+for (let i = 0; i < precos.length; i++) {
+ precos[i] = precos[i] * desconto;
+}
+console.log(precos);
+```
+
+```JavaScript
+const precos = [5.5, 6.2, 14, 19.5];
+let desconto = 0.90;
+
+for (let preco of precos) {
+ preco = preco * desconto;
+}
+
+console.log(precos);
+```
+
+Ao executar os códigos, Caroline percebeu que o laço feito com for retorna um array atualizado com os descontos:
+
+> [ 4.95, 5.58, 12.6, 17.55 ]
+
+Porém o laço feito com for…of, apesar de não acusar erro, não atualizou o array com os descontos:
+
+> [ 5.5, 6.2, 14, 19.5 ]
+
+Baseado no que sabemos sobre a sintaxe do for, o funcionamento da variável de controle let i = 0 e o funcionamento da variável let preco, selecione as alternativas que descrevem corretamente o comportamento do código:
+
+Resposta:  
+
+A variável let i = 0 usada no for guarda somente um valor numérico, que associamos aos índices do array.
+
+A variável que por padrão chamamos de i não está necessariamente ligada ao array; ela serve somente para guardar um valor numérico que inicia em 0. A manipulação do array se dá quando associamos o array ao número que está armazenado na variável i, compondo, por exemplo, precos[0] para acessar o primeiro elemento de precos.
+
+Alternativa correta  
+A variável let preco armazena o valor de um elemento do array e é alterada a cada iteração (loop) no array para armazenar o valor correspondente no momento da iteração.
+
+A variável recebe o valor de um dos elementos do array por vez, a cada passo da iteração, e é por onde podemos acessar estes valores dentro do bloco {}.
+
+Alternativa correta  
+Ao alterarmos a variável let preco, não estamos alterando nenhum dos elementos originais do array precos.
+
+A variável let preco apenas armazena o valor equivalente ao elemento atual do array. Qualquer alteração será feita apenas na variável e não será refletida no elemento correspondente.
+
+Alternativa correta  
+O código precos[i] = (precos[i] * desconto) está alterando o valor de cada um dos elementos do array precos no índice correspondente ao valor de i.
+
+O código está evocando diretamente o array precos, e a variável de controle i indica qual o índice que será alterado: precos[0], precos[1] etc.
+
+### Aula 3 - Para saber mais: possibilidades do for
+
+A estrutura for tem uma sintaxe mais complexa que o for of, com mais expressões, mas por causa disso fornece um maior leque de possibilidades de acordo com a nossa necessidade.
+
+Por exemplo, podemos percorrer um array do fim ao início:
+
+```JavaScript
+const numeros = [100, 200, 300, 400, 500, 600];
+ 
+for (let i = numeros.length - 1; i >= 0; i--) {
+  console.log(numeros[i]);
+}
+```
+
+Declaramos o valor inicial da variável de controle como o valor da última posição do array (numeros.length - 1); realizamos um decremento (i--) ao invés de um operador de incremento e a condição de execução é i >= 0. Ou seja, nesse caso, a variável i começará do valor 5 e irá até 0.
+
+Ao executar o código, no terminal aparecerá:
+
+```JavaScript
+600
+500
+400
+300
+200
+100
+```
+
+Outra possibilidade é alterar a quantidade incrementada ou decrementada, utilizando o mesmo código acima, mas alterando o decremento para i -= 2. Então, teremos o seguinte:
+
+```JavaScript
+const numeros = [100, 200, 300, 400, 500, 600];
+ 
+for (let i = numeros.length - 1; i >= 0; i -= 2) {
+  console.log(numeros[i]);
+}
+```
+
+O valor de i será diminuído de 2 em 2 a cada iteração (lembrando que a expressão i -= 2 equivale a i = i - 2). Assim, os valores de i serão 5, 3 e 1, e no terminal aparecerá:
+
+```JavaScript
+600
+400
+200
+```
+
+Também temos controle sobre a condição de execução, então se alterarmos esse último código para ter a condição numeros[i] > 300, teremos o seguinte:
+
+```JavaScript
+const numeros = [100, 200, 300, 400, 500, 600];
+ 
+for (let i = numeros.length - 1; numeros[i] >= 300; i -= 2) {
+  console.log(numeros[i]);
+}
+```
+
+E no terminal aparecerá:
+
+```JavaScript
+600
+400
+```
+
+Por fim, até agora utilizamos a estrutura for apenas para percorrer arrays, mas ela pode ser utilizada para repetir qualquer instrução conforme a necessidade. Por exemplo, podemos criar dinamicamente um array com todos os números pares de 0 a 100:
+
+```JavaScript
+const numerosPares = [];
+for (let i = 0; i <= 100; i += 2) {
+  numerosPares.push(i);
+}
+console.log(numerosPares);
+```
+
+No terminal aparecerá:
+
+```JavaScript
+[
+   0,  2,  4,  6,  8, 10,  12, 14, 16, 18, 20,
+  22, 24, 26, 28, 30, 32,  34, 36, 38, 40, 42,
+  44, 46, 48, 50, 52, 54,  56, 58, 60, 62, 64,
+  66, 68, 70, 72, 74, 76,  78, 80, 82, 84, 86,
+  88, 90, 92, 94, 96, 98, 100
+]
+```
+
+Na maioria dos casos, você não precisará realizar repetições mais complexas como essas, mas nunca se sabe, certo? Por isso, conhecer os recursos de uma linguagem e suas possibilidades pode ser uma “mão na roda” no futuro.
+
+Como vimos, em casos onde queremos apenas percorrer todos os elementos de um array sem pular nenhum, começando do início ao fim do array, o for of fornece uma sintaxe mais sucinta que o for.
+
+### Aula 3 - Para saber mais: links da aula
+
+Confira abaixo a lista de links utilizados durante a aula e/ou links complementares ao conteúdo:
+
+Documentação do MDN: [array.includes()](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/includes);
+Documentação do MDN: [array.indexOf()](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf);
+Documentação do MDN: [for](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Statements/for);
+Documentação do MDN: [for…of](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Statements/for...of).
+
+### Aula 3 - Desafio: exercícios
+
+Dominar o uso de arrays é fundamental em programação e uma base essencial na manipulação de dados. Praticar regularmente é a chave para se tornar mais confiante!
+
+Para isso criamos uma lista de exercícios que não apenas ajudam a explorar os métodos de manipulação de arrays, mas também vão te preparar para lidar eficientemente com dados em aplicações reais.
+
+1. Escreva um código que utilize o loop for/of para iterar e imprimir cada elemento de um array.
+
+2. Crie uma função que receba uma array e imprima no console o número do índice e o elemento.
+
+3. Crie uma função que receba uma array de números inteiros e retorne a soma dos elementos.
+
+4. Crie uma função que receba uma array de números inteiros e retorne o menor valor e o maior valor da array, no seguinte formato: 'o menor número é X e o maior número é Y'.
+
+5. Crie um programa que utilize um laço for para percorrer uma array const numeros = [3, 8, 12, 5, 6, 10, 7, 2, 9, 14] e exibir no console apenas os números pares contidos nesse array.
+
+6. Crie um programa que calcule a média dos números presentes em um array utilizando um loop for.
+
+Caso precise de ajuda, opções de solução das atividades estarão disponíveis na seção “Opinião”.
+
+Opinião do instrutor
+
+Disponibilizamos uma possível resolução dos desafios [neste link](https://github.com/alura-cursos/3530-js-arrays/tree/exercicios-aula3) para você construir ou validar suas soluções.
+
+### Aula 3 - O que aprendemos?
+
+Nessa aula, você aprendeu como:
+
+- Utilizar os métodos includes() e indexOf():
+  - O includes() retorna true ou false, dependendo se o valor passado como parâmetro está presente ou não no array. O indexOf() retorna a posição no array do valor passado como parâmetro. Utilizamos esses dois métodos em conjunto para primeiro verificar se um aluno estava presente em uma lista, e depois obter sua posição para buscar sua nota em outra lista.
+
+- Desestruturar um array:
+  - Você aprendeu a sintaxe de desestruturação, disponível desde o ES6 (EcmaScript 6), que nos permite “desmontar” um array e atribuir seus valores a variáveis diferentes.
+
+- Utilizar a estrutura for e entender seu funcionamento:
+  - O for é constituído de três expressões: criação da variável de controle; condição de execução; modificação da variável de controle. Essas três expressões juntas definem quantas vezes o bloco do for será executado e em quais elementos do array.
+
+- Utilizar a estrutura for of e entender a diferença em relação ao for:
+  - O for of sempre é utilizado para percorrer todos os elementos de um array, do início ao fim. Para esses casos, o for of é mais conciso que o for.
+
+## Aula 4 - Funções CallBack
+
+### Aula 4 - Média com forEach - Vídeo 1
+
+### Aula 4 -  - Vídeo 2
+### Aula 4 -  - Vídeo 3
+### Aula 4 -  - Vídeo 4
+### Aula 4 -  - Vídeo 5
+### Aula 4 -  - Vídeo 6
