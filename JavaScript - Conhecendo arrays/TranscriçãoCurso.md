@@ -1104,8 +1104,318 @@ Nessa aula, você aprendeu como:
 
 ## Aula 3 - Laços de Repetição
 
-### Aula 3 -  - Vídeo 1
-### Aula 3 -  - Vídeo 2
-### Aula 3 -  - Vídeo 3
+### Aula 3 - Procurando na lista - Vídeo 1
+
+Transcrição  
+Para o nosso próximo desafio, vamos procurar itens em uma lista. Este desafio será um pouco mais complexo, então vamos ver os pontos dele por partes.
+
+A primeira coisa que temos que fazer é criar uma função que recebe como argumento o nome de um estudante. A função deve ser criada de uma forma que consiga receber qualquer nome de estudante e responder de acordo.
+
+Esta função terá que verificar se a pessoa estudante recebida como argumento faz parte ou não de uma lista de estudantes, que vamos prover.
+
+Se fizer, deve retornar a média correspondente do estudante, que vamos obter na lista de médias. Estamos trabalhando com a lista de estudantes e com a lista de médias que utilizamos anteriormente.
+
+Caso o nome não esteja na lista, temos que retornar uma mensagem indicando que a pessoa estudante não foi encontrada.
+
+Implementando o código  
+No VSC, deixamos pronto um arquivo chamado procurar-em-lista.js e do arquivo anterior, *array*-de-*array*s.js, copiamos o array de estudantes, o array de médias e a lista, onde transformamos tudo isso em um array de duas dimensões, uma lista de listas.
+
+Primeiramente, temos que criar a função que vai receber um nome. Para isso, usamos a palavra-chave function. Vamos chamar essa função de exibeNomeENota. E, entre parênteses, passamos o parâmetro aluno, que é o que a função está esperando receber.
+
+As duas coisas que precisamos fazer são:
+
+verificar se a pessoa estudante faz parte da lista;  
+se fizer parte da lista, recuperar a média dela.  
+Estamos trabalhando com coisas hipotéticas, então podemos prever que precisamos de uma condicional, por exemplo, de um if.
+
+A primeira coisa que a função vai fazer é verificar se a pessoa estudante consta na lista. Para isso, podemos utilizar mais um método do JavaScript, o método .includes(). Este método verifica se determinado dado, informação, string, um array, um número, está contido dentro daquele array.
+
+Implementamos escrevendo: if(lista.includes()), e dentro do parâmetro de includes() passamos o que será recebido dentro da função, ou seja, o nome do estudante (aluno).
+
+No entanto, temos um problema: lista é um array de arrays, e queremos procurar dentro da lista, dentro do array de estudantes. O que podemos fazer é pedir para o includes() fazer essa busca dentro de lista na posição 0, ou seja, lista[0].includes(aluno), e aí vai procurar uma string que contenha o nome de alguém que está nessa lista.
+
+Então, se essa condição retornar true, ou seja, se o nome da pessoa estudante estiver no nosso array de estudantes, temos que pedir para algo acontecer. Esse é o segundo requisito do nosso desafio: buscar a média do estudante correspondente na lista de médias.
+
+A partir daí, passamos para a segunda lista do nosso array de arrays. E como podemos fazer para retornar posições correspondentes? Reforçando a informação, o array é uma lista de posição fixa. Então, se, por exemplo, a Juliana está na posição 1 do array de nomes, a nota da Juliana está na posição 1 do array de notas e eles não saem dessa posição.
+
+Agora, temos que resgatar o número correspondente ao índice onde a Juliana está posicionada, por exemplo. Então, se a Juliana está posicionada como 1 no array, precisamos encontrar uma forma de obter essa informação do código e disponibilizá-la para conseguirmos utilizá-la em médias.
+
+Vamos criar uma const chamada de índice, e passar lista[0].indexOf(aluno). O que o indexOf vai fazer para nós? Ele vai retornar o índice da primeira ocorrência do valor fornecido. Isso está na documentação.
+
+Agora que sabemos que existe esse estudante na nossa lista (se ele não existisse, não precisaríamos achar o número do indíce dele), usamos o método indexOf para que o JavaScript procure a posição dessa string e retorne para nós o número indicado.
+
+Então, se buscarmos por 'Juliana', esperamos que o indexOf retorne 1. Se buscarmos 'João', esperamos que ele retorne 0. Estamos pegando essa informação e guardando dentro da variável indice.
+
+Agora podemos trazer a média. Vamos criar uma nova const, que chamaremos de mediaAluno, e passar lista[1]. Entramos em lista[1], que vai acessar nossa lista de médias. E lembrando como fazemos para acessar um dado que está em um array e dentro de um array: passamos no primeiro colchete, de fora para dentro, 1 para acessar nossa lista de médias, e em segundo lugar passamos o valor da variável indice, que vai retornar onde no array de médias está o índice que precisamos.
+
+A partir daí podemos criar uma mensagem para exibir no console como sempre. Então, console.log(), no caso do if, que é o caso de sucesso, passamos uma template string, abrimos cifrão e chaves, dizemos que aluno tem a média, e abrimos de novo cifrão e chaves, mediaAluno.
+
+Agora só precisamos fazer o else, que é no caso de não encontrar nada. Então, no caso do else, passamos um console.log com 'Estudante não existe na lista'. Por quê? Porque uma vez que o includes não encontra nenhum estudante, ele não entra no if, ele vai direto para o else, e aí está resolvido.
+
+Vamos testar? Vamos chamar essa função com um nome existente. Então, embaixo de tudo, executamos a função exibeNomeNota, passando como valor do parâmetro, 'Juliana'. Então, tem que passar em string com J maiúsculo, exatamente como está no array.
+
+```JavaScript
+function exibeNomeENota(aluno) {
+    if (lista[0].includes(aluno)) {
+        const indice = lista[0].indexOf(aluno);
+        const mediaAluno = lista[1][indice];
+        console.log('${aluno} tem a média ${mediaAluno}');
+        } else {
+        console.log('Estudante não existe na lista');
+        }
+    }
+    
+exibeNomeENota('Juliana');
+exibeNomeENota('Vini');
+```
+
+Vamos testar também o caso de fracasso, quando passamos um nome que não existe. Vamos passar aqui Vini, por exemplo. Abrimos o terminal e executamos node procurar-em-lista.js. Então, "Juliana tem a média 8", está certo, e "Estudante não existe na lista" no caso do Vini.
+
+Deixaremos, como sempre, os links da documentação para você observar os outros exemplos, porém, queremos que você note um detalhe muito importante.
+
+Lembrando que, no nosso curso anterior, reforçamos bastante que o if sempre avalia a condição e retorna true ou false. E no caso de lista.includes(aluno), por que colocamos ele dentro do if? É questão de sempre consultar a documentação e ver o que um método ou uma função retorna.
+
+Na documentação do includes, ela vai dizer que esse método sempre retorna true ou false. Ou seja, alguns métodos não retornam nada, outros métodos retornam um outro array, outros métodos podem retornar true ou false, que é o caso do includes, e é por isso que colocamos ele na condição do if.
+
+Pratique bastante e vamos continuar com nossos próximos desafios.
+
+### Aula 3 - Desestruturando uma lista - Vídeo 2
+
+Transcrição  
+Antes de continuarmos, gostaríamos de revisitar o código que acabamos de desenvolver, para mostrar algumas ferramentas úteis do JavaScript. Essas ferramentas são particularmente úteis quando trabalhamos com arrays dentro de arrays, e precisamos acessar e buscar elementos. Portanto, copiamos todo o conteúdo do arquivo procurar-em-lista que utilizamos.
+
+Dentro de if (lista[0].includes(aluno)), por enquanto, nada muda. No entanto, quando entramos no if, começamos a ter que acessar itens dentro da lista. Então, temos que passar que é lista no índice 0, lista no índice 1 etc. Vamos fazer uma pequena modificação.
+
+Dentro do if, logo na primeira linha, vamos acrescentar uma constante, e será const[] e dentro desses colchetes passaremos alunos, medias. Então, fora do colchete, isso será igual a lista. Aqui temos uma sintaxe nova, algo que ainda não vimos.
+
+```JavaScript
+function exibeNomeENota(aluno) {
+    if (lista[0].includes(aluno)) {
+        const [alunos, medias] = lista;
+```
+
+Estamos utilizando uma ferramenta do JavaScript que chamamos de destructuring (desestruturação).
+
+**Desestruturação em JavaScript**  
+O que faz a desestruturação? Lembrando que sempre que temos o operador de atribuição, ou seja, igual, sempre olhamos para a direita primeiro e depois para a esquerda. O que o JavaScript vai fazer? Ele vai pegar a lista, que é nosso array de arrays, e vai desestruturar o conteúdo dessa lista. Qual é o conteúdo dessa lista? Dois arrays, um de alunos e um de medias.
+
+Fazendo isso, o JavaScript vai jogar cada um desses conteúdos desestruturados em uma nova variável, que estamos chamando nesse momento de alunos e medias, e isso será feito por ordem. Então, o primeiro elemento do array de listas será desestruturado dentro de uma variável alunos, e o segundo dentro de uma variável medias.
+
+A partir daqui, não precisamos mais, por exemplo, utilizar lista[0].indexOf para buscar um índice dentro da lista de alunos, podemos passar simplesmente alunos.indexOf. E na constante mediaAluno, a mesma coisa: não precisamos mais de lista no índice 1, podemos passar somente medias na posição que estamos chamando de indice, ou seja, medias[indice]. Lembrando que a variável indice guarda um número referente ao índice onde está o aluno que estamos buscando.
+
+O restante permanece igual, agora podemos testar para ver se está tudo funcionando. Então, para testar, invocamos a função, chamamos a função exibeNomeENota, novamente podemos fazer primeiro uma invocação com um nome que consta na nossa lista, em seguida com um nome que não conste na lista.
+
+Então, o primeiro passou exibeNomeENota com a string 'Juliana', e agora estamos chamando novamente a função com, por exemplo, 'Mari', que não consta da nossa lista de alunos.
+
+Salvamos o arquivo, voltando no terminal, node desestruturar.js, receberemos as mensagens Juliana tem a média 8 e Estudante não existe na lista, tudo continua funcionando.
+
+A desestruturação é uma ferramenta muito útil, usamos bastante, vamos deixar material extra com mais exemplos. E agora sim, nos vemos no próximo desafio.
+
+### Aula 3 - Para saber mais: desestruturação
+
+Você aprendeu como utilizar o recurso de desestruturação (ou destructuring, em inglês) do JavaScript em arrays, que também pode ser utilizado em objetos (uma estrutura de dados que você ainda vai conhecer).
+
+Você pode conferir [“Destructuring em JS”](https://cursos.alura.com.br/extra/alura-mais/destructuring-em-js-c308), um Alura+ para se aprofundar nas formas de utilizar esse recurso.
+
+### Aula 3 - Para saber mais: diferença entre i++ e ++i
+
+i++ e ++i são ambos operadores de incremento usados para aumentar o valor de uma variável i em 1. No entanto, a diferença entre eles está na forma como o aumento é aplicado e quando o valor é retornado.
+
+i++  
+O operador i++ é conhecido como pós-incremento. Ele primeiro retorna o valor atual de i e depois incrementa i em 1 unidade. Ou seja, o valor atual de i é usado na expressão em que i++ está presente, e após isso, i é aumentado em 1.
+
+Exemplo:
+
+```JavaScript
+let i = 5;
+console.log(i++); // Saída: 5 (retorna o valor atual de i)
+console.log(i);   // Saída: 6 (i foi incrementado após a execução)
+```
+
+++i  
+O operador ++i é conhecido como pré-incremento. Ele primeiro incrementa i em 1 unidade e depois retorna o novo valor de i. Ou seja, o valor de i é incrementado imediatamente, e então o valor atualizado é usado na expressão em que ++i está presente.
+
+Exemplo:
+
+```JavaScript
+let j = 8;
+console.log(++j); // Saída: 9 (j foi incrementado antes de ser usado)
+console.log(j);   // Saída: 9 (j já foi incrementado)
+```
+
+Portanto, a principal diferença entre i++ e ++i é o momento em que ocorre o incremento: i++ retorna o valor atual de i e depois incrementa, enquanto ++i incrementa i primeiro e depois retorna o novo valor. Escolher entre eles depende do contexto em que são usados e da necessidade de uso imediato do valor atualizado da variável.
+
+Importante: para estes exemplos usamos os nomes de variáveis padrão i e j, porém o princípio é o mesmo para qualquer nome de variável que você use, por exemplo minhaVar++ ou ++incremento.
+
+### Aula 3 - Para saber mais: o loop infinito
+
+Os laços de repetição, como o for, são ferramentas essenciais na programação. São utilizados para, entre outras coisas, percorrer arrays e executar blocos de código para cada elemento.
+
+Porém, quando usamos for para executar códigos em loop, temos que deixar claro qual é a condição de execução do loop. Caso contrário, o programa não sabe em que momento deve parar de executar o loop, ficando “preso” e entrando em loop infinito.
+
+O loop infinito pode travar seu navegador, o terminal em que o código estiver sendo executado, ou até mesmo o computador, então é importante saber como evitá-lo.
+
+Abaixo temos um exemplo de for que imprime no terminal números de 0 a 10:
+
+```JavaScript
+for (let indice = 0; indice <= 10; indice++) {
+  console.log(indice);
+}
+```
+
+O código executa corretamente e o programa é capaz de encerrar o loop, pois a condição de execução indice <= 10 está correta, a variável indice que faz o controle do loop começa em 0 e ao fim de cada ciclo do loop, é aumentada em 1 (indice++). Quando o valor da variável de controle indice chega a 11, depois de imprimir o número 10 no terminal, a comparação indice <= 10 se torna false e isso encerra o loop.
+
+O loop infinito pode acontecer caso alguma das expressões seja passada de forma incorreta ou esteja faltando. Por exemplo a terceira, responsável por alterar indice após o bloco de código dentro do for ter sido executado:
+
+```JavaScript
+// não execute este código! 
+for (let indice = 0; indice <= 10; ) {
+  console.log(indice);
+}
+```
+
+A mesma coisa acontecerá se o for for executado sem a segunda expressão, que é a condição de execução.
+
+```JavaScript
+// não execute este código!
+for (let indice = 0; ; indice++) {
+  console.log(indice);
+}
+```
+
+Outro caso que pode gerar loop infinito é o de alterações feitas na variável de controle dentro do bloco do for, o que não é uma boa prática:
+
+```JavaScript
+// não execute este código!
+for (let indice = 0; indice < 10; indice++) {
+  indice--;
+  console.log(indice);
+}
+```
+
+IMPORTANTE: Como mencionamos acima, o loop infinito pode travar o terminal ou computador. Se durante seus estudos você perceber que executou um código com loop infinito, finalize a execução do programa o mais rápido possível no terminal pressionando “Ctrl + C”.
+
+### Aula 3 - Média com for - Vídeo 3
+
+Transcrição  
+Antes de continuarmos explorando outras formas de implementar laços de repetição com JavaScript, vamos praticar novamente o for para reforçar nosso conhecimento. Agora, vamos calcular médias usando for, em vez de somar índice por índice de um array.
+
+Nosso próximo desafio é calcular a média entre as seguintes notas: 10, 6.5, 8, 7.5. Para isso, usaremos for. Já criamos um arquivo no Visual Studio Code, nomeado media-for.js, e nele definimos um array contendo essas quatro notas.
+
+> const notas = [10, 6.5, 8, 7.5];
+
+Primeiro, vamos criar uma variável com let para armazenar a soma dessas notas. Definiremos let somaDasNotas, iniciando em zero, pois ainda não temos nenhuma nota para guardar.
+
+Agora, podemos criar o for para percorrer a nossa lista. Lembrando das três expressões que compõem um laço for, vamos iniciar com a criação de uma variável i, cujo valor inicial será zero.
+
+A condição de execução será enquanto i for menor do que o tamanho do array. Portanto, enquanto i for menor do que notas.length, e a terceira condição é o incremento, i++, que fará com que o JavaScript avance de índice em índice no array.
+
+Dentro do for, a primeira coisa a fazer é somar todas as notas. Para isso, vamos utilizar somaDasNotas += notas[i];. O operador += incrementará o valor de somaDasNotas com o valor de notas[i].
+
+É importante lembrar que, ao trabalhar com laços de repetição, a execução do código fica presa no laço até que ele seja finalizado. Uma falha nesse processo pode gerar um looping infinito.
+
+Após o for, podemos criar uma constante media, que será o resultado de somaDasNotas dividido por notas.length. Esta operação nos dará a média das quatro notas, que é o valor total delas dividido pela quantidade de notas.
+
+Finalmente, com um console.log('a média das notas é ${media}'), exibiremos a média calculada. Para testar, executaremos node media-for.js no terminal. O terminal exibe a média das notas é 8.
+
+```JavaScript
+const notas = [10, 6.5, 8, 7.5];
+let somaDasNotas = 0;
+for (let i = 0; i < notas.length; i++) {
+    somaDasNotas += notas[i];
+}
+const media = somaDasNotas / notas.length;
+console.log(`a média das notas é ${media}`);
+```
+
+Vamos deixar para você o link da documentação do for no MDN, com mais exemplos e possibilidades de execução.
+
+Agora, é hora de passarmos para outras formas de se fazer laço de repetição com array. No entanto, continue praticando com for, pois ele é muito importante. Vamos lá!
+
+### Aula 3 - Faça como eu fiz: loops em matrizes
+
+Vimos como usar os loops para percorrer um array utilizando ofor:
+
+```JavaScript
+const notas = [10, 6.5, 8, 7.5];
+let somaDasNotas = 0;
+for (let i = 0; i < notas.length; i++) {
+  somaDasNotas += notas[i];
+}
+const media = somaDasNotas / notas.length;
+console.log(`A média das notas é ${media}.`);
+```
+
+Agora, se quisermos percorrer matrizes, um único for não será suficiente. Mas podemos usar o for várias vezes, uma para cada dimensão da matriz. Assim, uma matriz de duas dimensões usará dois for, um dentro do outro. Tente executar isso no código para praticar o que aprendeu ao longo da aula.
+
+Opinião do instrutor
+
+Começaremos criando mais alguns arrays e uma matriz de 2 dimensões.
+
+```JavaScript
+const notas1 = [10 , 6.5, 8 ,7.5]
+const notas2 = [9  , 6  , 6]
+const notas3 = [8.5, 9.5]
+
+const notasGerais = [notas1, notas2, notas3]
+ 
+let media = 0
+```
+
+Com a matriz criada, vamos iterar sobre os elementos. Mas não poderemos usar o mesmo for utilizado da última vez, já que agora notasGerais[i] contém um array e não mais um valor numérico. Por isso usaremos outro for para acessar esse array.
+
+```JavaScript
+for (let i = 0; i < notasGerais.length; i++) {
+  for (let j = 0; j < notasGerais[i].length; j++) {
+    media += notasGerais[i][j]/notasGerais[i].length;
+  }
+}
+```
+
+Vamos entender um pouco melhor as partes que compõem esse código.
+
+No primeiro for criamos uma let i e vamos executar o bloco de código enquanto i for menor que notasGerais.length. Como temos 3 elementos (nesse caso, arrays), o primeiro for será executado 3 vezes, com i=0,i=1,i=2.
+
+O segundo for tem uma nova variável, a let j (não podemos usar uma nova let i porque ela já está definida), e vamos executá-lo enquanto j for menor que notasGerais[i].length. Como cada notasGerais[i] é um array, podemos obter a propriedade de tamanho dele utilizando o .length.
+
+O código dentro do segundo for vai acumular o valor de notasGerais[i][j], lembrando que notasGerais[i] é um dos 3 arrays iniciais. Assim, o parâmetro [j] vai acessar o elemento dentro array escolhido pelo notasGerais[i], retornando um número que podemos usar na nossa conta.
+
+Então ficamos com o seguinte código:
+
+```JavaScript
+const notas1 = [10 , 6.5, 8 ,7.5]
+const notas2 = [9  , 6  , 6]
+const notas3 = [8.5, 9.5]
+const notasGerais = [notas1,notas2,notas3]
+let media = 0
+for (let i = 0; i < notasGerais.length; i++) {
+  for (let j = 0; j < notasGerais[i].length; j++) {
+    media += notasGerais[i][j]/notasGerais[i].length;
+  }
+}
+console.log(media)
+```
+
+No entanto, este código retorna uma média de 24. Como tal média é possível se não temos nenhum número maior do que 10? O que acontece é que para conseguir a média entre todos os arrays, temos que somar as médias dos arrays de notas, 8+7+9 e dividir pela quantidade de arrays em notasGerais.
+
+```JavaScript
+const notas1 = [10, 6.5, 8 ,7.5]
+const notas2 = [9, 6, 6]
+const notas3 = [8.5, 9.5]
+const notasGerais = [notas1,notas2,notas3]
+let media = 0
+for (let i = 0; i < notasGerais.length; i++) {
+  for (let j = 0; j < notasGerais[i].length; j++) {
+    media += notasGerais[i][j]/notasGerais[i].length;
+  }
+}
+media = media/notasGerais.length
+console.log(media)
+```
+
+Com isso usamos o for para passar por todos os elementos da matriz, e nesse caso, calcular a média dos valores deles.
+
+Continue com os seus estudos, e se houver dúvidas, não hesite em recorrer ao nosso fórum!
+
 ### Aula 3 -  - Vídeo 4
 ### Aula 3 -  - Vídeo 5

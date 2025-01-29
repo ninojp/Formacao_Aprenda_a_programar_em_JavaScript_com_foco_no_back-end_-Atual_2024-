@@ -33,3 +33,11 @@ main div{
     background-color: #ffffff1f;
     gap: 1rem;
 }
+main div h2{
+    font-size: 2rem;
+    /* color: #2b32ff; */
+}
+main div p{
+    font-size: 1.2rem;
+    color: #1796ff;
+}

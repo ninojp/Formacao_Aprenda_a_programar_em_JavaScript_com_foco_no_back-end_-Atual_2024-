@@ -46,3 +46,18 @@ export function metodoConcat(array1, array2){
 };
 //-------------------------------------------------------------------------------------------------------
 
+// includes() - Verifica se um array contém um determinado elemento e retorna true ou false.
+export function buscarAlunoNota(listAlunosMedia2, nomeAluno) {
+    const [alunos, media] = listAlunosMedia2; // DESESTRUTURAÇÃO DE ARRAY
+    // if (listAlunosMedia2[0].includes(nomeAluno)) {
+    if (alunos.includes(nomeAluno)) {
+        let indiceAluno = alunos.indexOf(nomeAluno);
+        let mediaAluno = media[indiceAluno];
+        document.getElementById('idParagrafo7').innerHTML += `O Aluno(a): ${nomeAluno} está na lista. E Sua Media é: ${mediaAluno}<br>`;
+        console.log(`O Aluno(a): ${nomeAluno} está na lista. E Sua Media é: ${mediaAluno}`);
+    } else {
+        document.getElementById('idParagrafo7').innerHTML += `O Aluno(a): ${nomeAluno} NÃO está na lista!`;
+        console.log(`O Aluno(a): ${nomeAluno} NÃO está na lista!`);
+    }
+    return;
+};

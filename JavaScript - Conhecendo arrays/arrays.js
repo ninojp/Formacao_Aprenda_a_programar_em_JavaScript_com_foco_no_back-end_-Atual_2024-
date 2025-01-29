@@ -1,5 +1,5 @@
 'use strict';
-import { metodoPush, calculaMedia, metodoPop, metodoSplice, metodoSlice, metodoConcat } from './arrays-metodos.js';
+import { metodoPush, calculaMedia, metodoPop, metodoSplice, metodoSlice, metodoConcat, buscarAlunoNota } from './arrays-metodos.js';
 // const metodoPush = require('./arrays-metodos.js');
 
 let notas = [10, 6, 8];
@@ -70,8 +70,9 @@ const salaPython = ['Ju', 'Leo', 'Raquel'];
 document.getElementById('idParagrafo5').innerHTML += `Array Original: salaPython [${salaPython}]<br>`;
 
 const salasJuntas = metodoConcat(salaJS, salaPython);
-// const salasJuntas = [...salaJS, ...salaPython]; //pode ser feito com spread operator.
-document.getElementById('idParagrafo5').innerHTML += `Array Concatenado: salasJuntas [${salasJuntas}]<br>`;
+// const salasJuntas = [...salaJS, ...salaPython]; //pode ser feito com spread operator. 
+document.getElementById('idParagrafo5').innerHTML += `Array Concatenado: salasJuntas ${JSON.stringify(salasJuntas)}<br>`;
+console.log(`Array Concatenado: salasJuntas [${salasJuntas}]`);
 //=======================================================================================================
 
 // Arrays multidimensionais - Array de arrays
@@ -81,8 +82,49 @@ const medias = [10, 8, 7.5, 9];
 document.getElementById('idParagrafo6').innerHTML += `Array medias [${medias}]<br>`;
 
 const listAlunosMedia = [alunos, medias];
-document.getElementById('idParagrafo6').innerHTML += `Arrays multidimensionais - Array de arrays [${listAlunosMedia}]<br>`;
-document.getElementById('idParagrafo6').innerHTML += `O Aluno(a): ${listAlunosMedia[0][1]} tem Média: ${listAlunosMedia[1][1]}`;
-console.log(`Array multidimensional - Array de arrays [${listAlunosMedia}]`);
+document.getElementById('idParagrafo6').innerText += `Array multidimensional - Array de arrays ${JSON.stringify(listAlunosMedia)}`
+// document.getElementById('idParagrafo6').innerHTML += `Arrays multidimensionais - Array de arrays [${listAlunosMedia}]<br>`;
+document.getElementById('idParagrafo6').innerHTML += `<br>O Aluno(a): ${listAlunosMedia[0][1]} tem Média: ${listAlunosMedia[1][1]}`;
+// console.log('Array multidimensional - Array de arrays: ', listAlunosMedia);
+// Usando template string com JSON.stringify para exibir o array no formato [[], []]
+console.log(`Array multidimensional - Array de arrays ${JSON.stringify(listAlunosMedia)}`);
 //=======================================================================================================
 
+// includes() - Verifica se um array contém um determinado elemento e retorna true ou false.
+const alunos2 = ['João', 'Juliana', 'Caio', 'Ana'];
+document.getElementById('idParagrafo7').innerHTML = `Array alunos [${alunos2}]<br>`;
+const medias2 = [10, 8, 7.5, 9];
+document.getElementById('idParagrafo7').innerHTML += `Array medias [${medias2}]<br>`;
+const listAlunosMedia2 = [alunos2, medias2];
+document.getElementById('idParagrafo7').innerHTML += `Array multidimensional ${JSON.stringify(listAlunosMedia2)}<br>`;
+
+buscarAlunoNota(listAlunosMedia2, 'Ana');
+buscarAlunoNota(listAlunosMedia2, 'Caio');
+//=======================================================================================================
+
+// DESESTRUTURAÇÃO DE ARRAY
+// const [alunos, media] = listAlunosMedia2; // DESESTRUTURAÇÃO DE ARRAY
+//------------------------------------------------------------------------------------------------------
+
+// pos-incremento e pre-incremento
+let i = 5;
+let valorA = i++; //incrementado após a execução
+let valorB = ++i; //incrementado antes de ser usado
+console.log("O valor de valorA é:", valorA);
+console.log("O valor de valorB é:", valorB);
+//=======================================================================================================
+
+// Laços de repetição - (for - for in - for of - while - do while - .forEach)
+
+// for classico - for (let indice = 0; indice < array.length; indice++) {};
+const notas3 = [10, 8, 7.5, 9, 7.5];
+document.getElementById('idParagrafo8').innerHTML += `Array notas3: ${JSON.stringify(notas3)}<br>`;
+let somaNotas = 0;
+for (let indice = 0; indice < notas3.length; indice++) {
+    somaNotas += notas3[indice];
+    console.log(`Indice: ${indice} Nota: ${notas3[indice]}`);
+    document.getElementById('idParagrafo8').innerHTML += `Indice: ${indice} Nota: ${notas3[indice]}<br>`;
+    //retorna: Indice: 0 Nota: 10, Indice: 1 Nota: 8, Indice: 2 Nota: 7.5, Indice: 3 Nota: 9, Indice: 4 Nota: 7.5
+};
+let mediaNotas3 = somaNotas / notas3.length;
+document.getElementById('idParagrafo8').innerHTML += `A Média de todas as notas é: ${mediaNotas3}<br>`;
