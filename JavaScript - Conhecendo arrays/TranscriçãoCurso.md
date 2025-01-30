@@ -1648,8 +1648,533 @@ Nessa aula, você aprendeu como:
 
 ### Aula 4 - Média com forEach - Vídeo 1
 
-### Aula 4 -  - Vídeo 2
-### Aula 4 -  - Vídeo 3
-### Aula 4 -  - Vídeo 4
-### Aula 4 -  - Vídeo 5
+Transcrição  
+Os laços de repetição são de grande importância, pois durante a rotina, trabalhamos bastante com arrays, tanto percorrendo por eles quanto buscando dados.
+
+O JavaScript possui diversos tipos de laços de repetição que estão prontos para executar tarefas específicas, pois o for clássico é muito geral e necessita de muitos ajustes finos, o que muitas vezes não é necessário.
+
+Esses laços possuem uma sintaxe específica. A partir de agora, começaremos a ver alguns desses laços e o seu uso. O nosso desafio neste vídeo é calcular a média novamente, mas agora utilizaremos um desses laços específicos chamado forEach(), cuja tradução literal seria "para cada". Novamente, calcularemos a média do array de médias que estamos trabalhando.
+
+**Explorando o método forEach()**  
+No VS Code, criamos um arquivo chamado forEach().js. Nele, colocamos a constante notas com os mesmos valores 10, 6.5, 8, 7.5 e criamos uma variável somaDasNotas para obter essa soma, como temos feito anteriormente.
+
+```JavaScript
+const notas = [10, 6.5, 8, 7.5];
+
+let somaDasNotas = 0;
+```
+
+O forEach(), assim como alguns outros métodos que veremos a partir de agora, tem uma sintaxe um pouco diferente do for e mais específica. Passaremos para o JavaScript qual é o array que trabalharemos, no caso, notas.forEach()(), pois é um método de array. Nos parênteses, ao invés de um parâmetro, como uma string ou um número, passaremos uma outra função. Escrevemos function () e passamos como parâmetro nota.
+
+Depois, abrimos e fechamos o bloco com chaves. Dentro, faremos mesmo que anteriormente, escrevemos somaDasNotas += nota. Na linha abaixo, podemos deixar pronto um console.log() passando a média das notas é ${media}. Também não podemos esquecer de criar a variável media. Na linha 9, escrevemos const media igual à somaDasNotas / notas.length.
+
+```JavaScript
+const notas = [10, 6.5, 8, 7.5];
+let somaDasNotas = 0;
+notas.forEach()(function (nota) {
+    somaDasNotas += nota;
+})
+const media = somaDasNotas / notas.length;
+console.log(`a média das notas é ${media}`);
+```
+
+Vamos testar. No terminal, passamos o comando node forEach().js seguido de "Enter".
+
+> node forEach().js
+
+Temos o seguinte retorno:
+
+> a média das notas é 8
+
+Está tudo funcionando. Agora, vamos nos aprofundar no método forEach().
+
+O forEach()(), assim como outros métodos, é o que chamamos de callback, ou seja, o parâmetro do forEach() é uma função que é chamada de volta quando executamos a função forEach(). Damos o nome de callback a essas funções que chamam outras funções dentro dela.
+
+Temos que prestar bastante atenção na sintaxe porque existe uma função inteira sendo declarada dentro do forEach(), e essa função é executada para cada elemento dentro do array. Não precisamos especificar nenhuma variável externa para guardar cada um desses elementos e nem dizer onde começa e onde termina o array, porque o forEach() fará automaticamente desde o primeiro elemento até o último.
+
+É importante notar o parâmetro nota que colocamos na função callback. Esse parâmetro é responsável por guardar o dado em cada uma das iterações. Então, na primeira iteração, o parâmetro nota guarda o elemento 10, na segunda guarda 6.5, na terceira 8 e assim por diante.
+
+É dessa forma que conseguimos acessar cada elemento e realizar a operação que queremos fazer. Nesse caso, queremos simplesmente pegar o valor e somar com o valor anterior que já estava em somaDasNotas.
+
+Para entendermos melhor como funciona essa função dentro da função, comentaremos o notas.forEach(), da linha 5 até a 7, e fazer de uma forma um pouco diferente.
+
+Separaremos a função de dentro da função de fora. Primeiro, na linha 9, passamos o notas.forEach() e, ao invés de escrever a função inteira no parâmetro, vamos referenciar uma função que chamaremos de somaNotas.
+
+A função somaNotas ainda não existe, criaremos ela agora. Criamos ela na linha 11 com function somaNotas, e essa função somaNotas() precisa receber um parâmetro que é cada nota que será somada, entçao nota. Abrimos o bloco de chaves e dentro passamos a instrução que estávamos usando anteriormente, que é somaDasNotas += nota.
+
+```JavaScript
+//Código omitido
+notas.forEach(somaNotas);
+function somaNotas (nota) {
+    somaDasNotas += nota;
+}
+const media = somaDasNotas / notas.length;
+console.log(`a média das notas é ${media}`);
+```
+
+Agora, para testarmos e vermos se está funcionando, voltamos ao terminal e passamos node forEach().js. Como retorno temos:
+
+a média das notas é 8
+
+Tudo continua funcionando. Porém, dessa vez, separamos a função callback, que é o somaNotas do forEach(). Você pode estar se perguntando, mas como que fazemos para passar o parâmetro nota, para dentro do forEach()? Porque no método, a função somaDasNotas está sendo apenas referenciada, não estamos executando somaDasNotas() com parênteses, colocando qualquer parâmetro.
+
+Só precisamos referenciar, porque o manejo do parâmetro, ou seja, de cada um dos elementos em cada passo desse loop, está sendo feito internamente pelo forEach(). Então, o forEach() pegará automaticamente cada um dos elementos e passar para dentro da função notas, como sendo o parâmetro nota.
+
+Por último, mas não menos importante, vamos conferir na documentação qual é o retorno do método forEach(). Segundo a documentação do MDN, o valor retornado é undefined.
+
+Isso significa que esse método forEach() executa o código que está dentro do bloco, mas não retorna nada. Então, conseguimos executar o que queremos, mas não conseguimos retornar nada que é feito durante essa execução através do forEach().
+
+Continuaremos conhecendo outros métodos callback e fazendo mais práticas.
+
+### Aula 4 - Parâmetros do forEach
+
+Na aula vimos como podemos usar o forEach para acessar o valor de todos os elementos em um array.
+
+```JavaScript
+const notas = [5.5, 6.5, 10, 9.5];
+notas.forEach(function (nota) {
+ console.log(nota);
+})
+```
+
+Selecione o único parâmetro obrigatório que temos que fornecer para esse método:
+
+Alternativa correta  
+Uma função que recebe um elemento.
+
+Certo! Essa função vai ser executada para cada elemento do array. É o que chamamos de “função callback”, quando uma função é passada como parâmetro de outra função e executada dentro deste contexto.
+
+### Aula 4 - Para saber mais: for...of vs callbacks
+
+Até agora vimos várias formas de fazer o que parece ser a mesma coisa: for, for…of, forEach()... Com tantas opções, como posso escolher qual usar no meu código?
+
+Antes, vamos dar uma olhada em cada um deles:
+
+**for**  
+A forma mais “clássica” de se efetuar um loop em JavaScript e em várias outras linguagens, o for é muito conveniente pois pode ser utilizado vários tipos de iteráveis e deixa explícita quais são todas as “fases” de cada loop - também chamamos um loop de laço de repetição ou de iteração.
+
+> O que é um “iterável”? Além de arrays, strings, sets (conjuntos) e maps (mapas ou dicionários) são considerados iteráveis. Não vamos falar dos dois últimos tipos neste curso, mas se você tiver interesse em saber mais sobre conjuntos, dicionários e outras estruturas de dados, pode dar uma olhada [neste artigo](https://www.alura.com.br/artigos/estruturas-de-dados-introducao); o que precisamos saber agora é que um iterável, aqui, representa uma sequência de elementos que pode ser percorrida (ou seja, iterada) utilizando ferramentas próprias para isso. É importante fazer uma distinção entre array e iterável, pois nem todo método que funciona em um array vai funcionar em outros iteráveis - veremos isso em seguida.
+
+```JavaScript
+const lista = [1, 2, 3, 4, 5];
+ 
+for (let indice = 0; indice < lista.length; indice++) {
+ console.log(lista[indice]); 
+}
+```
+
+O que queremos dizer com “deixar claro as fases da iteração” pode ser visto no exemplo acima: a expressão entre parênteses () após a palavra-chave for. Dentro da expressão temos:
+
+uma variável contadora, que é criada antes do início do laço (let indice);  
+uma expressão de teste (indice < lista.length), que é executada antes de cada iteração e que verifica se o código dentro do bloco {} deve ou não ser executado;
+
+por último, uma expressão que é executada ao final de cada laço, normalmente um incremento (++) ou decremento (--) da variável contadora.
+Ou seja: como as fases de cada laço são declaradas de forma explícita, elas também podem ser alteradas conforme a necessidade do código, o que faz com que o for seja muito versátil e possa ser utilizado em casos específicos, quando as outras formas de sintaxe mais reduzida (como os que vamos ver em seguida) não atendem.
+
+Decremental ou incremental?  
+O laço pode ser decremental ao invés de incremental (percorrer um array de trás para frente), a variável contadora pode receber outro valor como let indice = 2 ou let indice = outraVariavel + 1 (desde que esse valor seja avaliado como número), a condição de teste pode ser o tamanho do array como no exemplo, ou outro (indice < lista.length - 1) e o incremento ou decremento ao final do laço pode receber qualquer operador aritmético ou ser o resultado de uma operação, como indice = indice + 2 ou indice *= 2.
+
+É possível, inclusive, usar o for para executar algoritmos mais complexos, que também não seriam possíveis com outros métodos, por exemplo:
+
+```JavaScript
+const lista = [1, 2, 3, 4, 5];
+for (let i = 0, j = 0; i < lista.length; i++, j++) {
+ console.log(lista[i] + j); 
+}
+//1
+//3
+//5
+//7
+//9
+```
+
+Ainda há outras formas de se trabalhar com as condições do for, que você pode conferir na [documentação sobre for no MDN](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Statements/for).
+
+for…of  
+Adicionado às funcionalidades do JavaScript na versão ES6, é um tipo de laço de repetição diferente do for tradicional, embora utilize a mesma palavra-chave:
+
+```JavaScript
+const lista = [1, 2, 3, 4, 5];
+let soma = 0;
+for (let elemento of lista) {
+ soma += elemento;
+}
+console.log(soma) //15
+```
+
+O for…of pode ser executado utilizando qualquer tipo de iterável, além de arrays.
+
+Inicialmente, o for…of se parece bastante com o for: temos a declaração de uma variável (let elemento) seguida da palavra-chave of e um identificador do iterável que será percorrido (no caso acima é um array mesmo, lista).
+
+A diferença principal e mais visível entre o for e o for…of é que o anterior dá muito mais controle sobre de que forma o laço de repetição ocorre. Por exemplo, vimos que no for é possível manipular de forma mais fina todas as condicionais; já no for…of as condições são mais “fixas”: elemento se refere a cada elemento (ou item) do array e o loop sempre ocorre de forma sequencial, do primeiro elemento até o último.
+
+Em contrapartida, a sintaxe simplificada e mais “legível” para pessoas faz com que o uso do for…of seja mais prático do que o for, pois laços de repetição mais simplificados, que percorrem um iterável do primeiro ao último elemento e executam o código do bloco a cada iteração, são muito mais corriqueiros.
+
+forEach()  
+Ao contrário de for e for…of, o forEach() é um método do objeto Array.
+
+> O que é um método? Em programação, chamamos de método uma função que é propriedade de um objeto. A [documentação do MDN](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Functions/Method_definitions) traz alguns exemplos de métodos, mas você vai poder conferir com mais detalhes o que são objetos e suas propriedades no curso voltado para objetos. Por agora, basta saber que quando dizemos que determinada função - por exemplo, forEach() é um método de array, significa que esta função foi desenvolvida para trabalhar apenas com esse tipo de dado - no caso, com arrays.
+
+O forEach(), assim como outros métodos de array que vimos ou ainda vamos ver durante esta aula, também cumprem o papel de iterar arrays, porém com funcionalidades e retornos bem definidos. No caso do forEach(), apesar da sintaxe bem diferente, podemos utilizar este método como o for ou o for…of, pois ele vai executar as instruções que forem passadas para cada elemento iterado, sem retornar nenhum dado.
+
+O forEach(), assim como alguns outros [métodos de array do JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) que estamos vendo no curso, utiliza a abordagem funcional de funções callback para executar o código necessário a cada elemento iterado no laço:
+
+```JavaScript
+const lista = [1, 2, 3, 4, 5];
+let soma = 0;
+ 
+lista.forEach(numero => soma += numero);
+console.log(soma) //15
+```
+
+Como visto acima, o método forEach() recebe uma função como parâmetro, e esta função por sua vez utiliza como parâmetro cada um dos elementos do array. A lógica interna do forEach() vai manejar a iteração do primeiro ao último item do array e fazer com que o código definido dentro da função callback (no caso, apenas um incremento soma += numero) seja executado a cada iteração.
+
+O mesmo código também poderia ser escrito da seguinte forma, um pouco mais extensa porém mais legível:
+
+```JavaScript
+lista.forEach(numero => {
+ soma += numero
+});
+```
+
+Ou ainda, utilizando a palavra-chave function ao invés de arrow functions; essa forma de escrita não é usual, pois quando usamos funções callback o padrão adotado é o de arrow functions, mas serve para o propósito de legibilidade:
+
+```JavaScript
+lista.forEach(function (numero) {
+ soma += numero
+});
+```
+
+Assim, vemos que o forEach() não retorna nenhum tipo de valor, apenas executa o que está dentro do bloco da função callback, assim como for e for…of. Porém também não é possível modificar a forma que a iteração será feita (é sempre do primeiro elemento do array ao último) e não há forma de interromper o laço dada alguma condição, como o break funcionaria para um for normal.
+
+O forEach() também não pode ser utilizado com qualquer iterável, apenas com arrays e também não pode ser utilizado de forma assíncrona - um tema um pouco mais avançado e que não trabalharemos nesse curso, mas que você pode [conferir neste artigo](https://www.alura.com.br/artigos/async-await-no-javascript-o-que-e-e-quando-usar) se tiver curiosidade pra começar a aprender.
+
+**E quando devo utilizar um ou outro?**  
+A resposta, como em muitas coisas na programação, é depende!
+
+Atualmente, em termos de performance - ou seja, qual código é executado de forma mais rápida pelo computador e consumindo menos recursos de memória - tanto os laços com for como o forEach() não tem diferenças significativas, embora ainda possam ocorrer exceções, como no caso de versões muito antigas de navegadores e/ou manipulação de arrays muito longos.
+
+No momento em que desenvolvemos este curso, a questão de performance não é tão definidora na maior parte dos casos, pois os interpretadores do JavaScript já evoluíram para trabalhar tão bem com funções callbacks quanto com iteradores.
+
+O forEach() utiliza callbacks assim como map(), filter() e alguns outros métodos de array, o que facilita a utilização desses métodos em conjunto ou a troca de um para outro dependendo da necessidade do código ou de uma refatoração. Alguns guias de estilo de código desenvolvidos pela comunidade, como o [famoso guia do AirBNB](https://github.com/airbnb/javascript#iterators-and-generators), indica preferencialmente o uso do forEach() no lugar do for…of para manter a consistência no estilo do código.
+
+O for…of, mais recente que o forEach(), não é um método de array e sim um iterador, assim como o for. Ou seja, vai trabalhar com outros tipos de dados iteráveis além de arrays, com uma sintaxe mais simplificada que a do for.
+
+Como em ambos os casos não há retorno, somente a execução do código que está dentro do bloco - os colchetes {} do for…of ou a função callback do forEach(), você pode utilizar as ferramentas da seguinte forma:
+
+forEach() para trabalhar com arrays da forma mais corriqueira - percorrendo do primeiro ao último elemento, sem alterar a condição de parada, e também para manter a coesão do estilo quando em conjunto com outros métodos de array como map, filter e etc;
+for…of em caso de iteráveis (dicionários, conjuntos e outras estruturas de dados) ou de arrays quando for necessário o uso de programação assíncrona e/ou dar condições de saída do laço (por exemplo, com o uso de break);
+for para casos em que seja necessário manipular de forma mais fina as fases do laço (condição inicial, condição de parada e incremento).
+
+### Aula 4 - Revisando callbacks - Vídeo 2
+
+Transcrição  
+Continuando com nossos desafios, agora precisamos adicionar um ponto extra em cada uma das notas de uma lista. As pessoas estudantes receberam um ponto extra nas notas e precisamos somá-la às notas da lista.
+
+No VS Code, abrimos um arquivo que criamos anteriormente e chamamos de map.js. Dentro passamos um array de notas com os valores 10, 9.5, 8, 7 e 6.
+
+> const notas = [10, 9.5, 8, 7, 6];
+
+Conhecendo e aplicando o método map()  
+Começaremos criando uma constante chamada notasAtualizadas igual à notas.map(). O map, assim como o forEach, é um método callback, ou seja, colocaremos uma função chamando outra função.
+
+Nos parênteses, passamos funcion (nota) e abrimos o bloco de chaves. Dentro dele, ao invés de console.log, queremos realmente modificar o que está no array original. Então, diremos que para cada nota, faremos nota + 1, ou nota++.
+
+Agora, ao contrário do forEach() que não retorna nada, precisamos extrair essa informação de dentro docallback, ou seja, tirar essa informação de dentro dessa função. Faremos isso passando no início desse linha o return.
+
+```JavaScript
+const notas = [10, 9.5, 8, 7, 6];
+const notasAtualizadas = notas.map(function (nota) { 
+    return nota + 1;
+})
+```
+
+Dentro do map temos uma função que está recebendo, a cada iteração, uma nota, somando o número 1 e retornando esse valor. Na linha 7 podemos chamar o console.log(), passando como parâmetro notasAtualizadas.
+
+```JavaScript
+const notas = [10, 9.5, 8, 7, 6];
+const notasAtualizadas = notas.map(function (nota) { 
+    return nota + 1;
+})
+contole.log(notasAtualizadas);
+```
+
+No terminal, executa,ps node map.js e temos o retorno abaixo, um array.
+
+> [ 11, 10.5, 9, 8, 7 ]
+
+Repare que a nota 10 virou 11, a 9.5 virou 10.5 e a nota máxima é 10. Então, precisamos fazer uma pequena correção.
+
+Mas antes disso, aproveitaremos para fazer uma pequena refatoração. É muito comum utilizarmos em funções callback a sintaxe da arrow function. Lembrando do curso anterior de fundamentos, a arrow function tem uma sintaxe um pouco mais concisa do que a função.
+
+Copiaremos a nossa constante notasAtualizadas e colar logo abaixo. Feito isso, comentamos a que fizemos anteriormente. Agora faremos essa refatoração para a arrow function. Primeiro, em notas.map() deletamos a palavra-chave function, manter os parênteses e o parâmetro, e após os parâmetros adicionaremos o => para fazer a seta.
+
+```JavaScript
+const notasAtualizadas = notas.map((nota) => {
+    return nota + 1;
+})
+console.log(notasAtualizadas);
+```
+
+Se mantivermos dessa forma e executarmos novamente, tudo continua funcionando. Porém, no caso de arrow functions, se temos uma instrução, uma linha só, podemos suprimir tanto as chaves quanto o return. Nesse caso também não podemos ter o ponto e vírgula.
+
+```JavaScript
+const notasAtualizadas = notas.map((nota) => nota + 1)
+
+console.log(notasAtualizadas);
+```
+
+Agora a nossa função ficou bem mais curta, com apenas uma linha, recebendo o parâmetro e retornando direto a única instrução da função. Ao executar novamente no terminal, tudo continua funcionando.
+
+Então agora podemos utilizar uma arrow function que é muito mais comum quando usamos callbacks, usamos essa sintaxe. Quando temos apenas um parâmetro também, os parênteses em volta do parâmetro são opcionais, preferimos manter, mas nesse caso eles não são necessários.
+
+Vamos então fazer a correção das notas. Precisamos que se a nota for maior ou igual a 10 não haja nenhuma alteração, se for menor, podemos adicionar a nota a mais.
+
+Como incluímos isso no map, na arrow function? Poderíamos fazer um if, porque isso é literalmente uma condição, ou é maior ou igual a 10, ou não é.
+
+Porém, nesse caso, usaremos a sintaxe do operador ternário. Após a arrow function, na linha 7, passamos nota + 1 é o retorno, se for maior ou igual a 10, então >=10, retornamos 10, ? 10, afinal, 10 é a nota máxima. Se não for, ou seja, se nota + 1 for menor que 10, então, na mesma linha adicionamos : seguido de nota + 1.
+
+```JavaScript
+const notasAtualizadas = notas.map((nota) => nota + 1 >= 10 ? 10: nota + 1);
+
+console.log(notasAtualizadas);
+```
+
+Para testar, no terminal passamos novamente node map.js e temos o retorno abaixo:
+
+> [ 10, 10, 9, 8, 7 ]
+
+Deu certo! Relembrando que o operador ternário trabalha com uma verificação, uma comparação, portanto sempre vai retornar true ou false. Verificamos se nota + 1 é maior ou igual a 10 ou não. Após a interrogação é o caso de true, se for verdadeiro retorna 10. Depois dos dois pontos é o caso de false, se for falso retorna nota + 1.
+
+Está tudo funcionando. A última coisa é que, novamente, precisamos prestar atenção no retorno do método map(). Ao contrário do forEach(), que sempre retorna undefined, o map sempre retornará um array com os resultados, ou seja, um array com cada retorno de função.
+
+Por isso que a nossa variável notasAtualizadas é um array com cada um dos resultados, porque cada resultado está sendo retornado para fora da função callback e está sendo capturado dentro de um outro array que chamamos de notasAtualizadas.
+
+O forEach() não retorna nada, portanto, é para quando não precisamos de retorno. Caso contrário, quando precisamos que o resultado do processamento seja capturado e guardado em outro array, precisamos usar o map(). Essa é uma das principais diferenças entre o forEach() e o map().
+
+O map é super útil também, faremos mais testes com ele futuramente. A seguir, voltaremos a lista de desafios. Até lá!
+
+### Aula 4 - Alterando strings com map() - Vídeo 3
+
+Transcrição  
+Continuando com os desafios, precisamos agora padronizar uma lista de pessoas estudantes para que todos os elementos estejam em letras maiúsculas.
+
+Criamos um array chamado nomes, com três exemplos de strings: "ana Julia", "Caio vinicius", "BIA silva", ou seja, com letra minúscula e maiúscula, precisamos padronizar isso. Uma das formas de padronizar é mantendo tudo em caixa alta, eliminando esse problema.
+
+Padronizando nomes com o método map()  
+Para fazer essas alterações, usaremos o método map(), pois primeiro, precisamos percorrer este array, transformando tudo em caixa alta, e depois salvar essas alterações em um array corrigido.
+
+A primeira coisa a fazer é criar uma constante, que chamaremos de nomesPadronizados igual à nomes.map(). Como parâmetro, podemos colocar a nossa função callback. Passamos nome, fora dos parênteses, criamos a arrow function =>.
+
+Agora podemos usar um método de string que vimos no curso anterior de fundamentos, por exemplo, o toUpperCase. Então, para cada nome, executaremos nome.toUpperCase(). Para testar se deu tudo certo passamos console.log(nomesPadronizados).
+
+```JavaScript
+const nomes = ["ana Julia", "Caio vinicius", "BIA silva"];
+
+const nomes Padronizados nomes.map((nome) => nome.toUpperCase());
+
+console.log(nomesPadronizados)
+```
+
+Retornamos ao terminal e passamos o comando node map.string.js.
+
+> node map.string.js
+
+Temos o seguinte retorno:
+
+> [ 'ANA JULIA', 'CAIO VINICIUS', 'BIA SILVA' ]
+
+Todos os nomes em caixa alta, portanto, o método funcionou perfeitamente.
+
+Fizemos esse exercício porque utilizamos o map(), por exemplo, para fazer cálculos, mas podemos utilizá-lo para fazer qualquer tipo de alteração em qualquer tipo de dado que faça parte do array, inclusive em arrays de arrays ou em objetos que veremos nos cursos futuros.
+
+Independente disso, cada um dos itens do array é capturado dentro do parâmetro que estamos chamando de nome porque é um array de nomes. Se fosse um array de notas, chamaríamos de notas, e assim por diante. Assim, conseguimos acessar esse valor e fazer as alterações necessárias e elas serão retornadas para fora e capturadas em um novo array.
+
+Praticamos o map(), em sequência continuaremos conhecendo utras funções callback que o JavaScript disponibiliza.
+
+### Aula 4 - Para saber mais: Strings são arrays?
+
+Durante essa aula, utilizamos um método específico para strings, o toUpperCase(), para alterar todos os caracteres de cada string do array para letras maiúsculas. Mas e se quisermos acessar somente uma letra? Poderíamos usar um loop para percorrer todas as letras de um string?
+
+“String”, além de ser o tipo de dado usado para representar textos, também se define como uma sequência ordenada de caracteres!
+
+“Lista ordenada” (ou sequência) também é uma forma de definir arrays, certo? Então podemos pensar que, por baixo dos panos, strings são armazenadas em memória da seguinte forma:
+
+```JavaScript
+const nome = "Alura";
+// ["A", "l", "u", "r", "a"]
+```
+
+Ou seja, é possível utilizar alguns métodos de array e laços de repetição para acessar e alterar strings:
+
+```JavaScript
+const nome = "Alura";
+let nomeMaiusculas = "";
+ 
+for (let i = 0; i < nome.length; i++) {
+ nomeMaiusculas += nome[i].toUpperCase()
+}
+console.log(nomeMaiusculas) //ALURA
+//===============================================
+
+const nomedoCurso = "Fundamentos de JS";
+const nomeDaPlataforma = " Alura"
+ 
+const nomeCompleto = nomedoCurso.concat(nomeDaPlataforma)
+console.log(nomeCompleto)  //Fundamentos de JS Alura
+```
+
+Você pode conferir a lista completa de métodos de [string na documentação do MDN](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/String#methods). Confira na lista de links na seção à esquerda da tela e veja se consegue identificar alguns que já utilizamos nas aulas para trabalhar com arrays.
+
+### Aula 4 - forEach e map
+
+Para praticar mais com métodos de array, Vinicius está fazendo vários testes de código para resolver um problema de ajustes de texto em uma lista de produtos de sua loja online. Ele precisa adicionar o texto “ - unidade” em todos os produtos da loja.
+
+Primeiro ele testou com o método forEach:
+
+```JavaScript
+const listaProdutos = ['pôster A4', 'pôster A5', 'camiseta lisa', 'camiseta estampada', 'pin de metal', 'cartela de adesivos'];
+const listaAtualizada = listaProdutos.forEach((produto) => {
+ return `${produto} - unidade`;
+})
+console.log(listaAtualizada);
+```
+
+Porém, não obteve o resultado desejado e mudou o método para map():
+
+```JavaScript
+const listaProdutos = ['pôster A4', 'pôster A5', 'camiseta lisa', 'camiseta estampada', 'pin de metal', 'cartela de adesivos'];
+const listaAtualizada = listaProdutos.map((produto) => {
+ return `${produto} - unidade`;
+})
+console.log(listaAtualizada);
+```
+
+Aí, sim, conseguindo as alterações necessárias.
+
+Analisando a situação acima, marque a alternativa que explica corretamente o que aconteceu nos códigos.
+
+O retorno esperado de cada um dos métodos.
+
+Certo! Enquanto o método forEach não retorna nenhum tipo de dados, o método map() sempre retorna um array. Caso a função callback não tenha nenhum dado de retorno, ainda assim o resultado de map() será um array vazio. Por isso qualquer tentativa de retornar resultados de forEach e armazená-los em variáveis vai resultar em undefined.
+
+### Aula 4 - Somando com forEach
+
+Considere o seguinte código:
+
+```JavaScript
+const numeros = [2, 4, 6, 8];
+let soma = 0;
+numeros.forEach(numero => {
+    soma += numero;
+});
+console.log("A soma dos números é:", soma);
+```
+
+Descreva o que esse código faz.
+
+Calcula a soma dos números presentes no array numeros.
+
+O código utiliza o método forEach para iterar sobre os elementos do array numeros e acumular a soma dos valores desses números na variável soma. No final, exibe a soma total dos números no console.
+
+### Aula 4 - Faça como eu fiz: métodos callback
+
+Nesta aula introduzimos um novo conceito, o de funções callback.
+
+O termo callback se refere à função que é “chamada de volta” dentro de outra função. Após o lançamento do ES6 (também conhecido como EcmaScript 2015) o uso desse tipo de método foi se consolidando, então é importante entender como utilizá-lo.
+
+O JavaScript moderno traz vários métodos e funções callback diversos, não apenas para uso com arrays. Porém a estrutura da função se mantém similar.
+
+Crie um novo arquivo index.js e crie uma array de números:
+
+> const arrayNums = [1, 2, 3, 4]
+
+Utilize o map() para multiplicar cada um dos valores nesse array por 10 e retornar um novo array com os resultados. Para isso lembre de usar uma função callback.
+
+Opinião do instrutor
+
+Antes de escrevermos o map(), vamos criar a função callback; ou seja, a função que vamos chamar (call) de volta quando executarmos o método map():
+
+```JavaScript
+function multiplicaPorDez(num) {
+ return num * 10
+}
+```
+
+Agora podemos chamar o map() para fazer a operação:
+
+```JavaScript
+const arraySomada = arrayNums.map(multiplicaPorDez)
+console.log(arraySomada)
+```
+
+O resultado no terminal deve ser [ 10, 20, 30, 40 ].
+
+IMPORTANTE: Observe a função multiplicaPorDez. Quando criamos esta função, especificamos que ela precisa receber o parâmetro (num) para ser executada corretamente. No entanto, quando ela está sendo chamada dentro de arrayNums.map(), não passamos nenhum parâmetro e mesmo assim funcionou. O que aconteceu aqui?
+
+Para entender melhor, vamos reescrever o código, passando a função multiplicaPorDez(num) direto como parâmetro do map():
+
+```JavaScript
+const arraySomada = arrayNums.map(num => num * 10)
+console.log(arraySomada)
+```
+
+No código acima, substituímos uma função externa e nomeada (a função multiplicaPorDez), por uma arrow function anônima que existe somente dentro do map(). Mas esta função anônima também tem um parâmetro, num, que representa cada um dos elementos do array que será iterado pelo map().
+
+Por isso, quando utilizamos uma função externa como callback de um map(), não foi necessário passar um parâmetro. O map() executa automaticamente o bloco de código da função (nesse caso, num * 10) para cada elemento do array.
+
+Ambos os casos de uso são válidos; as funções externas permitem reaproveitamento de código, mas há vários momentos em que isso não será necessário.
+
+> Para o JavaScript, qualquer função que seja chamada como argumento de outra é considerada uma função callback, não apenas em caso de métodos. Você pode ver [outros exemplos no MDN](https://developer.mozilla.org/pt-BR/docs/Glossary/Callback_function).
+
+Continue com os seus estudos, e se houver dúvidas, não hesite em recorrer ao nosso fórum!
+
+### Aula 4 - Para saber mais: links da aula
+
+Confira abaixo a lista de links utilizados durante a aula e/ou links complementares ao conteúdo:
+
+Documentação do MDN: [forEach](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach);
+Documentação do MDN: [map](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/map).
+
+### Aula 4 - Desafio: exercícios
+
+Dominar o uso de arrays é fundamental em programação e uma base essencial na manipulação de dados. Praticar regularmente é a chave para se tornar mais confiante!
+
+Para isso criamos uma lista de exercícios que não apenas ajudam a explorar os métodos de manipulação de arrays, mas também vão te preparar para lidar eficientemente com dados em aplicações reais.
+
+1. Utilize o método forEach para imprimir cada elemento de um array juntamente com seu índice.
+
+2. Crie uma função chamada executaOperacaoEmArray que recebe dois parâmetros: um array e uma função de callback que executa alguma operação matemática. Essa função deve iterar por cada elemento do array e aplicar a função de callback em cada um dos elementos, imprimindo o resultado da operação no console.
+
+3. Você recebeu um array numeros contendo valores numéricos. Crie um programa que verifique se um número específico está presente nesse array. Se estiver, o programa deve retornar a posição (índice) desse número. Caso contrário, se o número não estiver presente, o programa deve retornar "-1".
+
+4. Você recebeu dois arrays de nomes contendo os alunos da Turma A e da Turma B.
+
+```JavaScript
+const nomesTurmaA = [
+  'João Silva',
+  'Maria Santos',
+  'Pedro Almeida'
+];
+const nomesTurmaB = [
+  'Carlos Oliveira',
+  'Ana Souza',
+  'Lucas Fernandes'
+];
+```
+
+Utilize o método concat() para unir os arrays das turmas A e B em um único array chamado todasAsTurmas. Depois, utilize o método find() para buscar um aluno específico pelo nome no array todosAlunos. Exiba no console uma mensagem informando o nome do aluno procurado; caso não exista na lista, retorne uma mensagem de aviso, por exemplo Aluno não encontrado.
+
+5. Considere um array de números inteiros.
+
+> const numeros = [6, 9, 12, 15, 18, 21];
+
+Utilize o método forEach() para multiplicar cada elemento do array por 3 e exibir no console o resultado de cada multiplicação. Depois, utilize o método findIndex() para encontrar o índice do número 18 no array original.
+
+Caso precise de ajuda, opções de solução das atividades estarão disponíveis na seção “Opinião”.
+
+Opinião do instrutor
+
+Disponibilizamos uma possível resolução dos desafios [neste link](https://github.com/alura-cursos/3530-js-arrays/tree/exercicios-aula4) para você construir ou validar suas soluções.
+
 ### Aula 4 -  - Vídeo 6

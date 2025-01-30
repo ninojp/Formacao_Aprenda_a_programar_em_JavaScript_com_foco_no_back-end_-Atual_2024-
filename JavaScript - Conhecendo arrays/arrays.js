@@ -1,5 +1,5 @@
 'use strict';
-import { metodoPush, calculaMedia, metodoPop, metodoSplice, metodoSlice, metodoConcat, buscarAlunoNota, metodoForEach } from './arrays-metodos.js';
+import { metodoPush, calculaMedia, metodoPop, metodoSplice, metodoSlice, metodoConcat, buscarAlunoNota, metodoForEach, atualizarNotas } from './arrays-metodos.js';
 // const metodoPush = require('./arrays-metodos.js');
 
 let notas = [10, 6, 8];
@@ -129,7 +129,7 @@ for (let indice = 0; indice < notas3.length; indice++) {
 };
 let mediaNotas3 = somaNotas / notas3.length;
 document.getElementById('idParagrafo8').innerHTML += `A Média de todas as notas é: ${mediaNotas3}<br>`;
-//---------------------------------------------------------------------------------------------------------------
+//==================================================================================================================
 
 // for of - for (let elemento of array) {};
 // O for of, percorre os elementos do array, e não os índices.
@@ -140,7 +140,7 @@ for (const element of notas3) {
     document.getElementById('idParagrafo9').innerHTML += `FOR OF - Nota: ${element}<br>`;
 }
 
-//---------------------------------------------------------------------------------------------------------------
+//==================================================================================================================
 
 // for in - for (let indice in array) {};
 // O for in, percorre os índices do array, e não os elementos.
@@ -149,13 +149,21 @@ for (const indice in notas3) {
     console.log(`Indice: ${indice} Nota: ${notas3[indice]}`);
     document.getElementById('idParagrafo10').innerHTML += `FOR IN - Indice: ${indice} Nota: ${notas3[indice]}<br>`;
 }
-//---------------------------------------------------------------------------------------------------------------
+//==================================================================================================================
 
 // .forEach() - array.forEach((elemento, indice, array) => {});
 // O método forEach() executa uma dada função em cada elemento de um array. E retorna undefined.
-document.getElementById('idParagrafo11').innerHTML += `forEach() - array.forEach((elemento, indice, array) => {}) ${JSON.stringify(notas3)}<br>`;
-metodoForEach(notas3);
-//---------------------------------------------------------------------------------------------------------------
+const notas4 = [10, 8, 7.5, 9, 7.5];
+document.getElementById('idParagrafo11').innerHTML += `forEach() - array.forEach((elemento, indice, array) => {}) ${JSON.stringify(notas4)}<br>`;
+metodoForEach(notas4);
+
+let somatoria = 0;
+notas4.forEach((elemento) => {
+    somatoria += elemento;
+});
+let mediaNotas4 = somatoria / notas4.length;
+document.getElementById('idParagrafo11').innerHTML += `forEach() - A média das notas é: ${JSON.stringify(mediaNotas4)}<br>`;
+//==================================================================================================================
 
 // while - O laço de repetição while executa a instrução especificada enquanto a condição especificada for verdadeira.
 let controle = 0;
@@ -167,3 +175,27 @@ while (controle < 10) {
 };
 document.getElementById('idParagrafo12').innerHTML += `while(condição) {} - ${JSON.stringify(arrayContagem)}<br>`;
 console.log("Fim do laço while", arrayContagem);
+//==================================================================================================================
+
+// .map() - O método map() invoca a função callback passada por argumento para cada elemento do Array e devolve um novo Array como resultado.
+const notasList = [10, 9.5, 8, 7, 6];
+document.getElementById('idParagrafo13').innerHTML = `Array Original: ${JSON.stringify(notasList)}<br>`;
+console.log(`Array Original: ${JSON.stringify(notasList)}`);
+const notasListAtual = atualizarNotas(notasList);
+document.getElementById('idParagrafo13').innerHTML += `.map() - Array Atualizado: ${JSON.stringify(notasListAtual)}<br>`;
+console.log(`.map() - Array Atualizado: ${JSON.stringify(notasListAtual)}`);
+//-------------------------------------------------------------------------------------------------------------------
+// Desafio
+const nomesList = ["ana Julia", "Caio vinicius", "BIA silva"];
+document.getElementById('idParagrafo13').innerHTML += `Array nomesList: ${JSON.stringify(nomesList)}<br>`;
+console.log(`Array nomesList: ${JSON.stringify(nomesList)}`);
+
+const nomesPadronizadosUp = nomesList.map(nome => nome.toLocaleUpperCase());
+document.getElementById('idParagrafo13').innerHTML += `Array Padronizado toLocaleUpperCase:<br> ${JSON.stringify(nomesPadronizadosUp)}<br>`;
+console.log(`Array Padronizado toLocaleUpperCase:: ${JSON.stringify(nomesPadronizadosUp)}`);
+
+const nomesPadronizadosDown = nomesList.map(nome => nome.toLocaleLowerCase());
+document.getElementById('idParagrafo13').innerHTML += `Array Padronizado toLocaleLowerCase:<br> ${JSON.stringify(nomesPadronizadosDown)}<br>`;
+console.log(`Array Padronizado toLocaleLowerCase:: ${JSON.stringify(nomesPadronizadosDown)}`);
+
+//==================================================================================================================
