@@ -2401,7 +2401,418 @@ Como já mencionamos anteriormente, na parte de objetos vamos aprender mais usos
 
 Como sempre, pratique bastante e vamos prosseguir para o próximo desafio!
 
-### Aula 5 -  - Vídeo 3
-### Aula 5 -  - Vídeo 4
-### Aula 5 -  - Vídeo 5
-### Aula 5 -  - Vídeo 6
+### Aula 5 - Mão na massa: estrutura do reduce
+
+Não deixe de executar e testar os códigos dessa atividade em seu projeto!
+
+Durante a aula trabalhamos com o método reduce() para “reduzir” uma lista de números para um único valor. Este método trabalha com parâmetros um pouco diferentes dos outros que vimos durante o curso.
+
+Em seu editor, crie um arquivo index.js e execute o seguinte código:
+
+```JavaScript
+const numeros = [43, 50, 65, 12]
+const soma = numeros.reduce((acum, atual) => atual + acum, 0)
+console.log(soma) //170
+```
+
+O código acima é muito parecido com o que foi feito durante a aula. É importante notar que:
+
+O método reduce() está trabalhando com dois parâmetros. O primeiro é a função callback obrigatória para retornar o cálculo e o segundo parâmetro é um número que representa o valor inicial do acumulador – no caso, 0.
+A função callback foi escrita diretamente dentro do reduce(), e esta função também está recebendo dois parâmetros, ambos obrigatórios: o valor acumulado (acum) e o valor atual.
+A função callback foi escrita na forma de arrow function; nesse caso, quando só temos uma linha de instrução dentro da função (atual + acum) não precisamos usar chaves e nem da palavra-chave return.
+Caso você tenha mais de uma linha de instrução dentro de uma arrow function, as chaves {} e a palavra-chave return voltam a ser necessários.
+
+Tente encontrar outras formas de escrever o método reduce() levando em consideração o código apresentado!
+
+Opinião do instrutor
+
+Vamos reescrever o reduce() de uma forma um pouco mais extensa para separar melhor as partes do código:
+
+```JavaScript
+const soma = numeros.reduce(function (acc, atual) {
+ return atual + acc
+}, 0)
+```
+
+Vendo o código acima, percebe-se melhor onde começam e terminam cada um dos parâmetros do reduce(): o primeiro parâmetro, uma função e o segundo, um número.
+
+Uma terceira forma de reescrever seria escrevendo a função callback fora do reduce():
+
+```JavaScript
+function operacaoNumerica(acc, atual) {
+ return atual + acc
+}
+const soma = numeros.reduce(operacaoNumerica, 0)
+```
+
+O reduce() roda o loop no array “por baixo dos panos”, executando para cada elemento a instrução passada na função operacaoNumerica.
+
+No dia a dia, a forma que utilizamos no vídeo é a mais usual. Porém, durante seus estudos, você pode praticar da forma que achar mais clara.
+
+É importante lembrar que cada método pode aceitar receber parâmetros diferentes! Alguns são obrigatórios, outros opcionais. Consulte sempre a documentação da linguagem.
+
+Continue com os seus estudos, e se houver dúvidas, não hesite em recorrer ao nosso fórum!
+
+### Aula 5 - Clonando arrays - Vídeo 3
+
+Transcrição  
+Neste próximo desafio, iremos criar a cópia de uma lista.
+
+**Desafio: criando cópias**  
+Vamos considerar uma lista de notas com quatro valores: 7, 7, 8 e 9. Precisamos criar uma nova lista adicionando a nota 10, sem alterar a lista original.
+
+Se pensarmos em tipos primitivos de dados, como String, Number, Boolean, Undefined, Null, o processo para copiá-los é mais sucinto. Por exemplo: em um arquivo chamado clonar.js no Visual Studio Code, criamos uma const chamada notas com os valores mencionados anteriormente.
+
+clonar.js:
+
+> const notas = [7, 7, 8, 9];
+
+Se tivermos uma constante chamada nota, com um valor numérico qualquer, como 9.75, e quisermos criar uma nova variável a partir dessa, podemos criar uma const chamada novaNota, igual a nota.
+
+Desse modo, teremos uma cópia idêntica. Podemos até pedir para o console exibir essas duas variáveis.
+
+```JavaScript
+// código omitido
+const nota = 9.75;
+const novaNota = nota;
+
+console.log(nota);
+console.log(novaNota);
+```
+
+Ao executar o arquivo clonar.js no terminal, os dois valores 9.75 são exibidos.
+
+> node clonar.js
+
+Se quisermos alterar o valor de qualquer uma dessas variáveis, precisamos transformar ambas em variáveis do tipo let. Para alterar o valor de uma variável let, basta chamar novamente o nome da variável e trocar o valor dela. Por exemplo: vamos alterar o valor de nota para 10.
+
+```JavaScript
+let nota = 9.75;
+let novaNota = nota;
+
+nota = 10;
+
+console.log(nota);
+console.log(novaNota);
+```
+
+Ao rodar novamente o arquivo, podemos observar no terminal que apenas o valor da variável nota mudou: agora nota é 10 e novaNota continua sendo 9.75.
+
+Vamos tentar fazer a mesma coisa com arrays. Já temos a const notas; agora vamos criar uma nova const chamada novaListaNotas e atribuir o valor de notas a essa variável.
+
+Podemos comentar as variáveis numéricas que havíamos criado, e no console, vamos pedir para exibir notas e novaListaNotas para verificar o que acontece.
+
+```JavaScript
+const notas = [7, 7, 8, 9];
+const novaListaNotas = notas;
+// let nota = 9.75;
+// let novaNota = nota;
+// nota = 10;
+console.log(notas);
+console.log(novaListaNotas);
+```
+
+No terminal, dois arrays exatamente iguais são exibidos.
+
+Porém, vamos agora testar alterar apenas uma dessas variáveis. Para isso, chamaremos o método push() na variável novaListaNotas para inserir um valor no final do array. Feito isso, vamos inserir entre parênteses o número 10, conforme pedido no desafio.
+
+```JavaScript
+const notas = [7, 7, 8, 9];
+const novaListaNotas = notas;
+novaListaNotas.push(10);
+// código omitido
+```
+
+Rodamos novamente o console e observamos que os dois arrays foram alterados: o array notas e o array novaListaNotas agora incluem o número 10, mesmo solicitando a adição apenas em novaListaNotas.
+
+Por que isso acontece? Os arrays se comportam de forma diferente dos dados primitivos. Existem duas formas de atribuir valores a uma variável: atribuição por valor e atribuição por referência.
+
+No caso do array, o que aconteceu foi uma atribuição por referência. Não clonamos o valor em si, não temos o valor literalmente duplicado. Quando atribuímos o valor de notas a const novaListaNotas, criamos uma referência da variável notas para dentro de novaListaNotas.
+
+Isso significa que, quando fazemos uma alteração em novaListaNotas, essa alteração reflete no array que está sendo referenciado, ou seja, o array original notas.
+
+Como clonar literalmente um array?  
+Como copiar os valores e atribuir a uma nova variável? Vamos utilizar um operador que ainda não conhecemos, chamado spread operator (operador de espalhamento).
+
+Na nossa constante novaListaNotas, em vez de apenas repetir o valor de notas, vamos englobar notas por colchetes e colocar três pontos antes dela (...), que é a sintaxe do spread operator.
+
+> const novaListaNotas = [...notas];
+
+Agora podemos fazer o push() em novaListaNotas e conferir se tudo está funcionando. De volta ao terminal, vamos executar novamente node clonar.js. Agora, a variável notas se manteve inalterada e novaListaNotas foi alterada com o push() no valor 10, que é o que o desafio nos pediu para fazer.
+
+Porém, ainda podemos melhorar o código. Na verdade, quando usamos o operador de espalhamento, nem precisamos do push(). Então, vamos comentar o push() e adicionar o 10 dentro do operador de espalhamento, logo após a variável notas. Portanto, [...notas, 10].
+
+```JavaScript
+const novaListaNotas = [...notas, 10];
+
+// novaListaNotas.push(10);
+```
+
+Ao testar novamente no terminal, continua funcionando da mesma forma, porque o operador de espalhamento pega todos os valores e, literalmente, abre o array e espalha o seu conteúdo.
+
+O que acontece é que temos a criação de um array, espalhamos os valores da variável notas dentro desse array e, em seguida, adicionamos mais um valor. Por isso, sem usar o push(), conseguimos adicionar o 10 dentro do array novaListaNotas.
+
+Conclusão  
+Sempre que precisar clonar arrays, lembre da questão da atribuição por valor e da atribuição por referência. Além disso, o operador de espalhamento é super útil. Abordaremos ele em outros contextos; quando voltarmos a trabalhar com objetos, provavelmente vamos utilizar.
+
+Por enquanto, vamos continuar nos desafios de array!
+
+### Aula 5 - Para saber mais: valor ou referência?
+
+No vídeo anterior, você viu como clonar um array de forma apropriada no JavaScript. Atribuir diretamente um array para outro com o sinal = faz com o que o JavaScript entenda o novo array como uma referência ao anterior.
+
+Para evitar esse comportamento, devemos criar um array totalmente novo, com a ajuda do spread operator ... (ou operador de espalhamento).
+
+Porém, esse comportamento não acontece com strings, números e booleanos, que são tipos primitivos do JavaScript.
+
+Considere o seguinte código:
+
+```JavaScript
+let num1 = 10;
+let num2 = num1;
+num2 += 5;
+num1 += 1;
+console.log(`Num1 é ${num1}. Num2 é ${num2}`);
+```
+
+Ao executar o código, teremos a frase “Num1 é 11. Num2 é 15”. Ou seja, com o código let num2 = num1, o JavaScript entende que queremos criar uma cópia de num1, e cria uma nova variável, com seu próprio espaço na memória guardando seu valor. Então, ao modificar uma das variáveis, a outra não é alterada.
+
+Esse comportamento de copiar um valor primitivo, o atribuindo a uma nova variável, é chamado de atribuição por valor.
+
+O mesmo comportamento ocorre quando trabalhamos com parâmetros de funções. Veja o seguinte exemplo:
+
+```JavaScript
+let numeroOriginal = 10;
+function alteraNumero(numero) {
+  numero = 50;
+  console.log(`numero do parâmetro é ${numero}. numeroOriginal é ${numeroOriginal}`);
+}
+alteraNumero(numeroOriginal);
+```
+
+Executando o código, teremos a frase “numero do parâmetro é 50. numeroOriginal é 10”. Ao chamar a função passando numeroOriginal como parâmetro, foi feita uma cópia de seu valor para ser utilizada como o parâmetro numero dentro da função. Dessa forma, mesmo alterando numero dentro da função, numeroOriginal permanece inalterado.
+
+Mas como você viu, com arrays não funciona bem dessa forma, afinal, eles não são um tipo primitivo. Considere o exemplo utilizado no vídeo passado:
+
+```JavaScript
+const notas = [7, 7, 8, 9];
+const novasNotas = notas;
+novasNotas.push(10);
+console.log(`As novas notas são ${novasNotas}`);
+console.log(`As notas originais são ${notas}`);
+```
+
+A partir do código const novasNotas = notas, o JavaScript entende que novasNotas e notas passam a ser o mesmo array, e agora eles apontam para o mesmo espaço na memória. Como estamos lidando com dados mais complexos, o JavaScript faz isso por padrão para otimizar memória e performance, em vez de realizar uma cópia do array em toda nova atribuição.
+
+Uma atribuição de um array é chamada de atribuição por referência, pois nela é passada a referência do array em si, e não uma cópia de seu valor.
+
+O mesmo comportamento ocorre quando arrays são passados como parâmetro de funções. Veja o código abaixo:
+
+```JavaScript
+const arrayOriginal = [7, 7, 8, 9];
+function alteraArray(array) {
+  array.push(10);
+  console.log(`array do parâmetro é ${array}`);
+  console.log(`arrayOriginal é ${arrayOriginal}`);
+}
+alteraArray(arrayOriginal);
+```
+
+Executando o código, teremos essa saída:
+
+```JavaScript
+array do parâmetro é 7,7,8,9,10
+arrayOriginal é 7,7,8,9,10
+```
+
+Após passar arrayOriginal como parâmetro de alteraArray, o utilizamos como o parâmetro array. O código array.push(10) alterou ambos os arrays, assim como o que houve no exemplo que fizemos a atribuição. Ou seja, novamente, foi passada a referência do array em si, e não uma cópia dele.
+
+De forma análoga à solução do vídeo, caso queiramos passar uma cópia do array e não sua referência, trocamos o código alteraArray(arrayOriginal) por alteraArray([...arrayOriginal]). Assim, a saída será:
+
+```JavaScript
+array do parâmetro é 7,7,8,9,10
+arrayOriginal é 7,7,8,9
+```
+
+### Aula 5 - Removendo elementos com Set - Vídeo 4
+
+Transcrição  
+O último desafio é remover duplicatas de uma lista. Um professor adicionou acidentalmente nomes repetidos na lista de chamada: Ana, Clara, Maria, Maria, João, João, João. Nossa tarefa é remover os nomes repetidos dessa lista, deixando apenas um de cada.
+
+Vamos pensar, por exemplo, como resolver isso com um loop for. Em cada interação, nós comparamos se esse nome já existe no array (conjunto), se não existe, o adicionamos, se não, ignoramos. No entanto, conseguimos utilizar ferramentas do JavaScript prontas para resolver isso.
+
+Nossa lista de nomes já está criada num arquivo que nomeei de set.js, e é exatamente este recurso que vamos utilizar. Criaremos uma constante chamada nomesAtualizados a qual será atribuída o código new Set(), com "S" maiúsculo. É muito importante lembrar que o JavaScript é case sensitive, então precisamos escrever "Set" com "S" maiúsculo.
+
+Dentro dos parênteses de Set(), passaremos nosso array nomes, que criamos anteriormente. Então, Set(nomes). E, na linha abaixo, escreveremos console.log(), como sempre, para exibir no terminal os nomesAtualizados.
+
+```JavaScript
+const nomes = ["Ana", "Clara", "Maria", "Maria", "João", "João", "João"];
+const nomesAtualizados = new Set(nomes);
+console.log(nomesAtualizados);
+```
+
+Vamos ver se deu tudo certo. Abriremos o terminal do VS Code e escreveremos node set.js. O resultado é Set (4) { 'Ana', 'Clara', 'Maria', 'João' }, ou seja, um Set com quatro elementos: Ana, Clara, Maria e João. Portanto, todos os elementos repetidos foram deletados. Agora, precisamos entender o que é Set.
+
+O Set é um conjunto, e um conjunto é um tipo de dado que armazena valores únicos, ao contrário do array, que pode ter elementos repetidos à vontade. Costumamos dizer que o Set é um tipo de dado que é array-like (parecido com um array), mas ele não é um array.
+
+Se tentarmos utilizar métodos de array com o Set, ele não vai funcionar. Por exemplo, vamos tentar usar nomesAtualizados.push('Juliana'), antes do console.log(), para adicionar o nome "Juliana" no final desse Set.
+
+```JavaScript
+const nomes = ["Ana", "Clara", "Maria", "Maria", "João", "João", "João"];
+const nomesAtualizados = new Set(nomes);
+nomesAtualizados.push('Juliana');
+console.log(nomesAtualizados);
+```
+
+Vamos testar no terminal, enviando novamente node set.js. Temos o retorno de um erro, porque o Set parece um array, mas ele não tem acesso aos métodos de array. Portanto, as funções que usamos, como reduce(), push() e pop(), não vão funcionar com essa lista. Portanto, podemos deletar a linha nomesAtualizados.push('Juliana');, porque ela não funciona.
+
+Se quisermos pegar essa nova lista, essa lista atualizada, só com valores únicos, e utilizá-la da forma que temos utilizado com array, precisaremos transformar esse conjunto Set em um array. Para isso, criamos outra constante, que chamaremos de listaNomesAtualizados.
+
+A listaNomesAtualizados recebe colchetes ([]) contendo o operador de espalhamento, ou seja, as reticências (...), seguido de nomesAtualizados. Agora podemos chamar no console.log() das duas variáveis, tanto nomesAtualizados, que é o conjunto, quanto listaNomesAtualizados, que é o array que estamos criando a partir deste conjunto. No terminal, enviamos o comando node set.js.
+
+```JavaScript
+const nomes = ["Ana", "Clara", "Maria", "Maria", "João", "João", "João"];
+const nomesAtualizados = new Set(nomes);
+const listaNomesAtualizados = [...nomesAtualizados];
+console.log(nomesAtualizados);
+console.log(listaNomesAtualizados);
+```
+
+node set.js
+
+```JavaScript
+Set (4) { 'Ana', 'Clara', 'Maria', 'João' }
+
+[ 'Ana', 'Clara', 'Maria', 'João' ]
+```
+
+Agora recebemos um conjunto de quatro elementos e um array também de quatro elementos, criado a partir deste conjunto. E com este array listaNomesAtualizados, conseguimos utilizar normalmente, utilizar todos os métodos, utilizar o laço for, etc.
+
+Também podemos refatorar um pouco e diminuir a quantidade de linhas nesse código, passando todo esse processo para uma variável só. Então, na constante listaNomesAtualizados, passaremos o código [... new Set(nomes)].
+
+Agora podemos comentar a linha nomesAtualizados = new Set(), porque fizemos um único processo que cria um novo conjunto, com new Set(nomes), e já espalhamos os valores desse conjunto em uma array, envolvendo-o com colchetes. Sendo assim, podemos comentar também a linha console.log(nomesAtualizados);.
+
+Comentamos a constante nomesAtualizados, então ela não "existe mais". Podemos abrir o terminal e rodar novamente o node set.js. Dessa vez recebemos nosso array com quatro elementos pronto para ser utilizado.
+
+```JavaScript
+const nomes = ["Ana", "Clara", "Maria", "Maria", "João", "João", "João"];
+// const nomesAtualizados = new Set(nomes);
+const listaNomesAtualizados = [...new Set(nomes)];
+// console.log(nomesAtualizados);
+console.log(listaNomesAtualizados);
+```
+
+> node set.js
+
+```JavaScript
+[ 'Ana', 'Clara', 'Maria', 'João' ]
+```
+
+Como sempre, vou deixar um link na documentação sobre o Set() para que você possa conferir quais são os métodos possíveis de se utilizar com esses conjuntos (sets). Esses métodos são diferentes dos utilizados com arrays.
+
+Por enquanto, encerramos nossos desafios.
+
+### Aula 5 - Para saber mais: estrutura Set
+
+Aprendemos que a estrutura Set (ou conjunto) é muito semelhante aos arrays, mas possui diferentes métodos e a regra de que seus elementos não podem se repetir. Utilizamos essa regra ao nosso favor para eliminar as duplicatas de um array, convertendo-o para um Set e de volta para um array.
+
+Você pode explorar mais conhecimentos sobre o [Set na documentação](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Set)!
+
+#### Aula 5 - Método reduce
+
+Considere o seguinte código:
+
+```JavaScript
+const numeros = [1, 2, 3, 4, 5];
+const soma = numeros.reduce((acumulador, valorAtual) => {
+    return acumulador + valorAtual;
+}, 0);
+console.log("A soma dos números é:", soma);
+```
+
+Identifique a alternativa que descreve corretamente o que o código faz:
+
+Alternativa correta
+Resposta: Calcula a soma dos números presentes no array numeros.
+
+O método reduce é usado para iterar sobre os elementos do array numeros e acumular a soma dos valores desses números no parâmetro acumulador. No final, a variável soma contém a soma total dos números.
+
+### Aula 5 - Para saber mais: links da aula
+
+Confira abaixo a lista de links utilizados durante a aula e/ou links complementares ao conteúdo:
+
+- Documentação do MDN: [filter](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/filter);
+- Documentação do MDN: [reduce](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce);
+- Documentação do MDN: [Set](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Set);
+- Documentação do MDN: [spread operator](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Operators/Spread_syntax).
+
+### Aula 5 - Desafio: exercícios
+
+Dominar o uso de arrays é fundamental em programação e uma base essencial na manipulação de dados. Praticar regularmente é a chave para se tornar mais confiante!
+
+Para isso criamos uma lista de exercícios que não apenas ajudam a explorar os métodos de manipulação de arrays, mas também vão te preparar para lidar eficientemente com dados em aplicações reais.
+
+1. Faça uma função que aceite vários arrays como argumentos e retorne um único array contendo todos os elementos dos arrays fornecidos, utilizando Spread Operator.
+
+> Dica: é possível usar o spread operator diretamente em um parâmetro de função para "espalhar" seu conteúdo, por exemplo function funcaoExemplo(...params).
+
+2. Crie um array de números chamado valores. Depois,escreva um programa que some todos os elementos deste array utilizando o método reduce.
+
+3. Considere duas listas de cores:
+
+const coresLista1 = ['Vermelho', 'Verde', 'Azul', 'Amarelo', 'Vermelho']
+const coresLista2 = ['Laranja', 'Verde', 'Roxo', 'Azul']
+
+Crie um programa que una essas duas listas, removendo cores duplicadas e exiba a lista final.
+
+4. Escreva uma função que receba um array de números e retorne um array contendo apenas os números pares.
+
+5. Crie uma função que filtre os números de um array que são múltiplos de 3 e maiores que 5.
+
+6. Crie uma função que receba um array de números e retorne a soma de todos os elementos.
+
+Opinião do instrutor
+
+DIsponibilizamos uma possível resolução dos desafios [neste link](https://github.com/alura-cursos/3530-js-arrays/tree/exercicios-aula5) para você construir ou validar suas soluções.
+
+Boa sorte nos estudos!
+
+### Aula 5 - Referências
+
+Techguide: [Node.js](https://techguide.sh/pt-BR/path/nodejs/)
+Guia com referência de temas e ferramentas para auxiliar na sua trilha de estudos
+
+Guia de JavaScript: [o que é e como aprender a linguagem mais popular do mundo?](https://www.alura.com.br/artigos/javascript)
+Artigo detalhado sobre a linguagem, do básico a paradigmas de programação.
+
+Livro: [Primeiros passos com Node.js](https://www.casadocodigo.com.br/products/livro-primeiros-passos-node) (pago)
+Pratique JavaScript com foco em Node.js do básico até as primeiras aplicações.
+
+Livro: [JavaScript, the definitive guide](https://www.oreilly.com/library/view/javascript-the-definitive/9781491952016/) (pago, disponível em português)
+Principal guia de referência técnica em JavaScript, aborda as especificações da linguagem em sua totalidade.
+
+### Aula 5 - O que aprendemos?
+
+Nesta aula vimos:
+
+- Como utilizar o filter e o reduce:
+  - Aprendemos mais métodos modernos do JavaScript que nos ajudam em situações mais específicas. Utilizamos o filter para criar um array filtrado a partir de um existente e o reduce para reduzir valores de um array a um só.
+- Como clonar arrays com o spread operator ...:
+  - Entendemos o problema de referência do JavaScript ao tentar atribuir um array a um novo. Para resolver esse problema, utilizamos o spread operator para espalhar todos os valores de um array em um novo, realizando a clonagem com sucesso.
+- Como utilizar a estrutura Set:
+  - Vimos como criar um Set a partir de um array existente, a fim de remover todas as suas duplicatas. Em seguida, utilizamos o spread operator para converter o Set de volta em uma lista.
+
+### Aula 5 - Conclusão - Vídeo 5
+
+Transcrição  
+Parabéns por concluir o curso de Fundamentos do JavaScript para Back-end, com foco em arrays.
+
+O que aprendemos?  
+Neste curso, aprendemos o que são arrays, o que são laços de repetição e como utilizamos esses laços com arrays. Também aprendemos a manipular arrays usando métodos específicos do JavaScript, cada um para seu uso principal.
+
+Próximos passos  
+Lembre-se de avaliar o curso. Conte-nos o que você mais gostou e onde podemos melhorar, se for o caso.
+
+Se ainda não conferiu os exercícios e todo o material extra que preparamos para o curso, faça uma pausa e volte para conferir, porque temos muitos conteúdos extra preparados com carinho para você.
+
+O fórum e o Discord estão aguardando para te ajudar onde você precisar.

@@ -227,5 +227,35 @@ console.log(calculaMediaTurmas(turmaJava));
 document.getElementById('idParagrafo15').innerHTML += `Média turmaJava: ${JSON.stringify(calculaMediaTurmas(turmaJava))}<br>`;
 console.log(calculaMediaTurmas(turmaPython));
 document.getElementById('idParagrafo15').innerHTML += `Média turmaPython: ${JSON.stringify(calculaMediaTurmas(turmaPython))}<br>`;
+//==================================================================================================================
 
+// Clonando arrays - spread operator
+const notas5 = [7, 7, 8, 9];
+document.getElementById('idParagrafo16').innerHTML = `Array notas5: ${JSON.stringify(notas5)}<br>`;
+
+// com tipos de dados primitivos, para clona-los, basta fazer a atribuição de um array para outro.
+let nota = 9.75;
+let novaNota = nota;// novaNota é uma cópia de nota.
+nota = 10 //não altera a novaNota.
+console.log(nota);
+console.log(novaNota);
+
+// com arrays, a atribuição de um array para outro, faz com que ambos apontem para o mesmo endereço de memória.
+// para clonar um array, pode-se usar o spread operator.
+const notas6 = [...notas5, 10];
+document.getElementById('idParagrafo16').innerHTML += `Novo Array notas6: ${JSON.stringify(notas6)}<br>`;
+console.log('Novo Array notas6: ', notas6);
+//==================================================================================================================
+
+// new Set() - O objeto Set permite que você armazene valores únicos de qualquer tipo, desde valores primitivos a referências de objetos.
+const nomes = ["Ana", "Clara", "Maria", "Maria", "João", "João", "João"];
+document.getElementById('idParagrafo17').innerHTML = `Array nomes: ${JSON.stringify(nomes)}<br>`;
+console.log('Array nomes: ', nomes);
+
+const setNomesAtualizados = new Set(nomes);
+document.getElementById('idParagrafo17').innerHTML += `Set() - setNomesAtualizados: ${setNomesAtualizados}<br>`;
+console.log('Set() - setNomesAtualizados: ', setNomesAtualizados);
+const arrayNomesAtualizados = [...setNomesAtualizados];
+document.getElementById('idParagrafo17').innerHTML += `Array arrayNomesAtualizados: ${JSON.stringify(arrayNomesAtualizados)}<br>`;
+console.log('Array arrayNomesAtualizados: ', arrayNomesAtualizados);
 //==================================================================================================================
