@@ -2177,4 +2177,231 @@ Opinião do instrutor
 
 Disponibilizamos uma possível resolução dos desafios [neste link](https://github.com/alura-cursos/3530-js-arrays/tree/exercicios-aula4) para você construir ou validar suas soluções.
 
-### Aula 4 -  - Vídeo 6
+## Aula 5 - Avançando em Arrays
+
+### Aula 5 - Filtrando elementos - Vídeo 1
+
+Transcrição  
+Vamos continuar praticando com alguns métodos mais específicos do JavaScript para manipular arrays. O desafio deste vídeo é filtrar por nota.
+
+Desafio: filtrando por nota  
+Após calcular a média das pessoas estudantes, precisamos mostrar quem está reprovado entre os seguintes nomes: Ana, Marcos, Maria e Mauro. Temos as notas 7, 4.5, 8 e 7.5. Vamos partir da afirmação de que a média será 7, como já trabalhamos anteriormente.
+
+No Visual Studio Code, criamos um arquivo chamado filtrar.js e já criamos os dois arrays necessários: o array de alunos com os nomes dos estudantes (['Ana', 'Marcos', 'Maria', 'Mauro']) e o array de medias com os valores das médias ([7, 4.5, 8, 7.5]).
+
+filtrar.js:
+
+```JavaScript
+const alunos = ['Ana', 'Marcos', 'Maria', 'Mauro'];
+const medias = [7, 4.5, 8, 7.5];
+```
+
+Se precisamos separar alguns elementos, avaliar uma certa condição e filtrar ou não, nós precisamos de um filtro, como já antecipamos. Há um método no JavaScript justamente para fazer filtros.
+
+Usando o método filter()  
+Vamos fazer um teste com esse método de filtro para entender como ele funciona. Primeiro, criaremos uma const chamada tamanhoNome para fazermos um teste, e depois pegamos as médias dos alunos.
+
+A constante tamanhoNome irá receber alunos.filter(). Como queremos filtrar o nome dos alunos, então é este array que precisamos referenciar em .filter().
+
+O filter() também é um método callback, ou seja, vamos passar dentro dele outra função que vai executar o que precisamos. Então, filter() vai receber por parâmetro aluno, vamos criar uma arrow function e abrir chaves para quebrar a linha e visualizar com mais facilidade o que acontece.
+
+```JavaScript
+// código omitido
+const tamanhoNome = alunos.filter((aluno) => {
+
+});
+```
+
+O objetivo, nesse caso, é que o filtro nos retorne apenas os nomes com menos de quatro letras. Vamos fazer o seguinte: passaremos para o escopo de filter() um return para retornar, ou seja, jogar o dado para fora da função, seguido de aluno.length.
+
+Lembrando que length é uma propriedade que funciona tanto para arrays quanto para strings, então ela também vai calcular a quantidade de caracteres existentes em uma string.
+
+Se o comprimento da string para cada um dos nomes for menor do que quatro, isto é, return aluno.length < 4, será filtrado esse elemento.
+
+```JavaScript
+const tamanhoNome = alunos.filter((aluno) => {
+  return aluno.length < 4;
+});
+```
+
+O que acontece em return aluno.length < 4? Se você relembrar o que conversamos bastante nos últimos vídeos, esse tipo de comparação, quando fazemos menor que, maior que, maior igual que, menor igual que, sempre vai avaliar e retornar true (verdadeiro) ou false (falso).
+
+Ou a comparação é igual, ou é diferente. Isso significa que o filter() vai filtrar um elemento ou não baseado sempre em verdadeiro ou falso. Portanto, o filter() não retorna, por exemplo, a string, o número, o dado; ele retorna o resultado da avaliação. A partir disso, a função filter() sabe se precisa puxar a string correspondente para fora dela ou não.
+
+Testando o código  
+Vamos testar e verificar se deu tudo certo no console. Para isso, usamos console.log().
+
+> console.log(tamanhoNome);
+
+Nós só temos na lista um nome com menos de quatro letras, então imaginamos que o terminal irá mostrar apenas um array com o valor "Ana". No terminal, vamos executar o seguinte comando:
+
+> node filtrar.js
+
+Como retorno, temos um array com um único valor: [ 'Ana' ]. Agora percebemos também qual é o tipo de retorno do filter(): assim como o map(), ele sempre vai retornar um array com os resultados que passaram como true no filter(), ou vazio se nenhum desses resultados passar.
+
+Analisando o array medias  
+A partir desse momento, já temos os elementos necessários para resolver nosso desafio. Para isso, precisamos analisar também o array medias. Como associamos anteriormente alunos e medias?
+
+Associamos através do número do índice. O valor 'Ana' é o índice zero, assim como a media 7 é o índice zero, e fizemos essa correlação entre os dois arrays. Como fazemos isso na função callback?
+
+Tanto filter() quanto map(), forEach(), e alguns outros métodos que abordaremos, além do primeiro parâmetro do callback, onde pegamos o dado que está sendo iterado, podemos também adicionar um segundo parâmetro: o índice que está sendo analisado naquele momento, que está sendo iterado nesse laço.
+
+Então, vamos chamar o segundo parâmetro do método filter() de indice, que até agora não tínhamos utilizado. Poderíamos chamar de i também, que é como se usa normalmente.
+
+Agora, a partir do indice, para cada iteração teremos disponível Ana e 0, Marcos e 1, Maria e 2, Mauro e 3. Com isso, na linha do return, conseguimos analisar o array alunos e trazer a média correspondente. Portanto, ficará da seguinte forma: return medias no índice indice.
+
+Feito isso, nós analisamos, lembrando que filter() tem que ser true ou false. Então, precisamos comparar: medias[indice] é menor do que 7? Será retornado true ou false.
+
+Em seguida, vamos trocar o nome da constante tamanhoNome para reprovados. Faremos essa alteração também no console.log(), agora recebendo reprovados.
+
+```JavaScript
+const reprovados = alunos.filter((aluno, indice) => {
+  return medias[indice] < 7;
+});
+
+console.log(reprovados);
+```
+
+Agora podemos testar. De volta ao terminal, executamos o comando:
+
+> node filtrar.js
+
+Como retorno, temos o nome "Marcos". Está correto, porque Marcos é o único aluno que tem no array de notas correspondentes o valor 4.5.
+
+Perceba que agora o callback não utiliza mais o primeiro parâmetro aluno. Porém, lembre-se que as funções chamam os parâmetros por ordem, então, não podemos simplesmente retirar da função um parâmetro que não é usado. Precisamos mantê-lo para preservar a ordem do parâmetro.
+
+Nesse caso, uma boa prática é substituir o nome por um underscore (_). Isso significa que estamos marcando o lugar do parâmetro não utilizado, mas assinalamos que não o usamos e ele deve ser pulado para utilizar o correspondente.
+
+> const reprovados = alunos.filter((_, indice) => {
+
+Se voltarmos ao terminal, continua funcionando da mesma forma.
+
+Conclusão  
+Como sempre, pratique bastante com o filter(). Conheceremos mais alguns métodos em seguida!
+
+### Aula 5 - Retorno do filter
+
+Vimos como utilizar o método filter para retornar um array com apenas alguns elementos do array principal através de uma função callback.
+
+```JavaScript
+const notas = [10, 5, 7, 4, 8, 3];
+
+const aprovados = notas.filter((nota) => nota >= 7);
+console.log(aprovados);
+```
+
+Selecione a alternativa que representa o que deve ser retornado da função callback para que o método filter funcione:
+
+Resposta: Um booleano.
+
+Certo! Quando a função callback retorna verdadeiro, ou true, o elemento é adicionado no novo array, e quando ela retorna falso, ou false, o elemento é descartado.
+
+### Aula 5 - Somando com reduce - Vídeo 2
+
+Transcrição  
+Continuando com os desafios, dessa vez precisamos somar algumas médias.
+
+Desafio: somando médias das salas  
+Não se trata da média de uma turma apenas. Dada a média de todas as pessoas estudantes de três salas, é necessário calcular a média geral de cada sala. Temos a sala de JavaScript, com uma sequência de notas dos estudantes, uma sala de Python, e uma sala de Java.
+
+No Visual Studio Code, já criamos um arquivo chamado reduce.js, o que indica a ferramenta que vamos usar. Dentro do arquivo, criamos as três const recebendo os três arrays que vamos precisar: salaJS, salaJava e salaPython.
+
+reduce.js:
+
+```JavaScript
+const salaJS = [7, 8, 8, 7, 10, 6.5, 4, 10, 7];
+const salaJava = [6, 5, 8, 9, 5, 6];
+const salaPython = [7, 3.5, 8, 9.5];
+```
+
+Criando a função calculaMedia()  
+Se precisamos calcular a média geral de cada um desses arrays, o ideal é criar uma função para isso, que possa receber cada um desses arrays como parâmetro. Criaremos uma função chamada calculaMedia(), para a qual passaremos como parâmetro listaDeNotas.
+
+```JavaScript
+// código omitido
+function calculaMedia(listaDeNotas) {
+
+}
+```
+
+Feito isso, vamos utilizar um laço de repetição especial do JavaScript que executa tarefas específicas. Esse laço se chama reduce().
+
+Vamos criar uma const dentro dessa função, a qual chamaremos de somaDasNotas. Ela receberá listaDeNotas, array que será recebido por parâmetro, seguido de reduce(). O reduce() é uma função callback, ou seja, vamos executar outra função dentro do reduce().
+
+```JavaScript
+function calculaMedia(listaDeNotas) {
+  const somaDasNotas = listaDeNotas.reduce();
+}
+```
+
+Primeiro, vamos criar uma arrow function. A sintaxe do reduce() é um pouco diferente, então vamos por partes. O primeiro parâmetro que o reduce() precisa é chamado de acumulador, então é esse nome que daremos para o parâmetro (acumulador).
+
+O segundo parâmetro é o elemento que está sendo iterado no momento. Como cada um dos elementos do array é uma nota, vamos chamar esse parâmetro de nota. Em seguida, vamos chamar a seta com igual e maior que, e depois abrir chaves.
+
+O que o reduce() faz? Ele reduz todos os elementos de um array a um elemento só. Para a nossa necessidade, que é somar todos os elementos, vai funcionar. Quando trabalharmos com objetos, abordaremos mais usos do reduce().
+
+O que deve ser retornado dentro dessa função callback? Chamaremos return acumulador + nota.
+
+Agora vem um detalhe da sintaxe do reduce(). Até agora, trabalhamos com funções callback cujo único parâmetro dentro da função era uma outra função. O reduce(), depois que passamos a função interna, precisa receber um segundo parâmetro: o valor inicial para ser acumulado.
+
+Nesses casos, precisamos prestar bastante atenção onde o parâmetro começa e termina, ou seja, onde a função começa e termina. Ela começa nos parâmetros e termina na fechamento de chaves.
+
+Vamos abrir um novo parâmetro com vírgula e passar o número 0, porque vamos trabalhar com valores de soma e queremos que esse valor comece com 0 e some cada um dos elementos.
+
+```JavaScript
+function calculaMedia(listaDeNotas) {
+  const somaDasNotas = listaDeNotas.reduce((acumulador, nota) => {
+    return acumulador + nota;
+  }, 0);
+}
+```
+
+Extraindo as médias  
+A partir disso, conseguimos extrair as médias. Dentro da função, criaremos uma const chamada media que receberá a divisão de somaDasNotas por listaDeNotas.length.
+
+Por fim, retornamos dentro da função ainda a media, agora já calculada. Assim, tanto o reduce() quanto o cálculo da média e o retorno da média estão dentro da mesma função.
+
+```JavaScript
+function calculaMedia(listaDeNotas) {
+  const somaDasNotas = listaDeNotas.reduce((acumulador, nota) => {
+    return acumulador + nota;
+  }, 0);
+  
+  const media = somaDasNotas / listaDeNotas.length;
+  return media;
+}
+```
+
+Agora podemos testar, chamando cada um dos arrays que criamos. Vamos executar a função calculaMedia() dentro de um console.log() três vezes, uma para cada array.
+
+Primeiro, console.log() executa calculaMedia() recebendo salaJS. Para agilizar, podemos copiar a primeira linha e colar abaixo. Logo após, console.log(calculaMedia(salaJava)), e por último, console.log(calculaMedia(salaPython)).
+
+```JavaScript
+// código omitido
+console.log(calculaMedia(salaJS));
+console.log(calculaMedia(salaJava));
+console.log(calculaMedia(salaPython));
+```
+
+Testando o código
+Agora, vamos ao terminal chamar o comando node seguido de reduce.js.
+
+> node reduce.js
+
+O terminal retornará para nós os valores reduzidos. Como o nosso reduce() só tem uma linha, vamos comentar a const somaDasNotas que fizemos anteriormente e refazer essa função de uma forma reduzida para que ela fique inteira em uma linha, que é o que costumamos fazer em JavaScript quando temos apenas uma instrução dentro da função.
+
+Dentro de const somaDasNotas, vamos remover as chaves da função e também o return, passando tudo para a mesma linha, da seguinte forma:
+
+> const somaDasNotas = listaDeNotas.reduce((acumulador, nota) => acumulador + nota, 0);
+
+Dessa forma, a função fica mais sucinta e conseguimos identificar melhor onde estão os parâmetros: o primeiro é a função callback; e o segundo é o valor inicial que será reduzido.
+
+Conclusão  
+Como já mencionamos anteriormente, na parte de objetos vamos aprender mais usos do reduce(), apenas lembrando que ele reduz os elementos de um array a um elemento só.
+
+Como sempre, pratique bastante e vamos prosseguir para o próximo desafio!
+
+### Aula 5 -  - Vídeo 3
+### Aula 5 -  - Vídeo 4
+### Aula 5 -  - Vídeo 5
+### Aula 5 -  - Vídeo 6

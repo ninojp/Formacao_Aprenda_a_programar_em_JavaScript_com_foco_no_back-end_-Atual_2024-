@@ -92,6 +92,12 @@ if (nome.toLowerCase() === nomeInvertido) {
     console.log("É um palíndromo");
 } else {
     console.log("Não é um palíndromo");
-}
+};
 //==================================================================================================================
 
+// reduce() - O método reduce() executa uma função reducer (fornecida por você) para cada elemento do array, resultando num único valor de retorno.
+export function calculaMediaTurmas(array) {
+    const somaMediaTurma = array.reduce((acumulador, elemento) => acumulador + elemento, 0);
+    return somaMediaTurma / array.length;
+};
+//==================================================================================================================

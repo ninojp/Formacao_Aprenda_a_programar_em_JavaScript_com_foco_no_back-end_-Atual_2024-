@@ -1,5 +1,5 @@
 'use strict';
-import { metodoPush, calculaMedia, metodoPop, metodoSplice, metodoSlice, metodoConcat, buscarAlunoNota, metodoForEach, atualizarNotas } from './arrays-metodos.js';
+import { metodoPush, calculaMedia, metodoPop, metodoSplice, metodoSlice, metodoConcat, buscarAlunoNota, metodoForEach, atualizarNotas, calculaMediaTurmas } from './arrays-metodos.js';
 // const metodoPush = require('./arrays-metodos.js');
 
 let notas = [10, 6, 8];
@@ -197,5 +197,35 @@ console.log(`Array Padronizado toLocaleUpperCase:: ${JSON.stringify(nomesPadroni
 const nomesPadronizadosDown = nomesList.map(nome => nome.toLocaleLowerCase());
 document.getElementById('idParagrafo13').innerHTML += `Array Padronizado toLocaleLowerCase:<br> ${JSON.stringify(nomesPadronizadosDown)}<br>`;
 console.log(`Array Padronizado toLocaleLowerCase:: ${JSON.stringify(nomesPadronizadosDown)}`);
+//==================================================================================================================
+
+// filter() - O método filter() cria um novo array com todos os elementos que passaram no teste implementado pela função fornecida.
+const listAlunos = ['Ana', 'Marcos', 'Maria', 'Mauro'];
+document.getElementById('idParagrafo14').innerHTML += `Array listAlunos: ${JSON.stringify(listAlunos)}<br>`;
+const listMedias = [7, 4.5, 8, 7.5];
+document.getElementById('idParagrafo14').innerHTML += `Array listMedias: ${JSON.stringify(listMedias)}<br>`;
+
+const alunosReprovados = listAlunos.filter((_, indice) => {
+    return listMedias[indice] < 7; //se a validação for verdadeira, o elemento é adicionado ao novo array.
+    // return aluno.length < 4;
+});
+document.getElementById('idParagrafo14').innerHTML += `filter() - Alunos Reprovados: ${JSON.stringify(alunosReprovados)}<br>`;
+console.log(`filter() - Alunos Reprovados: ${alunosReprovados}`);
+//==================================================================================================================
+
+// reduce() - O método reduce() executa uma função reducer (fornecida por você) para cada elemento do array, resultando num único valor de retorno.
+const turmaJS = [7, 8, 8, 7, 10, 6.5, 4, 10, 7];
+document.getElementById('idParagrafo15').innerHTML = `Array turmaJS: ${JSON.stringify(turmaJS)}<br>`;
+const turmaJava = [6, 5, 8, 9, 5, 6];
+document.getElementById('idParagrafo15').innerHTML += `Array turmaJava: ${JSON.stringify(turmaJava)}<br>`;
+const turmaPython = [7, 3.5, 8, 9.5];
+document.getElementById('idParagrafo15').innerHTML += `Array turmaPython: ${JSON.stringify(turmaPython)}<br>`;
+
+console.log(calculaMediaTurmas(turmaJS));
+document.getElementById('idParagrafo15').innerHTML += `Média turmaJS: ${JSON.stringify(calculaMediaTurmas(turmaJS))}<br>`;
+console.log(calculaMediaTurmas(turmaJava));
+document.getElementById('idParagrafo15').innerHTML += `Média turmaJava: ${JSON.stringify(calculaMediaTurmas(turmaJava))}<br>`;
+console.log(calculaMediaTurmas(turmaPython));
+document.getElementById('idParagrafo15').innerHTML += `Média turmaPython: ${JSON.stringify(calculaMediaTurmas(turmaPython))}<br>`;
 
 //==================================================================================================================
