@@ -1156,9 +1156,824 @@ console.log(`Detalhes do Livro:
 
 ## Aula 2 - Manipulando Objetos
 
-### Aula 2 -  - Vídeo 1
-### Aula 2 -  - Vídeo 2
-### Aula 2 -  - Vídeo 3
-### Aula 2 -  - Vídeo 4
-### Aula 2 -  - Vídeo 5
+### Aula 2 - Tipos de dados e valores - Vídeo 1
+
+Transcrição  
+Até agora, praticamos com propriedades que têm valores primitivos. Criamos um arquivo chamado dados-valores.js e colamos nele o objeto estudante.
+
+Por enquanto, nosso objeto estudante só tem propriedades que são strings, como nome, cpf e idade. Poderíamos acrescentar uma propriedade booleana, por exemplo, se o aluno é bolsista ou não. Para isso, acrescentamos a propriedade bolsista recebendo o valor true.
+
+dados-valores.js:
+
+```JavaScript
+const estudante = {
+  nome: 'José Silva',
+  idade: 32,
+  cpf: '12312312312',
+  turma: 'JavaScript',
+  bolsista: true
+}
+```
+
+Esses são dados que chamamos de primitivos em JavaScript. O que acontece quando precisamos detalhar e elaborar ainda mais os dados guardados no objeto estudante?
+
+Tipos de dados e valores  
+Por exemplo: no fim do objeto estudante, vamos acrescentar uma propriedade que chamaremos de telefone, que tinha faltado no vídeo anterior. Essa propriedade receberá a string "551199999998".
+
+```JavaScript
+const estudante = {
+  nome: 'José Silva',
+  idade: 32,
+  cpf: '12312312312',
+  turma: 'JavaScript',
+  bolsista: true,
+  telefone: '551199999998'
+}
+```
+
+Agora o estudante tem um dado de telefone. Se a pessoa tiver mais de um telefone, como fazemos? Criamos mais uma propriedade, chamando a primeira propriedade de telefone1 e a segunda de telefone2, esta com o segundo número de telefone da pessoa?
+
+Essa repetição de telefone1, telefone2, e assim por diante, não parece uma boa solução. Porém, já estudamos uma estrutura de dados que existe justamente para juntar dados de um mesmo tipo, que são os arrays (listas). Dito isso, como podemos refatorar este código?
+
+Refatorando o código de dados-valores.js
+Teremos apenas uma propriedade de telefone, chamada telefones, e o valor dessa propriedade será um array. Para isso, abrimos colchetes e, entre eles, acrescentamos os dois números de telefone.
+
+```JavaScript
+const estudante = {
+  nome: 'José Silva',
+  idade: 32,
+  cpf: '12312312312',
+  turma: 'JavaScript',
+  bolsista: true,
+  telefones: ['551199999998', '551199999993'],
+}
+```
+
+Agora a propriedade telefones deixa de ser uma propriedade do tipo string e passa a ser do tipo array, com dois elementos. Feito isso, como acessamos um telefone ou outro? Após a declaração do objeto, usaremos o método console.log(), recebendo entre parênteses estudante.telefones.
+
+```JavaScript
+// código omitido
+console.log(estudante.telefones);
+```
+
+Testando o código  
+Após salvar o arquivo, podemos abrir o terminal e executar o seguinte comando:
+
+> node dados-valores.js
+
+Com isso, exibimos no console um array com os dois valores:
+
+> [ '551199999998', '551199999993' ]
+
+Se queremos apenas o primeiro telefone, como acessamos a primeira posição, isto é, o primeiro elemento de um array? Usamos a notação de colchetes após estudante.telefones e passamos o índice 0, que sabemos sempre ser a primeira posição do array.
+
+Resultado do arquivo dados-valores.js:
+
+```JavaScript
+const estudante = {
+  nome: 'José Silva',
+  idade: 32,
+  cpf: '12312312312',
+  turma: 'JavaScript',
+  bolsista: true,
+  telefones: ['551199999998', '551199999993'],
+}
+console.log(estudante.telefones[0]);
+```
+
+De volta ao terminal, se executarmos novamente o comando node dados-valores.js, ele retorna o primeiro número fora do array, apenas um dado string com o número do telefone.
+
+Conclusão  
+O que é importante ter em mente? Assim como com a string anteriormente, que a partir do momento que acessamos o nome, conseguimos usar métodos de string para alterá-lo, fizemos o mesmo com o telefone. Acessamos estudante.telefones e, a partir disso, conseguimos fazer com o array telefones qualquer operação que faríamos com qualquer outro array que estivesse guardado em uma variável.
+
+Ou seja, acessamos arrays para usar métodos de arrays, acessamos strings para usar métodos de string, e assim por diante. Porém, e se precisarmos de mais um nível de complexidade nos dados que queremos guardar nesse objeto? Abordaremos isso em seguida!
+
+### Aula 2 - Selecione os tipos adequados
+
+Você precisa criar a estrutura de um novo objeto para representar uma pessoa estudante no sistema de uma universidade com os seguintes campos:
+
+- Nome: um campo de texto com o nome completo;
+- Matrícula: um número inteiro;
+- Curso: um campo de texto contendo o curso atual;
+- Matérias: um conjunto de textos contendo apenas os nomes das matérias que a pessoa estudante está cursando.
+
+Seguindo as práticas vistas até aqui e a lista de campos acima, marque a alternativa contendo a implementação de um objeto que mais se aproxima do objeto de um determinado estudante.
+
+Resposta:
+
+```JavaScript
+const estudante = {
+  nome: "Adilson Josué de Freitas",
+  matricula: 201542290,
+  curso: "Engenharia eletrônica",
+  materias: [
+    "Cálculo 1",
+    "Álgebra Linear",
+    "Práticas de Laboratório",
+    "Metodologia",
+  ],
+};
+```
+
+A alternativa segue fielmente o que foi definido nos requisitos.
+
+### Aula 2 - Objetos em objetos - Vídeo 2
+
+Transcrição  
+Vamos continuar estruturando objetos de acordo com a "vida real". Usamos um array para agrupar dados de um mesmo tipo, nesse caso, telefones. Mas o que acontece quando precisamos avançar na complexidade dos dados? Por exemplo: quando um array não dá conta, o que fazemos?
+
+Em que situação uma pessoa estudante poderia se deparar com isso? No caso de um endereço. Como adicionaríamos um endereço a uma pessoa estudante?
+
+Objetos em objetos  
+Já criamos um novo arquivo chamado objs-aninhados.js e colamos nele o último objeto que trabalhamos, estudante, inclusive, com a lista de telefones.
+
+objs-aninhados.js:
+
+```JavaScript
+const estudante = {
+  nome: 'José Silva',
+  idade: 32,
+  cpf: '12312312312',
+  turma: 'JavaScript',
+  bolsista: true,
+  telefones: ['551199999998', '551199999993'],
+}
+```
+
+Adicionando o endereço da pessoa estudante  
+A partir disso, vamos adicionar o endereço. Após a declaração do objeto estudante, vamos chamar estudante.endereco, onde poderemos atribuir um novo valor. Vamos abrir e fechar chaves, porque no lugar de uma string com um endereço inteiro, o que fica confuso, vamos criar outro objeto.
+
+Assim, após adicionar estudante.endereco, criamos a propriedade endereco que ainda não existia, e após o sinal de atribuição =, abrimos e fechamos chaves. O que o endereço precisa ter?
+
+Precisamos ter uma rua, então vamos criar a chave rua, cujo valor será a string "Rua Joseph Climber". Um endereço pode ter número também. Passaremos a chave numero, mas vamos inserir o dado como uma string, porque um número pode ter letras, como 45A, por exemplo. Além disso, o endereço pode ter complemento, então a próxima propriedade será complemento, recebendo "apto 43".
+
+Com isso, temos nosso endereco. Posteriormente, podemos adicionar cidade, estado, cep, e assim por diante. Podemos conferir como ficou o resultado com o método console.log() na última linha, recebendo estudante para verificar se entrou a propriedade endereco como gostaríamos.
+
+```JavaScript
+// código omitido
+estudante.endereco = {
+  rua: 'Rua Joseph Climber',
+  numero: '45',
+  complemento: 'apto 43'
+}
+console.log(estudante);
+```
+
+Testando o código  
+Após salvar o arquivo, podemos abrir o terminal e executar o seguinte comando:
+
+> node objs-aninhados.js
+
+Como retorno, ele traz o objeto completo, com a propriedade endereco adicionada com seu respectivo valor, que é um novo objeto ({}).
+
+```JavaScript
+{
+  nome: 'José Silva',
+  idade: 32,
+  cpf: '12312312312',
+  turma: 'JavaScript',
+  bolsista: true,
+  telefones: [ '551199999998', '551199999993' ],
+  endereco: { rua: 'Rua Joseph Climber', numero: '45', complemento: 'apto 43' },
+}
+```
+
+Como podemos pegar apenas o endereço, por exemplo, conforme feito anteriormente? Da mesma forma que acessamos outros tipos: em console.log(), passamos estudante.endereco.
+
+```JavaScript
+// código omitido
+console.log(estudante.endereco);
+```
+
+Se voltarmos ao terminal e pedirmos para executar o arquivo objs-aninhados.js de novo, ele trará apenas o objeto com os dados do endereco que acabamos de criar:
+
+> { rua: 'Rua Joseph Climber', numero: '45', complemento: 'apto 43' }
+
+O terminal exibe todas as propriedades desse objeto na mesma linha, lembrando que a quebra de linha em um objeto JavaScript é opcional. Usamos isso mais para formatar, mas ele pode exibir das duas formas. Dito isso, se quiséssemos pegar agora apenas a rua de todas essas propriedades, você já deve ter concluído que, no método console.log(), vamos chamar estudante.endereco.rua.
+
+```JavaScript
+// código omitido
+console.log(estudante.endereco.rua);
+```
+
+Ao testar novamente no terminal, ele traz o dado "Rua Joseph Climber", que agora é uma string.
+
+Conclusão  
+Concluímos que, pelo fato de a propriedade endereco ser um objeto, da mesma forma que em propriedades string nós usamos métodos de string, e em propriedades que são array nós utilizamos métodos de array, em propriedades que são objetos nós interagimos da mesma forma. Sendo assim, podemos criar novas propriedades em estudante.endereco, manipular essas propriedades, e assim por diante.
+
+Por que estruturamos dessa forma? Não faz muito sentido uma pessoa estudante ter uma propriedade rua. A pessoa estudante tem nome, tem cpf, tem endereco. Na vida real, um endereço tem uma rua, lembrando que, quando pensamos em objetos, tentamos fazer esses paralelos com o mundo real.
+
+Portanto, não faz muito sentido uma pessoa estudante ter uma rua, mas um endereço ter uma rua e uma pessoa estudante ter um endereço, sim. É dessa forma que estruturamos os objetos.
+
+Assim, quando precisamos juntar dados de um mesmo tipo, usamos arrays (ou listas), e quando precisamos juntar dados diferentes, mas que pertencem ao mesmo contexto, objetos. Seguindo a lógica, seria possível juntar listas com objetos? Descobriremos em seguida!
+
+### Aula 2 - Para saber mais: qual o tipo de dado correto?
+
+Até agora percebemos que objetos desempenham um papel crucial ao organizar e armazenar dados de forma mais complexa do que variáveis isoladas. Esses objetos podem conter diferentes tipos de dados, oferecendo flexibilidade na modelagem e representação de informações.
+
+Confira alguns exemplos de como diferentes tipos de dados podem ser aplicados em objetos para representar de maneira eficaz informações específicas.
+
+**String**  
+Pode ser utilizado para armazenar o nome de uma pessoa ou o endereço completo.
+
+```JavaScript
+const pessoa = {
+  nome: "João",
+  endereco: "Rua das Flores, 123",
+}
+```
+
+Também utilizamos string para representar dados como CPF, número de telefone e até mesmo cartão de crédito. Isso acontece porque esses dados possuem formatos específicos com caracteres especiais, como espaços, hifens e pontos. Além disso, esses números podem perder precisão para representar grandes inteiros. Isso pode ser um problema ao lidar com CPFs, que são números de 11 dígitos no Brasil. Representá-los como strings evita esse problema, pois é mais fácil manter o formato original e facilitar a validação.
+
+```JavaScript
+const pessoa = {
+  telefone: "123456789",
+  cpf: "12543652266",
+}
+```
+
+**Number**  
+Pode ser utilizado para armazenar informações numéricas:
+
+```JavaScript
+const produto = {
+  preco: 29.99, 
+  quantidadeEstoque: 50, 
+}
+
+const carro = {
+  velocidadeMaxima: 200,
+  consumoCombustivel: 12.5
+};
+```
+
+**Boolean**  
+O uso de valores booleanos em objetos é comum em situações em que precisamos representar estados de verdadeiro/falso, ativação/desativação, permissões de acesso, entre outros. Essas propriedades booleanas são frequentemente usadas em conjunto com estruturas de controle de fluxo para tomar decisões dinâmicas no código.
+
+```JavaScript
+// Objeto representando um usuário com permissões
+const usuario = {
+  nome: 'Alice',
+  idade: 25,
+  isAdmin: true // Propriedade booleana indicando se o usuário é um administrador
+};
+// Exemplo de uso em uma condição
+if (usuario.isAdmin) {
+  console.log(`${usuario.nome} tem permissões de administrador.`);
+} else {
+  console.log(`${usuario.nome} não é um administrador.`);
+}
+```
+
+**Object**  
+Permite criar objetos aninhados, úteis para representar estruturas mais complexas. Por exemplo, um objeto endereco dentro de um objeto pessoa.
+
+```JavaScript
+const pessoa = {
+  nome: "Maria",
+  endereco: {
+    rua: "Avenida Principal",
+    numero: “456”,
+  },
+}
+```
+
+**Números como string**  
+Antes de definir o melhor tipo de dado, temos que pensar nos diversos valores que esse dado pode ter. o número de uma casa, por exemplo, é melhor representado como uma string, pois pode conter caracteres além de números (por exemplo, "123A"), ou outras variações dependendo do endereço.
+
+```JavaScript
+const endereco = {
+  rua: "Rua das Flores",
+  numero: "123A",
+}
+```
+
+**Datas como objetos**  
+Para representar datas, pode-se utilizar objetos do tipo Date, que oferecem métodos úteis para manipulação.
+
+```JavaScript
+const evento = {
+  nome: "Aniversário",
+  data: new Date(2000, 5, 15),
+}
+```
+
+Datas e horas são tipos de informação mais complexos e seus formatos podem variar muito, inclusive dependendo do que está sendo usado pelo banco de dados. Para saber mais sobre [manipulação de datas com JavaScript](https://www.alura.com.br/artigos/trabalhando-com-datas-em-javascript), confira nosso artigo sobre o objeto Date e sobre os [diversos formatos de data](https://www.alura.com.br/artigos/objeto-format-date-e-formato-datas-em-javascript) utilizados no dia a dia.
+
+A escolha do tipo de dado em um objeto depende da natureza dos dados que você está representando. Utilizar o tipo adequado facilita o entendimento do código e a manipulação dos dados de maneira eficaz. A escolha entre número, string, boolean, array, object etc., deve ser guiada pelas necessidades específicas do contexto em que o objeto está sendo utilizado.
+
+### Aula 2 - Listas de objetos - Vídeo 3
+
+Transcrição  
+Estruturamos uma nova propriedade chamada endereco, e surge a pergunta: o que acontece se a pessoa tiver mais de um endereço? Um endereço comercial, outro residencial, outro para enviar presentes?
+
+**Listas de objetos**  
+Mais de um endereço significa mais de um dado do mesmo tipo, da mesma forma que tivemos com telefones. Porém, agora os dados são mais estruturados, então seriam mais objetos do tipo endereco.
+
+Como das vezes anteriores, já criamos um arquivo chamado listas-objetos.js e transferimos os dois objetos que criamos no vídeo anterior para este: estudante e estudante.endereco.
+
+listas-objetos.js:
+
+```JavaScript
+const estudante = {
+  nome: 'José Silva',
+  idade: 32,
+  cpf: '12312312312',
+  turma: 'JavaScript',
+  bolsista: true,
+  telefones: ['551199999998', '551199999993']
+}
+estudante.endereco = {
+  rua: 'Rua Joseph Climber',
+  numero: '45',
+  complemento: 'apto 43'
+}
+```
+
+**Criando um array de objetos**  
+Vamos fazer o seguinte: em vez de criarmos estudante.endereco e depois atribuir na constante estudante, passaremos a propriedade endereco diretamente para o objeto original estudante.
+
+Portanto, copiaremos endereco para criar a propriedade em const estudante, que será seguida de dois-pontos, pois agora não fazemos mais uma atribuição. Em seguida, colamos o objeto que contém rua, numero e complemento. Feito isso, podemos deletar o objeto anterior (estudante.endereco).
+
+```JavaScript
+const estudante = {
+  nome: 'José Silva',
+  idade: 32,
+  cpf: '12312312312',
+  turma: 'JavaScript',
+  bolsista: true,
+  telefones: ['551199999998', '551199999993'],
+  endereco: {
+    rua: 'Rua Joseph Climber',
+    numero: '45',
+    complemento: 'apto 43'
+  }
+}
+```
+
+Da mesma forma que fizemos com telefones, criando uma lista de array, podemos ter listas de objetos para cobrir esses casos em que a pessoa estudante tem mais de um endereço, ou uma lista de cursos que a pessoa estudante já cursou, e assim por diante.
+
+Sendo assim, o que vamos fazer na propriedade endereco? Vamos envolver o único objeto que ela tem como valor em colchetes, criando um array com somente um elemento, que é todo o objeto dentro dele.
+
+```JavaScript
+const estudante = {
+  nome: 'José Silva',
+  idade: 32,
+  cpf: '12312312312',
+  turma: 'JavaScript',
+  bolsista: true,
+  telefones: ['551199999998', '551199999993'],
+  endereco: [{
+    rua: 'Rua Joseph Climber',
+    numero: '45',
+    complemento: 'apto 43'
+  }]
+}
+```
+
+Para entendermos melhor o que queremos dizer com um elemento dentro do array, vamos chamar duas vezes o método console.log() ao final do arquivo: um com estudante.endereco e outro com estudante.endereco no índice 0, pois temos somente um elemento na lista de objetos.
+
+```JavaScript
+// código omitido
+console.log(estudante.endereco);
+console.log(estudante.endereco[0]);
+```
+
+Testando o código  
+Com o terminal aberto, vamos executar o seguinte comando:
+
+> node listas-objetos.js
+
+Como retorno, temos dois resultados: o primeiro é o array completo com o elemento dentro, isto é, o objeto com o endereço; e o segundo é apenas o objeto em si.
+
+```JavaScript
+[ { rua: 'Rua Joseph Climber', numero: '45', complemento: 'apto 43' }
+]
+{ rua: 'Rua Joseph Climber', numero: '45', complemento: 'apto 43' }
+```
+
+Quando começamos a trabalhar com listas de objetos, temos que prestar bastante atenção em onde começa e onde termina cada um dos elementos do array, porque todo o objeto de endereço que tem rua, numero, complemento, bairro, cidade, e assim por diante, irá ocupar apenas uma posição nesse array. Então, não importa o tamanho do objeto, ele sempre vai ocupar apenas uma.
+
+Uma abertura e um fechamento de chaves correspondem a um elemento.
+
+**Adicionando mais endereços ao array**  
+Se agora a propriedade endereco é um array, isso significa que podemos utilizar métodos de array para, por exemplo, adicionar mais um endereço nesse array.
+
+Para isso, ao final do arquivo, chamaremos estudante.endereco.push(), um método de array que já conhecemos anteriormente, responsável por adicionar ao estudante um endereço secundário.
+
+O método push(), em vez de uma string ou de um número, terá um objeto, com abertura e fechamento de chaves entre parênteses. Feito isso, adicionaremos rua, numero e complemento para criar mais um endereço na propriedade. Usaremos as seguintes informações:
+
+```JavaScript
+// código omitido
+estudante.endereco.push({
+  rua: 'Rua Dona Clotilde',
+  numero: '71',
+  complemento: ''
+})
+```
+
+Agora, se quisermos mover os métodos console.log() que adicionamos anteriormente para o final do arquivo, podemos selecionar as duas linhas e usar o atalho "Alt + Seta para baixo", para mover as linhas para baixo sem precisar copiar e colar.
+
+```JavaScript
+// código omitido
+estudante.endereco.push({
+  rua: 'Rua Dona Clotilde',
+  numero: '71',
+  complemento: null
+})
+console.log(estudante.endereco);
+console.log(estudante.endereco[0]);
+```
+
+Testando o código  
+Feito isso, vamos abrir um terminal novo e executar o comando abaixo:
+
+> node listas-objetos.js
+
+Com isso, ele traz primeiro o array atualizado com os dois objetos de endereço, e continua trazendo abaixo o índice 0, correspondente ao primeiro elemento do array, que é o endereço anterior.
+
+```JavaScript
+[
+  { rua: 'Rua Joseph Climber', numero: '45', complemento: 'apto 43' },
+  { rua: 'Rua Dona Clotilde', numero: '71', complemento: '' }
+]
+{ rua: 'Rua Joseph Climber', numero: '45', complemento: 'apto 43' }
+```
+
+A diferença é que agora o objeto de endereços tem dois elementos. Então, se usarmos console.log(estudante.endereco) no índice 1, ele vai trazer apenas o endereço que acabamos de adicionar, da rua Dona Clotilde.
+
+**Criando uma nova constante**  
+Falamos anteriormente que podemos utilizar qualquer método de array para fazer alterações em uma propriedade de objeto que seja do tipo array. Vamos fazer mais um teste para fixar essa ideia de que você pode utilizar qualquer método de array para interagir com esse tipo de propriedade?
+
+Criaremos uma nova constante chamada listaEnderecosComComplemento. Nessa const, queremos acessar o objeto estudante e o array de enderecos, pedindo para ele retornar só endereços que tenham complemento. Lembrando que temos um objeto cujo complemento é uma string vazia.
+
+Dito isso, vamos atribuir à constante o método estudante.endereco.filter(), para filtrar o array. O filter() é um método callback que já conhecemos no curso anterior de array, então ele precisa de uma arrow function (função de seta) recebendo endereco. O que queremos filtrar? Todas as ocorrências de objeto em que a propriedade endereco.complemento exista.
+
+```JavaScript
+// código omitido
+const listaEnderecosComComplemento = estudante.endereco.filter((endereco) => endereco.complemento)
+```
+
+Com isso, simplificamos o código. Falamos anteriormente nos cursos sobre tipos de dado true (verdadeiro) e false (falso). Nesse caso, o que pedimos para o filter() fazer é, para cada ocorrência no array de endereco, retornar só as ocorrências onde endereco.complemento seja true.
+
+Lembrando que strings vazias são consideradas falsas (false), então não deve ser retornado o segundo endereço, apenas o primeiro.
+
+Ao final do código, vamos chamar o resultado com o método console.log(listaEnderecosComComplemento), e além disso, vamos comentar os console.log() anteriores para não sobrecarregar o terminal.
+
+```JavaScript
+// código omitido
+// console.log(estudante.endereco);
+// console.log(estudante.endereco[1]);
+const listaEnderecosComComplemento = estudante.endereco.filter((endereco) => endereco.complemento)
+
+console.log(listaEnderecosComComplemento);
+```
+
+Testando o código  
+Com o terminal aberto, executamos novamente o comando node listas-objetos.js. Agora ele traz um array com apenas uma ocorrência, conforme esperado. O filter() é um método que sempre retorna um array com os resultados, e se ele não encontrar nada, retorna um array vazio.
+
+Se trocarmos o valor de complemento no segundo endereço que adicionamos, de string vazia para null, por exemplo, que é outra forma de indicar um valor nulo, e executarmos novamente o comando no terminal, ele trará o mesmo resultado, porque null também é um valor falso.
+
+Conclusão  
+Sempre devemos pensar no tipo de dado que a propriedade retorna para nós. Como temos um objeto dentro de um objeto, precisamos acessar o primeiro objeto estudante, e depois acessar o objeto endereco. endereco é um array, e dentro desse array, conseguimos usar métodos, como o push() para adicionar o endereco, o filter() para filtrar endereços, entre outros.
+
+O interessante é pensar como acessamos a propriedade (se é com ponto ou com colchetes), se essa propriedade é uma string, se é um array, como pegamos os dados, e como manipulamos esses dados.
+
+Em resumo, já sabemos que um objeto pode ter chave e valor. O valor pode ser um primitivo, por exemplo, string, número, ou booleano; pode ser um array de dados; pode ser um objeto, como da primeira vez que fizemos o endereco; e pode ser um array de objetos. Porém, falta algo que ainda podemos colocar no objeto. Descobriremos em seguida!
+
+### Aula 2 - Funções - Vídeo 4
+
+Transcrição  
+Os objetos refletem, de certa forma, o mundo real. Além de propriedades como nome, endereco e telefone, uma pessoa estudante pode ter comportamentos.
+
+A pessoa estudante pode se matricular em um curso, encerrar o curso, abrir uma matrícula, encerrar uma matrícula. Dito isso, como atribuímos um comportamento a um objeto? É agora que entram as funções.
+
+**Funções**  
+No projeto, criamos um arquivo chamado funcoes.js, e colamos nele o nosso objeto estudante. Removemos a propriedade endereco para o objeto não ficar muito extenso.
+
+funcoes.js:
+
+```JavaScript
+const estudante = {
+  nome: 'José Silva',
+  idade: 32,
+  cpf: '12312312312',
+  turma: 'JavaScript',
+  bolsista: true,
+  telefones: ['551199999998', '551199999993']
+}
+```
+
+Adicionando novas propriedades  
+Suponha que precisamos obter as médias desse estudante e determinar se está aprovado ou não. Como poderíamos fazer isso? Criando mais uma propriedade dentro desse objeto, chamada media.
+
+A media desse estudante será, por exemplo, 7.5, um número. Em seguida, vamos criar outra propriedade, mas dessa vez, de uma forma um pouco diferente. Ela será chamada de estaAprovado.
+
+Quando se faz uma pergunta, como estaAprovado, normalmente, queremos saber se é verdadeiro ou falso.
+
+Criando uma função  
+Após, estaAprovado, chamaremos a palavra-chave function(), e passaremos como parâmetro mediaBase. Feito isso, vamos abrir e fechar chaves, como uma função normal, e retornaremos (return) this.media >= mediaBase ? true : false.
+
+```JavaScript
+const estudante = {
+  nome: 'José Silva',
+  idade: 32,
+  cpf: '12312312312',
+  turma: 'JavaScript',
+  bolsista: true,
+  telefones: ['551199999998', '551199999993'],
+  media: 7.5,
+  estaAprovado: function(mediaBase) {
+    return this.media >= mediaBase ? true : false;
+  }
+}
+```
+
+Com isso, basicamente pegamos o objeto e, em vez de atribuir um valor, um dado como um número, uma string, um array, passamos para esse objeto uma função, e essas funções darão comportamento para o nosso objeto, seja uma pessoa usuária, seja uma escola, e assim por diante.
+
+O nome, isto é, a chave por onde pegamos esse valor, chamamos de estaAprovado, que será o nome da função. A estrutura normal de função é function, abertura e fechamento de parênteses, parâmetros, abertura e fechamento de chaves, e entre as chaves, o comportamento da função.
+
+Dentro da função, fazemos uma pergunta, criando uma condicional com o operador ternário. Queremos saber se a média é maior ou igual do que a mediaBase, que passamos como parâmetro de function(). Se for maior ou igual, essa função retorna true, se não for, retorna false.
+
+Lembrando que chamamos a propriedade de estaAprovado, porque queremos saber se algo é ou não.
+
+O que significa this.media? A palavra-chave media é uma propriedade que está dentro do mesmo objeto, a qual criamos anteriormente passando o valor 7.5. Já a palavra-chave this significa literalmente "isso". Vamos testar para conferir se funciona?
+
+Testando o código  
+Após o objeto, chamamos o método console.log(), e precisamos executar a função dentro dele. Para acessar a função, chamamos estudante.estaAprovado().
+
+Com isso, entramos no objeto estudante e acessamos a função. Sendo uma função que espera um parâmetro, o qual chamamos de mediaBase, precisamos passá-lo entre parênteses.
+
+Digamos que a mediaBase na nossa escola seja 7. Então, vamos passar o número 7 entre parênteses. Assim, o operador ternário poderá fazer a comparação que está dentro da função.
+
+```JavaScript
+// código omitido
+console.log(estudante.estaAprovado(7));
+```
+
+Após salvar, podemos abrir o terminal e executar o comando abaixo:
+
+> node funcoes.js
+
+Ele retorna "true", porque o valor da propriedade media é 7.5, ou seja, maior que ou igual a 7.
+
+**Palavra-chave this**  
+A palavra-chave this que mencionamos anteriormente significa literalmente "isso". O JavaScript utiliza essa palavra-chave para fazer referência ao contexto da função.
+
+Em uma função que está dentro de um objeto, precisamos dizer qual é o contexto em que ela trabalha. No caso, o contexto da função estaAprovado() é o objeto onde ela está inserida, ou seja, this.
+
+Portanto, this.media é como se fosse a média deste objeto onde queremos que seja executado. Sem a palavra-chave this, se colocássemos apenas return media >= mediaBase ? true : false, o JavaScript ficaria perdido e não saberia a qual media nos referimos.
+
+De onde sai essa media? Onde procurar esse valor variável? Sendo assim, a palavra-chave this dá contexto, prende uma referência ao objeto onde queremos que essa função seja executada.
+
+Há um detalhe muito importante sobre o this e sobre funções. Utilizamos a função com a palavra-chave function, que é uma das formas de se escrever funções em JavaScript. Vamos fazer um teste?
+
+Refatorando a função  
+Vamos refatorar estaAprovado: removeremos a palavra-chave function e substituiremos por uma arrow function (função de seta). Assim, teremos estaAprovado: (mediaBase) => this.media >= mediaBase ? true : false. Utilizamos a sintaxe resumida da arrow function, sem a palavra-chave return e as chaves.
+
+```JavaScript
+const estudante = {
+  nome: 'José Silva',
+  idade: 32,
+  cpf: '12312312312',
+  turma: 'JavaScript',
+  bolsista: true,
+  telefones: ['551199999998', '551199999993'],
+  media: 7.5,
+  estaAprovado: (mediaBase) => this.media >= mediaBase ? true : false
+}
+```
+
+O código acima é apenas um teste. Após realizá-lo, podemos voltar à estrutura anterior.
+
+Se fizéssemos desta forma, o JavaScript não acusaria nenhum erro. Porém, se tentássemos executar no terminal, ele não daria a resposta esperada e retornaria "false". Por quê?
+
+Ao contrário da função normal, a arrow function tem algumas diferenças, sendo uma delas que ela não consegue lidar com essa questão de contexto. Portanto, lembre-se ao criar seus métodos, que não é possível fazer essa troca de function() por arrow function dentro do objeto. Ele perderá essa referência e não conseguirá usar o this.
+
+Analisando o console.log()  
+Vamos analisar o console.log()? Para executar a função estaAprovado(), chamamos estudante.estaAprovado() e colocamos o parâmetro entre parênteses.
+
+Isso quer dizer que o próprio console.log() é uma função que existe dentro de um objeto chamado console? Exatamente. Da mesma forma que criamos nossos objetos enquanto codificamos, e dentro deles, criamos as funções, o JavaScript também tem seus objetos prontos com suas funções dentro deles.
+
+Toda vez que utilizamos essa sintaxe, com um nome seguido de ponto (.) e de outra palavra com abertura e fechamento de parênteses ao final, recebendo o parâmetro entre eles, utilizamos objetos prontos. O console, por exemplo, é considerado um objeto global do Node.
+
+Sendo assim, utilizamos objetos prontos do JavaScript que têm funções prontas dentro deles, as quais recebem os seus parâmetros e executam conforme esperado.
+
+Conclusão  
+Tudo que trabalhamos no JavaScript é, basicamente, ou a propriedade de um objeto, ou uma função que está dentro de um objeto. Uma função executada dentro do contexto de um objeto é chamada de método. Por isso, arrays têm métodos de array, que são basicamente funções; por isso strings têm métodos de string; e quando criamos nossos objetos, criamos nossos próprios métodos, neste caso, estaAprovado.
+
+O método nada mais é do que uma função executada dentro do contexto de um objeto. Nós criamos os nossos próprios e também usamos os prontos do JavaScript.
+
+Na sequência, vamos continuar manipulando objetos, agora de forma um pouco mais complexa!
+
+### Aula 2 - Para saber mais: entendendo o this
+
+No contexto de um objeto em Node.js, this refere-se ao próprio objeto no qual a função está sendo chamada. Ela é uma referência dinâmica, o que significa que o valor de this pode mudar dependendo do contexto em que a função é chamada.
+
+No caso de métodos de objetos, o this se liga ao objeto que chamou o método. Confira este exemplo:
+
+```JavaScript
+const pessoa = {
+  nome: "Maria",
+  idade: 30,
+  apresentar: function() {
+    console.log(`Olá, meu nome é ${this.nome} e eu tenho ${this.idade} anos.`);
+  }
+};
+pessoa.apresentar(); // Saída: Olá, meu nome é Maria e eu tenho 30 anos.
+```
+
+Aqui, this dentro da função apresentar faz referência ao objeto pessoa, a partir de onde a função está sendo executada.
+
+**Arrow functions e o this**  
+As arrow functions não possuem um this próprio. Em vez disso, elas herdam o valor de this do contexto em que foram definidas. Isso pode causar problemas em métodos de objetos, pois this pode não se referir ao objeto esperado. Por exemplo:
+
+```JavaScript
+const pessoa = {
+  nome: "João",
+  idade: 25,
+  apresentar: () => {
+    console.log(`Olá, meu nome é ${this.nome} e eu tenho ${this.idade} anos.`);
+  }
+};
+pessoa.apresentar(); // Saída: Olá, meu nome é undefined e eu tenho undefined anos.
+```
+
+Neste exemplo, this dentro da função de seta não se refere ao objeto pessoa, resultando em valores indefinidos para nome e idade.
+
+Conclusão  
+Ao trabalhar com objetos em Node.js, é crucial compreender o comportamento de this para garantir referências corretas. Arrow functions podem ser inadequadas em certos contextos, especialmente ao definir métodos de objetos. Em vez disso, opte por funções tradicionais ao criar métodos em objetos para garantir que this seja vinculado ao contexto apropriado, facilitando o acesso e manipulação de dados de forma consistente.
+
+#### Aula 2 - Manipulando objetos
+
+Trabalhar com objetos em JavaScript permite que utilizemos diversos tipos de dados, desde primitivos (string, number, boolean) até tipos mais complexos como arrays ou outros objetos.
+
+Observe o código abaixo:
+
+```JavaScript
+const cliente = {
+  nome: "Jose",
+  idade: 33,
+  email: "jose@email.com",
+  telefones: ["+550033338888", "+550033334444"]
+};
+cliente.animalEstimacao = [{
+  nome: "Kripto",
+  raca: "Cão",
+  vacinado: true
+}];
+cliente.animalEstimacao.push({
+  nome: "Lex",
+  raca: "Gato",
+  vacinado: false
+})
+```
+
+Na representação do cliente, o objeto é composto por diversas propriedades de diferentes tipos, incluindo arrays e objetos.
+
+Sabendo disso, analise as afirmações abaixo e selecione a alternativa verdadeira:
+
+Resposta:  
+O cliente possui uma propriedade chamada animalEstimacao, um array de objetos, o que nos permite usar funções comuns a arrays como filter().
+
+A afirmação está correta. A propriedade animalEstimacao é um array de objetos, permitindo a utilização de funções como filter().
+
+### Aula 2 - Para saber mais: Cópia vs Referência em objetos
+
+Vimos anteriormente como é a estrutura de um objeto, com seus pares de chave e valor:
+
+```JavaScript
+const objPersonagem = {
+ nome: "Gandalf",
+ classe: "mago",
+ nivel: "20"
+}
+```
+
+O exemplo acima, assim como o que estamos criando durante esta aula, é o de um objeto literal.
+
+Um objeto literal é um objeto criado com a notação literal, ou seja, uma lista de chave e valores dentro de chaves { }, que atribuímos a uma variável para que o valor possa ser acessado depois. Exatamente como no exemplo acima.
+
+Objetos literais funcionam bem quando queremos ter um objeto único com seus próprios dados. Isso porque um objeto literal sempre aponta para um mesmo local na memória, mesmo se você criar cópias dele. Vejamos o código a seguir:
+
+```JavaScript
+const objPersonagem = {
+ nome: "Gandalf",
+ classe: "mago",
+ nivel: "20"
+}
+const objPersonagem2 = objPersonagem
+```
+
+Se alterarmos apenas o objPersonagem2, o resultado é:
+
+```JavaScript
+const objPersonagem2 = objPersonagem
+objPersonagem2.nome = "Saruman"
+ 
+console.log(objPersonagem.nome) //Saruman
+console.log(objPersonagem2.nome) //Saruman
+```
+
+A variável objPersonagem2 não fez uma cópia do objeto original, apenas serviu como referência para o objeto original objPersonagem. Assim, qualquer alteração em qualquer um dos objetos altera ambos. Isso porque o JavaScript, quando trabalha com objetos, acessa os valores deles fazendo referência ao original. mas não cria uma cópia. Já o acesso por cópia funciona com tipos primitivos (string, number, booleano, null, symbol):
+
+```JavaScript
+let num = 50
+let num2 = num
+ 
+num2 = 100
+console.log(num) //50
+console.log(num2) //100
+```
+
+Como podemos contornar esse comportamento quando criamos objetos? Além de utilizar a notação literal, objetos também podem ser criados através do método Object.create():
+
+```JavaScript
+const objPersonagem = {
+ nome: "Gandalf",
+ classe: "mago",
+ nivel: "20"
+}
+ 
+const objPersonagem2 = Object.create(objPersonagem)
+objPersonagem2.nome = "Saruman"
+ 
+console.log(objPersonagem.nome) //Gandalf
+console.log(objPersonagem2.nome) //Saruman
+```
+
+O método Object.create() cria um novo objeto utilizando como protótipo o objeto passado via parâmetro. Dessa forma, objPersonagem2 é uma instância diferente de objPersonagem e pode ser trabalhada de forma independente.
+
+Você pode ver mais exemplos do método [Object.create() na documentação do MDN]().
+
+### Aula 2 - Desafio: lista de exercícios
+
+1 - Crie um arquivo chamado infoPessoa.js. Nesse arquivo, crie um objeto chamado pessoa que represente informações sobre uma pessoa. Este objeto deve ter as seguintes propriedades:
+
+nome (string): Nome da pessoa.
+idade (number): Idade da pessoa.
+solteiro (boolean): Indicador de estado civil (true se solteiro, false se casado).
+hobbies (array): Lista de hobbies da pessoa.
+Adicione valores a cada propriedade do objeto pessoa. Use valores fictícios para simular uma pessoa específica.
+
+Crie uma função chamada mostrarInfoPessoa que aceite o objeto pessoa como parâmetro e imprima todas as informações da pessoa no console, incluindo o tipo de dado de cada propriedade.
+
+No final do arquivo infoPessoa.js, chame a função mostrarInfoPessoa passando o objeto pessoa como argumento.
+
+Dica: você pode usar um método de array para retirar os elementos dos colchetes e exibi-los como texto.
+
+2 - Adicione ao objeto pessoa uma nova propriedade chamada endereco. Esta propriedade deve ser um objeto representando o endereço da pessoa, com as seguintes subpropriedades:
+
+rua (string): nome da rua.
+cidade (string): nome da cidade.
+estado (string): nome do estado.
+Preencha as subpropriedades do objeto endereco com valores fictícios.
+
+Modifique a função mostrarInfoPessoa para incluir as informações do endereço da pessoa ao ser chamada.
+
+No final do arquivo infoPessoa.js, chame a função mostrarInfoPessoa para verificar se as informações atualizadas, incluindo o endereço, são exibidas corretamente no console.
+
+3 - Crie uma lista de pessoas chamada pessoas que será um array contendo objetos. Cada objeto deve representar uma pessoa e conter as seguintes propriedades:
+
+nome (string): nome da pessoa.
+idade (number): idade da pessoa.
+cidade (string): cidade de residência da pessoa.
+Adicione pelo menos três objetos à lista pessoas com informações fictícias de diferentes pessoas.
+
+a) Crie uma função chamada mostrarListaPessoas que aceita a lista pessoas como parâmetro e imprima no console as informações de cada pessoa na lista.
+
+b) Adicione uma nova pessoa à lista pessoas utilizando o método push. Certifique-se de que a nova pessoa tenha informações distintas das pessoas já existentes na lista.
+
+c) Chame a função mostrarListaPessoas para verificar se as informações, incluindo a nova pessoa, são exibidas corretamente no console.
+
+d) Crie uma função chamada filtrarPorCidade que aceita a lista pessoas e uma string cidade como parâmetros. A função deve retornar uma nova lista contendo apenas as pessoas que residem na cidade fornecida.
+
+Chame a função filtrarPorCidade passando a lista pessoas e uma cidade fictícia como argumentos e imprima no console o resultado obtido.
+
+4 - Crie um objeto chamado calculadora que terá os seguintes métodos:
+
+soma: uma função que aceita dois parâmetros e retorna a soma deles.
+subtracao: uma função que aceita dois parâmetros e retorna a subtração do segundo parâmetro do primeiro.
+multiplicacao: uma função que aceita dois parâmetros e retorna o resultado da multiplicação deles.
+divisao: uma função que aceita dois parâmetros e retorna o resultado da divisão do primeiro pelo segundo. Certifique-se de tratar a divisão por zero, retornando uma mensagem apropriada nesse caso.
+a) Chame cada função dentro do objeto calculadora passando valores como argumentos e imprima no console os resultados obtidos.
+
+b) Adicione um novo método chamado calcularMedia ao objeto calculadora. Esta função deve aceitar um array de números como parâmetro e retornar a média aritmética dos valores.
+
+c) Chame a função calcularMedia passando um array de números e imprima no console o resultado obtido.
+
+5 - Crie um objeto chamado contaBancaria com as seguintes propriedades:
+
+titular: uma string representando o titular da conta.
+saldo: um número representando o saldo da conta.
+depositar: uma função que aceita um valor como parâmetro e adiciona esse valor ao saldo da conta. Utilize this para acessar a propriedade saldo.
+sacar: uma função que aceita um valor como parâmetro e subtrai esse valor do saldo da conta. Utilize this para acessar a propriedade saldo. Certifique-se de verificar se há saldo suficiente antes de efetuar o saque.
+Crie um objeto chamado cliente que representa um cliente com uma conta bancária. O objeto deve ter as seguintes propriedades:
+
+nome: uma string representando o nome do cliente.
+conta: uma referência à conta bancária associada a esse cliente (objeto criado anteriormente).
+Crie uma função chamada mostrarSaldo que aceita o objeto cliente como parâmetro e imprime no console o nome do cliente e o saldo da sua conta utilizando this para acessar as propriedades do objeto.
+
+Realize operações de depósito e saque na conta bancária do cliente usando as funções do objeto contaBancaria e, em seguida, chame a função para exibir as informações atualizadas no console.
+
 ### Aula 2 -  - Vídeo 6
