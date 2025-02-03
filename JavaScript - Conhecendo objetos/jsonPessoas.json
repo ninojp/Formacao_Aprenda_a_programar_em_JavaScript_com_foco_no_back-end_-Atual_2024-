@@ -1,0 +1,65 @@
+[
+    {
+        "nome": "Euclides",
+        "idade": 34,
+        "solteiro": true,
+        "hobbies": [
+            "Correr",
+            "trabalharr",
+            "Ouvir Musicas"
+        ],
+        "enderecos": [
+            {
+                "rua": "Rua Principal",
+                "cidade": "Cidade Feliz",
+                "estado": "Estado Alegre"
+            }
+        ]
+    },
+    {
+        "nome": "Geoconda",
+        "idade": 23,
+        "solteiro": false,
+        "hobbies": [
+            "Jogar Game",
+            "Nadar",
+            "Dançar",
+            "Ouvir Musicas"
+        ],
+        "enderecos": [
+            {
+                "rua": "Rua Principal",
+                "cidade": "Cidade Feliz",
+                "estado": "Estado Alegre"
+            },
+            {
+                "rua": "serv damas",
+                "cidade": "Flor",
+                "estado": "sp"
+            }
+        ]
+    },
+    {
+        "nome": "Nino JP",
+        "idade": 43,
+        "solteiro": true,
+        "hobbies": [
+            "Jogar Game",
+            "Estudar",
+            "Programar",
+            "Ouvir Musicas"
+        ],
+        "enderecos": [
+            {
+                "rua": "Rua Principal",
+                "cidade": "Cidade Feliz",
+                "estado": "Estado Alegre"
+            },
+            {
+                "rua": "serv damas",
+                "cidade": "Floripa",
+                "estado": "SC"
+            }
+        ]
+    }
+]

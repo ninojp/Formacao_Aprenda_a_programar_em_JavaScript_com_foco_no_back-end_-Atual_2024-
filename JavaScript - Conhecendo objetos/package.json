@@ -1,0 +1,12 @@
+{
+  "name": "conhecendo-objetos",
+  "version": "1.0.0",
+  "description": "Curso Alura JavaScript Conhecendo Objetos",
+  "main": "acessando-objeto.js",
+  "type": "module",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Nino JP",
+  "license": "MIT"
+}
