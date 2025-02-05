@@ -55,3 +55,4 @@ export function filtrarPorCidade(listaObjetos, termoBusca) {
 //==================================================================================================================================
 
 //4 - Crie um objeto chamado calculadora que terá os seguintes métodos:
+//A resolução esta no arquivo: exercicios-aula2.js

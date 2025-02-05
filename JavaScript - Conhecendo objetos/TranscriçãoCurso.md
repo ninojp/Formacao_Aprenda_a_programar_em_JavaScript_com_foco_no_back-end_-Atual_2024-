@@ -2145,9 +2145,690 @@ Nesta aula, você aprendeu que:
 
 ## Aula 3 - Percorrendo Objetos
 
-### Aula 3 -  - Vídeo 1
-### Aula 3 -  - Vídeo 2
-### Aula 3 -  - Vídeo 3
+### Aula 3 - for...in - Vídeo 1
+
+Transcrição  
+Até agora, trabalhamos com objeto estudante que possui diversas propriedades, como nome, idade, etc. Se quiséssemos iterar (repetir), ou seja, percorrer todas as propriedades do nosso objeto estudante, já aprendemos como fazer isso com arrays. Então, como fazer isso com um objeto?
+
+**Percorrendo objetos**  
+Criamos um arquivo chamado for-in.js, onde copiamos nossa constante estudante, já com um array de endereços. Vamos alterar para de endereco para enderecos na linha 15, o nome da nossa propriedade. Ou seja, um array com um objeto.
+
+for-in.js
+
+```JavaScript
+const estudante = {
+  nome: 'José Silva',
+  idade: 32,
+  cpf: '12312312312',
+  turma: 'JavaScript',
+  bolsista: true,
+  telefones: ['551199999998', '551199999993'],
+  enderecos: [{
+    rua: 'Rua Joseph Climber',
+    numero: '45',
+    complemento: 'apto 43'
+  }]
+}
+estudante.endereco.push({
+    rua: 'Rua Dona Clotilde',
+    numero: '71',
+    complemento: null
+})
+```
+
+Anteriormente, tínhamos feito um push() para criar um segundo endereço, mas vamos remover o segundo objeto desse push (endereço).
+
+Trecho removido pela instrutora (ela deixou copiado o objeto dentro do push para usar posteriormente):
+
+```JavaScript
+estudante.endereco.push({
+    rua: 'Rua Dona Clotilde',
+    numero: '71',
+    complemento: null
+})
+```
+
+Assim, ficamos com:
+
+for-in.js
+
+```JavaScript
+const estudante = {
+  nome: 'José Silva',
+  idade: 32,
+  cpf: '12312312312',
+  turma: 'JavaScript',
+  bolsista: true,
+  telefones: ['551199999998', '551199999993'],
+  enderecos: [{
+    rua: 'Rua Joseph Climber',
+    numero: '45',
+    complemento: 'apto 43'
+  }]
+}
+```
+
+Na sequência, adicionamos esse segundo endereço dentro do nosso array de endereços. Ao trabalharmos com listas de objetos, precisamos ter cuidado ao copiar e colar trechos de código para garantir que as chaves e colchetes estejam nos lugares corretos.
+
+Entre o colchete de fechamento do array enderecos, a chave de fechamento do nosso objeto de rua "Joseph Climber" e o colchete de fechamento do array, adicionamos uma vírgula, quebramos uma linha e colamos o segundo objeto.
+
+for-in.js
+
+```JavaScript
+const estudante = {
+  nome: 'José Silva',
+  idade: 32,
+  cpf: '12312312312',
+  turma: 'JavaScript',
+  bolsista: true,
+  telefones: ['551199999998', '551199999993'],
+  enderecos: [{
+    rua: 'Rua Joseph Climber',
+    numero: '45',
+    complemento: 'apto 43'
+  },
+  {
+    rua: 'Rua Dona Clotilde',
+    numero: '71',
+    complemento: null
+    }]
+}
+```
+
+Assim, nosso array agora tem dois elementos: um objeto com três linhas, separados por vírgula, e o segundo objeto.
+
+No array separamos os elementos utilizando vírgula
+
+Interagindo com o objeto com for in
+Para interagir com este objeto, vamos utilizar um método chamado for in. Lembrando que os objetos não têm ordem, então, como funciona o for in se não conseguimos acessar um índice de um objeto?
+
+Após o nosso objeto estudante, escrevemos for (let chave in estudante) { console.log(chave); }. Chamamos a let de chave pelo fato de usarmos chave e valor em uma propriedade. O console é para visualizarmos o que temos dentro dessa chave.
+
+for-in.js
+
+```JavaScript
+const estudante = {
+  nome: 'José Silva',
+  idade: 32,
+  cpf: '12312312312',
+  turma: 'JavaScript',
+  bolsista: true,
+  telefones: ['551199999998', '551199999993'],
+  enderecos: [{
+    rua: 'Rua Joseph Climber',
+    numero: '45',
+    complemento: 'apto 43'
+  },
+  {
+    rua: 'Rua Dona Clotilde',
+    numero: '71',
+    complemento: null
+    }]
+}
+
+for (let chave in estudante) {
+    console.log(chave);
+}
+```
+
+Portanto, a sintaxe será for (let chave in estudante). Lembrem-se que, quando aprendemos arrays trabalhamos com o for of. Seguindo no for() passamos estudante, que é o nome da variável que está guardando o nosso objeto (linha 1). Salvamos o arquivo e abrimos o terminal para rodar o seguinte comando:
+
+> node for-in.js
+
+Obtemos como retorno:
+
+```JavaScript
+nome
+idade
+cpf
+turma
+bolsista
+telefones
+enderecos
+```
+
+Ao executar o código, percebemos que a cada iteração do nosso for(), a variável chave guarda os nomes das propriedades do nosso objeto (nome, idade, CPF, turma, bolsistas, telefones, endereços), ou seja, as chaves do nosso objeto.
+
+Com isso, identificamos o que essa variável chave armazena (podemos inserir outro nome, dado que é apenas uma variável de controle).
+
+Percorrendo o valor de cada propriedade do objeto
+Para acessar o valor dessa chave, aprendemos lá atrás que precisamos chamar o objeto para acessar essa propriedade. Por exemplo, estudante.nome acessa o valor do nome. Ou estudante.cpf acessa o valor do CPF.
+
+Isso tanto faz se usarmos a notação de ponto (estudante.nome, pois sabemos que existe a propriedade de nome) ou notação de colchetes (estudante['nome']).
+
+Podemos usar a notação de colchetes no nosso for(), para conseguirmos percorrer e acessar os valores de cada propriedade do nosso objeto. Dentro do nosso for, ao invés de fazer um console.log(chave), vamos fazer um console.log(estudante[chave]).
+
+for-in.js
+
+```JavaScript
+// código omitido
+for (let chave in estudante) {
+    console.log(estudante[chave]);
+}
+```
+
+Da mesma forma que aplicamos anteriormente, ele vai acessar o objeto estudante, vai ver qual é a chave correspondente e vai trazer o valor.
+
+Quando executamos o código rodando o comando node for-in.js no terminal, ele traz exatamente da forma que queríamos: apenas os valores.
+
+```JavaScript
+José Silva
+32
+12312312312
+Javascript
+true
+['551199999998', '551199999993']
+{ rua: 'Rua Joseph Climber', numero: '45', complemento: 'apto 43'} { rua: 'Rua Dona Clotilde', numero: '71', complemento: null }
+```
+
+Temos o nome José Silva, 32, o CPF. Os valores do array completo. Então, o array de telefones, o array de endereços e assim por diante.
+
+Refatorando o for()
+Vamos refatorar esse for() para visualizar um pouco melhor o que está acontecendo.
+
+Dentro do for(), antes do console.log(), criamos uma constante texto cujo valor será um template string: a chave ${chave} tem o valor ${estudante[chave]}.
+
+Com isso, montamos um texto com essa informação para ficar um pouco mais visualizável no console. Na sequência, solicitamos um console.log() da variável texto.
+
+for-in.js
+
+```JavaScript
+// código omitido
+for (let chave in estudante) {
+    const texto = `a chave ${chave} tem o valor ${estudante[chave]}`
+    console.log(texto);
+}
+```
+
+Pode ser uma constante em const texto? Sim, porque como estamos iterando o objeto, cada vez que passar pelo for(), essa const será criada novamente. Portanto, não precisamos usar let.
+
+Ao executar o código com o comando node for-in.js, notamos algo interessante no retorno:
+
+```JavaScript
+a chave nome tem o valor José Silva
+a chave idade tem o valor 32
+a chave cpf tem o valor 12312312312
+a chave turma tem o valor JavaScript
+a chave bolsista tem o valor true
+a chave telefones tem o valor 5511999999998,5511999999993
+a chave enderecos tem o valor [object Object],[object Object]
+```
+
+Para os valores primitivos, por exemplo, string, number, etc., ele traz corretamente. A chave nome possui o valor José, a idade tem valor 32, etc. Porém, a chave enderecos não mostra os endereços para nós. Ele indica que a chave enderecos tem o valor [object Object].
+
+Talvez você já tenha se deparado com esse [object Object] em sites que ocorre algum erro inesperado.
+
+O que é o [object Object]? Ele é o resultado do JavaScript tentando converter um objeto para string, que foi o que pedimos para fazer quando colocamos essa propriedade dentro de um template string: a chave ${chave} tem o valor ${estudante[chave]}.
+
+O template string captura o valor e quando coloca isso dentro da string, ele vai converter isso também. Então, o número deixa de ser número, passa a ser string.
+
+Um objeto deveria deixar de ser um objeto e passar a ser uma string. No entanto, um objeto é uma estrutura de dados complexa e o JavaScript não consegue converter isso num monte de texto de uma forma plana. Então, quando isso acontece, o JavaScript avisa com [object Object].
+
+Observe que novamente o JavaScript não retorna um erro, apenas informa com [object Object].
+
+Como contornamos isso dentro do nosso for()? A primeira coisa que vamos fazer é criar, dentro do for(), uma constante tipo que será igual a typeof estudante[chave];.
+
+for-in.js
+
+```JavaScript
+// código omitido
+for (let chave in estudante) {
+    const tipo = typeof estudante[chave];
+    const texto = `a chave ${chave} tem o valor ${estudante[chave]}`
+    console.log(texto);
+}
+```
+
+Essa variável irá armazenar o tipo (typeof) de dado a cada iteração. Portanto, para o caso do nome, a variável tipo irá conter uma string. Para o caso da idade, irá conter number, e assim por diante. Com JavaScript, qualquer coisa que não seja string, number, boolean ou function é considerado um objeto, inclusive o null, conforme discutido nas atividades do curso anterior.
+
+Ou seja, quando o JavaScript detectar qualquer coisa que não seja nem objeto nem função, ele pode transformar em string e exibir normalmente. Então, depois de verificar o tipo, podemos fazer uma condição para dizer se ele exibe o texto ou não.
+
+Adicionando uma condição  
+Dentro do for(), depois de termos a nossa variável tipo, criamos um if(): if (tipo !== 'object' && tipo !== 'function') { console.log(texto); }. Ou seja, se tipo for diferente de object e diferente de function desejamos exibir o texto. Assim, ele converte os valores primitivos em texto.
+
+Posteriormente, passamos o console.log(texto) e o texto para dentro do if().
+
+for-in.js
+
+```JavaScript
+// código omitido
+for (let chave in estudante) {
+    const tipo = typeof estudante[chave];
+    if (tipo !== 'object' && tipo !== 'function')
+        const texto = `a chave ${chave} tem o valor ${estudante[chave]}`
+        console.log(texto);
+}
+```
+
+Isso vai fazer com que os valores que são primitivos, as strings, os números, os booleans, sejam exibidos. Porém, o nosso objeto enderecos, que é complexo, e, por exemplo, se tivéssemos uma função dentro do objeto, que não colocamos, mas tínhamos uma função lá atrás, não queremos que o JavaScript tente exibir isso, porque ele vai resultar em [object Object].
+
+Agora, exibimos apenas o que é, digamos, "exibível". Ao executar o código com o comando node novamente, não aparece mais [object Object], ele exibe apenas as propriedades que têm valores mesmo.
+
+```JavaScript
+a chave nome tem o valor José Silva
+a chave idade tem o valor 32
+a chave cpf tem o valor 12312312312
+a chave turma tem o valor JavaScript
+a chave bolsista tem o valor true
+```
+
+Então, um valor de string, um valor de um número de telefone, uma cidade, etc. Qualquer outra coisa que não seja isso, ou seja, dados mais complexos ou funções, ele passa direto.
+
+É importante lembrar que em JavaScript, o typeof para array também retorna "object". Não há um "typeof array", específico para array. Essa é uma consideração fundamental que não deve ser esquecida ao realizar esse tipo de verificação.
+
+Próximos Passos  
+Agora já sabemos o que é o tal do [object Object]. Conseguimos refinar mais essa iteração, mas agora entendemos como usar o for in para iterar propriedades de objetos sem depender da ordem, pois o objeto não tem ordem e fazemos isso pelo valor da chave.
+
+Vamos continuar fazendo mais alguns exercícios para percorrer objetos. Vamos lá!
+
+### Aula 3 - Percorrendo objetos
+
+Nas aulas anteriores, aprendemos que o JavaScript traz uma série de métodos próprios que nos ajudam a trabalhar com objetos. Um exemplo disso é o método for … in que permite a iteração sobre as propriedades de um objeto, de forma similar ao método for … of para arrays.
+
+Sabendo disso, observe o código que define um objeto do tipo paciente:
+
+const paciente = {
+ nome: "James T.",
+ idade: 30,
+ email: "jt@email.com",
+ identicacao: "Alpha01259859",
+ funcao:"comandante",
+ peso: 80.1,
+ altura: 1.80,
+ calcularIMC:function(){
+       return (this.peso/(Math.pow(this.altura,2)))
+ },
+ nomeCompleto:function(){
+   console.log(this.nome)
+ }
+}
+Copiar código
+Agora analise as opções abaixo e marque as verdadeiras:
+
+Respostas:
+
+1. Para a execução do código:
+
+```JavaScript
+for (let info in paciente) {
+ console.log(info)
+};
+```
+
+A saída esperada é a listagem do nome das propriedades do objeto paciente.
+
+O loop definido no for … in irá retornar para a variável info que é o nome da chave do objeto, ou seja, o nome da propriedade do objeto.
+
+2. Posso utilizar o método for … in como loop e exibir somente as propriedades do objeto que não são classificadas como objetos ou funções, como no código abaixo:
+
+```JavaScript
+for (let info in paciente) {
+  if (!(typeof paciente[info] === "object" || typeof paciente[info] === "function")) {
+    console.log(`${info} ==> ${paciente[info]}`);
+  }
+}
+```
+
+O for...in permite iterar sobre as propriedades de um objeto. No caso desse loop, temos a flexibilidade de percorrer o objeto e executar uma série de comparações, uma delas é usar o typeof e verificar o tipo da propriedade.
+
+### Aula 3 - Métodos de objeto - Vídeo 2
+
+Transcrição  
+Vamos continuar manipulando objetos. Já criamos, na pasta do projeto, um novo arquivo chamado metodos-objeto.js e colamos nele o nosso objeto estudante com o array (lista) de dois endereços que estávamos utilizando.
+
+Aprendemos como iterar um objeto, percorrendo e fazendo operações com cada uma de suas propriedades. Mas, e se quiséssemos pesquisar uma propriedade? Um objeto pode se tornar muito grande, ter várias propriedades. Como descobrimos se essa propriedade existe ou não, ou se queremos verificar seu valor? Para isso, vamos utilizar um método de objeto chamado Object.keys().
+
+Encontrado chaves com Object.keys()  
+Então, no nosso arquivo metodos-objeto.js, depois do nosso objeto estudante, vamos criar uma constante chamada chavesObjeto, que será igual a Object.keys(estudante). Note que Object deve iniciar com letra maiúscula. Em seguida, vamos usar console.log(chavesObjeto) para ver o que está acontecendo dentro dessa variável chavesObjeto.
+
+```JavaScript
+const estudante = {
+  nome: 'José Silva',
+  idade: 32,
+  cpf: '12312312312',
+  turma: 'JavaScript',
+  bolsista: true,
+  telefones: ['551199999998', '551199999993'],
+   enderecos: [{
+     rua: 'Rua Joseph Climber',
+     numero: '45',
+     complemento: 'apto 43'
+   },
+   {
+     rua: 'Rua Dona Clotilde',
+     numero: '71',
+     complemento: null
+  }]
+}
+const chavesObjeto = Object.keys(estudante);
+console.log(chavesObjeto);
+```
+
+Após salvarmos o arquivo e abrirmos o terminal, escrevemos o comando node metodos-objeto.js. Ao executarmos, o console nos retorna um array com uma lista de chaves. Agora nós sabemos que essas chaves são do nosso objeto estudante.
+
+> node metodos-objeto.js
+
+```JavaScript
+[
+    'nome',
+    'idade',
+    'cpf',
+    'turma',
+    'bolsista',
+    'telefones',
+    'enderecos'
+]
+```
+
+Lembrete: Essas chaves entram no array como strings, portanto, temos uma lista de strings, cada uma referente à chave do objeto.
+
+O que podemos fazer com essa informação? O que fazer com o array de chaves? Podemos fazer uma série de verificações, por exemplo, se existe uma propriedade no objeto ou não. Após criarmos nossa constante chavesObjeto, vamos fazer uma condicional (if()). Por exemplo, é importante que a pessoa estudante tenha a propriedade de endereço preenchida. Então, vamos dizer nesse if() que, se essa propriedade não existir, vamos emitir um aviso:
+
+```JavaScript
+//código omitido
+const chavesObjeto = Object.keys(estudante);
+console.log(chavesObjeto);
+
+if (!chavesObjeto.includes('enderecos')) {
+  console.error('é necessário ter um endereço cadastrado')
+```
+
+Então temos if (!chavesObjeto.includes('enderecos')) {...}. Lembrando, que a exclamação (!) é um operador de negação e o includes() é um método de array. Passamos dentro desse includes() o que queremos verificar se esse array tem ou não, no caso, a string 'enderecos', que é o nome da nossa chave endereço.
+
+Então, se o objeto chavesObjeto, nossa lista de chaves, incluir a chave 'enderecos', podemos concluir que essa propriedade existe no objeto. Se não existir, por isso usamos a exclamação, vamos enviar um console.error, para mudar um pouco. Podemos usar ser um texto simples, como "'é necessário ter um endereço cadastrado'.
+
+```JavaScript
+const chavesObjeto = Object.keys(estudante);
+console.log(chavesObjeto);
+
+if (!chavesObjeto.includes('enderecos')) {
+  console.error('é necessário ter um endereço cadastrado')
+```
+
+Dica: O console tem vários métodos além do .log(), como o .error() e o .table(), então vou deixar um material extra para você aprender mais.
+
+Agora, podemos salvar o arquivo, ir ao terminal para executarmos esse arquivo, com node metodos-objeto.js. No entanto, não vai exibir nada porque o único objeto que temos tem uma chave 'enderecos'. Isso é bom, significa que funcionou. Agora, vamos comentar toda a parte de enderecos no nosso objeto e testar novamente para ver se a nossa verificação está funcionando.
+
+```JavaScript
+const estudante = {
+  nome: 'José Silva',
+  idade: 32,
+  cpf: '12312312312',
+  turma: 'JavaScript',
+  bolsista: true,
+  telefones: ['551199999998', '551199999993'],
+  // enderecos: [{
+  //   rua: 'Rua Joseph Climber',
+  //   numero: '45',
+  //   complemento: 'apto 43'
+  // },
+  // {
+  //   rua: 'Rua Dona Clotilde',
+  //   numero: '71',
+  //   complemento: null
+  // }]
+}
+```
+
+Dessa vez, quando executamos o comando node metodos-objeto.js no terminal, temos o retorno esperado da mensagem. O console.log() do VSC não é diferente do console.error(), mas se estivéssemos no navegador, seria diferente.
+
+Comparativamente, os objetos têm menos métodos "prontos", entre aspas, do que os arrays. Mas, além do Object.keys(), que gera um array com todas as chaves, também existem outros dois métodos: Object.values() e Object.entries().
+
+Outros métodos do Object  
+Esses três fazem, basicamente, o mesmo processo, porém o Object.keys() retorna uma chave, o Object.values() retorna um array com os valores, por exemplo, o valor da idade, o número do telefone, o nome da pessoa, e os demais dados. Já Object.entries() cria um array com arrays contendo as duas informações: a chave e o valor.
+
+Informação: Nas atividades vocês encontram mais material, incluindo o link do MDN com a documentação do Object.keys(), a documentação para o Object.values() e para a documentação do Object.entries(). Assim você poderá fazer mais testes para descobrir o que o console exibe ou o que fazer com cada um desses métodos.
+
+Existe um detalhe na documentação desses três métodos que fala de propriedades enumeráveis. Tanto propriedades enumeráveis quanto protótipos, que são outras características de objetos com JavaScript, não vamos abordar neste curso. Vou deixar mais material extra sobre as propriedades enumeráveis e teremos um curso que irá falar sobre os protótipos na orientação a objetos com JavaScript.
+
+### Aula 3 - Para saber mais: outros métodos de objeto
+
+Para aprofundar seus conhecimentos, que tal conhecer o funcionamento dos objetos em JavaScript? Melhorar nosso entendimento a respeito da manipulação de objetos em JavaScript envolve explorar métodos disponibilizados tanto pelo Node.js quanto pelos navegadores.
+
+Um método é uma função que é executada no contexto de um objeto e está associada a ele. Em um objeto literal, métodos são definidos da mesma forma que as funções normais são definidas, tendo parâmetros, retorno e um bloco definido, com exceção do caso das arrow functions e do uso do this.
+
+Vamos revisitar e expandir nossas noções sobre alguns métodos de objeto do JavaScript, para uma compreensão mais abrangente:
+
+Object.keys() e Object.values(): são usados para extrair informações específicas de um objeto. Esses métodos fornecem, respectivamente, as chaves e os valores presentes em um objeto. São úteis para iterar ou fazer operações específicas em conjuntos de dados de um objeto.
+
+```JavaScript
+const meuObjeto = { a: 1, b: 2, c: 3 };
+const chaves = Object.keys(meuObjeto);
+const valores = Object.values(meuObjeto);
+
+console.log(chaves); // Saída: ['a', 'b', 'c']
+console.log(valores); // Saída: [1, 2, 3]
+```
+
+Object.entries(): este método retorna um array de arrays que representam pares chave-valor. É útil em situações que demandam iterações mais complexas ou manipulação mais minuciosa dos dados.
+
+```JavaScript
+const meuObjeto = { a: 1, b: 2, c: 3 };
+const entradas = Object.entries(meuObjeto);
+
+console.log(entradas);
+// Saída: [['a', 1], ['b', 2], ['c', 3]]
+```
+
+Object.assign(): usado para fusão e cópia de objetos. Este método permite combinar propriedades de diferentes objetos em um único objeto.
+
+```JavaScript
+const objetoOriginal = { a: 1, b: 2 };
+const objetoParaCopiar = { b: 3, c: 4 };
+
+const objetoFusionado = Object.assign({}, objetoOriginal, objetoParaCopiar);
+
+console.log(objetoFusionado);
+// Saída: { a: 1, b: 3, c: 4 }
+```
+
+Explorar estes métodos adicionais expandirá ainda mais sua proficiência na manipulação de objetos em JavaScript.
+
+Sabemos que o ecossistema JavaScript é muito vasto e sofre diversas mudanças em função do tempo, então vale a pena dedicarmos um tempo para olhar a documentação e testar alguns exemplos.
+
+Acesse a [documentação do MDN sobre objetos](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Guide/Working_with_Objects), que é uma ótima referência aos nossos estudos e amplie os conhecimentos dos métodos e práticas que realizamos até agora.
+
+### Aula 3 - Para saber mais: propriedade enumeráveis
+
+Em JavaScript, objetos são estruturas que armazenam dados em pares chave-valor. Cada propriedade em um objeto possui atributos que determinam seu comportamento e acessibilidade. Uma característica importante dessas propriedades é a enumeração, que define se uma propriedade será incluída em operações como iteração.
+
+Propriedades enumeráveis
+Propriedades enumeráveis são aquelas que são consideradas durante operações de iteração, como for … in e métodos como Object.keys(). Por padrão, todas as propriedades criadas diretamente em um objeto são enumeráveis, o que significa que elas são visíveis durante a iteração.
+
+```JavaScript
+const meuObjeto = {
+  nome: "ChatGPT",
+  linguagem: "JavaScript",
+  versao: "3.5"
+};
+
+for (let chave in meuObjeto) {
+  console.log(chave); // Saída: nome, linguagem, versao
+}
+```
+
+**Propriedades não enumeráveis**  
+Propriedades não enumeráveis não são consideradas durante operações de iteração. Essas propriedades são geralmente associadas a métodos internos de objetos ou configurações específicas que não precisam ser expostas durante iterações comuns.
+
+```JavaScript
+const meuObjeto = {};
+Object.defineProperty(meuObjeto, 'propriedadeNaoEnumeravel', {
+  value: 42,
+  enumerable: false
+});
+for (let chave in meuObjeto) {
+  console.log(chave); // Saída: (nenhuma, pois não há propriedades enumeráveis)
+}
+```
+
+**Manipulando enumerabilidade**  
+Para controlar a enumerabilidade de uma propriedade, a função Object.defineProperty() pode ser utilizada. O segundo argumento desta função permite a configuração de diversas propriedades, incluindo a enumerabilidade.
+
+```JavaScript
+const meuObjeto = {};
+Object.defineProperty(meuObjeto, 'propriedadeNaoEnumeravel', {
+  value: 42,
+  enumerable: false
+});
+console.log(Object.keys(meuObjeto)); // Saída: []
+```
+
+```JavaScript
+const meuObjeto = {};
+// Criando uma propriedade não enumerável
+Object.defineProperty(meuObjeto, 'propriedadeNaoEnumeravel', {
+  value: 42,
+  enumerable: true // Definindo a enumerabilidade como true
+});
+
+// Mesmo com enumerable:true, Object.keys ainda pode ser utilizado
+console.log(Object.keys(meuObjeto)); // Saída: ['propriedadeNaoEnumeravel']
+
+// Exibindo o valor da propriedade
+console.log(meuObjeto.propriedadeNaoEnumeravel); // Saída: 42
+```
+
+Neste exemplo, a propriedade propriedadeNaoEnumeravel é configurada com enumerable: true, o que significa que a propriedade será listada quando utilizamos Object.keys(). Mesmo sendo enumerável, o valor da propriedade ainda pode ser acessado normalmente.
+
+A enumerabilidade é uma das diversas propriedades de objetos em JavaScript e está relacionada à forma como eles são construídos na linguagem. Você pode consultar a [documentação do MDN sobre enumerabilidade](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Enumerability_and_ownership_of_properties) e posse de propriedades para conferir mais dados e exemplos.
+
+### Aula 3 - Operador de espalhamento - Vídeo 3
+
+Transcrição  
+Continuando a manipulação de objetos com JavaScript, faremos mais um teste. Suponhamos que precisamos de uma função que obtenha os números de telefone disponíveis para exibir em algum lugar ou solicitar uma chamada.
+
+Exibindo dados através de uma função
+Já temos um arquivo em nosso projeto, que nomeamos spread.js, que também sugere o que vamos utilizar. Colamos o nosso objeto estudante com nosso array de telefones, nosso array de endereços, e as demais.
+
+```JavaScript
+const estudante = {
+  nome: 'José Silva',
+  idade: 32,
+  cpf: '12312312312',
+  turma: 'JavaScript',
+  bolsista: true,
+  telefones: ['551199999998', '551199999993'],
+  enderecos: [{
+    rua: 'Rua Joseph Climber',
+    numero: '45',
+    complemento: 'apto 43'
+  },
+  {
+    rua: 'Rua Dona Clotilde',
+    numero: '71',
+    complemento: null
+  }]
+}
+```
+
+Implementando a função exibirTelefones()
+Para criar essa função, vamos ao final do arquivo, após o objeto, e criamos uma função com o function exibirTelefones(). E o que vamos passar como parâmetro? Vamos dizer que desejamos exibir dois telefones. A pessoa pode ter vários, mas nós só queremos os dois primeiros, que são os mais prováveis de serem atendidos.
+
+Então, na função exibirTelefones(), passaremos dois parâmetros. Vamos nomeá-los telefone1 e telefone2. Abrimos chaves {} e, dentro delas, passaremos dois console.log*(, como sempre. Dentro de cada um deles, abriremos um template string, com crase, passando `ligar para ${telefone1}`. Copiamos e colamos abaixo e mudamos apenas para ${telefone2}.
+
+```JavaScript
+const estudante = {
+  nome: 'José Silva',
+  idade: 32,
+  cpf: '12312312312',
+  turma: 'JavaScript',
+  bolsista: true,
+  telefones: ['551199999998', '551199999993'],
+  enderecos: [{
+    rua: 'Rua Joseph Climber',
+    numero: '45',
+    complemento: 'apto 43'
+  },
+  {
+    rua: 'Rua Dona Clotilde',
+    numero: '71',
+    complemento: null
+  }]
+}
+function exibirTelefones(telefone1, telefone2) {
+  console.log(`ligar para ${telefone1}`);
+  console.log(`ligar para ${telefone2}`);
+}
+```
+
+Até aqui, tudo certo. Mas como fazemos, então, para obter o telefone1 e o telefone2 de dentro do objeto na chamada da função? Vamos chamar a função exibirTelefones(). Primeiro, chamaremos essa função da seguinte forma: exibirTelefones(). Passaremos o primeiro parâmetro, estudante.telefones[0], e o segundo parâmetro, estudante.telefones[1].
+
+Vai funcionar? Sim, vai funcionar. No entanto, há uma maneira melhor de fazer isso, que evita a fixação de uma posição de um array no código. A menos que em casos muito específicos, não precisamos ficar passando índice 0, índice 1, normalmente não é uma boa prática.
+
+Melhorando a chamada da função com spread operator
+Como faremos isso, então? Chamaremos a função exibirTelefones(), e passaremos como parâmetro ..., que é o nosso Spread Operator (Operador de Espalhamento). E o que queremos espalhar aqui dentro desse parâmetro? Queremos espalhar o conteúdo de estudante.telefones.
+
+```JavaScript
+//código omitido
+function exibirTelefones(telefone1, telefone2) {
+  console.log(`ligar para ${telefone1}`);
+  console.log(`ligar para ${telefone2}`);
+}
+exibirTelefones(estudante.telefones[0], estudante.telefones[1]);
+exibirTelefones(...estudante.telefones);
+```
+
+Agora, em que momento utilizamos bastante essa opção de pegar um objeto ou pegar um array e espalhar o conteúdo deles? Faremos mais um teste. Vamos criar uma constante, que chamaremos dadosEnvio.
+
+Preparando dados para envio com spread operator
+Suponhamos que precisamos preparar os dados de um estudante para enviar uma correspondência. Ao enviar uma correspondência, há várias coisas no objeto estudante que não precisamos, como CPF e telefone. Então, o que precisamos dos dados? Precisamos do nome e do endereço, apenas.
+
+Vamos preparar agora esse objeto. Então, const dadosEnvio = {}, e podemos fazer da seguinte forma. Podemos criar esse objeto dadosEnvio com duas propriedades. A primeira, que chamaremos de destinatario: estudante.nome, e, em seguida, endereco: estudante.enderecos[0]. Ao fazermos um console.log(dadosEnvio), precusamos receber apenas os dados que quueremos.
+
+```JavaScript
+const dadosEnvio = {
+  destinatario: estudante.nome,
+  ...estudante.enderecos[0]
+}
+
+console.log(dadosEnvio);
+
+//========================================================================================
+{
+    destinatario: 'José Silva',
+    endereco: {rua: 'Rua Joseph Climber', numero: '45', complemento: 'apto 43'}
+}
+```
+
+Não deu muito certo, porque recebemos um objeto dentro de um objeto. Também podemos criar o objeto dadosEnvio da seguinte forma:
+
+```JavaScript
+dadosEnvio = {
+    destinatario: estudante.nome,
+    rua: estudante.enderecos[0].rua,
+    numero: estudante.enderecos[0].numero}
+```
+
+Esse também não é um cenário muito prático. Como faremos, então, para melhorar esse exemplo? const dadosEnvio = {destinatario: estudante.nome, ...estudante.enderecos[0]}. Assim espalhamos o objeto endereço com o Spread Operator e sempre vamos querer buscar o primeiro endereço.
+
+```JavaScript
+function exibirTelefones(telefone1, telefone2) {
+  console.log(`ligar para ${telefone1}`);
+  console.log(`ligar para ${telefone2}`);
+}
+exibirTelefones(estudante.telefones[0], estudante.telefones[1]);
+exibirTelefones(...estudante.telefones);
+const dadosEnvio = {
+  destinatario: estudante.nome,
+  ...estudante.enderecos[0]
+}
+console.log(dadosEnvio);
+//==================================================================================
+{
+    destinatario: 'José Silva',
+    rua: 'Rua Joseph Climber',
+    numero: '45',
+    complemento: 'apto 43'
+}
+```
+
+Agora temos um único objeto com quatro propriedades e nosso objeto faz sentido para conseguirmos fazer o envio de uma correspondência. E o que o Spread Operator fez neste caso? Ele montou um objeto a partir de outro. Ele pegou o objeto de endereço e espalhou o conteúdo dele dentro do nosso objeto dadosEnvio. Dessa forma, conseguimos montar novos objetos com partes de outro.
+
+Conclusão  
+Então, criamos uma propriedade destinatario com estudante.nome, que era apenas uma string, e espalhamos o restante para termos um objeto com várias propriedades. Portanto, usamos o Spread Operator para extrair dados de um objeto e montar outros objetos a partir disso.
+
+Essa é uma estrutura que trabalhamos bastante no nosso dia a dia. Então, se quiser praticar mais, deixaremos mais exemplos e mais exercícios para fixarmos bem o operador de espalhamento. Vamos continuar praticando com objetos.
+
 ### Aula 3 -  - Vídeo 4
 ### Aula 3 -  - Vídeo 5
 ### Aula 3 -  - Vídeo 6
