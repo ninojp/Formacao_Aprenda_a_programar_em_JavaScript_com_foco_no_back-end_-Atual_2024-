@@ -30,3 +30,5 @@ const dadosEnvio = {
     ...estudante.enderecos[0]
 };
 console.log(dadosEnvio);
+
+  
