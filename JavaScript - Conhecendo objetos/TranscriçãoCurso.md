@@ -3643,18 +3643,21 @@ nome (string): nome do produto.
 preco (number): preço do produto.
 Exemplo
 
+```JavaScript
 const produto = {
     id: 1,
     nome: "Camiseta",
     preco: 25.99
 }
-Copiar código
+```
+
 Converta o objeto produto para uma string utilizando JSON.stringify() e imprima no console a string resultante.
 
-4 - Crie um arquivo chamado animais.json, contendo informações fictícias em formato JSON. O arquivo pode representar dados de animais, incluindo pelo menos três elementos no array.
+4. - Crie um arquivo chamado animais.json, contendo informações fictícias em formato JSON. O arquivo pode representar dados de animais, incluindo pelo menos três elementos no array.
 
 Exemplo de animais.json:
 
+```JavaScript
 {
     "animais": [
         {
@@ -3677,7 +3680,8 @@ Exemplo de animais.json:
         }
     ]
 }
-Copiar código
+```
+
 Crie um arquivo chamado manipulacaoJson.js. Dentro deste arquivo, realize as seguintes operações:
 
 a) Leia o conteúdo do arquivo animais.json.
@@ -3694,29 +3698,31 @@ f) Converta o objeto modificado para uma string JSON utilizando JSON.stringify()
 
 g) Imprima no console o objeto JavaScript resultante das operações.
 
-5 - Crie um objeto JavaScript representando informações de uma pessoa. O objeto deve conter as seguintes propriedades:
+5. - Crie um objeto JavaScript representando informações de uma pessoa. O objeto deve conter as seguintes propriedades:
 
 id (number): identificador da pessoa.
 nome (string): nome da pessoa.
 idade (number): idade da pessoa
 Exemplo
 
+```JavaScript
 const pessoaOriginal = {
     id: 1,
     nome: "Alice",
     idade: 30
 }
-Copiar código
+```
+
 Crie uma função que receba um objeto JavaScript e retorne um novo objeto. Utilize esta função para fazer uma cópia do objeto pessoaOriginal.
 
 Modifique a cópia do objeto obtido através da função, adicionando ou alterando pelo menos uma propriedade.
 
 Imprima no console ambos os objetos (o original e o modificado) para verificar que as alterações feitas no objeto modificado não afetaram o objeto original.
 
-Opinião do instrutor
-
+**Opinião do instrutor**  
 Resolução 1
 
+```JavaScript
 // utilizarRequire.js
 const dados = require('./dados.json');
 
@@ -3728,16 +3734,20 @@ console.log(dados);
 console.log("\nAcesso aos dados:");
 console.log("Produtos:", dados.produtos);
 console.log("Usuários:", dados.usuarios);
-Copiar código
+```
+
 Resolução 2
 
+```JavaScript
 // lerArquivoJson.js
 const dados = require('./dados.json');
 // Exibe o conteúdo lido
 console.log(dados);
-Copiar código
+```
+
 Resolução 3
 
+```JavaScript
 // operacoesJson.js
 const produto = {
     id: 1,
@@ -3751,9 +3761,11 @@ const stringJsonProduto = JSON.stringify(produto);
 // Imprime no console a string do objeto produto
 console.log("String do Produto:");
 console.log(stringJsonProduto);
-Copiar código
+```
+
 Resolução 4
 
+```JavaScript
 // manipulacaoJson.js
 const objetoAnimais = {
     "animais": [
@@ -3777,7 +3789,6 @@ const objetoAnimais = {
         }
     ]
 };
-
 // Adiciona um novo animal ao array de animais
 const novoAnimal = {
     "id": 4,
@@ -3786,57 +3797,669 @@ const novoAnimal = {
     "habitat": "Savana"
 };
 objetoAnimais.animais.push(novoAnimal);
-
 // Modifica o habitat de um animal existente no array de animais
 const animalParaModificar = objetoAnimais.animais.find(animal => animal.id === 2);
 if (animalParaModificar) {
     animalParaModificar.habitat = "Oceano Antártico";
 }
-
 // Remove um animal do array de animais
 const indiceAnimalRemover = objetoAnimais.animais.findIndex(animal => animal.id === 1);
 if (indiceAnimalRemover !== -1) {
     objetoAnimais.animais.splice(indiceAnimalRemover, 1);
 }
-
 // Converte o objeto modificado para uma string JSON
 const novaStringJsonAnimais = JSON.stringify(objetoAnimais, null, 2);
-
 // Imprime no console o objeto JavaScript resultante das operações
 console.log("Objeto JavaScript Resultante das Operações:");
 console.log(objetoAnimais);
-Copiar código
+```
+
 Execute o arquivo operacoesJson.js, utilizando o seguinte comando no terminal:
 
-node manipulacaoJson.js
-Copiar código
+> node manipulacaoJson.js
+
 Resolução 5
 
+```JavaScript
 // copiarObjetoJson.js
-
 // Função para copiar objetos JSON
 function copiarObjetoJson(objeto) {
     return JSON.parse(JSON.stringify(objeto));
 }
-
 // Criação do objeto original (pessoa)
 const pessoaOriginal = {
     id: 1,
     nome: "Alice",
     idade: 30
 };
-
 // Utiliza a função para criar uma cópia do objeto original
 const pessoaModificada = copiarObjetoJson(pessoaOriginal);
-
 // Modifica a cópia do objeto (pessoa modificada)
 pessoaModificada.idade = 31;
-
 // Imprime no console ambos os objetos
 console.log("Objeto Original (Pessoa):");
 console.log(pessoaOriginal);
 
 console.log("Objeto Modificado (Pessoa):");
 console.log(pessoaModificada)
+```
 
-### Aula 4 -  - Vídeo 7
+### Aula 4 - O que aprendemos?
+
+**Nesta aula, você aprendeu:**  
+
+- O que é o formato JSON e por qual motivo o utilizamos para transmissão de dados, armazenamento de configurações etc.;
+- Qual a sintaxe do JSON e suas limitações, por exemplo, não ter variáveis ou comentários;
+- Como ler um arquivo .json no Node.js;
+- Como utilizar as funções nativas do Node.js para manipular um JSON.
+
+## Aula 5 - Manipulando Listas de objetos
+
+### Aula 5 - Preparando o ambiente
+
+Nesta aula vamos continuar praticando com arquivos JSON. Para o próximo vídeo, você precisa do arquivo estudantes.json. Clique no botão “download raw file” no canto direito acima do código para baixar o arquivo. Salve o arquivo na pasta do projeto, junto com os arquivos que criamos durante o curso.
+
+Caso prefira copiar e colar, crie um novo arquivo estudantes.json na pasta do projeto e cole o seguinte conteúdo:
+
+```JSON
+[
+  {
+    "nome":"Olva",
+    "email":"olippini0@deviantart.com",
+    "telefone":[
+      "4733865848",
+      "47933865848"
+    ],
+    "endereco":{
+      "logradouro":"Rua Transport",
+      "numero":"05",
+      "cep":"46140",
+      "complemento":"ap 102"
+    }
+  },
+  {
+    "nome":"Oralle",
+    "email":"orajchert1@clickbank.net",
+    "telefone":[
+      "5896279799",
+      "58996279799"
+    ],
+    "endereco":{
+      "logradouro":"Rua Kedzie",
+      "numero":"89",
+      "cep":"613840"
+    }
+  },
+  {
+    "nome":"Amye",
+    "email":"aranahan2@yellowbook.com",
+    "telefone":[
+      "1918820860",
+      "19918820860"
+    ],
+    "endereco":{
+      "logradouro":"Rua Karstens",
+      "numero":"59",
+      "cep":"627533",
+      "complemento":"ap 401"
+    }
+  },
+  {
+    "nome":"Greer",
+    "email":"gtumielli3@vimeo.com",
+    "telefone":[
+      "9466883489",
+      "94966883489"
+    ],
+    "endereco":{
+      "logradouro":"Rua Algoma",
+      "numero":"077"
+    }
+  },
+  {
+    "nome":"Juliet",
+    "email":"jelphey4@wikipedia.org",
+    "telefone":[
+      "1198123183",
+      "11998123183"
+    ],
+    "endereco":{
+      "logradouro":"Rua Crownhardt",
+      "numero":"07",
+      "cep":"184366"
+    }
+  },
+  {
+    "nome":"Blakeley",
+    "email":"bmccaughran5@blog.com",
+    "telefone":[
+      "7919437785",
+      "79919437785"
+    ],
+    "endereco":{
+      "logradouro":"Rua Stone Corner",
+      "numero":"40429",
+      "cep":"1000"
+    }
+  },
+  {
+    "nome":"Leeann",
+    "email":"lhuckleby6@tuttocitta.it",
+    "telefone":[
+      "9045673092",
+      "90945673092"
+    ],
+    "endereco":{
+      "logradouro":"Rua Center",
+      "numero":"549"
+    }
+  },
+  {
+    "nome":"Tildi",
+    "email":"tmilthorpe7@answers.com",
+    "telefone":[
+      "3149463623",
+      "31949463623"
+    ],
+    "endereco":{
+      "logradouro":"Rua Clyde Gallagher",
+      "numero":"3962"
+    }
+  },
+  {
+    "nome":"Kirby",
+    "email":"kcoard8@squidoo.com",
+    "telefone":[
+      "9291767581",
+      "92991767581"
+    ],
+    "endereco":{
+      "logradouro":"Rua Valley Edge",
+      "numero":"5",
+      "cep":"20195",
+      "complemento":"Venda da tia Zezé"
+    }
+  },
+  {
+    "nome":"Stephine",
+    "email":"smullard9@etsy.com",
+    "telefone":[
+      "5327428873",
+      "53927428873"
+    ],
+    "endereco":{
+      "logradouro":"Rua Ruskin",
+      "numero":"36819",
+      "complemento":"Bloco 16 ap 202"
+    }
+  },
+  {
+    "nome":"Carolina",
+    "email":"ckauschea@reddit.com",
+    "telefone":[
+      "1877479960",
+      "18977479960"
+    ],
+    "endereco":{
+      "logradouro":"Rua Mosinee",
+      "numero":"28672",
+      "cep":"8314",
+      "complemento":"Bar dos coroas"
+    }
+  },
+  {
+    "nome":"Jerrome",
+    "email":"jbletsorb@dmoz.org",
+    "telefone":[
+      "2492442110",
+      "24992442110"
+    ],
+    "endereco":{
+      "logradouro":"Rua Arkansas",
+      "numero":"3983",
+      "complemento":"Mercadinho"
+    }
+  },
+  {
+    "nome":"Emilee",
+    "email":"eempsonc@bloomberg.com",
+    "telefone":[
+      "4775323087",
+      "47975323087"
+    ],
+    "endereco":{
+      "logradouro":"Rua West",
+      "numero":"8"
+    }
+  },
+  {
+    "nome":"Way",
+    "email":"wportmand@census.gov",
+    "telefone":[
+      "9705299694",
+      "97905299694"
+    ],
+    "endereco":{
+      "logradouro":"Rua Rockefeller",
+      "numero":"79",
+      "cep":"81028 CEDEX 9"
+    }
+  },
+  {
+    "nome":"Dorothea",
+    "email":"dmutimere@bizjournals.com",
+    "telefone":[
+      "6804913737",
+      "68904913737"
+    ],
+    "endereco":{
+      "logradouro":"Rua Morrow",
+      "numero":"1"
+    }
+  },
+  {
+    "nome":"Flori",
+    "email":"fbattersbyf@freewebs.com",
+    "telefone":[
+      "2047970414",
+      "20947970414"
+    ],
+    "endereco":{
+      "logradouro":"Rua Forest",
+      "numero":"43",
+      "complemento":"Na frente da quadra de basquete"
+    }
+  },
+  {
+    "nome":"Cecelia",
+    "email":"cmacgrayg@unc.edu",
+    "telefone":[
+      "3569848931",
+      "35969848931"
+    ],
+    "endereco":{
+      "logradouro":"Rua Karstens",
+      "numero":"115",
+      "complemento":"ap 71"
+    }
+  },
+  {
+    "nome":"Xylia",
+    "email":"xandrieuxh@berkeley.edu",
+    "telefone":[
+      "7593785074",
+      "75993785074"
+    ],
+    "endereco":{
+      "logradouro":"Rua Parkside",
+      "numero":"065",
+      "cep":"H65",
+      "complemento":"ap 406"
+    }
+  },
+  {
+    "nome":"Husein",
+    "email":"hbevissi@harvard.edu",
+    "telefone":[
+      "9916828153",
+      "99916828153"
+    ],
+    "endereco":{
+      "logradouro":"Rua Artisan",
+      "numero":"9",
+      "cep":"2281",
+      "complemento":"Depois da trilha"
+    }
+  },
+  {
+    "nome":"Izaak",
+    "email":"ikarbyj@home.pl",
+    "telefone":[
+      "5193301028",
+      "51993301028"
+    ],
+    "endereco":{
+      "logradouro":"Rua Grim",
+      "numero":"480"
+    }
+  }
+]
+```
+
+### Aula 5 - Operações com JSON - Vídeo 1
+
+Transcrição  
+Vamos juntar tudo o que aprendemos até agora: listas, objetos e JSON, e começar a praticar com alguns cenários de trabalho. Para isso, vamos utilizar o arquivo estudantes.json, que contém uma lista com alguns estudantes fictícios. Os dados estão propositalmente variados para que possamos manipulá-los.
+
+Nosso primeiro passo será trabalhar com essa lista de estudantes para encontrar, filtrar e localizar informações específicas sobre eles. Para isso, vamos criar um novo arquivo chamado encontra-estudantes.js.
+
+Como já sabemos, o primeiro passo é importar o JSON com o qual queremos trabalhar. Então, vamos criar uma constante chamada estudantes e usar a função require() para importar nosso arquivo estudantes.json.
+
+> const estudantes = require('./estudantes.json');
+
+Em seguida, vamos criar uma função para percorrer o arquivo estudantes.json e localizar as informações desejadas, como nome ou CEP. Vamos chamar essa função de buscaInformacao(). Para garantir que essa função seja flexível o suficiente para trabalhar com diversos dados, vamos passar a chave que queremos usar como parâmetro.
+
+O primeiro parâmetro da função será lista, permitindo que ela seja utilizada com estudantes, professores, entre outros tipos de dados. O segundo parâmetro será chave, ou seja, o nome da propriedade que desejamos buscar. Em seguida, vamos passar o terceiro parâmetro, que será o valor que queremos buscar. Por exemplo, podemos querer encontrar estudantes cujos nomes comecem com "A" ou que tenham o CEP "4200".
+
+```JavaScript
+const estudantes = require('./estudantes.json');
+
+function buscaInformacao(lista, chave, valor) {
+
+}
+```
+
+Dentro da função, utilizaremos um return para obter essa informação. A lista é onde faremos a busca, e agora temos um objeto JavaScript para trabalhar. Utilizaremos o método .find() de arrays.
+
+Estamos usando esse método de array dentro do nosso objeto porque, se voltarmos ao estudantes.json, veremos que ele é um grande array de informações. Um JSON pode ser um array de informações, não necessariamente um objeto. Nesse caso, quando temos uma grande lista de estudantes, temos um array de objetos representando cada estudante.
+
+Para percorrer esse array, podemos usar vários métodos, incluindo o .find(), que é utilizado para encontrar um elemento dentro da lista. O .find() é um método de callback, então precisamos passar um parâmetro, que chamaremos de estudante, já que cada objeto na lista representa um estudante.
+
+Assim, se o estudante[chave] for igual ao valor, o JavaScript vai percorrer cada um dos estudantes em nosso JSON, procurando pela propriedade específica, como estudante.nome, estudante.cep, etc. Essa propriedade precisa ser igual ao valor que passamos para a busca.
+
+```JavaScript
+const estudantes = require('./estudantes.json');
+
+function buscaInformacao(lista, chave, valor) {
+    return lista.find((estudante) => estudante[chave] === valor);
+}
+```
+
+Vamos fazer um teste? Para isso, criaremos uma constante chamada estudanteEncontrado. Lembre-se que o método .find() retorna somente a primeira ocorrência encontrada. Portanto, estudanteEncontrado será igual a buscaInformacao(), que receberá seguintes parâmetros:
+
+estudantes;
+a string 'nome', para buscarmos por nome;
+o nome de um estudante, como 'Juliet'.
+
+```JavaScript
+const estudantes = require('./estudantes.json');
+
+function buscaInformacao(lista, chave, valor) {
+    return lista.find((estudante) => estudante[chave] === valor);
+}
+
+const estudanteEncontrado = buscaInformacao(estudantes, 'nome', 'Juliet')
+```
+
+Em seguida, vamos imprimir o resultado usando console.log() para ver se retornou os dados da estudante Juliet.
+
+```JavaScript
+const estudantes = require('./estudantes.json');
+
+function buscaInformacao(lista, chave, valor) {
+    return lista.find((estudante) => estudante[chave] === valor);
+}
+
+const estudanteEncontrado = buscaInformacao(estudantes, 'nome', 'Juliet')
+console.log(estudanteEncontrado)
+```
+
+Se executarmos o arquivo utilizando o comando node encontra-estudantes.js no terminal, veremos que retorna um objeto Juliet.
+
+> { nome: 'Juliet', email: 'jelphey4@wikipedia.org', telefone: ['1198123183', '11998123183' ], endereco: { logradouro: 'Rua Crownhardt', numero: '07', cep: '184366' } }
+
+Agora, se buscarmos um nome que sabemos que não existe na lista, por exemplo, "xxxx", o terminal retornará "undefined".
+
+```JavaScript
+const estudantes = require('./estudantes.json');
+
+function buscaInformacao(lista, chave, valor) {
+    return lista.find((estudante) => estudante[chave] === valor);
+}
+const estudanteEncontrado = buscaInformacao(estudantes, 'nome', 'xxxx')
+console.log(estudanteEncontrado)
+```
+
+Então, a nossa lógica está correta.
+
+Vamos voltar para o exemplo anterior:
+
+```JavaScript
+const estudantes = require('./estudantes.json');
+function buscaInformacao(lista, chave, valor) {
+    return lista.find((estudante) => estudante[chave] === valor);
+}
+const estudanteEncontrado = buscaInformacao(estudantes, 'nome', 'Juliet')
+console.log(estudanteEncontrado)
+```
+
+Em seguida, vamos copiar as duas últimas linhas para realizar outro teste com outro campo. Ao invés de estudanteEncontrado, criaremos uma nova constante chamada telefoneEstudante. O resultado da chamada da função buscaInformacao() na lista de estudantes será a propriedade 'telefone', e passaremos o número de telefone de alguns dos objetos como parâmetro.
+
+```JavaScript
+const estudantes = require('./estudantes.json');
+function buscaInformacao(lista, chave, valor) {
+    return lista.find((estudante) => estudante[chave] === valor);
+}
+const estudanteEncontrado = buscaInformacao(estudantes, 'nome', 'Juliet')
+console.log(estudanteEncontrado)
+
+const telefoneEstudante = buscaInformacao(estudantes, 'telefone', '1198123183')
+console.log(telefoneEstudante)
+```
+
+Se executarmos o arquivo novamente, perceberemos que a última saída no console é "undefined". Isso acontece porque, em nosso método .find(), estamos tentando comparar uma string, que é o valor do telefone, com um array, conforme especificado em nosso JSON de estudantes. Portanto, o campo "telefone" é um array, não uma string.
+
+Para resolver isso, podemos refatorar nossa função buscaInformacao() para utilizar um método que funcione tanto para strings quanto para arrays. Então, em list.find(), ao invés de utilizarmos estudante[chave] == valor, podemos usar estudante[chave].includes(valor).
+
+```JavaScript
+const estudantes = require('./estudantes.json');
+function buscaInformacao(lista, chave, valor) {
+    return lista.find((estudante) => estudante[chave].includes(valor));
+}
+const estudanteEncontrado = buscaInformacao(estudantes, 'nome', 'Juliet')
+console.log(estudanteEncontrado)
+
+const telefoneEstudante = buscaInformacao(estudantes, 'telefone', '1198123183')
+console.log(telefoneEstudante)
+```
+
+Dessa forma, o JavaScript irá procurar pela presença da sequência de caracteres que estamos buscando na string, ou irá buscar o valor dentro do array.
+
+Agora, ao executar novamente o arquivo, veremos que o terminal nos traz os resultados tanto da busca pelo nome quanto da busca pelo telefone.
+
+Retorno omitido.
+
+Vamos alterar a busca pelo telefone e repetir a execução:
+
+```JavaScript
+const estudantes = require('./estudantes.json');
+function buscaInformacao(lista, chave, valor) {
+    return lista.find((estudante) => estudante[chave].includes(valor));
+}
+const estudanteEncontrado = buscaInformacao(estudantes, 'nome', 'Juliet')
+console.log(estudanteEncontrado)
+
+const telefoneEstudante = buscaInformacao(estudantes, 'telefone', '7919437785')
+console.log(telefoneEstudante)
+```
+
+Ao executar, temos acesso ao resultado da busca pelo nome e da busca pelo telefone.
+
+Retorno omitido.
+
+O que fizemos aqui é um processo bastante comum: procurar por um dado em uma estrutura de dados, como o JSON que importamos para o nosso projeto, e, em seguida, manipular esses dados conforme necessário. Como estudantes.json é um array de objetos, utilizamos os métodos disponíveis para arrays para acessar e manipular esses objetos conforme desejado. Vamos explorar mais um exemplo a seguir.
+
+### Aula 5 - Encontrando um objeto - Vídeo 2
+
+Transcrição  
+Continuando a manipulação do nosso JSON em um projeto, notamos que a propriedade endereco às vezes contém o CEP, porém, em outras ocasiões, não.
+
+Considerando que precisamos enviar correspondência para todos os estudantes, é crucial que tenhamos o CEP. Portanto, o que queremos fazer é percorrer essa lista de estudantes e encontrar todas as ocorrências onde a propriedade CEP não está presente. Uma vez identificados, podemos passar essa lista para a secretaria e solicitar que complemente os CEPs. Dessa forma, quando formos enviar correspondências, teremos todos os endereços corretos.
+
+Para iniciar, precisamos criar um novo arquivo. Anteriormente, estávamos trabalhando com o .find() para encontrar uma informação específica, como o nome de estudante. Agora, queremos aplicar um filtro. Portanto, chamaremos esse novo arquivo de filtrar-estudantes.js.
+
+Em seguida, importaremos nosso arquivo com const estudantes = require('./estudantes.json'). Em seguida, criaremos nossa função filtraPorPropriedade(). Optamos por esse nome pois queremos filtrar por propriedade. Atualmente, vamos utilizar o CEP, mas no futuro, podemos testar essa função com outras propriedades.
+
+```JavaScript
+const estudantes = require('./estudantes.json');
+function filtraPorPropriedade() {
+
+}
+```
+
+A função filtraPorPropriedade() receberá dois parâmetros: a lista de estudantes e a propriedade que desejamos filtrar. Dentro da função, chamaremos o return e utilizaremos o método .filter(), que já conhecemos de cursos anteriores, para filtrar a lista.
+
+```JavaScript
+const estudantes = require('./estudantes.json');
+function filtraPorPropriedade(lista, propriedade) {
+    return lista.filter()
+}
+```
+
+O parâmetro interno de .filter(), a função callback, é estudante. Para cada estudante, abrimos uma arrow function e pedimos para retornar.
+
+```JavaScript
+const estudantes = require('./estudantes.json');
+function filtraPorPropriedade(lista, propriedade) {
+    return lista.filter((estudante) => {
+    
+    })
+}
+```
+
+Queremos que, para cada estudante deste array, o JavaScript acesse a propriedade endereco. As propriedades nome, email, telefone e endereco estão no mesmo nível. endereco é um objeto e CEP é uma propriedade de endereco, que por sua vez é uma propriedade de cada estudante.
+
+Queremos que o método retorne um valor caso o CEP não exista. Portanto, iniciamos negando o que queremos, utilizando o operador lógico de negação !. Em seguida, passamos estudante.endereco e utilizamos o método .hasOwnProperty(). Dentro de .hasOwnProperty(), passamos a propriedade que queremos verificar, ou seja, propriedade.
+
+```JavaScript
+const estudantes = require('./estudantes.json');
+function filtraPorPropriedade(lista, propriedade) {
+    return lista.filter((estudante) => {
+        return !estudante.endereco.hasOwnProperty(propriedade);
+    })
+}
+```
+
+Ao contrário do .find(), o .filter() retorna um array vazio ou um array com as referências encontradas.
+
+Agora, criamos uma constante chamada listaEnderecosIncompletos, que recebe a função filtraPorPropriedade() com a lista de estudantes e a string 'cep' como parâmetros. Em seguida, podemos chamar um console.log() para exibir a listaEnderecosIncompletos.
+
+```JavaScript
+const estudantes = require('./estudantes.json');
+function filtraPorPropriedade(lista, propriedade) {
+    return lista.filter((estudante) => {
+        return !estudante.endereco.hasOwnProperty(propriedade);
+    })
+}
+const listaEnderecosIncompletos = filtraPorPropriedade(estudantes, 'cep')
+console.log(listaEnderecosIncompletos);
+```
+
+Vamos salvar o arquivo, abrir o terminal e executar com o comando node filtrar-estudantes.js.
+
+Retorno omitido.
+
+Com isso, obtemos um array com várias ocorrências. Observando essas ocorrências, notamos que ele traz todo o objeto, inclusive o objeto endereco. Assim, percebemos que esses endereços só têm, por exemplo, logradouro e numero. Portanto, nossa lógica foi implementada com sucesso, pois nos foram retornados objetos que não possuem o dado de CEP.
+
+O .hasOwnProperty(), conforme consta na documentação, é um método do objeto JavaScript, que serve para verificar se um objeto possui uma propriedade definida no próprio objeto, ao invés de uma propriedade herdada.
+
+Neste curso, não entraremos em detalhes sobre a diferença entre propriedades de objetos e propriedades herdadas, a partir do que chamamos de protótipo. Temos outros cursos de orientação a objetos com JavaScript que abordam esse assunto. Se preferir, você pode consultar a documentação para obter mais detalhes e realizar outros testes.
+
+Na sequência, encerraremos com uma última prática com objetos JavaScript!
+
+#### Aula 5 - Buscando um objeto
+
+Considere o seguinte cenário em uma aplicação Node.js, em que temos uma lista de objetos representando usuários:
+
+```JavaScript
+const listaDeUsuarios = [
+  { id: 1, nome: 'Alice', idade: 25 },
+  { id: 2, nome: 'Bob', idade: 30 },
+  { id: 3, nome: 'Charlie', idade: 22 }
+]
+```
+
+Agora, precisamos criar uma função para encontrar um usuário específico com base no seu ID. Quais das opções a seguir conseguiriam alcançar esse objetivo?
+
+**Alternativa correta**  
+
+```JavaScript
+function encontrarUsuarioPorId(id) {
+  return listaDeUsuarios.find(usuario => usuario.id === id);
+}
+//=============================================================
+
+function encontrarUsuarioPorId(id) {
+  let usuarioEncontrado = null;
+  listaDeUsuarios.forEach(usuario => {
+    if (usuario.id === id) {
+      usuarioEncontrado = usuario;
+    }
+  });
+  return usuarioEncontrado;
+}
+```
+
+Embora funcione, a abordagem usando forEach para encontrar o usuário por ID é uma possibilidade mais verbosa e menos idiomática. A opção com forEach percorre a lista inteira, mesmo depois de encontrar o usuário, o que pode ser ineficiente em grandes conjuntos de dados.
+A abordagem correta! O método find é o apropriado para este caso, pois retorna o primeiro elemento que satisfaça a condição especificada na função de callback.
+
+### Aula 5 - Filtrando objetos - Vídeo 3
+
+Transcrição  
+Continuando com casos práticos, outro problema comum que encontramos com estruturas de dados como listas de estudantes, produtos, professores, etc., é a ordenação. Quando navegamos em um e-commerce, normalmente queremos ordenar por preço ou data de lançamento, por exemplo. Pensando nisso, agora faremos uma prática com ordenação.
+
+Vamos criar um arquivo chamado ordenar-estudantes.js. Nele, criamos a nossa constante estudantes, utilizando require() e passando o caminho do nosso arquivo, como fizemos anteriormente.
+
+Em seguida, criaremos uma função chamada ordena(), pois assim poderemos ordenar estudantes, ou qualquer outra lista que recebamos. Essa função, para funcionar, precisa receber uma lista e uma propriedade, pois é através da propriedade que faremos essa ordenação. Podemos ordenar por nome, por telefone, data de nascimento, etc.
+
+```JavaScript
+const estudantes = require('./estudantes.json');
+function ordena(lista, propriedade) {
+
+} 
+```
+
+Dentro da função, chamaremos o return e utilizaremos o método .sort(), disponível para arrays, para ordenar os estudantes com base na propriedade especificada. Ele também é uma função callback, mas tem uma sintaxe diferente: ao invés de um parâmetro, que normalmente é o elemento que está sendo iterado na lista, passamos dois parâmetros, que chamaremos de a e b. Estes são os nomes padrão que usamos nesse tipo de função de ordenação.
+
+```JavaScript
+const estudantes = require('./estudantes.json');
+function ordena(lista, propriedade) {
+    return lista.sort((a, b) => {
+    
+    })
+} 
+```
+
+Dentro do callback, faremos duas condicionais. Se a propriedade de a for menor que a propriedade de b, retornamos -1. Em seguida, verificamos a propriedade de a é maior que a propriedade de b e, neste caso, retornamos 1. Se não for menor nem maior, retornamos 0.
+
+```JavaScript
+const estudantes = require('./estudantes.json');
+function ordena(lista, propriedade) {
+    return lista.sort((a, b) => {
+    if (a[propriedade] < b[propriedade]) return -1;
+    if (a[propriedade] > b[propriedade]) return 1;
+    return 0;
+    })
+} 
+```
+
+Agora, vamos criar uma constante para guardar o resultado de .sort(), que sempre retorna uma lista ordenada. A nomearemos como listaOrdenada e chamaremos função ordena() passando estudantes e a string 'nome', que é a chave pela qual queremos ordenar. Em seguida, usamos console.log() para imprimir listaOrdenada.
+
+```JavaScript
+const estudantes = require('./estudantes.json');
+function ordena(lista, propriedade) {
+    return lista.sort((a, b) => {
+    if (a[propriedade] < b[propriedade]) return -1;
+    if (a[propriedade] > b[propriedade]) return 1;
+    return 0;
+    })
+} 
+const listaOrdenada = ordena(estudantes, 'nome');
+console.log(listaOrdenada);
+```
+
+Ao executar o arquivo com o comando node ordenar-estudantes.js, vemos que a lista retornada está ordenada corretamente.
+
+Retorno omitido.
+
+O método .sort() pode ser utilizado de duas formas. A forma mais simples, onde não fazemos condicionais dentro do callback, pode ser usada em alguns casos, mas não é possível utilizá-la para entrar na propriedade de um objeto e fazer ordenação por essa propriedade. Ela também não funciona para valores numéricos, apenas para textos. Se tivermos uma lista de strings para ordenar, podemos utilizar a forma mais simples.
+
+Já na forma que usamos, o JavaScript compara se a é menor que b ou se a é maior que b, e a partir do retorno -1, 1 ou 0, o JavaScript vai reordenando esses objetos dentro do array. Se a é menor, vai para frente e, se é maior, vai para trás.
+
+Na [documentação do MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort#sorting_array_of_objects), há um trecho especificando o método .sort() e explicando essa lógica interna de ordenação. Assim, podemos utilizá-lo para fazer a ordenação por uma propriedade, seja ela nome, preço, data, etc.
+
+Concluímos nosso conteúdo, mas não deixe de fazer os exercícios para praticar e continuar manipulando os objetos!
+
+### Aula 5 -  - Vídeo 4
+### Aula 5 -  - Vídeo 5
+### Aula 5 -  - Vídeo 6
