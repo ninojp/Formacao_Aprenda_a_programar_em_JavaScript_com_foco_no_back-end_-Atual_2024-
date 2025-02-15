@@ -3157,9 +3157,686 @@ Nesta aula, você aprendeu:
 
 ### Aula 4 - O formato JSON - Vídeo 1
 
-### Aula 4 -  - Vídeo 2
-### Aula 4 -  - Vídeo 3
-### Aula 4 -  - Vídeo 4
-### Aula 4 -  - Vídeo 5
-### Aula 4 -  - Vídeo 6
+### Aula 4 - O formato JSON - Vídeo 2
+
+Transcrição  
+Até o momento, entendemos a estrutura de um objeto e aprendemos a manipulá-lo, inserir dados entre outras coisas.
+
+O que faremos agora é um uso muito comum em programação, não apenas em JavaScript, mas que usa o objeto JavaScript como base.
+
+**Explorando o JSON em JavaScript**  
+Para entendermos esse uso, estamos exibindo a plataforma da Alura, mais especificamente a formação A partir do zero: iniciante em programação*.
+
+Já discutimos em outros cursos como as informações que aparecem nos sites e nos aplicativos não estão hardcoded, ou seja, chumbadas na página. Elas vêm de bases de dados, são processadas, solicitadas e retornadas.
+
+No caso da Alura, é possível consultar a base de onde saem essas informações, que é uma API. Disponibilizamos nessa aula mais informações sobre o que são APIs e o link.
+
+O que está sendo exibido agora na tela é uma versão desses dados que foram retirados de um banco de dados e convertidos em um formato que o front-end consegue utilizar para montar páginas. Esse formato é um objeto, muito parecido com o que usamos para praticar objetos em JavaScript.
+
+Conseguimos identificar as chaves, o conjunto de chave e valor. Por exemplo, temos o título com a informação do título como uma string, com aspas duplas. Temos arrays de dados, uma das partes do JSON mostra um array com alguns objetos dentro.
+
+Esse formato de array de objetos é muito comum quando montamos essa estrutura de dados baseada em objeto JavaScript. É usado para fazer justamente esse intermédio entre informações em bancos de dados, como o título da formação, o subtítulo, e conseguimos ver tudo isso refletido na aplicação onde a pessoa usuária interage.
+
+Chamamos essa estrutura de dado de JSON, JavaScript Object Notation, no português Notação de Objeto JavaScript. O JSON tem uma estrutura muito parecida, como já aprendemos, com o objeto JavaScript que temos trabalhado até agora. O que queremos dizer com uma Notação de Objeto JavaScript é que ele usa o objeto JavaScript como base, mas eles têm algumas diferenças de estrutura.
+
+Abaixo, temos um exemplo de estudante, um objeto JavaScript literal.
+
+```JavaScript
+const estudante = {
+    nome: 'Ana',
+    idade: 32,
+    cpf: 23423423423,
+    email: 'ana@email.com',
+    telefones: ['551198745632', '551198745633'],
+    endereco: {
+        rua: 'Rua Joseph Climber',
+        numero: '45',
+        complemento: 'apto 43',
+    },
+};
+```
+
+Já um exemplo de JSON com os mesmos dados, como nome, de idade, de CPF, como temos utilizado durante o curso, é o abaixo.
+
+```JavaScript
+{
+    "nome": "Ana",
+    "idade": 32,
+    "cpf": "23423423423",
+    "email"; "ana@email.com",
+    "telefones": ["551198745632",
+    "551198745633"],
+    "endereco": {
+        "rua": "Rua Joseph Climber",
+        "numero": "45",
+        "complemento": "apto 43"
+    }
+}
+```
+
+E quais são essas diferenças? A primeira coisa que podemos notar é que o JSON não é atribuído a uma variável. Ele não é um tipo de dado do JavaScript, ele é uma estrutura de dados que utiliza a Notação de Objeto JavaScript e é muito usado não apenas em JavaScript, como na maior parte das linguagens comerciais. Você vai encontrá-lo sendo utilizado com Java, Python, C Sharp, vamos aprender mais sobre isso em breve.
+
+Outro ponto importante é que até o momento, quando trabalhamos com objetos, as chaves, os nomes das propriedades, não tinham aspas. Porém, no JSON é obrigatório usarmos aspas também no nome da chave, como nome, idade, CPF, tudo entre aspas duplas.
+
+Além disso, o JSON não trabalha com aspas simples, todas as strings precisam ter aspas duplas. Então, aspas simples não são aceitas no JSON em nenhum caso, nem para cercar os nomes das chaves, nem para serem utilizadas como strings.
+
+A última característica importante é que, ao contrário do objeto JavaScript, onde podemos deixar sempre uma vírgula no final da última propriedade, o JSON não aceita vírgulas sobrando. Chamamos essas vírgulas, colocadas depois da última propriedade, de trailing comma, vírgula sobrando. Parece um detalhe, mas é muito comum em JavaScript marcarmos o fim de um objeto com uma vírgula, já preparando caso tenha outra propriedade depois, mas o JSON não aceita.
+
+Mas, mesmo com essas diferenças, notamos serem muito parecidos, assim como a forma de lidar com ambos. Então, qual é a sintaxe do JSON?
+
+Não são permitidas funções, apenas dados como string, número, booleano, array e objeto;
+
+Não são permitidos comentários. Você deve se lembrar que anteriormente comentamos a parte de um objeto, nesse caso não podemos;
+
+JSON suporta apenas os tipos primitivos: string, número, booleano, null, arrays e objetos. Não conseguimos utilizar funções.
+
+Mas, por que o JSON é tão utilizado? Ele veio para substituir um formato anterior de dados, que era o XML. O XML também se baseia em uma linguagem de marcação, assim como o HTML, se você já teve a oportunidade de ver um pouco de front-end.
+
+O XML é um pouco verboso, ou seja, a leitura dele é um pouco mais complexa, especialmente para as pessoas que precisam interagir com esses dados, porque ao invés de conjuntos de chave e valor, ele utiliza tags de abertura e fechamento com a informação no meio. Comparando o JSON com o XML, o JSON tem uma leitura mais fácil, dinâmica, ele é mais sucinto.
+
+Agora que já entendemos o que é o JSON, praticaremos um pouco com esse formato de dados. Faremos isso no vídeo seguinte, até lá!
+
+### Aula 4 - Para saber mais: API? Requisição? HTTP?
+
+No vídeo anterior, aprendemos o que é o formato JSON e que ele é comumente usado para construir estruturas de dados, que possam ser lidas e manipuladas pelo back-end e também pelo front-end, por exemplo, montar páginas e aplicações.
+
+O termo que usamos aqui é API, ou application programming interface (interface de programação de aplicações, em tradução livre). Mas o que é uma API e qual a relação de APIs com JSON e objetos?
+
+Vamos revisitar o [link da API aberta da Alura](https://www.alura.com.br/api/formacao-programacao), com as informações da página de [formação de iniciante em programação](https://cursos.alura.com.br/formacao-programacao). Como fizemos no vídeo, você pode conferir que alguns dados presentes na API com o que é exibido na tela da plataforma.
+
+> O navegador Firefox (que usamos no curso) usa um recurso próprio para formatar os dados da API e exibir o JSON com quebras de linha e indentação. Caso você utilize Chrome, pode instalar a [extensão JSON Formatter](https://chromewebstore.google.com/detail/json-formatter/bcjindcccaagfpapjjmafapmmgkkhgoa) para visualizar os dados de forma similar à do vídeo.
+
+**O que são APIs?**  
+APIs são interfaces entre aplicações. Podemos pensar em APIs como pontos de contato ou comunicação entre partes de um sistema ou entre sistemas diferentes, por exemplo:
+
+O back-end de uma aplicação disponibiliza uma API para que o front-end possa buscar dados para popular uma página (no caso da API da Alura).
+Uma aplicação quer utilizar um sistema de busca de CEPs disponibilizado por terceiros. O serviço de busca disponibiliza uma API para ser usada pela aplicação (um exemplo famoso é o [ViaCEP](https://viacep.com.br/)).
+
+Grande parte dos serviços em nuvem, como a AWS e o Google Cloud, disponibilizam APIs para que clientes possam utilizar seus serviços.
+Parece muita coisa? Não se preocupe! Nas próximas formações de Node.js vamos abordar a fundo os usos e os tipos de API, além de criarmos nossas próprias APIs.
+
+**APIs e JSON**  
+O formato JSON é o padrão atual para envio de recebimento de dados entre aplicações. Na prática, isso significa que usamos JSON para, por exemplo:
+
+Um front-end pegar dados de um formulário em uma página e enviar para o back-end criar um cadastro de cliente, como em {“nome”: “José”, “email”: “jose@email.com”, “telefone”: “551199999999”};  
+Um back-end consultar dados armazenados em tabelas de um banco de dados e formatá-los em JSON para enviá-los ao front (como a API da Alura).
+E como é feito esse envio e recebimento de JSON?
+
+**JSON e requisições**  
+Quando queremos “transitar” um objeto JSON entre computadores na web através do [protocolo HTTP](https://www.alura.com.br/artigos/desmistificando-o-protocolo-http-parte-1) é necessário transformar toda a estrutura em strings, pois nessa comunicação trafegam apenas dados em texto.
+
+Por esse motivo, é bastante comum a operação de transformar um JSON em string e também reconverter um texto em JSON para que o objeto possa ser utilizado pelo programa.
+
+Você vai ter oportunidade de praticar mais com APIs e com o envio e recebimento de JSON nas próximas formações e cursos de Node.js.
+
+### Aula 4 - Preparando o ambiente
+
+Para esta aula, vamos utilizar um arquivo JSON. Você vai precisar [baixar o arquivo estudante.json](https://github.com/alura-cursos/3561-js-objetos/blob/aula-4/estudante.json) no GitHub.
+
+Você pode clicar no botão “download raw file” no canto direito acima do código para baixar o arquivo. Salve este arquivo na pasta do projeto, junto com o restante dos arquivos que criamos durante o curso.
+
+Caso prefira copiar e colar, crie um novo arquivo estudante.json na pasta do projeto e cole o conteúdo a seguir:
+
+```JSON
+{
+  "nome": "Ana",
+  "idade": 32,
+  "cpf": "23423423423",
+  "email": "ana@email.com",
+  "telefones": ["551198745632", "551198745633"],
+  "endereco": {
+    "rua": "Rua Joseph Climber",
+    "numero": "45",
+    "complemento": "apto 43"
+  }
+}
+```
+
+### Aula 4 - Lendo um arquivo JSON - Vídeo 3
+
+Transcrição  
+Já sabemos o que é um JSON. Agora, vamos entender como trabalhar com ele.
+
+Se não podemos salvar um JSON em uma variável, como importamos esse tipo de estrutura de dados no projeto? Na atividade anterior, disponibilizamos um link para você baixar dois arquivos, um chamado estudante.json e outro chamado estudantes.json. Nós já baixamos esses arquivos e colocamos na pasta do projeto, faça o mesmo para darmos continuidade.
+
+Importando e Manipulando JSON
+Começaremos criando um arquivo chamado importa-json.js. Descobriremos como trabalhar com JSON. Criamos uma const chamada estudante = require() passando como parâmetro, uma string com o caminho do arquivo que queremos importar.
+
+No nosso caso, colocamos todos os arquivos na mesma pasta. Então, para importar estudante.json para o nosso projeto, só precisamos passar ./estudante.json, finalizado com ponto e vírgula. Para conferimos o que foi feito, na linha abaixo escrevemos console.log(estudante).
+
+```JavaScript
+const estudante = require('./estudante.json');
+
+console.log(estudante);
+```
+
+Feito isso, abrimos o terminal e passamos o comando node importa-json.js.
+
+> node importa-json.js
+
+Feito isso, é exibido os dados da pessoa estudante em um formato muito parecido com o que estamos trabalhando, porém, agora um JSON. Ele não tem nenhuma variável atribuída, não tem as chamadas "trailing comas", ou seja, a vírgula após última propriedade. Além disso, todas as chaves e strings estão envolvidas por aspas duplas.
+
+Podemos inclusive abrir o arquivo estudante.json para analisá-lo.
+
+Conseguimos importar o arquivo, agora podemos usá-lo no nosso projeto. Para eliminarmos uma última dúvida, criaremos outro console console.log() e pediremos para o JavaScript dizer qual é o typeof, o tipo desse dado estudante que importamos nessa constante estudante. Dessa forma:
+
+```JavaScript
+const estudante = require('./estudante.json');
+
+console.log(estudante);
+console.log(typeof estudante)
+```
+
+Novamente abrimos o terminal e passamos o comando node importa-json.js. Repare que o tipo de dado é object, então, o que o require está fazendo é importando o JSON, executando, entre aspas, e convertendo o resultado para a variável estudante no formato de um objeto JavaScript que conseguimos utilizar.
+
+Por exemplo, agora que já importamos esses dados e passamos para dentro da variável estudante convertidos através do require, conseguimos utilizar alguns métodos de objeto, como o object.keys. Então, na linha 6, podemos criar const chaves = Objects.keys(estudante). Abaixo, passamos console.log(chaves).
+
+Feito isso, comentamos os consoles anteriores passando // no início de cada linha.
+
+```JavaScript
+const estudante = require('./estudante.json');
+// console.log(estudante);
+// console.log(typeof estudante);
+const chaves = Object.keys(estudante);
+console.log(chaves);
+```
+
+Limpamos o terminal e executamos novamente node importa-json.js. Como retorno temos o resultado que esperávamos, um array com todas as chaves no formato de string. Então, se abrirmos o nosso estudante.json, encontramos todas as chaves. Sabendo disso, fechamos esse arquivo.
+
+O importante é entender que JSON não é um objeto JavaScript. Para utilizá-lo como objeto, precisamos convertê-lo, assim conseguimos utilizar métodos de objeto, percorre-lo, entre outras coisas.
+
+Sobre o require, é possível que, durante seus estudos, você já tenha visto as importações em JavaScript sendo feitas de outra forma, por exemplo, usando import estudante from e o caminho.
+
+A forma import from, ela pode ser considerada mais moderna, vem sendo mais utilizada. Nesse caso, não a estamos utilizando, pois precisa de algumas configurações a mais para funcionar, enquanto o require é nativo do Node. Então, podemos usar ele diretamente.
+
+No caso aqui do nosso projeto, não fará diferença, podemos usar o require tranquilamente. Disponibilizamos mais informações sobre as diferenças entre o require e o import nas atividades.
+
+Agora que sabemos como importar um arquivo JSON para o nosso projeto, continuaremos manipulando esse tipo de estrutura de dado.
+
+Te esperamos no vídeo seguinte!
+
+### Aula 4 - Para saber mais: importação de módulos e require
+
+Neste curso utilizamos uma função, chamada require(), nativa do Node.js. Esta função nos permitiu passar o caminho de um arquivo terminado em .json para obter o conteúdo do arquivo já convertido para objeto JavaScript. Em cursos posteriores, veremos que essa função também pode ser utilizada para importação de códigos que estão em outros arquivos, também chamados de módulos.
+
+> A conversão automática de um objeto JSON em um objeto JavaScript é uma das propriedades específicas da função require(), conforme estabelecido na [documentação do Node.js](https://nodejs.org/api/modules.html#modules_all_together).
+
+A modularidade é uma característica que permite que devs dividam seus programas em partes mais gerenciáveis e reutilizáveis. A importação de módulos é uma prática fundamental nesse contexto, e a função require desempenha um papel vital nesse processo.
+
+Utilizando o require para importar módulos  
+Ao utilizar require, é possível incluir funcionalidades de outros arquivos, promovendo a reutilização de código e a manutenção eficiente.
+
+> // Exemplo de importação de um módulo em Node.js  
+const moduloExemplo = require('./meuModulo.js');
+
+> // Agora, podemos utilizar as funcionalidades do 'meuModulo'  
+moduloExemplo.minhaFuncao();
+
+**Importação de módulos JSON**  
+Além da importação de módulos JavaScript, o require também é usado para carregar arquivos JSON, que são amplamente utilizados para armazenar configurações e dados estruturados. Ao importar um arquivo JSON, o Node.js automaticamente o converte para um objeto JavaScript.
+
+> // Importando um arquivo JSON em Node.js  
+const configuracoes = require('./configuracoes.json');
+
+> // Agora, 'configuracoes' contém o conteúdo do arquivo JSON  
+console.log(configuracoes);
+
+Caminhos relativos e módulos nativos  
+Ao utilizar require, é possível especificar caminhos relativos para módulos próprios ou caminhos absolutos para módulos de terceiros. Além disso, Node.js fornece uma variedade de módulos nativos que podem ser importados sem a necessidade de instalação adicional.
+
+> // Importação de um módulo nativo em Node.js
+const fs = require('fs');
+
+> // Agora, 'fs' contém as funcionalidades do módulo File System
+
+Exportação de módulos  
+Para que um módulo seja importável, é necessário exportá-lo corretamente. A exportação pode ser feita atribuindo o que se deseja exportar à propriedade module.exports.
+
+```JavaScript
+// Exemplo de exportação de um módulo em Node.js
+function minhaFuncao() {
+  console.log('Executando minha função...');
+}
+
+module.exports = minhaFuncao;
+```
+
+Caso tenha interesse de aprofundar seus conhecimentos, o MDN tem um artigo explicando os [módulos em JavaScript](https://developer.mozilla.org/docs/Web/JavaScript/Guide/Modules) e a [documentação do Node.js](https://nodejs.org/api/modules.html#modules_modules) sobre módulos também elabora mais a respeito do tema e do uso específico que fizemos durante a aula.
+
+Você também pode ler mais sobre [importação e exportação de módulos nesse artigo](https://www.alura.com.br/artigos/guia-importacao-exportacao-modulos-javascript).
+
+### Aula 4 - Lendo a partir de um JSON
+
+Temos um arquivo do tipo JSON e queremos resgatar o conteúdo salvo em uma determinada propriedade a partir do arquivo lutador.json:
+
+```JavaScript
+{
+  "nome": "Leandro Macedo",
+  "esporte": "Jiu Jitsu",
+  "altura": 1.65,
+  "lutas": 12,
+  "vitorias": 7,
+  "categoria": "Peso pena"
+}
+```
+
+Após analisar o arquivo acima, marque a alternativa correta que contêm um código que adquira as informações deste arquivo e quando executado mostre no terminal o valor da propriedade altura. Para isso, considere que o seu código e o arquivo JSON estão no mesmo diretório.
+
+Resposta:  
+Podemos escrever no arquivo lerLutador.js o seguinte código:
+
+> const lutador = require("./lutador.json");  
+console.log(lutador.altura);
+
+Isso mesmo! Utilizamos require() para ler os dados, salvamos na variável dados e em seguida mostramos na tela com um console.log().
+
+### Aula 4 - Operações com JSON - Vídeo 4
+
+Transcrição  
+Compreendemos que o JSON é um formato usado para transportar dados. Pegamos os dados do banco, convertemos para um formato de arquivo com o qual conseguimos trabalhar, que é o JSON.
+
+Portanto, se trabalhamos muito com o JSON, enviamos para o front-end, recebemos de volta, ele precisa ser convertido e reconvertido de uma maneira simples.
+
+**Convertendo e manipulando JSON**  
+Para praticarmos esse processo de conversão, criamos um novo arquivo chamado converte-json.js. A primeira coisa que faremos é importar novamente o JSON de estudante. Então na primeira linha escrevemos const estudante = require('./estudante.json').
+
+> const estudante = require('./estudante.json')
+
+Ao manipularmos dados, por exemplo, o front-end envia para o back-end, e o back-end envia para o front-end, temos que fazer esse processo utilizando strings. Então, ao fazermos a comunicação cliente-servidor, não podemos mandar um arquivo .json ou .js, temos que mandar um arquivo em string.
+
+Então, como convertemos esse JSON em uma string que possa ser, por exemplo, enviada em uma requisição e devolvida? Para isso, criaremos outra const chamada stringEstudante = JSON.stringify(). Nos parênteses, passamos como método a estudante, a const na qual importamos o JSON.
+
+JSON.stringify, JSON.parse e outros que vamos trabalhar, fazem parte de uma biblioteca que o Node tem para facilitar esse trabalho comum de manipulação de JSON em aplicações back-end.
+
+Para conferir o resultado, na linha 4, passamos console.log(stringEstudante) e abaixo o console.log(typeof stringEstudante) para podermos conferir também o formato do arquivo.
+
+```JavaScript
+const estudante = require('./estudante.json')
+
+const stringEstudante = JSON.stringify(estudante);
+console.log(stringEstudante)
+console.log(typeof stringEstudante)
+```
+
+Salvamos o arquivo e abrimos o terminal. Passamos o comando node converte-json.js.
+
+> node converte-json.js
+
+Feito isso, temos como retorno duas referências, a primeira é todo o objeto em uma só linha e sem a notação de cores, se transformou em uma string. Mas, a confirmação vem no segundo log em que é string.
+
+Agora, que convertemos esse JSON para string, podemos em nossa aplicação back-end, por exemplo, enviar isso numa requisição HTTP para o front-end, para ser utilizado e montar a página da formação de iniciantes da Alura.
+
+Mas o que acontece se chamarmos outro console.log() e pedir para ele exibir stringEstudante.nome. Se abrirmos o arquivo estudante.json, notamos ser uma propriedade. Usamos object.keys, então, teoricamente, poderíamos, pois é um objeto.
+
+Para verificar o que acontece, abrimos o terminal e passamos node converte-json.js. Como retorno temos "undefined". Lembrando que o JavaScript não dará erro, ele não dirá que não conseguiu encontrar a propriedade nome nessa string, porque agora a string não é mais um objeto, não tem mais propriedades. Ela é um grande conjunto de caracteres. Então, não conseguimos mais utilizar.
+
+```JavaScript
+//Código omitido
+console.log(stringEstudante.nome)
+```
+
+Mas, por que isso é importante? Porque, todo o processo de enviar dados via JSON e trazer esses dados, precisamos sempre lembrar de convertê-los para o formato que queremos utilizar.
+
+Queremos transportar esses dados, transformamos eles em string. Mas, agora que temos uma grande string com vários dados de estudante, não conseguimos mais manipular esse objeto, não conseguimos mais pegar .nome ou .idade. Como fazemos para reverter isso para um formato que possamos utilizar?
+
+Para fazermos o processo contrário, na linha 9 criamos a const objEstudante = JSON.parse(stringEstudante). Na linha abaixo, passamos os dois console.log() que utilizamos anteriormente, substituindo para objEstudante, dessa forma:
+
+```JavaScript
+console.log(stringEstudante.nome);
+
+const objEstudante = JSON.parse(stringEstudante);
+console.log(objEstudante);
+console.log(typeof objEstudante);
+```
+
+Salvamos, abrimos o terminal e executamos o mesmo comando node converte-json.js. Temos como retorno "undefined", pois esquecemos de apagar o console anterior. Mas, repare que toda a string voltou a ser um objeto, inclusive com a notação de cores do terminal. Além disso, o typeoftambém volta a ser um objeto.
+
+Então, a biblioteca JSON interna do Node, tem uma série de métodos que conseguimos manipular os JSON, transformando-os em string quando precisamos enviar esses arquivos e transformando novamente em objetos.
+
+Agora, se passarmos o console.log da stringEstudante.nome e trocar para objEstudante.nome, dessa forma:
+
+```JavaScript
+const objEstudante = JSON.parse(stringEstudante);
+console.log(objEstudante);
+console.log(typeof objEstudante);
+console.log(objEstudante.nome);
+```
+
+Ao passar o comando no terminal, aparece a informação sem problemas, pois agora conseguimos acessar a propriedade nome.
+
+Um objeto JavaScript é feito para rodar dentro de uma aplicação JavaScript. As strings, então, usamos para transmitir esses dados entre conexões, por exemplo, uma conexão HTTP, e o JSON empresta esse padrão de formato do objeto JavaScript, porque é de leitura simples, muito mais simples do que o XML.
+
+Agora, podemos começar a trabalhar com estruturas de dados maiores, como o estudantes.json, que pedimos para você importar em seu projeto. Vamos descobrir isso na próxima aula.
+
+### Aula 4 - Para saber mais: copiando objetos
+
+É importante entender a forma como os objetos são armazenados e seus valores são copiados com JavaScript. Você pode se deparar com alguns problemas caso não leve esses fatores em consideração.
+
+Para abordar essa questão, é crucial compreender as diferentes abordagens de cópia de objetos. Em JavaScript, a simples atribuição de um objeto a uma nova variável cria uma "referência", não uma cópia independente. Isso significa que alterações em uma variável afetarão diretamente a outra.
+
+Exemplo de referência:
+
+```JavaScript
+const objetoOriginal = { chave: 'valor' };
+const copiaReferencia = objetoOriginal;
+
+copiaReferencia.chave = 'novoValor';
+console.log(objetoOriginal.chave); // Saída: novoValor
+```
+
+Uma abordagem comum para realizar cópias de objetos é através da técnica conhecida como "clonagem profunda". Essa técnica assegura que a cópia seja independente do objeto original, evitando referências compartilhadas e garantindo a integridade dos dados.
+
+Exemplo de clonagem profunda com JSON.stringify e JSON.parse:
+
+```JavaScript
+const objetoOriginal = { chave: 'valor' };
+const copiaProfunda = JSON.parse(JSON.stringify(objetoOriginal));
+
+copiaProfunda.chave = 'novoValor';
+console.log(objetoOriginal.chave); // Saída: valor
+```
+
+Explorar essas práticas de cópia de objetos proporciona uma base sólida para lidar com estruturas de dados no JavaScript, mitigando possíveis armadilhas relacionadas a referências e garantindo um código mais robusto e previsível.
+
+Pensando nisso, separamos para você um [artigo sobre clonagem profunda com imutabilidade](https://www.alura.com.br/artigos/implementar-funcao-clonagem-profunda-imutabilidade-js). Ele está presente na nossa plataforma e é uma leitura interessante agora que você já teve um bom contato com os objetos em JavaScript.
+
+#### Aula 4 - Operações com JSON
+
+Você está aprimorando uma aplicação Node.js responsável por gerenciar uma biblioteca digital. Cada livro é representado por um objeto JSON contendo informações essenciais, como título, autor, gênero e ano de publicação. Ao realizar operações com JSON, é necessário converter esses objetos em strings para facilitar o armazenamento, transmissão ou outras operações comuns envolvendo strings.
+
+Você possui um arquivo chamado biblioteca.json com o seguinte conteúdo:
+
+```JavaScript
+[
+  {
+    "titulo": "Aventuras de Node.js",
+    "autor": "Jane Developer",
+    "genero": "Tecnologia",
+    "ano_publicacao": 2020
+  },
+  {
+    "titulo": "Histórias de JavaScript",
+    "autor": "John Coder",
+    "genero": "Programação",
+    "ano_publicacao": 2018
+  }
+]
+```
+
+Agora, você precisa implementar uma funcionalidade que adiciona um novo livro à biblioteca. Além disso, é necessário converter esse objeto JSON em uma string antes de salvá-lo, transmiti-lo ou realizar qualquer operação que envolva strings. Após isso, será necessário transformar essa string de volta em um objeto para realizar alterações nas propriedades utilizando operações comuns do JavaScript.
+
+Qual alternativa abaixo representa a forma correta de realizar essas operações?
+
+Resposta:
+
+```JavaScript
+ const novoLivro = {
+    "titulo": "Node.js: Guia Prático",
+    "autor": "Alice Coder",
+    "genero": "Tecnologia",
+    "ano_publicacao": 2022
+  };
+const biblioteca = require("./biblioteca.json");
+biblioteca.push(novoLivro);
+
+const bibliotecaString = JSON.parse(JSON.stringify(biblioteca));
+
+console.log(typeof(bibliotecaString)) 
+console.log(bibliotecaString) 
+```
+
+Esta alternativa está correta, pois realiza a adição do novo livro ao array da biblioteca e converte a biblioteca para uma string, salvando o resultado em uma variável. Importante: o exemplo de código acima não altera o JSON original.
+
+### Aula 4 - Desafio: lista de exercícios
+
+1. Crie um arquivo chamado dados.json contendo informações fictícias em formato JSON. O arquivo pode representar, por exemplo, dados de produtos, usuários ou qualquer outra informação que você deseje.
+
+Exemplo:
+
+```JSON
+{
+    "produtos": [
+        {
+            "id": 1,
+            "nome": "Camiseta",
+            "preco": 25.99
+        },
+        {
+            "id": 2,
+            "nome": "Calça Jeans",
+            "preco": 49.99
+        }
+    ],
+    "usuarios": [
+        {
+            "id": 101,
+            "nome": "João",
+            "email": "joao@example.com"
+        },
+        {
+            "id": 102,
+            "nome": "Maria",
+            "email": "maria@example.com"
+        }
+    ]
+}
+```
+
+- Crie um arquivo chamadoutilizarRequire.js e, dentro dele, utilize a função require() para importar o conteúdo do arquivo dados.json.
+
+- Imprima no console o conteúdo importado utilizando a função console.log().
+
+- Acesse diferentes propriedades do objeto importado e imprima no console para verificar o acesso aos dados.
+
+2. - Crie um arquivo chamado dados.json contendo informações em formato JSON. O arquivo pode representar, por exemplo, dados de produtos de uma loja ou qualquer outra informação que você deseje.
+
+Mesmo Exemplo Acima.
+
+Em seguida, crie um arquivo chamado lerArquivoJson.js. Dentro dele, utilize o método require para importar o conteúdo do arquivo dados.json.
+
+Imprima no console o objeto JavaScript resultante da leitura do arquivo.
+
+3. - Crie um objeto JavaScript representando informações de um produto. O objeto deve conter pelo menos as seguintes propriedades:
+
+id (number): identificador do produto.
+nome (string): nome do produto.
+preco (number): preço do produto.
+Exemplo
+
+const produto = {
+    id: 1,
+    nome: "Camiseta",
+    preco: 25.99
+}
+Copiar código
+Converta o objeto produto para uma string utilizando JSON.stringify() e imprima no console a string resultante.
+
+4 - Crie um arquivo chamado animais.json, contendo informações fictícias em formato JSON. O arquivo pode representar dados de animais, incluindo pelo menos três elementos no array.
+
+Exemplo de animais.json:
+
+{
+    "animais": [
+        {
+            "id": 1,
+            "nome": "Leão",
+            "tipo": "Mamífero",
+            "habitat": "Savana"
+        },
+        {
+            "id": 2,
+            "nome": "Pinguim",
+            "tipo": "Ave",
+            "habitat": "Pólo Sul"
+        },
+        {
+            "id": 3,
+            "nome": "Cobra",
+            "tipo": "Réptil",
+            "habitat": "Floresta Tropical"
+        }
+    ]
+}
+Copiar código
+Crie um arquivo chamado manipulacaoJson.js. Dentro deste arquivo, realize as seguintes operações:
+
+a) Leia o conteúdo do arquivo animais.json.
+
+b) Converta o conteúdo lido para um objeto JavaScript utilizando JSON.parse().
+
+c) Adicione um novo animal ao array de animais. O novo animal deve ter um id único, nome, tipo e habitat.
+
+d) Modifique o habitat de um animal existente no array de animais.
+
+e) Remova um animal do array de animais.
+
+f) Converta o objeto modificado para uma string JSON utilizando JSON.stringify().
+
+g) Imprima no console o objeto JavaScript resultante das operações.
+
+5 - Crie um objeto JavaScript representando informações de uma pessoa. O objeto deve conter as seguintes propriedades:
+
+id (number): identificador da pessoa.
+nome (string): nome da pessoa.
+idade (number): idade da pessoa
+Exemplo
+
+const pessoaOriginal = {
+    id: 1,
+    nome: "Alice",
+    idade: 30
+}
+Copiar código
+Crie uma função que receba um objeto JavaScript e retorne um novo objeto. Utilize esta função para fazer uma cópia do objeto pessoaOriginal.
+
+Modifique a cópia do objeto obtido através da função, adicionando ou alterando pelo menos uma propriedade.
+
+Imprima no console ambos os objetos (o original e o modificado) para verificar que as alterações feitas no objeto modificado não afetaram o objeto original.
+
+Opinião do instrutor
+
+Resolução 1
+
+// utilizarRequire.js
+const dados = require('./dados.json');
+
+// Imprime no console o conteúdo importado
+console.log("Conteúdo importado de dados.json:");
+console.log(dados);
+
+// Acessa diferentes propriedades do objeto importado e imprime no console
+console.log("\nAcesso aos dados:");
+console.log("Produtos:", dados.produtos);
+console.log("Usuários:", dados.usuarios);
+Copiar código
+Resolução 2
+
+// lerArquivoJson.js
+const dados = require('./dados.json');
+// Exibe o conteúdo lido
+console.log(dados);
+Copiar código
+Resolução 3
+
+// operacoesJson.js
+const produto = {
+    id: 1,
+    nome: "Camiseta",
+    preco: 25.99
+};
+
+// Converte o objeto produto para uma string
+const stringJsonProduto = JSON.stringify(produto);
+
+// Imprime no console a string do objeto produto
+console.log("String do Produto:");
+console.log(stringJsonProduto);
+Copiar código
+Resolução 4
+
+// manipulacaoJson.js
+const objetoAnimais = {
+    "animais": [
+        {
+            "id": 1,
+            "nome": "Leão",
+            "tipo": "Mamífero",
+            "habitat": "Savana"
+        },
+        {
+            "id": 2,
+            "nome": "Pinguim",
+            "tipo": "Ave",
+            "habitat": "Pólo Sul"
+        },
+        {
+            "id": 3,
+            "nome": "Cobra",
+            "tipo": "Réptil",
+            "habitat": "Floresta Tropical"
+        }
+    ]
+};
+
+// Adiciona um novo animal ao array de animais
+const novoAnimal = {
+    "id": 4,
+    "nome": "Elefante",
+    "tipo": "Mamífero",
+    "habitat": "Savana"
+};
+objetoAnimais.animais.push(novoAnimal);
+
+// Modifica o habitat de um animal existente no array de animais
+const animalParaModificar = objetoAnimais.animais.find(animal => animal.id === 2);
+if (animalParaModificar) {
+    animalParaModificar.habitat = "Oceano Antártico";
+}
+
+// Remove um animal do array de animais
+const indiceAnimalRemover = objetoAnimais.animais.findIndex(animal => animal.id === 1);
+if (indiceAnimalRemover !== -1) {
+    objetoAnimais.animais.splice(indiceAnimalRemover, 1);
+}
+
+// Converte o objeto modificado para uma string JSON
+const novaStringJsonAnimais = JSON.stringify(objetoAnimais, null, 2);
+
+// Imprime no console o objeto JavaScript resultante das operações
+console.log("Objeto JavaScript Resultante das Operações:");
+console.log(objetoAnimais);
+Copiar código
+Execute o arquivo operacoesJson.js, utilizando o seguinte comando no terminal:
+
+node manipulacaoJson.js
+Copiar código
+Resolução 5
+
+// copiarObjetoJson.js
+
+// Função para copiar objetos JSON
+function copiarObjetoJson(objeto) {
+    return JSON.parse(JSON.stringify(objeto));
+}
+
+// Criação do objeto original (pessoa)
+const pessoaOriginal = {
+    id: 1,
+    nome: "Alice",
+    idade: 30
+};
+
+// Utiliza a função para criar uma cópia do objeto original
+const pessoaModificada = copiarObjetoJson(pessoaOriginal);
+
+// Modifica a cópia do objeto (pessoa modificada)
+pessoaModificada.idade = 31;
+
+// Imprime no console ambos os objetos
+console.log("Objeto Original (Pessoa):");
+console.log(pessoaOriginal);
+
+console.log("Objeto Modificado (Pessoa):");
+console.log(pessoaModificada)
+
 ### Aula 4 -  - Vídeo 7

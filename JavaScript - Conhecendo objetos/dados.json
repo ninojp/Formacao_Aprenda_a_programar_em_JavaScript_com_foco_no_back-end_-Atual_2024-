@@ -1,0 +1,46 @@
+{
+    "produtos": [
+        {
+            "id": 1,
+            "nome": "Camiseta",
+            "preco": 25.99
+        },
+        {
+            "id": 2,
+            "nome": "Calça Jeans",
+            "preco": 49.99
+        }
+    ],
+    "usuarios": [
+        {
+            "id": 101,
+            "nome": "João",
+            "email": "joao@example.com"
+        },
+        {
+            "id": 102,
+            "nome": "Maria",
+            "email": "maria@example.com"
+        }
+    ],
+    "animais": [
+        {
+            "id": 1,
+            "nome": "Leão",
+            "tipo": "Mamífero",
+            "habitat": "Savana"
+        },
+        {
+            "id": 2,
+            "nome": "Pinguim",
+            "tipo": "Ave",
+            "habitat": "Pólo Sul"
+        },
+        {
+            "id": 3,
+            "nome": "Cobra",
+            "tipo": "Réptil",
+            "habitat": "Floresta Tropical"
+        }
+    ]
+}
