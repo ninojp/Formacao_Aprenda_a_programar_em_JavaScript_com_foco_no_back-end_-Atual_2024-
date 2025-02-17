@@ -4460,6 +4460,620 @@ Na [documentação do MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScri
 
 Concluímos nosso conteúdo, mas não deixe de fazer os exercícios para praticar e continuar manipulando os objetos!
 
-### Aula 5 -  - Vídeo 4
-### Aula 5 -  - Vídeo 5
-### Aula 5 -  - Vídeo 6
+#### Aula 5 - Ordem decrescente
+
+No vídeo anterior utilizamos o método sort() para ordenar uma lista de valores passando uma função de comparação:
+
+```JavaScript
+const estudantes = require('./estudantes.json');
+function ordena(lista, propriedade) {
+ return lista.sort((a, b) => {
+   if (a[propriedade] < b[propriedade]) return -1;
+   if (a[propriedade] > b[propriedade]) return 1;
+   return 0;
+ })
+}
+const listaOrdenada = ordena(estudantes, 'nome');
+console.log(listaOrdenada);
+```
+
+Porém, agora queremos reordenar as listas na ordem inversa. Como podemos realizar essa tarefa?
+
+Marque a alternativa que contém uma possível solução. Para resolver este exercício, você pode consultar a documentação do MDN sobre o objeto array, caso necessário.
+
+RESPOSTA:  
+
+Após a ordenação da lista, podemos ajustar a implementação para inverter a ordem diretamente no método sort, considerando uma função que recebe um parâmetro indicando se a ordenação é crescente ou decrescente:
+
+```JavaScript
+function ordenar(lista, propriedade, decrescente = false) {
+    return lista.sort((a, b) => {
+        let valorA = a[propriedade];
+        let valorB = b[propriedade];
+
+        if (typeof valorA === 'string') {
+            valorA = valorA.toUpperCase();
+        }
+        if (typeof valorB === 'string') {
+            valorB = valorB.toUpperCase();
+        }
+
+        if (valorA < valorB) {
+            return decrescente ? 1 : -1;
+        }
+        if (valorA > valorB) {
+            return decrescente ? -1 : 1;
+        }
+        return 0;
+    });
+}
+// Exemplo de uso para ordenar de forma decrescente pelo nome
+const ordenadoNomeDecrescente = ordenar(clientes, "nome", true);
+```
+
+Essa solução também funciona! Apesar de não ter alterado o método de ordenação que criamos e ter adicionado uma funcionalidade, obtivemos o resultado desejado fazendo uma manipulação com a lista.
+
+### Aula 5 - Links da aula
+
+Confira abaixo a lista de links utilizados durante a aula e/ou links complementares ao conteúdo:
+
+Documentação do MDN: [hasOwnProperty](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwnProperty);
+Documentação do MDN: [sort](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort#sorting_array_of_objects).
+
+### Aula 5 - Desafio: lista de exercícios
+
+1. - Crie um array de objetos JavaScript representando informações de livros. Cada objeto deve conter pelo menos as seguintes propriedades:
+
+- id (number): identificador do livro.
+- titulo (string): título do livro.
+- autor (string): nome do autor.
+- anoPublicacao (number): ano de publicação do livro.
+
+Exemplo
+
+```JavaScript
+const biblioteca = [
+    { id: 1, titulo: "O Senhor dos Anéis", autor: "J.R.R. Tolkien", anoPublicacao: 1954 },
+    { id: 2, titulo: "Dom Quixote", autor: "Miguel de Cervantes", anoPublicacao: 1605 },
+    { id: 3, titulo: "1984", autor: "George Orwell", anoPublicacao: 1949 }
+]
+```
+
+Crie uma função chamada encontrarLivroPorId que receba o id de um livro como parâmetro e retorne o objeto do livro correspondente. Se nenhum livro for encontrado, a função deve retornar null.
+
+Utilize a função para encontrar um livro com um id existente e imprima no console as informações do livro encontrado. Em seguida, utilize a função para encontrar um livro com um id inexistente e imprima no console uma mensagem indicando que o livro não foi encontrado.
+
+2. - Crie um array de objetos JavaScript representando informações de filmes. Cada objeto deve conter pelo menos as seguintes propriedades:
+
+id (number): identificador do filme.
+titulo (string): título do filme.
+diretor (string): nome do diretor.
+anoLancamento (number): ano de lançamento do filme.
+
+Exemplo
+
+```JavaScript
+const catalogoFilmes = [
+    { id: 1, titulo: "Matrix", diretor: "Lana Wachowski", anoLancamento: 1999 },
+    { id: 2, titulo: "Jurassic Park", diretor: "Steven Spielberg", anoLancamento: 1993 },
+    { id: 3, titulo: "Inception", diretor: "Christopher Nolan", anoLancamento: 2010 }
+]
+```
+
+Crie uma função chamada filtrarFilmesPorAno que receba um ano como parâmetro e retorne um novo array contendo apenas os filmes lançados nesse ano.
+
+Utilize a função para filtrar os filmes lançados em um ano específico e imprima no console o array resultante. Em seguida, refaça a operação com outro ano.
+
+3. - Crie um array de objetos JavaScript representando informações fictícias de produtos. Cada objeto deve conter pelo menos as seguintes propriedades:
+
+id (number): identificador do produto.
+nome (string): nome do produto.
+preco (number): preço do produto.
+
+Exemplo
+
+```JavaScript
+const listaProdutos = [
+    { id: 1, nome: "Camiseta", preco: 25.99 },
+    { id: 2, nome: "Calça Jeans", preco: 49.99 },
+    { id: 3, nome: "Tênis", preco: 79.99 },
+    { id: 4, nome: "Boné", preco: 15.99 }
+]
+```
+
+Crie uma função chamada filtrarOrdenarProdutosPorPreco que recebe um valor máximo (maxPreco) como parâmetro e retorna um novo array contendo apenas os produtos cujo preço é menor ou igual ao valor máximo, ordenados em ordem crescente de preço.
+
+Utilize a função para filtrar e ordenar os produtos com um valor máximo específico e imprima no console o array resultante.
+
+4. - Crie um array de objetos JavaScript representando informações de animais. Cada objeto deve conter pelo menos as seguintes propriedades:
+
+id (number): identificador do animal.
+nome (string): nome do animal.
+especie (string): espécie do animal.
+idade (number): idade do animal.
+
+Exemplo
+
+```JavaScript
+const animais = [
+    { id: 1, nome: "Leão", especie: "Felino", idade: 5 },
+    { id: 2, nome: "Elefante", especie: "Mamífero", idade: 10 },
+    { id: 3, nome: "Pinguim", especie: "Ave", idade: 3 }
+]
+```
+
+Crie uma função chamada ordenarAnimais que receba como parâmetro uma função de comparação para realizar a ordenação do array.
+
+Exemplo
+
+```JavaScript
+function ordenarAnimais(comparacao) {
+    return animais.sort(comparacao);
+}
+```
+
+Você pode criar funções para fazer a ordenação crescente ou decrescente:
+
+```JavaScript
+function compararIdadeCrescente(a, b) {
+    // implementação
+}
+
+function compararIdadeDecrescente(a, b) {
+    // implementação
+}
+```
+
+5. - Crie um array de objetos JavaScript representando informações fictícias de departamentos. Cada objeto deve conter pelo menos as seguintes propriedades:
+
+id (number): identificador do departamento.
+nome (string): nome do departamento.
+funcionarios (array): array de objetos representando funcionários do departamento.
+
+Exemplo
+
+```JavaScript
+const departamentos = [
+    {
+        id: 1,
+        nome: "Vendas",
+        funcionarios: [
+            { id: 101, nome: "Ana", cargo: "Vendedor" },
+            { id: 102, nome: "Carlos", cargo: "Gerente de vendas" }
+        ]
+    },
+    {
+        id: 2,
+        nome: "TI",
+        funcionarios: [
+            { id: 201, nome: "Maria", cargo: "Desenvolvedor" },
+            { id: 202, nome: "João", cargo: "Analista de sistemas" }
+        ]
+    }
+]
+```
+
+Crie uma função chamada encontrarFuncionarioPorId que recebe o id de um funcionário e retorna o objeto do funcionário correspondente em qualquer departamento.
+
+Utilize a função para encontrar um funcionário com um id existente e imprima no console as informações do funcionário encontrado. Em seguida, utilize a função para encontrar um funcionário com um id inexistente e imprima no console uma mensagem indicando que o funcionário não foi encontrado.
+
+Opinião do instrutor
+
+Resolução 1
+
+// encontrarObjetoJson.js
+
+```JavaScript
+// Array de objetos representando livros
+const biblioteca = [
+    { id: 1, titulo: "O Senhor dos Anéis", autor: "J.R.R. Tolkien", anoPublicacao: 1954 },
+    { id: 2, titulo: "Dom Quixote", autor: "Miguel de Cervantes", anoPublicacao: 1605 },
+    { id: 3, titulo: "1984", autor: "George Orwell", anoPublicacao: 1949 }
+];
+
+// Função para encontrar um livro por ID
+function encontrarLivroPorId(id) {
+    return biblioteca.find(livro => livro.id === id) || null;
+}
+
+// Encontra um livro com ID existente
+const livroEncontrado1 = encontrarLivroPorId(2);
+console.log("Livro Encontrado (ID 2):");
+console.log(livroEncontrado1);
+
+// Encontra um livro com ID inexistente
+const livroEncontrado2 = encontrarLivroPorId(4);
+console.log("\nLivro Encontrado (ID 4):");
+console.log(livroEncontrado2)
+```
+
+Execute o arquivo encontrarObjetoJson.js utilizando o seguinte comando no terminal:
+
+> node encontrarObjetoJson.js
+
+Resolução 2
+
+// filtrarObjetoJson.js
+
+```JavaScript
+// Array de objetos representando filmes
+const catalogoFilmes = [
+    { id: 1, titulo: "Matrix", diretor: "Lana Wachowski", anoLancamento: 1999 },
+    { id: 2, titulo: "Jurassic Park", diretor: "Steven Spielberg", anoLancamento: 1993 },
+    { id: 3, titulo: "Inception", diretor: "Christopher Nolan", anoLancamento: 2010 }
+];
+
+// Função para filtrar filmes por ano de lançamento
+function filtrarFilmesPorAno(ano) {
+    return catalogoFilmes.filter(filme => filme.anoLancamento === ano);
+}
+
+// Filtra os filmes lançados em 1999 e imprime no console
+const filmesAno1999 = filtrarFilmesPorAno(1999);
+console.log("Filmes Lançados em 1999:");
+console.log(filmesAno1999);
+
+// Filtra os filmes lançados em 2010 e imprime no console
+const filmesAno2010 = filtrarFilmesPorAno(2010);
+console.log("\nFilmes Lançados em 2010:");
+console.log(filmesAno2010)
+```
+
+Execute o arquivo filtrarObjetoJson.js utilizando o seguinte comando no terminal:
+
+> node filtrarObjetoJson.js
+
+Resolução 3
+
+// filtrarOrdenarProdutos.js
+
+```JavaScript
+// Array de objetos representando produtos
+const listaProdutos = [
+    { id: 1, nome: "Camiseta", preco: 25.99 },
+    { id: 2, nome: "Calça Jeans", preco: 49.99 },
+    { id: 3, nome: "Tênis", preco: 79.99 },
+    { id: 4, nome: "Boné", preco: 15.99 }
+];
+
+// Função para filtrar e ordenar produtos por preço
+function filtrarOrdenarProdutosPorPreco(maxPreco) {
+    const produtosFiltrados = listaProdutos.filter(produto => produto.preco <= maxPreco);
+    return produtosFiltrados.sort((a, b) => a.preco - b.preco);
+}
+
+// Filtra e ordena os produtos com preço até 50.00 e imprime no console
+const produtosAte50 = filtrarOrdenarProdutosPorPreco(50.00);
+console.log("Produtos com preço até 50.00 (ordenados por preço crescente):");
+console.log(produtosAte50)
+```
+
+Execute o arquivo filtrarOrdenarProdutos.js utilizando o seguinte comando no terminal:
+
+> node filtrarOrdenarProdutos.js
+
+Resolução 4
+
+// ordenarAnimais.js
+
+```JavaScript
+// Array de objetos representando animais
+const animais = [
+    { id: 1, nome: "Leão", especie: "Felino", idade: 5 },
+    { id: 2, nome: "Elefante", especie: "Mamífero", idade: 10 },
+    { id: 3, nome: "Pinguim", especie: "Ave", idade: 3 }
+];
+
+// Função para ordenar animais com base na função de comparação fornecida
+function ordenarAnimais(comparacao) {
+    return animais.sort(comparacao);
+}
+
+// Função de comparação para ordenar por idade de forma crescente
+function compararIdadeCrescente(a, b) {
+    return a.idade - b.idade;
+}
+
+// Ordena os animais por idade de forma crescente e imprime no console
+const animaisOrdenadosCrescente = ordenarAnimais(compararIdadeCrescente);
+console.log("Animais Ordenados por Idade (Crescente):");
+console.log(animaisOrdenadosCrescente);
+
+// Função de comparação para ordenar por idade de forma decrescente
+function compararIdadeDecrescente(a, b) {
+    return b.idade - a.idade;
+}
+
+// Ordena os animais por idade de forma decrescente e imprime no console
+const animaisOrdenadosDecrescente = ordenarAnimais(compararIdadeDecrescente);
+console.log("\nAnimais Ordenados por Idade (Decrescente):");
+console.log(animaisOrdenadosDecrescente);
+```
+
+Execute o arquivo ordenarAnimais.js utilizando o seguinte comando no terminal:
+
+> node ordenarAnimais.js
+
+Resolução 5
+
+// acessarObjetoAninhado.js
+
+```JavaScript
+// Array de objetos representando departamentos
+const departamentos = [
+    {
+        id: 1,
+        nome: "Vendas",
+        funcionarios: [
+            { id: 101, nome: "Ana", cargo: "Vendedor" },
+            { id: 102, nome: "Carlos", cargo: "Gerente de vendas" }
+        ]
+    },
+    {
+        id: 2,
+        nome: "TI",
+        funcionarios: [
+            { id: 201, nome: "Maria", cargo: "Desenvolvedor" },
+            { id: 202, nome: "João", cargo: "Analista de sistemas" }
+        ]
+    }
+];
+
+// Função para encontrar um funcionário por ID em qualquer departamento
+function encontrarFuncionarioPorId(id) {
+    for (const departamento of departamentos) {
+        const funcionarioEncontrado = departamento.funcionarios.find(funcionario => funcionario.id === id);
+        if (funcionarioEncontrado) {
+            return funcionarioEncontrado;
+        }
+    }
+    return null;
+}
+
+// Encontra um funcionário com ID existente e imprime no console
+const funcionarioEncontrado1 = encontrarFuncionarioPorId(201);
+console.log("Funcionário encontrado (ID 201):");
+console.log(funcionarioEncontrado1);
+
+// Encontra um funcionário com ID inexistente e imprime no console
+const funcionarioEncontrado2 = encontrarFuncionarioPorId(103);
+console.log("\nFuncionário encontrado (ID 103):");
+console.log(funcionarioEncontrado2)
+```
+
+Execute o arquivo acessarObjetoAninhado.js utilizando o seguinte comando no terminal:
+
+> node acessarObjetoAninhado.js
+
+### Aula 5 - O que aprendemos?
+
+**Nesta aula, você aprendeu:**
+
+- Como podemos utilizar os métodos de arrays para percorrer listas de objetos;
+- Como criar funções que manipulam listas de objetos, passamos as propriedades e valores através de parâmetros;
+- Como encontrar, filtrar e ordenar uma lista de objetos.
+
+### Aula 5 - Referências
+
+Techguide: [Node.js](https://techguide.sh/pt-BR/path/nodejs/)
+
+> Guia com referência de temas e ferramentas para auxiliar na sua trilha de estudos
+
+Guia de JavaScript: [o que é e como aprender a linguagem mais popular do mundo?](https://www.alura.com.br/artigos/javascript)
+
+> Artigo detalhado sobre a linguagem, do básico a paradigmas de programação.
+
+Livro: [Primeiros passos com Node.js](https://www.casadocodigo.com.br/products/livro-primeiros-passos-node) (pago)
+
+> Pratique JavaScript com foco em Node.js do básico até as primeiras aplicações.
+
+Livro: [JavaScript, the definitive guide](https://www.oreilly.com/library/view/javascript-the-definitive/9781491952016/) (pago, disponível em português)
+
+> Principal guia de referência técnica em JavaScript, aborda as especificações da linguagem em sua totalidade.
+
+### Aula 5 - Carreira em JavaScript - Vídeo (extra) 4
+
+Transcrição  
+Este vídeo é oferecido pela FIAP, a faculdade do ecossistema da Alura.
+
+Quer conhecer mais sobre a FIAP, cursos e graduações relacionadas à temática deste vídeo? Basta clicar nos links a seguir:
+
+[FIAP](https://www.fiap.com.br/?utm_source=plataforma-alura&utm_content=%5BAprenda-a-programar-em-JavaScript-com-foco-no-back-end%5D&utm_campaign=connect-the-dots)
+[Pós Tech - Dev Foundations](https://postech.fiap.com.br/curso/dev-foundations/?utm_source=plataforma-alura&utm_content=%5BAprenda-a-programar-em-JavaScript-com-foco-no-back-end%5D&utm_campaign=connect-the-dots)
+[Pós Tech Full Stack](https://www.fiap.com.br/online/graduacao/bacharelado/engenharia-de-software/?utm_source=plataforma-alura&utm_content=%5BAprenda-a-programar-em-JavaScript-com-foco-no-back-end%5D&utm_campaign=connect-the-dots) - Graduação em Engenharia de Software
+
+Fabrício: Olá, pessoal! Eu sou o Fabrício Carraro e trouxemos este vídeo especial para você que está se aprofundando em JavaScript e Node, com um foco maior no back-end. Convidamos dois especialistas para conversarmos sobre carreira, tecnologia e o mercado nesta área que você está estudando.
+
+Estamos com o Rubens Rodrigues, coordenador na FIAP, a universidade onde estamos gravando esta conversa, além de CTO na School Guardian. Tudo bem, Rubens?
+
+Rubens: Tudo bem, e você? Obrigado pela oportunidade, é um prazer em estar aqui.
+
+Fabrício: Também convidamos João Marques, professor da FIAP e arquiteto de software na Gobi. Tudo bem, João?
+
+João: Tudo bom, obrigado pela oportunidade também.
+
+Audiodescrição: Fabrício, Rubens e João estão num estúdio de podcast com paredes pretas e faixas roxo neon, sentados ao redor de uma grande mesa, em frente a microfones individuais apoiados na mesa e canecas de café.
+
+Fabrício é um homem de pele clara, com cabelos curtos e escuros, olhos castanhos, barba rente ao rosto e piercing na sobrancelha direita. Está vestindo uma camiseta azul-marinho com a logo da Alura estilizada e em branco. Tem tatuagens coloridas na parte interior do antebraço.
+
+Rubens é um homem de pele clara, com cabelos curtos e escuros, olhos castanhos e sem barba. Usa óculos de armação quadrada e preta. Está vestindo uma camiseta preta com a logo da Pós Tech da FIAP com a Alura.
+
+João é um homem de pele clara, cabelos curtos escuros e grisalhos, olhos castanhos, barba rente ao rosto. Usa óculos de armação quadrada e prata. Está vestindo uma camiseta preta com a logo da Pós Tech da FIAP com a Alura.
+
+Por que usar JavaScript no back-end?
+Fabrício: Imagino que quem está assistindo a este vídeo já tenha uma base sólida em JavaScript e tenha interesse em usar o Node, ou seja, em utilizar o JavaScript no back-end. Minha primeira pergunta é: por que usaríamos o JavaScript no back-end?
+
+João: Acredito que, principalmente, para aproveitar o conhecimento que as pessoas já têm no front-end. O JavaScript abre muitas portas, e o conhecimento que você adquiriu no front-end será muito útil no back-end.
+
+Antigamente, tínhamos uma visão do JavaScript como uma linguagem não tão boa, e o TypeScript veio para nos ajudar. Então veio o Node, uma linguagem muito boa e robusta, além de rápida.
+
+Rubens: Posso falar com propriedade. A stack na minha empresa é composta pelo React, React Native e Node. Tudo usa JavaScript. Na verdade, usamos o TypeScript. Usamos o TypeScript/JavaScript na empresa porque somos uma startup pequena e, muitas vezes, precisamos que uma pessoa desenvolvedora que trabalha com back-end nos ajude no front-end ou no mobile.
+
+Há duas coisas a considerar nesse sentido. Primeiro: para essa pessoa se tornar uma desenvolvedora full stack é muito mais fácil, pois ela já tem a base. Claro, back-end é diferente de front-end e mobile, cada um tem suas características, mas a linguagem é a mesma.
+
+Não é como se precisássemos saber Dart, C# e Angular, por exemplo. Não precisamos conhecer três linguagens para trabalhar na nossa stack. Com o mesmo TypeScript, fazemos tudo.
+
+Isso é algo que o mercado está percebendo e optando por. Ter essa flexibilidade de pessoas é muito importante, ainda mais no mercado de TI. Estamos com falta de profissionais e isso ajuda bastante.
+
+O que é o Node? Qual sua relação com o JavaScript?
+Fabrício: Voltando um passo atrás na conversa: o Node seria apenas uma camada acima do JavaScript? Ou é algo separado?
+
+Rubens: Na verdade, o Node mudou o JavaScript. Originalmente, o JavaScript foi criado para ser usado em navegadores, e o Node permitiu que o JavaScript fosse executado nas máquinas para gerar um aplicativo mobile ou um framework, por exemplo. Ou seja, o Node pega o JavaScript e gera um executável para rodar em qualquer lugar.
+
+Portanto, o Node é separado do JavaScript, mas revolucionou a linguagem de forma geral.
+
+Fabrício: Então, no mercado, usa-se o Node com foco, majoritariamente, em web? Ou não necessariamente? Podemos programar qualquer coisa com o Node? Até minha geladeira?
+
+João: Sim! Aproveitou-se que as pessoas já estavam familiarizadas com o JavaScript no front-end e pegaram a ideia, por exemplo, do Java. Nós dizemos que o Java roda em qualquer lugar, porque existe a JVM que o faz rodar em qualquer lugar. O Node fez o mesmo com JavaScript.
+
+Rubens: Você pode criar tanto um aplicativo desktop quanto um aplicativo web ou mobile. Por exemplo, com o React Native, você pode criar tanto para web quanto para mobile; gerar o aplicativo, colocar na loja e disponibilizar.
+
+Fabrício: E onde vocês veem o React sendo usado, majoritariamente?
+
+João: Principalmente web. E o mobile também é muito forte.
+
+Rubens: O mobile tem duas grandes frameworks híbridas, que são o Flutter e o React. Flutter usa Dart, e React Native usa JavaScript e TypeScript. Acredito que hoje essas são as duas grandes plataformas existentes, e tem em paralelo a nativa também, que muitas pessoas usam.
+
+Então, se você for pensar, o uso de JavaScript mobile é muito forte, e o web ainda mais, tanto para front-end, com React, quanto o back-end, com o Node.
+
+Fabrício: Vocês mencionaram que o Node pode ser usado para fazer o back-end, mas o que essa pessoa desenvolvedora de back-end vai realmente fazer no dia-a-dia dela?
+
+João: O back-end é o que coloca tudo para funcionar. Então, essa pessoa vai fazer a lógica do sistema, conectar com o banco de dados, e dependendo do que se está fazendo com o Node, construir uma API que vai prover os dados para o front-end. O front-end, back-end e banco de dados são mundos distintos.
+
+E, em teoria, se você fizer um sistema bem feito, o back-end vai ser o núcleo de tudo. O front deve ser a apresentação, a entrega do produto. Devemos evitar ter lógica no front. O back-end terá toda a lógica, cuja organização dependerá da sua arquitetura, e podemos ir muito longe com ele.
+
+Por que usar o Node no back-end?
+Rubens: Acrescento: por que o Node no back-end? O que ele tem de diferente?
+
+O Node é single-core (núcleo único), ou seja, ele faz uma tarefa de cada vez, mas faz isso de uma forma muito rápida e trabalha bastante com processamento paralelo (como conectar com o banco de dados enquanto processa outra requisição, por exemplo).
+
+Esse é o grande motivo de usarmos o Node ao invés do C# ou Java, por exemplo. Outras linguagens não fazem isso. Elas fazem a requisição inteira e, ao terminar, vão para a próxima.
+
+Então, se você tem um servidor que tem muita conexão, e conexões rápidas (não muito pesadas), o Node.js se encaixa perfeitamente nesse cenário.
+
+A maioria das operações hoje em dia funcionam de maneira semelhante. Se há um processamento pesado, ele é enviado para a fila e a resposta vem depois. A maioria dos servidores hoje processa e responde rapidamente; envia para a fila e, eventualmente, retorna. É assim que nós trabalhamos!
+
+Nesse sentido, o Node é muito eficaz para o back-end atualmente e é amplamente utilizado.
+
+João: É interessante o que Rubens mencionou, pois muitas pessoas presumem que o Node é lento por ser single-core. Mas ele é rápido, sim!
+
+No JavaScript, havia uma certa dificuldade em escrever de forma assíncrona. Como o professor mencionou, a linguagem era um pouco verbosa, mas o TypeScript resolveu isso muito bem. É muito fácil escrever algo assíncrono, que se encaixa exatamente no ritmo do Node que o professor mencionou. Você executa várias funções paralelamente. Portanto, acredito que o TypeScript e o Node formam uma combinação muito boa.
+
+Fabrício: Você poderia falar mais sobre a evolução do JavaScript para o TypeScript usando o Node?
+
+João: Na minha opinião, a principal questão é a conotação. É um pouco verboso escrever com JavaScript e também há a questão de não ser fortemente tipado. Isso permite que você cometa erros e, como o JavaScript é uma linguagem que não é compilada, você só percebe esses erros em tempo de execução, o que pode ser um pouco frustrante.
+
+Obviamente, o JavaScript evoluiu bastante e temos frameworks que ajudam nos testes. Mas é bom que a linguagem seja fortemente tipada, porque isso vai ajudar no desenvolvimento, vai ajudar a evitar pegar bugs apenas em tempo de execução, em produção. Foi uma evolução necessária e acredito que um dos grandes motivos da popularidade do Node hoje em dia é o TypeScript.
+
+Rubens: O TypeScript veio para quebrar um preconceito do mercado com o JavaScript. Esse preconceito, inclusive até válido, é: se a linguagem não é fortemente tipada, você pode cometer erros; é uma linguagem scriptada, você não compila.
+
+O TypeScript resolveu esse problema, criando uma linguagem fortemente tipada, que compila, então você pega possíveis erros antes de executar.
+
+Acredito que o Node foi a grande revolução do JavaScript, e a segunda revolução foi o TypeScript. Portanto, essa linguagem está sendo muito mais bem aceita no mercado exatamente devido ao TypeScript.
+
+Reforçando: o João comentou sobre a escrita assíncrona, algo que o TypeScript resolveu para o JavaScript, mas se você for usar frameworks como o Express, por exemplo, é impossível entender a estrutura if / then, com tudo encadeado e executando as funções assincronamente.
+
+Quem não conhece muito da linguagem, e isso é bem importante para você que está aprendendo, precisa entender o que está acontecendo naquele if / then. Num olhar menos ingênuo, sabemos que essa estrutura executa vários processamentos por trás. Isso é muito legal e está presente no Node, Express e outros frameworks também! É muito importante entender o funcionamento de todos esses processamentos.
+
+Falando sobre frameworks
+Fabrício: Já que você mencionou isso, eu queria falar sobre o NestJS, que muitas pessoas confundem com o Next.js, mas é diferente. Como usamos ele no dia a dia?
+
+Rubens: O NestJS é semelhante ao Express. São dois frameworks que ajudam muito o JavaScript, o Node, o TypeScript, entre outros, a trabalharem de maneira ainda mais eficiente.
+
+Entre os dois, qual é o melhor? O NestJS é melhor que o Express? Eu utilizo o Express, pois quando começamos a criar, sequer conhecíamos o NestJS. Para mim, ele atende muito bem e é excelente, mas muitas pessoas dizem que o NestJS é melhor, possui mais ferramentas, trabalha melhor, e é mais rápido.
+
+Acredito que ambos são muito importantes e nos ajudam a desenvolver melhor e de forma mais rápida e organizada, e esse é exatamente o papel dos frameworks de Node, JavaScript, back-end no mercado. Hoje temos o NestJS, mas amanhã teremos outros, e isso sempre irá acontecer, pois frameworks são assim.
+
+Devemos ter cuidado no momento de adotar determinada tecnologia. Eu, no papel de tech lead, de pessoa gestora da minha empresa, questiono: por que trocar o Express pelo NestJS? Realmente vale a pena? Precisamos refletir. Tanto que, até hoje, existem os mainframes que ninguém tem coragem de mexer.
+
+Fabrício: As pessoas brincavam que lançavam um framework e um JavaScript por dia.
+
+João: Isso parou um pouco. Acredito que o papel da pessoa tech lead, hoje em dia, é um pouco mais respeitado, e tech leads conseguem controlar a equipe quando surge um novo framework. Essa pessoa propõe as seguintes reflexões: devemos pagar o preço de aprender isso em produção? Qual é o ganho desse framework? Ele entrega muito acima de outros frameworks em questão de performance?
+
+Nessa "guerra" de frameworks, em que cada linguagem tem o seu, é muito difícil afirmar que um é melhor que outro, que o NestJS é melhor que o Express, por exemplo. É melhor para quem? No seu dia a dia, será que o Express não funcionaria melhor?
+
+Para o Rubens, com certeza o Express é melhor, pois ele atende a capacidade dele e do time. Já para outra empresa, o NestJS pode funcionar melhor, pois o time tem familiaridade com ele e consegue ir um pouco mais a fundo, por exemplo. Sendo assim, precisamos ter cuidado na escolha do framework, porque vamos com ele até o fim, e ele existe para nos ajudar, não para atrapalhar.
+
+Rubens: Há duas questões que quero abordar. Primeiro: as linguagens, de forma geral, estão muito mais rápidas, até mesmo o PHP. Hoje, o PHP é tão rápido quanto linguagens como Java, por exemplo. Portanto, não faz muito sentido a comparação de qual framework é melhor ou pior. Tudo está muito rápido e, além disso, pensamos em microsserviços, então estamos estabilizando essa questão.
+
+A segunda questão é a seguinte: quando trabalhamos com uma boa arquitetura, a estrutura do framework fica um pouco apartada. Quando montamos uma clean architecture usando os conceitos do SOLID, ela mesma prega a ideia de deixar tudo apartado. Assim, fica mais fácil trocar.
+
+Dito isso, hoje faz muito mais sentido termos uma arquitetura mais robusta do que um framework X ou Y. Isso também contribuiu para a redução de novos frameworks no mercado.
+
+Reflexões sobre o mercado
+Fabrício: Para vocês que estão no mercado há algum tempo, o que esperam de uma pessoa profissional que irá concluir todas as formações da Alura? Sendo uma pessoa que entende de Node e sabe usá-lo no dia a dia, o que vocês pediriam em uma entrevista de emprego, considerando que seja a primeira vaga dela?
+
+João: Em questão de frameworks, algo que eu gostaria de avaliar seria o GitHub da pessoa. É muito importante o que ela fez no GitHub. Por exemplo: em determinado projeto usando o NestJS, ela soube fazer minimamente um CRUD? Soube buscar os dados, ler, e apresentar em um grid? Um sistema é muito mais que um CRUD, mas a base deve estar presente.
+
+Se a pessoa conseguiu fazer uma API utilizando o NestJS, significa que ela já conhece o conceito de rota, por exemplo. É muito importante que aprender nos cursos, mas também demonstrar isso.
+
+Algumas pessoas têm receio de colocar um código no GitHub, seja por não estar bonito ou por qualquer outro motivo. Porém, essas pessoas estão no começo. Daqui a dois ou três anos, elas vão olhar para o próprio GitHub e pensar "Por que fiz isso?". Toda pessoa desenvolvedora passa por isso.
+
+Entretanto, a partir disso, podemos observar nosso crescimento. Como sabemos se fazemos algo bom sem termos feito algo ruim? No começo, isso é natural. O código não estará bonito, mas precisamos dar o primeiro passo e mostrar para pessoas recrutadoras o que fizemos. Pode não ser o melhor projeto do mundo, mas nos esforçamos e, da maneira como pudemos, entregamos um resultado.
+
+Por outro lado, nós, pessoas recrutadoras, damos nossa opinião: "Foi legal o que você fez, mas se fizer dessa maneira, é melhor", e explicamos os motivos. Eu enxergo dessa forma. O Rubens, que tem uma empresa, pode explicar melhor ainda.
+
+Rubens: Toda pessoa desenvolvedora passou por isso. Eu passo por isso todo dia; observo códigos meus de dois anos atrás e penso: "Meu Deus, o que eu fiz?".
+
+João: Às vezes, isso acontece com um código que fiz ontem. O pior caso é quando identificamos um bug no GitHub e pensamos: "Quem fez isso?", mas ao voltar no histórico, fomos nós.
+
+Rubens: Algo que sempre reforço, principalmente para quem busca o primeiro emprego, é que devemos mostrar que corremos atrás. Mostre que você fez um curso, que usou o GitHub, e assim por diante.
+
+Outra coisa importante é se colocar no papel da pessoa recrutadora. Imagine que essa pessoa recebe 100 currículos para uma vaga. O que irá diferenciar um do outro? Observe o seu currículo e pense em como diferenciá-lo, para evitar que ele seja apenas mais um na fila.
+
+Mencionar cursos, certificações, GitHub, entre outras coisas interessantes, como ajudar em um projeto open source (código aberto), por exemplo, tudo isso é muito bacana.
+
+No caso de projetos open source, haverá muitos aprendizados, pois existe uma série de regras que vamos estudar, então recomendamos buscar algum projeto desse tipo em que você pode contribuir e trazer uma ferramenta bacana. Tudo isso é diferencial e devemos trazer para o currículo.
+
+É essencial pensar como uma pessoa recrutadora.
+
+O papel da faculdade
+Fabrício: Para encerrar nosso papo, vamos falar sobre faculdade. Na FIAP, temos a graduação em Engenharia de Software, a Pós Tech em Dev Foundations, e também a Pós Tech em Full Stack Development, para pessoas que talvez já tenham base de front-end e queiram aprender back-end.
+
+A faculdade, hoje em dia, é obrigatória para quem quer entrar no mercado de trabalho? Ou podemos aprender por conta própria? Ou ambos?
+
+Rubens: Vou expandir um pouco essa ideia também para a Pós Tech em Software Architecture. São áreas muito semelhantes, então todas elas, principalmente Engenharia de Software e Arquitetura de Software, seguem caminhos parecidos, embora existam algumas diferenças.
+
+Hoje, existem muitas pessoas programadoras, e o que o mercado procura não é a pessoa programadora, mas sim a pessoa arquiteta de software, a pessoa engenheira de software.
+
+Não é apenas um título; significa que devemos saber arquitetar um sistema, saber fazer a engenharia de um sistema. Devemos saber quando e por que usar determinado framework ou arquitetura de software, se vamos usar clean architecture ou arquitetura hexagonal, e assim por diante. Podemos obter essa perspectiva e conhecimento pela internet, mas é a faculdade que irá trazer isso.
+
+Além disso, a faculdade existe tanto para ensinar quanto para discutir. Trazer exemplos de outras pessoas instrutoras e gerar discussões é muito do que tentamos fazer na FIAP.
+
+Não existe solução mágica para nada na tecnologia. Por que optamos por determinado caminho? Se erramos, por que esse caminho não foi bom? Isso que é interessante. A academia traz isso, além do networking, muito importante hoje para qualquer área, inclusive para desenvolvimento de software.
+
+Fabrício: Cerca de 80% e 90% dos trabalhos que consegui na vida, foram devido a networking, seja a partir da faculdade ou de outros trabalhos.
+
+João: É uma área vasta, mas eu concordo. Acredito que 90 ou 80% dos meus trabalhos também foram por networking. Além disso, acredito que devemos pensar na nossa evolução.
+
+Hoje em dia, obviamente, as pessoas pensam em entrar na área como júnior, sem fazer uma faculdade, apenas aguardando o que a vida reserva. Às vezes, você pode encontrar um emprego, pois algumas empresas não irão pedir essa formação. Porém, será que você vai terá uma evolução legal?
+
+Por exemplo: eu conheço pessoas desenvolvedoras com 5 anos de experiência que ainda são júnior ou pleno, assim como já conheci uma pessoa com 3 anos de experiência que é sênior.
+
+Eu entendo que, para ser sênior, às vezes, a pessoa precisa ter muita experiência, mas já conheci pessoas com 3 anos de experiência que tinham um conhecimento muito acima da média.
+
+Isso acontece porque a pessoa buscou conhecimento fora do comum, fez faculdade, fez cursos, e correu atrás de certificações em um espaço de tempo menor que outras pessoas.
+
+Há diferença quando a pessoa vai atrás do conhecimento base, pois ela usa os recursos, mas sabe porque está usando. A partir disso, ela consegue sugerir coisas novas, dando início a um papel de senioridade.
+
+Se você quer não só entrar na área, mas ir além, pesquise coisas a mais. A faculdade é muito importante nesse cenário.
+
+Conclusão
+Fabrício: Agradeço muito a participação de vocês, e você, pessoa estudante, pode retornar à sua formação, mas esperamos que essa conversa tenha sido útil.
+
+Quando conseguir seu primeiro emprego e realizar seus projetos no GitHub, adicione-nos no LinkedIn e nos envie uma mensagem. Ficaremos muito orgulhosos de você. Até a próxima!
+
+### Aula 5 - Conclusão - Vídeo 5
+
+Transcrição  
+Parabéns por concluir este curso de JavaScript!
+
+Durante esta jornada, exploramos os conceitos de objetos, sua sintaxe e como interagir com eles, além de mergulharmos no universo do JSON, uma poderosa notação de objeto em JavaScript.
+
+Não deixe de conferir os exercícios, desafios e atividades extras disponíveis junto ao curso, pois foram elaborados para complementar o conteúdo dos vídeos.
+
+Lembre-se também que os canais do Discord e do Fórum estão à disposição para auxiliá-lo e acompanhá-lo em sua jornada de aprendizado.
+
+Além disso, gostaríamos de convidá-lo a avaliar este curso e compartilhar conosco o que mais lhe agradou, fornecendo sugestões para melhorias. Seu feedback é muito importante para podermos entregar conteúdos cada vez melhores!
+
+Agradecemos mais uma vez por sua participação e esperamos vê-lo em nosso próximo curso!

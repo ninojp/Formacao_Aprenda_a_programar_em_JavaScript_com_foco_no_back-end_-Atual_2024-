@@ -5,8 +5,10 @@ function ordenar(listObj, nomeProp){
     return listObj.sort((a, b) => {
         let nomeA = a[nomeProp].toLowerCase();//MDN exemplo: Para NÃO DIFERENCIAR entre letras maiúsculas e minúsculas
         let nomeB = b[nomeProp].toLowerCase();
-        if(nomeA < nomeB) return -1;
-        if(nomeA > nomeB) return 1;
+        if(nomeA < nomeB) return 1;//Para ORDENAR de forma DECRESCENTE
+        if(nomeA > nomeB) return -1;
+        // if(nomeA < nomeB) return -1;
+        // if(nomeA > nomeB) return 1;
         return 0;
     });
 };

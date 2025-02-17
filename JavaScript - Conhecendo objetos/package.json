@@ -8,5 +8,8 @@
     "test": "test"
   },
   "author": "Nino JP",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "p-limit": "^6.2.0"
+  }
 }
