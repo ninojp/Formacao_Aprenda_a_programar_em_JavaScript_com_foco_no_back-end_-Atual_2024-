@@ -534,8 +534,736 @@ Nessa aula, você aprendeu:
 
 ## Aula 2 - Criando a Lógica do Projeto
 
-### Aula 2 -  - Vídeo 1
-### Aula 2 -  - Vídeo 2
-### Aula 2 -  - Vídeo 3
-### Aula 2 -  - Vídeo 4
+### Aula 2 - Capturando as palavras - Vídeo 1
+
+Transcrição  
+O próximo passo é começar a lógica do contador de palavras.
+
+O que exatamente queremos contar e como faremos isso? A função principal é percorrer o texto e contar as ocorrências de palavras. Portanto, vamos começar criando uma função para isso.
+
+**Verificando palavras duplicadas**  
+No index.js, vamos criar uma function chamada verificaPalavrasDuplicadas(). O parâmetro que essa função precisa receber, por enquanto, é apenas o texto que virá do readFile().
+
+Se esse texto virá do readFile, aproveitamos dentro do readFile e substituímos o console.log() pela chamada dessa função verificaPalavrasDuplicadas() recebendo texto.
+
+index.js:
+
+```JavaScript
+fs.readFile(link, 'utf-8', (erro, texto) => {
+  verificaPalavrasDuplicadas(texto);
+})
+function verificaPalavrasDuplicadas(texto) {
+
+}
+```
+
+Dentro do readFile(), o parâmetro texto se refere ao resultado do callback do readFile(). Assim, processamos o arquivo, armazenamos o resultado desse processamento no parâmetro texto e o enviamos para dentro de verificaPalavrasDuplicadas().
+
+Agora, partimos para a lógica da função contadora de palavras. Mas, antes de começar, vamos listar o que precisa ser feito em forma de comentário.
+
+Primeiro, é preciso pegar todas as palavras da string e iterar essas palavras. Por isso, o primeiro passo é criar um array com as palavras. Depois de criá-lo, podemos iterar esse array.
+
+Dentro desse array, é necessário ter um contador que vai verificar se a palavra existe e adicionar no contador mais um se ela existir ou começa a contagem do zero se ainda não tiver nenhuma ocorrência, até o fim do array.
+
+Então, o segundo passo é contar as ocorrências, que é o ponto central da nossa lógica.
+
+No terceiro passo, precisamos pensar em como disponibilizar esse resultado. Isto é, de que forma vamos exibir essa lista de palavras e a quantidade de vezes que elas ocorrem?
+
+Podemos pensar em montar um objeto com o resultado. Por que um objeto? Para exemplificar, vamos montar um modelo de um objeto com a lista de palavras.
+
+Podemos montar um objeto que tenha diversas propriedades, cada propriedade sendo a palavra e o valor, um número correspondente à quantidade de vezes que ela aparece no texto.
+
+Então, teríamos um objeto com a chave "web" e o valor 5, por exemplo. Outra propriedade poderia ser "computador" com 4 ocorrências e assim por diante.
+
+Vamos deixar esse objeto comentado também para lembrarmos dessa estrutura.
+
+// criar um array com as palavras
+// contar as ocorrências
+// montar um objeto com o resultado
+
+// {
+//   "web": 5,
+//   "computador": 4
+// }
+
+A partir dessa lista, conseguimos fazer um passo a passo dentro da função verificaPalavrasDuplicadas() para saber o que ela tem que processar.
+
+Criando um array com as palavras
+Para fazer o array, vamos criar uma const listaPalavras que recebe texto.split(), que é um método de array que serve para dividir uma string.
+
+O parâmetro do split() será uma string com um espaço dentro. Note que não é uma string vazia, é uma string com um espaço. Porque o parâmetro do split() é o separador.
+
+```JavaScript
+function verificaPalavrasDuplicadas(texto) {
+  const listaPalavras = texto.split(' ');
+}
+```
+
+Em outras palavras, o método split() vai pegar toda a string, e a cada ocorrência desse separador (no caso, um espaço), ele vai pegar todo o conteúdo anterior e colocar como um elemento do array.
+
+Em um texto, as palavras normalmente são separadas por espaço. Isso significa que, no final, a variável listaPalavras terá um array composto por todas as palavras do texto - porque o separador é o espaço entre cada uma delas.
+
+Contando as ocorrências e montando o objeto com o resultado
+A primeira parte, onde criamos um array com as palavras, está concluída. O segundo passo é contar as ocorrências e depois montar um objeto com resultado.
+
+Podemos já deixar um objeto criado embaixo da listaPalavras. Para isso, criamos um const resultado que recebe um objeto vazio (ou seja, chaves vazias) para guardar as ocorrências de cada palavra.
+
+```JavaScript
+function verificaPalavrasDuplicadas(texto) {
+  const listaPalavras = texto.split(' ');
+  const resultado = {};
+}
+```
+
+Para entender como montar esse objeto, devemos lembrar como adicionamos propriedades (conjuntos de chave e valor) dentro de um objeto.
+
+Primeiro, devemos passar o nome do objeto e depois passamos a propriedade, com ponto ou com colchetes.
+
+```JavaScript
+// objeto[propriedade] = valor;
+```
+
+Dessa forma, o JavaScript entende que ele vai criar uma propriedade com esse valor dentro do objeto. Ou, se a propriedade já existir, vai atualizar o valor.
+
+Podemos comentar essa linha para nos lembrar de como vamos montar esse objeto.
+
+Agora, é preciso fazer o loop. Vamos puxar listaPalavras e o método do JavaScript que vamos usar para fazer esse loop, será o forEach().
+
+O forEach é um método do JavaScript que não retorna nada. Ele simplesmente executa o que vai dentro da função callback.
+
+Então, forEach vai receber uma palavra do array de palavras. E, a cada palavra, devemos contá-la e acrescentá-la ao objeto.
+
+Dentro das chaves do callback, vamos acrescentar a propriedade palavra no objeto resultado, ou seja, resultado[palavra].
+
+Assim, para cada palavra do array, será criada uma nova propriedade no objeto cujo nome será essa palavra do texto, por exemplo, "web", "computador" ou "JavaScript".
+
+Isso deve receber um valor, onde podemos implementar o nosso contador. Nesse caso, se a propriedade já existir, atualiza o valor. Se não, a propriedade é criada.
+
+Mas, de que forma podemos passar isso? Após um sinal de igual, vamos abrir parênteses para escrever a expressão resultado[palavra] || 0. Afinal, ou vai existir um valor dentro dessa propriedade ou ela será zero.
+
+Fora dos parênteses, digitamos + 1. Dessa forma, incrementamos 1 se a propriedade já existir ou criando se a propriedade não existir ainda.
+
+No final de tudo isso, após fechar o forEach, vamos passar um console.log() em resultado para verificar se deu tudo certo.
+
+```JavaScript
+function verificaPalavrasDuplicadas(texto) {
+  const listaPalavras = texto.split(' ');
+  const resultado = {};
+  // objeto[propriedade] = valor;
+  listaPalavras.forEach(palavra => {
+    resultado[palavra] = (resultado[palavra] || 0) + 1
+  })
+  console.log(resultado);
+}
+```
+
+Testando o código  
+Essa é a primeira implementação da lógica. Vamos abrir um novo terminal, chamar node src/index.js, sem esquecer de passar o caminho do arquivo que queremos. Nesse caso, arquivos/texto-web.txt.
+
+> node src/index.js arquivos/texto-web.txt
+
+Retorno parcialmente transcrito:
+
+```JavaScript
+{
+    'https://developer.mozilla.org/pt-BR/docs/Learn/Getting_started_with_the_web/How_the_Web_works\n\nComo': 1,
+    a: 3,
+    Web: 3,
+    'funciona\n\nComo': 1,
+    funciona: 1,
+    oferece: 1,
+    uma: 4,
+    'visão': 1,
+    …
+}
+```
+
+O terminal retorna um objeto com todas as palavras do texto. Por enquanto, ainda não está separado em parágrafo, como nos propusemos.
+
+Além disso, apesar de cada palavra ser uma propriedade e a contagem ser um valor, como queríamos, existem algumas ocorrências estranhas nessa lista.
+
+Primeiro, existem algumas palavras muito curtas, por exemplo, "do", "um", "a", etc. Nesse momento, não queremos contar essas preposições e artigos. Devemos tratar isso para contar apenas palavras um pouco mais longas, como "JavaScript", "computador", etc.
+
+Um segundo caso estranho é que apareceu, no meio de algumas propriedades, um ou dois \n, que aparecem onde tem quebra de linha no texto original.
+
+O \n é um caractere de escape que não é renderizado, ou seja, não o visualizamos no texto, mas ele está lá para indicar que acabou uma linha e deve-se quebrar a linha e começar uma linha nova.
+
+Devemos tratar esse caso, porque o JavaScript considerou como uma palavra só tudo o que estava no fim da primeira linha e o que estava no começo da segunda.
+
+Também existem alguns outros problemas, como, por exemplo, a ocorrência de palavras entre parênteses. Como não há um espaço entre os parênteses e a palavra, o JavaScript também interpretou como uma só palavra. É preciso tratar esse caso para tirar os caracteres especiais da contagem.
+
+E, por último, o JavaScript está fazendo diferenciação entre maiúsculas e minúsculas. Então, "Um" maiúsculo ficou separado de "um" minúsculo - cada um com a sua contagem.
+
+Então, note como existe muito a se refinar nessa primeira implementação.
+
+### Aula 2 - Separando em parágrafos - Vídeo 2
+
+Transcrição  
+Agora que já temos a funcionalidade principal, podemos voltar e resolver aqueles casos específicos que tínhamos comentado anteriormente.
+
+Acreditamos que faz mais sentido começar pela quebra de parágrafos, porque queremos manter a contagem das palavras repetidas por parágrafo. Portanto, não faz sentido contar tudo e depois separar.
+
+**Separando em parágrafos**  
+Para isso, vamos criar outra função para separar a lógica da quebra de parágrafo da contagem de palavras.
+
+Antes da função verificarPalavrasDuplicadas(), vamos criar uma function chamada quebraEmParagrafos().
+
+Essa função tem que receber o texto como parâmetro, porque a partir dela, fazemos a lógica da contagem de palavras.
+
+Dentro dessa função, vamos criar uma constante chamada paragrafos.
+
+Mas, como fazemos para o JavaScript identificar onde começa um parágrafo e onde termina outro? Devemos chamar texto, que vem como parâmetro, seguido do método de array .split() novamente.
+
+Só que agora, ao invés de um espaço na string, vamos pedir para ele fazer a separação por \n. Lembre-se de usar a barra invertida.
+
+index.js:
+
+```JavaScript
+function quebraEmParagrafos(texto) {
+  const paragrafos = texto.split('\n');
+}
+```
+
+O \n é um caractere de escape, que não é renderizado, mas ele assinala numa string onde tem uma quebra de linha.
+
+Então, podemos usar esse \n como um separador de parágrafos. Toda vez que o texto tiver esse caractere de escape, JavaScript com o split() vai pegar toda a string que vinha anteriormente e separá-la como um novo elemento do array.
+
+E a partir daí, esperamos que, dentro da constante paragrafos, exista um array composto por parágrafos separados - ao invés de palavras separadas.
+
+Colocando palavras em minúsculo  
+Além disso, podemos aproveitar para resolver outro problema que tínhamos também, que é a separação entre maiúsculas e minúsculas.
+
+Letras maiúsculas e letras minúsculas são caracteres diferentes. Por isso, o JavaScript, obviamente, não acha que é a mesma palavra. Só que, para nós, não faz diferença se a palavra está no começo ou final do parágrafo.
+
+Então, podemos usar um método de string para pegar todo o texto e convertê-lo em letra maiúscula ou minúscula. E, a partir daí, o JavaScript faz a comparação e a contagem.
+
+Tanto faz converter as letras em maiúscula ou minúscula. Mas, como tem muito mais letra minúscula no texto, faz mais sentido transformar as poucas maiúsculas que tem.
+
+Por isso, na constante paragrafos, depois do texto e antes do split(), vamos passar .toLowerCase(), mas sem nenhum parâmetro. Por fim, o juntamos com o split. Ou seja, texto.toLowerCase().split.
+
+Dessa maneira, encadeamos os métodos para transformar todo o texto em letra minúscula e segmentá-lo em parágrafos.
+
+Aproveitamos que o JavaScript já vai ter que percorrer o texto todo para fazer esses dois processos. Assim, o código fica mais performático - em vez de fazer primeiro um e só depois o outro.
+
+Para testar, vamos colocar um console.log() em paragrafos.
+
+```JavaScript
+function quebraEmParagrafos(texto) {
+  const paragrafos = texto.toLowerCase().split('\n');
+  console.log(paragrafos);
+}
+```
+
+Além disso, precisamos chamar a função quebraEmParagrafos(), porque ela não está sendo chamada em lugar nenhum ainda.
+
+Em readFile(), vamos chamar a função quebraEmParagrafos(), passando texto.
+
+Podemos comentar verificarPalavrasDuplicadas que já estavam sendo chamada, porque agora faremos esse processo por parágrafo. Então, não faz muito sentido essa função ficar dentro do readFile().
+
+```JavaScript
+fs.readFile(link, 'utf-8', (erro, texto) => {
+  quebraEmParagrafos(texto);
+  // verificaPalavrasDuplicadas(texto);
+})
+```
+
+Testando o código  
+No terminal, usamos a seta para cima para repetir o último comando e apertamos "Enter" para executá-lo.
+
+> node src/index.js arquivos/texto-web.txt
+
+Retorno parcialmente transcrito:
+
+```JavaScript
+[
+    'https://developer.mozilla.org/pt-br/docs/learn/getting_started_with_the_web/how_the_web_works',
+    '',
+    'como a web funciona',
+    '',
+    'como a web funciona oferece uma visão simplificada do que acontece quando você vê uma página em um navegador, no seu computador ou telefone.',
+    …
+]
+```
+
+Deu tudo certo. O que o terminal retornou um array, onde cada elemento, em vez de ser uma palavra sozinha, é um dos parágrafos do nosso texto.
+
+Você deve perceber que, junto com os textos, tem algumas strings vazias, que estão separadas do resto. Essas strings são justamente as quebras de linha extra, quando pulamos uma linha antes de começar outro parágrafo.
+
+Podemos tratar esse caso mais para frente. Primeiro, vamos finalizar essa parte.
+
+Mapeando as palavras de cada parágrafo
+Qual é o próximo passo? Já temos os parágrafos e um array, portanto, precisamos iterar esse array de parágrafos e chamar a função de verificar palavras dentro dele.
+
+Na função quebraEmParagrafos(), abaixo do split(), vamos criar outra const chamada contagem. Essa constante vai pegar o array de paragrafos e iterar sobre ele.
+
+Só que agora não vamos iterar com o forEach(), vamos iterar com o map(). O map é parecido com o forEach, só que sempre retorna um array com os elementos que foram processados, ou um array vazio.
+
+Por que queremos retornar um array agora? Porque, como estamos separando por parágrafos, podemos ter um array e cada objeto que montamos com a contagem vai separar um parágrafo.
+
+Em suma, teremos um array de objetos, onde cada objeto conta as palavras de um parágrafo.
+
+Em paragrafos.map(), vamos chamar o parâmetro de paragrafo, porque é o padrão que utilizamos.
+
+Em seguida, vamos criar uma arrow function onde necessitamos retornar algo para o map() conseguir jogar para dentro da variável contagem.
+
+Nesse caso, retornaremos verificaPalavrasDuplicadas(), recebendo, ao invés de texto, um paragrafo por vez.
+
+Desse modo, a cada paragrafo do array de paragrafos, vamos executar a função de contagem e retornar um objeto para dentro da variável contagem.
+
+```JavaScript
+function quebraEmParagrafos(texto) {
+  const paragrafos = texto.toLowerCase().split('\n');
+  const contagem = paragrafos.map((paragrafo) => {
+    return verificaPalavrasDuplicadas(paragrafo);
+  })
+  console.log(paragrafos);
+}
+```
+
+A última modificação que precisamos fazer é na função verificaPalavrasDuplicadas(). Por enquanto, ela não está retornando nada. Apenas visualizávamos o objeto pelo console.log().
+
+Só que agora, ao invés de console.log(resultado), temos que retornar o objeto resultado para fora da função para poder ser utilizado dentro do map().
+
+Agora, em quebraEmParagrafos(), podemos trocar o último console.log() de paragrafos para contagem, que é o nome da variável onde está sendo guardado o array de objetos.
+
+```JavaScript
+function quebraEmParagrafos(texto) {
+  const paragrafos = texto.toLowerCase().split('\n');
+  const contagem = paragrafos.map((paragrafo) => {
+    return verificaPalavrasDuplicadas(paragrafo);
+  })
+  console.log(contagem);
+}
+function verificaPalavrasDuplicadas(texto) {
+  const listaPalavras = texto.split(' ');
+  const resultado = {};
+  // objeto[propriedade] = valor;
+  listaPalavras.forEach(palavra => {
+    resultado[palavra] = (resultado[palavra] || 0) + 1
+  })
+  return resultado;
+}
+```
+
+Testando o código
+Salvamos o arquivo, abrimos o terminal e usamos seta para cima e "Enter" para repetir a execução do comando anterior.
+
+> node src/index.js arquivos/texto-web.txt
+
+Retorno parcialmente transcrito:
+
+```JavaScript
+[
+    {
+        'https://developer.mozilla.org/pt-br/docs/learn/getting_started_with_the_web/how_the_web_works': 1
+    },
+    { '': 1 },
+    { como: 1, a: 1, web: 1, funciona: 1 },
+    { '': 1 },
+    {
+        como: 1,
+        a: 1,
+        web: 1,
+        funciona: 1,
+        oferece: 1,
+        uma: 2,
+        'visão': 1,
+        simplificada: 1,
+        …
+    }
+]
+```
+
+Foi retornado no terminal um array com diversos objetos. Cada objeto representando a contagem de palavras de um parágrafo.
+
+E o JavaScript também considerou nessa contagem as strings vazias, mas vamos cuidar disso mais adiante.
+
+Próximos passos  
+Dois dos problemas que tínhamos, que era a diferenciação entre maiúsculas e minúsculas e a contagem por parágrafo, já foram resolvidos.
+
+Ainda tem mais alguns problemas para atacarmos, por exemplo, a questão dos caracteres especiais, que o JavaScript está considerando como parte das palavras.
+
+E também tirar algumas palavras como "ao", "e", "ou", que no nosso caso achamos que não precisa contar.
+
+### Aula 2 - Para saber mais: caracteres de quebra de linha
+
+Durante esta aula vimos um caractere diferente, o \n. Caracteres precedidos pela barra \ são chamados “caracteres de escape” e deixam de ter significado literal (por exemplo, a letra N) e passam a significar instruções específicas dadas ao interpretador do texto. Por exemplo, inserir uma quebra de linha, inserir caracteres especiais, tabulação e espaços etc.
+
+Alguns exemplos de caracteres de escape:
+
+- \' insere aspas simples
+- \" insere aspas duplas
+- \\ insere barra invertida
+- \n insere nova linha (new line)
+- \r insere nova linha (carriage return)
+- \t insere tabulação
+- \b insere backspace
+
+Para finalizar “fim de linha” ou “quebra de linha”, existem alguns caracteres diferentes e diferentes sistemas operacionais utilizam estes caracteres de formas diferentes ao interpretarem textos.
+
+- Em sistemas Unix e Unix-like (como o Linux) o caractere usado é \n (new line).  
+- \n também é caractere de escape padrão para quebra de linha em todas as linguagens baseadas em C (é o caso do JavaScript).
+- Em sistemas Windows, a quebra de linha usa o caractere \r, ou carriage return. O nome vem das antigas máquinas de escrever em que o posicionamento da peça responsável por imprimir as letras (carro ou carriage em inglês) era feito manualmente a cada fim de linha.  
+![alt text](image.png)  
+- Filmagem em preto e branco mostrando duas mãos datilografando em uma máquina de escrever antiga. A mão esquerda empurra a barra de retorno.
+- Em antigos sistemas Mac (anteriores ao macOS X) o padrão era \r\n, nessa ordem.  
+- A diferença não é apenas no caractere: \n representa o fim de uma linha, o que para Linux e Mac é o equivalente a começar uma nova linha de texto. Já \r move o cursor para o início de uma nova linha (como a máquina de escrever).
+
+É muito importante entender a forma como os sistemas operacionais e as linguagens “encodam” (ou interpretam) os caracteres em uma string para transformá-los em texto, pois as diferenças podem causar bugs de interpretação de caracteres onde menos se espera.
+
+### Aula 2 - Refinando a contagem - Vídeo 3
+
+Transcrição  
+Continuando a ajustar nosso código para os casos que discutimos anteriormente, o próximo problema que podemos atacar é a questão dos caracteres especiais. Por exemplo, uma vírgula ou um parênteses que entrou no meio das palavras.
+
+**Suprimindo caracteres especiais**  
+Primeiramente, podemos criar uma função para detectar esses caracteres especiais no texto e suprimi-los. Queremos substituir caracteres especiais por nada, por uma string vazia.
+
+Vamos criar outra função, antes de verificarPalavrasDuplicadas(), para fazer isso. Essa funcion que chamaremos de limpaPalavras() deve receber uma palavra por parâmetro para poder fazer essa limpeza.
+
+Queremos substituir caracteres especiais por nada. Existe um método de string que serve justamente para substituir caracteres. Então, essa função vai apenas retornar a palavra.replace, que é o nome desse método de string do JavaScript.
+
+O primeiro parâmetro do replace() é o carácter que queremos substituir. Por exemplo, se quiséssemos substituir todos os abre-parênteses, bastaria passar uma string com abre-parênteses.
+
+O segundo parâmetro do replace, é pelo que queremos substituir. Não queremos substituir por nada, queremos deixar vazio. Então, vamos substituir por uma string vazia.
+
+index.js:
+
+```JavaScript
+function limpaPalavras(palavra) {
+  return palavra.replace('(', '');
+}
+```
+
+Contudo, devemos pensar que sempre trabalharemos com essas funções para qualquer texto que recebamos. E, nesses textos, os abre-parênteses não serão os únicos caracteres especiais. Existirão fecha-parênteses, aspas, E comercial, cerquilha e vários outros.
+
+Como podemos passar para essa função um caso mais abrangente? Queremos que seja substituído qualquer um desses caracteres especiais presentes no texto por nada.
+
+Não conseguimos pegar a string, onde está esse abre-parênteses, e começar a colocar também fecha-parênteses, cerquilha, cifrão, vírgula. Não dá para fazer isso, porque o JavaScript vai achar que isso é uma string com exatamente esse conteúdo.
+
+Para esses casos, um recurso muito usado em programação é a expressão regular - também conhecida como RegEx ou RegExp.
+
+> Não vamos entrar em detalhes sobre como RegEx funciona, porque temos um curso dedicado às [Expressões regulares](https://cursos.alura.com.br/course/expressoes-regulares-buscas-validacoes-substituicoes-textos) na Alura.
+
+Deixamos uma expressão regular pronta comentada no código que você pode copiar do repositório do curso. Iremos apenas copiar essa expressão e colá-la como o primeiro parâmetro do replace().
+
+```JavaScript
+function limpaPalavras(palavra) {
+  return palavra.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '');
+}
+```
+
+É uma expressão bem comprida, com muitos caracteres. Vamos explicar como ela funciona.
+
+Começamos com um barra normal e colchetes. Dentro dos colchetes, listamos todos os casos de caracteres especiais que imaginamos que possa ocorrer no texto. Por exemplo, ponto final, vírgula, barra invertida, barra normal, cerquilha, exclamação, abre e fecha-parênteses fechando, tio, chaves, igual, etc.
+
+No final, colocamos /g para ser global, ou seja, para pesquisar em todas as linhas do texto.
+
+O que fizemos foi usar uma expressão regular que é um tipo de linguagem que utilizamos para identificar padrões em texto.
+
+Ou seja, toda vez que o replace() encontrar uma correspondência de algum dos caracteres listados, ele será suprimido.
+
+Agora podemos passar a função limpaPalavras() para dentro do resto do código.
+
+Em que momento queremos que essas palavras sejam limpas? No momento em que elas estão sendo verificadas. Então, a colaremos em verificaPalavrasDuplicadas(). Afinal, não faz muito sentido fazer isso na parte da separação por parágrafos.
+
+Em verificaPalavrasDuplicadas(), depois de fazer o split(), dentro do forEach(), quando o código estiver verificando palavra por palavra, aí, sim, podemos criar uma const palavraLimpa que não conterá caracteres especiais. Nessa constante, vamos executar a função limpaPalavras() recebendo palavra.
+
+Agora, o objeto resultado não vai ter mais como propriedade palavra, e, sim, palavraLimpa. Então, palavraLimpa.
+
+Isso será igual ao contador, que, ao invés de resultado[palavra], será resultado[palavraLimpa]. E aí, retorna o resultado, como já fazíamos antes.
+
+```JavaScript
+function verificaPalavrasDuplicadas(texto) {
+  const listaPalavras = texto.split(' ');
+  const resultado = {};
+  // objeto[propriedade] = valor;
+  listaPalavras.forEach(palavra => {
+    const palavraLimpa = limpaPalavras(palavra);
+    resultado[palavraLimpa] = (resultado[palavraLimpa] || 0) + 1
+  })
+  return resultado;
+}
+```
+
+Retirando palavras curtas  
+Podemos aproveitar esse momento que estamos dentro do forEach(), verificando palavra por palavra, para resolver aquele outro problema de palavras muito curtas.
+
+Dentro do forEach(), podemos fazer uma condicional, um if. Queremos conferir se o comprimento da palavra, ou seja, se palavra.length é maior ou igual a 3. Assim, cortaremos "ou", "e", "um", etc.
+
+Se for verdadeiro, faremos a limpeza da palavra e jogamos ela dentro do objeto resultado. Por isso, a const palavraLimpa e o objeto resultado vão para dentro desse if.
+
+```JavaScript
+function verificaPalavrasDuplicadas(texto) {
+  const listaPalavras = texto.split(' ');
+  const resultado = {};
+  // objeto[propriedade] = valor;
+  listaPalavras.forEach(palavra => {
+    if (palavra.length >= 3) {
+      const palavraLimpa = limpaPalavras(palavra);
+      resultado[palavraLimpa] = (resultado[palavraLimpa] || 0) + 1
+    }
+  })
+  return resultado;
+}
+```
+
+Qualquer palavra que seja menor que isso será simplesmente ignorada.
+
+Testando o código  
+Após salvar, podemos abrir o terminal para testar. Executamos o último comando com seta para cima e "Enter".
+
+> node src/index.js arquivos/texto-web.txt
+
+Retorno parcialmente transcrito:
+
+```JavaScript
+[
+    {
+        httpsdevelopermozillaorgptbrdocslearngettingstartedwiththewebhowthewebworks: 1
+    },
+    {},
+    { como: 1, web: 1, funciona: 1 },
+    {},
+    {
+        como: 1,
+        web: 1,
+        funciona: 1,
+        oferece: 1,
+        uma: 2,
+        'visão': 1,
+        simplificada: 1,
+        …
+    }
+]
+```
+
+Não encontramos mais nenhum caractere especial nesse array de objetos. Além disso, não temos ocorrências duplicadas, pois as palavras estão todas em letra minúscula.
+
+O único que sobrou foram alguns objetos vazios correspondentes às quebras de linha, mas já sabemos que temos que resolver isso.
+
+Próximos passos  
+Note que utilizamos, basicamente, apenas lógica de programação, métodos de array e sintaxe de objetos para construir a lógica de verificação com a ajuda das expressões regulares.
+
+E, por enquanto, essa parte está finalizada. Na sequência, lidaremos com os objetos vazios e aí podemos continuar com os detalhes de implementação da biblioteca.
+
+### Aula 2 - Organizando a saída dos dados - Vídeo 4
+
+Transcrição  
+Vamos lidar com o último problema, que é o dos parágrafos vazios.
+
+**Retirando parágrafos vazios**  
+Onde podemos implementar essa verificação se um parágrafo é vazio ou não? Acreditamos que seja na função quebraEmParagrafos(), pois é onde fazemos o split() e obtemos um array.
+
+Dentro do map(), onde está sendo feita a contagem e a verificação das palavras, no momento em que o map() percorre o array de parágrafos, podemos verificar antes de executar a função verificaPalavrasDuplicadas(), se o parágrafo tem conteúdo ou não, se é uma string vazia ou não.
+
+Poderíamos fazer essa verificação dentro do map() com if. Por exemplo, se o parágrafo é uma string vazia, não retorna nada. Contudo, o map() sempre retorna algo para cada elemento, ele não pula um elemento. Então, mesmo que ele retorne algo, pode ser undefined.
+
+Uma solução que poderia funcionar é, antes de fazer o map(), ir em const contagem = paragrafos e filtrar os elementos do array procurando strings vazias.
+
+Vamos fazer esse teste. Em const contagem, vamos chamar o método de array filter() para paragrafos, ou seja, paragrafos.filter().map().
+
+O filter() é um método callback, portanto, vamos chamar um parâmetro, que também chamaremos de paragrafo, e abrir uma arrow function.
+
+Lembrando que o filter() trabalha sempre com uma comparação dentro da função. Se a comparação resultar em True, ele retorna o elemento para dentro de um array de resultados. Se retornar False, ele ignora o elemento.
+
+Podemos escrever isso de uma forma bem resumida no filter(). Então, (paragrafo) => paragrafo. Isso porque, como aprendemos quando trabalhamos com tipos de dados e variáveis, valores Truthy e Falsy, uma string vazia é avaliada pelo JavaScript como um valor Falsy.
+
+Ou seja, se o JavaScript tiver que converter o valor de parágrafo para booleano, ele vai retornar Falsy, se o parágrafo for uma string vazia, e Truthy se for uma string que contenha qualquer outro tipo de caractere.
+
+Dessa forma, podemos escrever de forma resumida, porque se paragrafo uma string vazia, vai retornar Falsy e, consequentemente, ele não vai filtrar esse elemento.
+
+index.js:
+
+```JavaScript
+function quebraEmParagrafos(texto) {
+  const paragrafos = texto.toLowerCase().split('\n');
+  const contagem = paragrafos
+    .filter((paragrafo) => {paragrafo})
+    .map((paragrafo) => {
+    return verificaPalavrasDuplicadas(paragrafo);
+  })
+  console.log(contagem);
+}
+```
+
+Em resumo, paragrafos.filter() vai ter um retorno de um array de quantidade X de elementos. E também concatenamos o filter() com o map() que já tínhamos feito anteriormente.
+
+Assim, primeiro, fazemos a filtragem e tiramos as strings vazias, e depois fazemos o map verificando as palavras duplicadas no restante.
+
+Testando o código
+Abrindo o terminal, chamando o último comando novamente com seta para cima.
+
+> node src/index.js arquivos/texto-web.txt
+
+Retorno parcialmente transcrito:
+
+```JavaScript
+[
+        {
+                httpsdevelopermozillaorgptbrdocslearngettingstartedwiththewebhowthewebworks: 1
+        },
+        { como: 1, web: 1, funciona: 1 },
+        {
+                como: 1,
+                web: 1,
+                funciona: 1,
+                oferece: 1,
+                uma: 2,
+                'visão': 1,
+                simplificada: 1,
+                …
+        }
+]
+```
+
+Aparentemente deu certo, porque continua retornando um array de objetos, mas todos os objetos vazios sumiram.
+
+No entanto, essa solução tem uma questão que não está aparente. Para conseguir fazer primeiro a filtragem e depois o map() contando as palavras, fizemos dois loops.
+
+Ou seja, primeiro percorremos o array de paragrafos inteiro para fazer o filter, porque filter e map sempre vão até o fim do array. Depois fizemos esse processo de novo para fazer a contagem das palavras.
+
+Quando estamos trabalhando com um texto pequeno, com massas pequenas de dados, isso não tem muita importância, porque normalmente os computadores hoje em dia têm capacidade para processar.
+
+Contudo, quando escrevemos o código, procuramos pensar em todos os casos. E se o seu texto for muito grande, com muitas palavras? Ou se você estiver trabalhando com massa de dados de dois milhões de pessoas usuárias?
+
+Fazer um loop inteiro, depois fazer outro loop inteiro, não é muito performático para o programa. O programa vai ficar com uma performance um pouco mais baixa, porque ele vai consumir bastante recurso para fazer os dois processos.
+
+Conhecendo o flatMap  
+Como transformamos esse filter e map em um único loop? Vamos usar outro método de array que ainda não conhecemos, o flatMap(), que também é um método callback.
+
+Assim, const contagem será igual a paragrafos.flatMap(), que vai receber por parâmetro paragrafo seguido de arrow function.
+
+Dentro das chaves, podemos fazer uma verificação if (!paragrafo), ou seja, se paragrafo for avaliado como falso, podemos retornar um array vazio. Isto é, return [].
+
+Se não for um parágrafo vazio, se tiver conteúdo, vamos pegar o return verificaPalavrasDuplicadas(paragrafo) e colocá-lo dentro do flatMap().
+
+Podemos deletar o filter e o map dessa função e deixar no final apenas o console.log(contagem).
+
+```JavaScript
+function quebraEmParagrafos(texto) {
+  const paragrafos = texto.toLowerCase().split('\n');
+  const contagem = paragrafos.flatMap((paragrafo) => {
+    if (!paragrafo) return [];
+    return verificaPalavrasDuplicadas(paragrafo);
+  })
+  console.log(contagem);
+}
+```
+
+Salvamos o arquivo, abrimos o terminal e verificamos que o código está tudo funcionando como esperado. Nossos objetos vazios foram embora.
+
+O que o flatMap() fez? O flat(), sozinho, é um método que pega um array, que tem arrays dentro dele, e o "achata".
+
+Qual seria o processo? Suponha que temos um array que tem os valores 1, 2, e o terceiro valor fosse, por exemplo, outro array com 3 e 4 dentro.
+
+[1, 2, [3, 4]]
+
+O flat() pega o array de dentro e faz uma espécie de concatenação. Aplana com os valores do array externo. Então, o resultado final do flat() seria somente um array com 1, 2, 3 e 4.
+
+[1, 2, 3, 4]
+
+O flatMap() combina as funcionalidades do flat() e do map(). Portanto, ele é um pouco mais performático do que fazer duas funções separadas: primeiro para filtrar e depois para fazer o mapeamento. O flatMap() retorna um array de resultados de forma mais eficiente.
+
+Próximos passos  
+A funcionalidade básica já está finalizada. Porém, se observarmos o objeto no terminal, nós estamos exibindo todos os resultados para cada parágrafo.
+
+Será que queremos realmente exibir os casos onde a palavra só é citada uma vez? Acho que não é exatamente a funcionalidade que queríamos. Queremos saber as palavras que estão repetidas. Então, devemos lidar com esse caso.
+
+Mas, antes disso, vamos parar para pensar um pouco no que fazemos quando as coisas não ocorrem como deveriam no nosso programa. Na sequência, discutiremos sobre o tratamento de erros.
+
+### Aula 2 - Mão na massa: usando o reduce
+
+Durante a aula praticamos a manipulação de arrays e objetos usando duas abordagens:
+
+- filter e map
+- flatMap
+
+Porém, ainda há uma terceira abordagem para a resolução desse problema muito comum em programação: como suprimir objetos vazios de um array de objetos. Para isso, vamos usar o método de array reduce.
+
+**Opinião do instrutor**  
+
+O funcionamento básico do reduce é percorrer todos os índices de um array e “reduzir” seus valores a um único valor de retorno. Por exemplo:
+
+```JavaScript
+const numeros = [1, 2, 3, 4, 5];
+
+const result = numeros.reduce((acum, atual) => acum + atual, 0);
+
+console.log(result); //15
+```
+
+No exemplo acima, usamos reduce para reduzir um array de números até a soma de todos eles, começando a contagem em 0 e somando os parâmetros da função callback a cada iteração (valor acumulado + valor atual).
+
+Porém, o reduce também tem muitos usos mais complexos para arrays de objetos e pode nos ajudar a resolver o problema dos objetos vazios.
+
+Observe abaixo uma versão mais curta da solução feita com filter e map:
+
+```JavaScript
+const paragrafos = ["código", "js", "", "web", "", "array"];
+const result = paragrafos
+ .filter((paragrafo) => paragrafo)
+ .map((paragrafo) => {
+   if (paragrafo) return paragrafo;
+ });
+console.log(result);
+```
+
+Agora, vamos analisar uma abordagem utilizando reduce:
+
+```JavaScript
+const paragrafos = ["código", "js", "", "web", "", "array"];
+const result = paragrafos.reduce((acum, paragrafo) => {
+ if (paragrafo) {
+   return [...acum, paragrafo];
+ }
+ return acum;
+}, []);
+console.log(result);
+```
+
+Acompanhe os passos de desenvolvimento do código acima:
+
+- Queremos “reduzir” o array atual a um outro array, então iniciamos reduce com um valor atual de [] (um array vazio).
+- Os parâmetros da função callback são acum (em que são armazenados os valores já processados) e paragrafo, que se refere ao parágrafo sendo processado a cada iteração.
+- A condicional if (paragrafo) avalia a string paragrafo em termos booleanos (lembrando de valores truthy e falsy) e apenas entra no if caso paragrafo não seja uma string vazia.
+- Caso não seja uma string vazia, o código dentro do bloco if utiliza o spread operator (operador de espalhamento) para retornar um array composto dos valores anteriores (acum) “espalhados” em um novo array com o conteúdo do parágrafo atual.
+- Caso seja uma string vazia, o código do bloco if não será executado, e o loop do reduce irá passar direto para o próximo elemento do array, ignorando a string vazia e a deixando de fora do array final.
+- Após percorrer todos os elementos, o resultado final de acum será um array composto apenas de strings “não vazias” (avaliadas como truthy na condicional if).
+- Qual método utilizar? Apesar de o método reduce construir um novo array a cada iteração, a não ser que se trate de textos e arrays muito grandes, não deve haver muita diferença de performance entre os métodos.
+
+É comum existir mais de uma forma de resolver problemas de lógica de programação! Faça os testes em seu projeto!
+
+### Aula 2 - Relembrando objetos
+
+Objetos são estruturas importantes em praticamente todas as linguagens de programação mais utilizadas. São estruturalmente formados por pares de chave: valor que podem representar alguma abstração do mundo real, como uma conta bancária ou um livro. Os objetos também são parte fundamental do JavaScript e há diversas formas de se criar e trabalhar com eles.
+
+Sabendo disso e relembrando o uso de objetos durante esta aula, marque as opções corretas:
+
+Resposta:  
+Para iterar sobre as propriedades de um objeto, podemos utilizar a função for...in .
+
+> Utilizamos for…in para iterar sobre as propriedades enumeráveis de um objeto, como em: for (let info in cliente) { //código }. Você pode conferir mais exemplos no na documentação do MDN sobre for…in.
+
+Alternativa correta:  
+A expressão abaixo irá criar uma nova propriedade prop no objeto obj, com o valor de valor. Caso a propriedade prop já exista no objeto, seu valor anterior será substituído por novoValor.
+
+obj.prop = novoValor;
+
+> Em JavaScript, podemos usar a notação de ponto para acessar uma propriedade já existente em um objeto e alterar seu valor, ou para criar uma nova propriedade.
+
+### Aula 2 - Para saber mais: links da aula
+
+Confira abaixo a lista de links utilizados durante a aula e/ou links complementares ao conteúdo:
+
+[Curso: Expressões regulares](https://cursos.alura.com.br/course/expressoes-regulares-buscas-validacoes-substituicoes-textos) para buscas, validação e substituição de textos.
+Documentação do MDN: [flatMap](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/flatMap).
+
+### Aula 2 - O que aprendemos?
+
+Nessa aula, você aprendeu:  
+
+- Como utilizar métodos de array e objeto do JavaScript para resolver problemas comuns de lógica de programação, como manipulação de arrays, strings e objetos;
+- Como organizar as funcionalidades do projeto em funções separadas, utilizando a importação e exportação de módulos para comunicar as funções entre si e utilizá-las onde necessário.
+
 ### Aula 2 -  - Vídeo 5
