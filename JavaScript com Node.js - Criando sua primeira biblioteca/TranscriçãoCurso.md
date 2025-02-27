@@ -1266,4 +1266,474 @@ Nessa aula, você aprendeu:
 - Como utilizar métodos de array e objeto do JavaScript para resolver problemas comuns de lógica de programação, como manipulação de arrays, strings e objetos;
 - Como organizar as funcionalidades do projeto em funções separadas, utilizando a importação e exportação de módulos para comunicar as funções entre si e utilizá-las onde necessário.
 
-### Aula 2 -  - Vídeo 5
+## Aula 3 - Tratamento de Erros
+
+### Aula 3 - Identificando tipos de erros - Vídeo 1
+
+Transcrição  
+Antes de prosseguirmos com as funcionalidades, vamos fazer uma refatoração para organizar melhor o nosso arquivo index.js e também identificar alguns pontos de falha que podem ocorrer no nosso programa.
+
+Por exemplo, um ponto de falha que pode ocorrer, e talvez tenha ocorrido enquanto você estava praticando, é quando nos distraímos e, ao passar o endereço do arquivo que queremos converter ou processar, não passamos um pedaço do endereço e ocorre um erro genérico, um TypeError dizendo que não consegue ler propriedades de undefined. Esse é um exemplo de um erro que pode acontecer.
+
+```JavaScript
+TypeError: Cannot read properties of undefined (reading 'toLowerCase')
+    at quebraEmParagrafos (/home/juliana/Documents/nodejs-lib/src/index.js:23:28)
+    at ReadFileContext.callback (/home/juliana/Documents/nodejs-lib/src/index.js:7:3)
+    at FSReqCallback.readFileAfterOpen [as oncomplete] (node:fs:306:13)
+```
+
+Normalmente, o que fazemos? Começamos a mapear pontos onde pode ocorrer algum tipo de erro e conseguimos capturar esses erros, — vamos abordar mais adiante o que significa capturar —, e tratá-los para indicar o que queremos fazer. Queremos enviar uma mensagem, queremos fazer outra coisa no lugar etc.
+
+O primeiro ponto onde queremos colocar um aviso de erros para o código, é o próprio readFile. Mas, antes disso, vamos aproveitar para refatorar toda essa parte. Vamos remover alguns comentários que deixamos anteriormente, porque são coisas que já vimos.
+
+Dentro do readFile, vamos criar uma função que vamos chamar de function contaPalavras, recebendo texto, e essa função será o ponto de entrada da aplicação.
+
+Essa será a única função que vamos deixar dentro do readFile. Quebrar parágrafo, contar quantas palavras tem, ver como vamos dar a saída do arquivo, tudo isso virá a partir de contaPalavras, que é o ponto inicial.
+
+```JavaScript
+function contaPalavras(texto) {
+
+}
+```
+
+Então, quais são as duas coisas que estamos fazendo separadamente? A primeira é fazer o nosso contador de palavras, que já está usando algumas outras funções separadas como o limpaPalavras.A segunda é a de quebrar em parágrafos.
+
+Vamos separar a parte de quebrar em parágrafos em uma outra função. Então, vamos criar uma outra function, que vamos chamar de extraiParagrafos, que também vai receber texto como parâmetro, que é o texto onde vamos gerar o nosso primeiro array.
+
+```JavaScript
+function extraiParagrafos(texto) {
+
+}
+```
+
+Dentro de extraiParagrafos, vamos colocar o nosso split('\n'). Vamos mover o código que estava anteriormente em quebraEmParagrafos para dentro de extraiParagrafos. E agora, como não precisamos mais salvar isso numa variável para depois utilizar, podemos dar só um return nesse valor.
+
+Agora, todo o restante da nossa função quebraEmParagrafos, vamos passar para dentro de contaPalavras, que é o nosso ponto de entrada. Então, vamos mover todo o código que sobrou dentro de quebraEmParagrafos para dentro de contaPalavras, que, por enquanto, ainda não está sendo executada em nenhum lugar. Podemos excluir a função quebraEmParagrafos
+
+Podemos voltar em readFile, deletar o último comentário, que era uma função que não vai mais ser chamada, e passar a única chamada dentro de readFile para contaPalavras. Agora, contaPalavras recebe texto. Temos que também corrigir dentro da função contaPalavras para agora ela executar primeiro extraiParagrafos.
+
+Então, aqui criamos uma const. Vamos chamar essa const de paragrafos mesmo, que é como estava antes. Igual o resultado da função extraiParagrafos recebendo texto. E, dessa forma, podemos manter o restante do código como estava, porque já estávamos usando esse nome de variável, paragrafos.
+
+Então, agora separamos um pouco mais. E, a partir de agora, podemos fazer algumas marcações de erro para ver o que acontece no console.
+
+Então, como já tínhamos comentado, o primeiro ponto de erro que dá para identificar é justamente dentro do readFile, que, por sinal, o callback do readFile já vem por si com um parâmetro de função do callback erro, só esperando para ser chamado, porque justamente esse é um ponto crítico de falha.
+
+O que conseguimos fazer se passarmos dentro de readFile um console.log apenas para exibir erro? Vamos passar um texto antes, Qual é o erro?, erro. E aí, deixamos o contaPalavras como estava funcionando antes.
+
+```JavaScript
+fs.readFile(link, 'utf-8', (erro, texto) => {
+    console.log('qual é o erro?', erro);
+    contaPalavras(texto);
+})
+function contaPalavras(texto) {
+    const paragrafos = extraiParagrafos(texto)
+    const contagem = paragrafos.flatMap((paragrafo) => {
+        if (!paragrafo) return [];
+        return verificaPalavrasDuplicadas(paragrafo);
+    })
+    console.log(contagem);
+}
+function extraiParagrafos(texto) {
+    return texto.toLowerCase().split('\n');
+}
+```
+
+Vamos fazer um teste? Já salvamos o arquivo, vamos abrir o terminal. Vamos carregar novamente o normal, o normal está funcionando, vamos limpar o terminal. E vamos tentar tirar a extensão do nosso arquivo e ver o que acontece.
+
+Além do erro, ele também trouxe a frase que colocamos no console.log, qual é o erro?, que é uma frase em português, então, obviamente, é a nossa.
+
+Então, ao lado do qual é o erro?, vem um objeto, erro, ENOENT. ENOENT é um código de erro que é no entity, ele não conseguiu encontrar a entidade que ele precisava. Não existe esse arquivo ou diretório quando tentou abrir aqui arquivos/texto-web, seguido de um objeto com algumas informações.
+
+Por exemplo, a chamada que foi feita, uma chamada do tipo open para abrir o arquivo, o caminho que foi feito, o código do erro, o número do erro e onde o erro aconteceu. Ele só acusou esse erro lá em index.js:21, na linha 21, quando ele tentou realmente fazer alguma coisa com esse arquivo.
+
+```JavaScript
+juliana@juliana:~/Documents/nodejs-lib$ node src/index.js arquivos/texto-web
+qual é o erro? [Error: ENOENT: no such file or directory, open 'arquivos/texto-web'] {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'open',
+    path: 'arquivos/texto-web'
+}
+/home/juliana/Documents/nodejs-lib/src/index.js:21
+    return texto.toLowerCase().split('\n');
+           ^
+```
+
+O que fazemos com essa informação? Vamos fechar o terminal e fazer mais uma alteração depois do console.log, de qual é o erro?. Então, ao invés de simplesmente jogar o console ali, vamos dizer que if (erro), ou seja, se tiver alguma coisa dentro desse parâmetro erro, ele vai entrar nesse if, e aí sim, damos o console.log em qual é o erro, e vamos dar também um return para ele retornar.
+
+Lembrando que, quando damos um return, retornamos alguma coisa para fora da função, a função deixa de executar ali. Ela encerra a execução dela e vai para outro ponto do código.
+
+```JavaScript
+fs.readFile(link, 'utf-8', (erro, texto) => {
+   if (erro) {
+    console.log('qual é o erro?', erro);
+    return
+   }
+   contaPalavras(texto);
+})
+```
+
+Vamos tentar ver o que acontece abrindo o terminal e o que mudou. Vamos executar novamente no modo normal para ver se continua funcionando. Continua, então vamos limpar o terminal.
+
+Tentaremos novamente forçar aquele erro tirando o .txt. Agora mudou um pouco o que aparece no console, a mensagem está mais limpa. Ele não está mais exibindo toda aquela mensagem anterior.
+
+```JavaScript
+juliana@juliana:~/Documents/nodejs-lib$ node src/index.js arquivos/texto-web
+qual é o erro? [Error: ENOENT: no such file or directory, open 'arquivos/texto-web'] {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'open',
+    path: 'arquivos/texto-web'
+}
+```
+
+O que ele trouxe para nós foi só o objeto com o erro. E conseguimos fazer o que a partir daí? Conseguimos acessar uma propriedade desse objeto erro.
+
+Vamos tentar novamente. Vamos fechar o terminal. E em vez de console.log apenas em erro, vamos dar em erro.code, por exemplo. Se rodarmos novamente o código sem o .txt, agora ele vai trazer para nós só o código do erro ENOENT, que é o no entity.
+
+A partir daí, conseguimos, já que sabemos que conseguimos acessar uma propriedade desse objeto, e que, na verdade, esse erro que vem para o parâmetro, ele é um objeto JavaScript com algumas informações.
+
+A partir daí, começamos a definir os erros que esperamos receber e o que vamos fazer com eles. Para nos ajudar a gerenciar, a encontrar esses erros e capturá-los de certa forma, vamos ver algumas ferramentas no próximo vídeo.
+
+### Aula 3 - Para saber mais: entendendo a stack trace
+
+Uma das primeiras coisas que percebemos ao começarmos a programar é que praticamente qualquer aviso de erro será acompanhado de uma longa sequência de texto difícil de compreender.
+
+Por exemplo, se tentarmos usar console.log() em alguma variável que não existe em nosso código:
+
+node teste.js
+
+```JavaScript
+file:///home/juliana/Documents/nodejs-lib/teste.js:3
+console.log(nome);
+            ^
+ReferenceError: nome is not defined
+    at file:///home/juliana/Documents/nodejs-lib/teste.js:3:13
+    at ModuleJob.run (node:internal/modules/esm/module_job:218:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:329:24)
+    at async loadESM (node:internal/process/esm_loader:28:7)
+    at async handleMainPromise (node:internal/modules/run_main:113:12)
+
+Node.js v20.11.0
+```
+
+Boa parte de todo esse texto é representado pela stack trace, ou seja, pelo “rastro” de comandos executados pelo interpretador ao enviarmos o comando node teste.js.
+
+No caso, para que o Node.js execute corretamente o código dentro de um arquivo .js de nosso projeto, ele utiliza por sua vez diversos códigos (funções) que estão dentro de seu próprio código-fonte. Cada parte do código necessário para que o Node.js interprete corretamente o nosso próprio código pode se encontrar em arquivos ou módulos diferentes, e cada comando executado “guarda” este caminho desde o ponto inicial até o último.
+
+Podemos analisar qualquer linha do erro acima e acompanhar este processo:
+
+> at file:///home/juliana/Documents/nodejs-lib/teste.js:3:13
+
+O ponto inicial de chamada do código problemático: arquivo teste.js que está dentro da nossa pasta de projeto, na linha 3 e coluna 13.
+
+> at ModuleJob.run (node:internal/modules/esm/module_job:218:25)
+
+Este erro se “propagou” para o método ModuleJob.run interno do Node.js. Podemos saber que já não estamos mais na pasta do nosso projeto pois a stack trace fornece exatamente o módulo, linha e coluna para onde o erro se propagou.
+
+Assim continua até o último ponto, a função interna do Node.js handleMainPromise.
+
+Quando um erro ocorre, todo esse caminho percorrido pelo comando é passado para dentro de um objeto Error para que possa ser acessado e consultado de alguma forma, por exemplo, exibido no terminal. Dessa forma, podemos usar esse “mapa” para entender o caminho que o processamento percorreu.
+
+Nem todos os avisos de erro são gerados da mesma forma: dependendo da origem, alguns erros são devolvidos pelo sistema operacional, outros pelo Node.js, outros podem ser gerados a partir de alguma biblioteca que estamos usando em nosso projeto. Porém, quase sempre eles seguem o mesmo padrão, apresentando o nome do erro, a descrição do erro e a stack trace.
+
+O Node.js tem uma lista de erros próprios. Confira como Error se comporta no Node.js, uma descrição de cada erro e motivos comuns para acontecerem neste [artigo da Alura sobre erros do Node.js](https://www.alura.com.br/artigos/lidando-com-erros-node-js).
+
+### Aula 3 - Throw, catch e try - Vídeo 2
+
+Transcrição  
+Continuando com o nosso tratamento de erros, o que fazemos quando um erro ocorre dentro de uma função? Lembrando que os erros são inevitáveis, eles vão ocorrer de alguma forma dentro de alguma função do seu código. E o que fazemos nesse caso?
+
+Sabemos que existe um tipo de erro que já identificamos, que é o ENOENT. E agora, como fazer com que o programa identifique os tipos de erros e aja de acordo, enviando uma mensagem ou executando alguma outra coisa?
+
+Implementando um bloco try-catch
+Existem dois termos importantes que vamos ver agora sobre erros, um deles é o que chamamos de bloco try-catch. Vamos implementar no nosso readFile.
+
+Antes de tudo, vamos escrever try, apenas try(), sem parâmetro, e abrir um bloco com chaves. Dentro do try, vamos colocar somente a linha onde executamos a função contarPalavras. Vamos usar o Alt + seta para cima para movê-la para dentro desse bloco, e apenas isso.
+
+Fora do try, vamos acrescentar outra palavra-chave que é catch. O catch leva parâmetros, e o parâmetro que vamos colocar no catch será erro. Apenas erro, e vamos abrir chaves também porque o catch é outro bloco.
+
+Vamos apagar o if (erro) que tínhamos feito anteriormente, e dentro do catch vamos deixar apenas um comentário. // O que fazer com o erro?. Por enquanto, é só isso.
+
+```JavaScript
+fs.readFile(link, 'utf-8', (erro, texto) => {
+    try {
+        contaPalavras(texto);
+    } catch (erro) {
+        // o que fazer com o erro?
+    }
+})
+```
+
+Vamos testar no terminal para ver se o nosso código continua funcionando. Vamos chamar o caminho com o .txt no terminal, continua funcionando. Vamos limpar o terminal com Ctrl + L, e tentar o caminho apagando o .txt.
+
+O terminal não acusou o erro, que é diferente de não dar erro, mas em compensação também não trouxe o nosso array de objetos. Então, vamos voltar no nosso código e ver o que aconteceu.
+
+Esse bloco try-catch funciona da seguinte forma: Dentro do try, colocamos todo o código onde é possível que ocorra um erro. Teoricamente, é o código que queremos que dê certo, só que se acontecer alguma coisa que não está certa, se ocorrer qualquer tipo de erro, queremos monitorar o código que está dentro desse bloco, para que, caso algum erro ocorra durante a execução, por exemplo, de contarPalavras, esse erro seja capturado pelo bloco catch. Try significa "tentar" em inglês e Catch, pegar.
+
+Por que não aconteceu nada no terminal? Porque causamos um erro de propósito, esse erro foi capturado, porque ele estava dentro do bloco try, então ele foi interceptado. O try pegou esse erro, que é esse conjunto de dados que, no momento, não sabemos muito bem o que tem dentro, e jogou para ser capturado pelo catch.
+
+Só que o nosso catch não tem nada dentro dele, o nosso catch só tem um comentário. E aí, deu erro, o erro não foi mandado para frente, ninguém fez nada com ele, e ficou por isso mesmo.
+
+Vamos usar o Alt + seta para cima para tirar o contarPalavras de dentro do try, se o deixarmos vazio e tentarmos executar novamente o código, lá no terminal, no caminho triste, voltou a dar erro, mas um erro genérico que não temos muita informação, não foi um erro que tratamos. Então, tirou do bloco try, o erro voltou a ser livre, sem ninguém para tomar conta dele.
+
+Vamos voltar o contarPalavras para dentro do try, onde ele estava antes. E agora, vamos fazer algumas alterações, para irmos refinando essa parte e tentando pegar os erros.
+
+Fora do try, vamos fazer mais um teste, lá dentro de readFile só. Vamos criar um if (erro). Vamos passar só uma instrução dentro desse if, então não precisa das chaves também. Vamos passar somente throw erro. Somente isso. Vamos deixar fora do try mesmo.
+
+```JavaScript
+fs.readFile(link, 'utf-8', (erro, texto) => {
+    if (erro) throw erro;
+    try {
+        contaPalavras(texto);
+    } catch (erro) {
+        // o que fazer com o erro?
+    }
+})
+```
+
+Vamos testar novamente, ver o que acontece. Vamos apagar o .txt do caminho no terminal. Ele voltou a dar o erro ENOENT, só o erro sem nenhuma instrução nossa, também sem nenhum aviso.
+
+O que aconteceu? Criamos uma linha de verificação de erro, fora do try. E o que é esse erro que colocamos no throw? Esse erro se refere a um dos parâmetros do readFile.
+
+Então, o erro que está aparecendo para nós na linha do throw, não é o mesmo erro que será capturado no catch. São dois objetos diferentes.
+
+Isso é muito importante identificar. Porque o readFile, por si só, é uma função que já identifica para nós alguns tipos de erro, já faz um pré-tratamento. Então, conseguimos pegar isso a partir do parâmetro, esse objeto, e lançar esse erro para algum lugar. Só que, de novo, estamos lançando para nenhum lugar ser pego. Ele está só sendo lançado e não está sendo capturado (catch).
+
+O que vamos fazer agora? Vamos passar esse if (erro) para dentro do try, de novo com a seta, Alt + seta para baixo, e aí já podemos ir lá no nosso catch, tirar o comentário e começar a lidar com esse erro de verdade.
+
+Então, dentro do catch, vamos passar duas instruções. A primeira vai ser uma condicional, um if, dizendo if (erro.code) === 'ENOENT', lembrando que tem que ser tudo em letra maiúscula, como está lá no objeto, vamos só passar uma instrução, console.log(), vamos passar aqui no console 'erro que esperava'. É o erro que estamos esperando receber, o ENOENT. Else, só um outro console.log, que vamos passar dentro de uma string, 'outro erro'.
+
+O que estamos fazendo aqui? Perceba que o erro é propagado entre as funções. Então, ele começa num ponto, vai sendo lançado até que algum lugar pega esse erro. É isso que normalmente fazemos quando trabalhamos com bloco try-catch. Então, esse erro está sendo pego dentro do nosso if (erro), que está dentro do try, e essa palavra throw está lançando esse erro para frente.
+
+Uma vez que temos um bloco try-catch, esse catch vai pegar esse erro que foi lançado e, dentro dele, tem ali uma verificação. É o erro que estamos esperando? É um erro que é um objeto que tem a propriedade code e o valor dela é um string ENOENT? Se for, erro que esperávamos. Se não for, aí é outro erro, aí precisamos ver o que aconteceu.
+
+```JavaScript
+fs.readFile(link, 'utf-8', (erro, texto) => {
+    try {
+        if (erro) throw erro;
+        contaPalavras(texto);
+    } catch (erro) {
+        if (erro.code === 'ENOENT') console.log('erro que esperava');
+        else console.log('outro erro');
+    }
+})
+```
+
+Vamos voltar no terminal, novamente testar o caminho com .txt no fim, está tudo certo, vamos limpar o terminal, retirar o .txt e obtivemos o erro que esperávamos.
+
+Aparentemente, começamos a cercar esse erro. Poderíamos depois mudar essa mensagem para uma mensagem que faz mais sentido? Sim, mas o que interessa agora para nós é ver como a propagação de erros que aconteceu lá no readFile, ela seguiu um caminho, o erro foi sendo lançado, pegamos onde precisava e vimos o que tem nele.
+
+Só que tem muitos lugares para os erros acontecerem e muitos tipos de erros diferentes. Então, vamos continuar testando um pouco esses casos.
+
+### Aula 3 - Praticando com try/catch - Vídeo 3
+
+Transcrição  
+Agora, com tudo que já praticamos sobre throw, try e catch, pode surgir a pergunta: se todo o código que está dentro do bloco try der erro, ele é automaticamente capturado pelo catch? Precisamos mesmo do throw? Precisamos pegar o nosso código, capturar esse erro e lançá-lo para a frente? Vamos fazer um teste.
+
+Vamos comentar a linha onde fizemos aquele if (erro), pegando o erro que vem do parâmetro do readFile. Vamos testar novamente no terminal.
+
+```JavaScript
+fs.readFile(link, 'utf-8', (erro, texto) => {
+    try {
+        // if (erro) throw erro;
+        contaPalavras(texto);
+    } catch (erro) {
+        if (erro.code === 'ENOENT') console.log('erro que esperava');
+        else console.log('outro erro');
+    }
+})
+```
+
+Agora ele voltou a dar um erro, mas os erros sempre devem ser lidos com calma. Veja onde o erro está ocorrendo. Ao invés de ocorrer no readFile, porque tem um problema no arquivo, o erro está ocorrendo dentro da função de parágrafo, onde ele faz o toLowerCase().split.
+
+```JavaScript
+TypeError: Cannot read properties of undefined (reading 'toLowerCase')
+    at extraiParagrafos (/home/juliana/Documents/nodejs-lib/src/index.js:26:16)
+    at contaPalavras (/home/juliana/Documents/nodejs-lib/src/index.js:17:22)
+    at ReadFileContext.callback (/home/juliana/Documents/nodejs-lib/src/index.js:7:3)
+    at FSReqCallback.readFileAfterOpen [as oncomplete] (node:fs:306:13)
+```
+
+Ou seja, agora o erro ocorreu mais à frente, não onde queríamos, que é no começo, onde ele já identificou que não tinha o arquivo que ele precisava, o .txt.
+
+O que isso significa? Que o erro não está aparecendo onde esperávamos, ele está ocorrendo em outra parte do código. Isso significa que temos coisas erradas no nosso código que não estão sendo detectadas, e os erros só estão sendo lançados mais à frente, por outras partes do código.
+
+Ou seja, o comportamento do código fica meio errático, porque teoricamente o erro não é um erro de lowercase, não é um erro na string, o erro está acontecendo bem antes, nem tem o arquivo para fazer lowercase. Mas ficamos confusos, porque o erro não está sendo capturado, ele está sendo lançado em partes erráticas, por outras funções que não são as nossas.
+
+Vamos fechar o terminal, voltar o nosso código para o que ele era antes, colocar o contaPalavras dentro do try e o nosso if, pegando o erro que está sendo fornecido do readFile.
+
+Vamos voltar ao terminal só para executar de novo e garantir que está tudo certo. Está tudo certo no erro, é o erro que esperávamos agora, e o código voltou a funcionar.
+
+Você até poderia mudar o texto da mensagem de erro, dizer o erro é que não tem arquivo etc, mas o importante é que esse é o erro que esperado, e ele está sendo capturado da forma que o nosso código espera e tratado da forma que o nosso código espera.
+
+Se quisermos pedir para executar outra coisa, para corrigir o arquivo, aí é com quem está fazendo o desenvolvimento. Mas o importante é manter em mente que temos que capturar os erros. Por exemplo, o readFile, que é um ponto crítico, o meu arquivo tem que ser recebido com sucesso, e se não for, o que eu faço?
+
+Não conseguimos prever todos os erros, sempre tem alguma coisa que não previmos, porque usamos muitas bibliotecas e nos conectamos com muitos serviços, mas começamos implementando esse tipo de estratégia nos mais críticos.
+
+Uma coisa que você pode ter notado é que, dentro do bloco try, se tiver erro, o nosso if dá um throw no erro, e tanto o return quanto o throw fazem com que o código saia da função.
+
+Podemos dizer que o retorno esperado, quando a função executa como ela deve executar e retorna o dado que esperamos que retorne. O throw também interrompe o fluxo, mas, normalmente, ele é usado justamente em caso de coisas não esperadas.
+
+Não precisamos dar throw somente em objetos do tipo erro, mas qualquer tipo de dado pode ser lançado, mas não é muito comum fazermos isso.
+
+O throw, normalmente, é usado para finalizar uma função, jogando para fora dela alguma informação sobre algo que deu errado na execução dessa função, ou que propagou de outras partes do código até ser lançado e capturado nessa parte do código.
+
+E para que um erro lançado não simplesmente interrompa uma função, interrompa o funcionamento do nosso programa, usamos o try-catch, para que o erro possa ser capturado e tratado de forma correta, sem que ele interrompa necessariamente o funcionamento da nossa aplicação.
+
+Isso porque, normalmente, exceções que não são capturadas por nenhum catch, elas vão se propagando pela stack, elas vão indo de função em função, de módulo em módulo, até que acabam interrompendo o funcionamento do programa de uma forma não esperada, com um erro que pode ser que não seja o erro que esperamos receber.
+
+Então, vamos continuar lidando com erros, vendo um pouco mais sobre esse grande universo, finalizando com o objeto erro.
+
+### Aula 3 - O objeto Error - Vídeo 4
+
+Transcrição  
+Continuando a nossa incursão pelo mundo do tratamento de erros e exceções, vamos observar dentro do catch, o if que está fazendo a verificação se o erro é do tipo NoEntity.
+
+Se observarmos, a mensagem do console está codificada diretamente no meio do nosso código, ela está fixa, e o tipo de erro também está fixo dentro do catch. Como podemos melhorar esse código, deixando as responsabilidades separadas?
+
+Vamos voltar ao nosso código. Dentro da pasta src, vamos criar outra pasta chamada erros. E dentro da pasta erros, vamos criar um arquivo chamado funcoesErro.js. Dentro dele, podemos começar a escrever algumas funções para separar o tratamento de erros do restante do código.
+
+Separando o tratamento de erros
+Vamos escrever uma função chamada trataErros e vai receber por parâmetro apenas erro. Por enquanto, não sabemos muito bem o que vai chegar neste parâmetro erro, mas vamos descobrir.
+
+Podemos passar, nesse primeiro momento, toda a lógica de verificação: se o erro é do tipo NoEntity ou não. Então, vamos passar if (erro.code === 'ENOENT', vamos abrir chaves. Aqui vamos dar um throw.
+
+Em vez de dar um throw no erro, como estávamos fazendo anteriormente, vamos dar um throw em new Error, com E maiúsculo. E vamos passar como parâmetro desse erro uma mensagem.
+
+Agora, podemos melhorar um pouco a mensagem, dizendo, por exemplo, 'arquivo não encontrado'. No nosso else, passamos um return só com uma outra mensagem, por exemplo, 'erro na aplicação'. Porque, nesse momento, não temos muita ideia, não mapeamos ainda quais são os erros que são os mais comuns que podem ocorrer.
+
+Para conseguirmos usar essa função tratarErros no restante da nossa aplicação, precisamos exportá-la, jogá-la para fora desse arquivo funcaoErros. Então, vamos no final do arquivo, na última linha, chamar module.exports = trataErros.
+
+```JavaScript
+function trataErros(erro) {
+    if (erro.code === 'ENOENT') {
+        throw new Error('Arquivo não encontrado');
+    } else {
+        return 'Erro na aplicação';
+    }
+}
+module.exports = trataErros
+```
+
+Voltamos ao index.js. Se exportamos uma função, temos que importá-la no arquivo onde queremos usar. Então, no topo, embaixo de const fs, vamos criar uma nova constante, chamada trataErros, igual require, e dentro do require passamos uma string com o caminho onde está a nossa função trataErros, que é em ./erros/funcoesErro.
+
+```JavaScript
+const trataErros = require('./erros/funcoesErro');
+```
+
+E onde usamos a função trataErros? No lugar de toda a verificação que estávamos fazendo dentro do catch. Então, no lugar do if else, executamos trataErros, recebendo erro por parâmetro, que é o erro que vai vir ali do catch.
+
+O catch pegou esse erro, mandou para dentro de trataErros, e trataErros vai fazer a lógica da forma como colocamos dentro da função.
+
+```JavaScript
+fs.readFile(link, 'utf-8', (erro, texto) => {
+    try {
+        if (erro) throw erro;
+        contaPalavras(texto);
+    } catch (erro) {
+        trataErros(erro);
+    }
+})
+function contaPalavras(texto) {
+    const paragrafos = extraiParagrafos(texto)
+}
+```
+
+Vamos testar para ver se está tudo certo. Chamamos aqui o caminho sem o .txt no fim. Agora voltou a dar erro, porque não está mais aparecendo aquela mensagem que estava aparecendo no console.
+
+Porém, agora o erro está identificado. Ele dá uma mensagem, ele diz no topo do erro onde esse erro foi identificado. Dentro de funcoesErros foi de onde ele foi lançado. Erro, arquivo não encontrado". E aí ele foi bater lá dentro de trataErro.
+
+Mas, não seria melhor quando estava mostrando só a mensagem, mais nada? Existem casos onde realmente vamos querer só dar uma mensagem. Porém, em alguns casos, quando esperamos erros, queremos receber o objeto de erro mais completo para entender com mais detalhes onde ocorreu esse erro.
+
+Por quê? Porque todo objeto de erro traz junto com ele esse conjunto de informações que chamamos de stack trace (rastreamento de pilha), que é um registro de todas as partes do código que são invocadas, por onde passa o nosso código para ser executado.
+
+Se não temos esse stack trace, sabemos que o erro ocorreu, mas ele não nos diz onde esse erro ocorreu. E com o stack trace, ele vai dizer por ordem, por onde o erro passou.
+
+Então, o primeiro ponto é em tratarErros, porque foi a função que foi chamada quando o erro bateu lá no fs.readFile. Porém, embaixo, ele já mostra para nós o arquivo anterior, por onde esse erro passou antes, e é o index.js na linha 12.
+
+Isso quer dizer que o arquivo index.js na linha 12 tem alguma coisa e foi dali que se originou o erro. Então, a partir do stack trace, ele mostra o caminho completo, inclusive os arquivos lá no Node, nas bibliotecas onde vão ser chamadas, mas ele mostra também o caminho dentro da nossa aplicação por onde o erro passou. Isso pode ser importante.
+
+Digamos que, nesse caso, achamos que não é legal para a pessoa usuária, afinal de contas, a pessoa usuária pode não ter tanta intimidade com as mensagens de erro, e não queremos que ela receba o objeto de erro completo.
+
+Então, voltamos lá em funcoesErro, e em vez de dar um throw em newError no nosso objeto de erro gerado inteiro, só damos um return em 'Arquivo não encontrado'.
+
+Rodamos de novo no terminal sem o .txt no fim, e ele não exibiu nada. Ele não exibiu nada, mas também porque tem uma outra parte do código que temos que mexer lá no index.js, porque se trataErros só retorna, não vai mostrar nada no terminal.
+
+Então, podemos englobar o nosso trataErros por um console.log. Englobamos o retorno da nossa função trataErros nesse console, e tudo agora deve voltar a funcionar, ou não funcionar, digamos que é um erro. Ao abrir o terminal e inserir o caminho sem o .txt, obtemos "Arquivo não encontrado". Quem queria executar já recebeu a mensagem e está tudo certo.
+
+Vamos voltar da forma como estava antes, sem o console.log em trataErros e nossa função erro retornando, dando um throw num objeto de erro, para conversarmos sobre o que é esse new Error.
+
+new Error em JavaScript  
+Esse new Error é um tipo de objeto JavaScript de erro, e ele existe justamente para encapsular, digamos assim, para juntar todas as informações que possam ser pertinentes a um erro em um objeto só e lançar esse objeto onde ele tem que ser capturado.
+
+Então, o objeto error traz com ele muitas informações que podemos utilizar para debugar, e por isso que ele é importante. E, muitas vezes, em vez de só retornar uma mensagem, vamos querer lançar um new Error, um novo objeto error, pegando todas as informações de erro que foram capturadas e anexando a elas uma mensagem que achamos pertinente.
+
+O objeto error tem vários outros parâmetros, várias outras formas de utilizar. Dá para tratar erro, dá para ficarmos debugando erro aqui e adicionando pontos de falha à vontade, mas, por enquanto, vamos parar por aqui.
+
+Vamos deixar como desafio algumas coisas que você pode fazer, por exemplo, adicionar mais casos de erro, identificar outros pontos. E, também, temos uma coisa que você pode ter pensado, que é onde temos que capturar erros.
+
+Onde colocamos o try-catch? Porque não colocamos em tudo. Pense que não precisamos capturar todos os erros em todos os lugares. Por exemplo, partes do código que são apenas lógicas de programação com métodos de array são pontos de falha que podem não ser tão críticos.
+
+E você não vai querer colocar try-catch em todo o seu código. Você vai colocar nesses pontos onde mapeamos que podem ocorrer erros. Por exemplo, onde precisamos pegar um arquivo externo. E se é um ponto crítico de falha, vamos colocar um try-catch aqui. Mas isso vai se aprimorando com a prática.
+
+Agora que já vimos uma introdução e fizemos os nossos primeiros testes com tratamento de erro, captura e tratamento, podemos voltar para finalizar as funcionalidades da nossa biblioteca.
+
+### Aula 3 - Tratamento de erros (Exercício)
+
+Durante o funcionamento de um sistema, algumas execuções podem não sair como o esperado. Por exemplo, quando trabalhamos com uma aplicação web, podemos tentar acessar um link que esteja inválido ou tentar salvar um arquivo em um diretório sem ter permissão para isso. Sendo assim, podemos preparar o código para esperar possíveis erros e tratá-los, o que pode ser feito no JavaScript usando a estrutura try/catch.
+
+Sabendo disso, analise as alternativas abaixo e marque as corretas:
+
+Alternativas corretas:
+
+1. No JavaScript o try...catch possibilita lidar com um erro identificando o trecho em que ele pode ocorrer (try) e capturando o erro (catch) para tratá-lo.
+
+> O JavaScript, assim como outras linguagens, utiliza o bloco try para envolver o trecho de código que pode gerar algum tipo de exceção, e o bloco catch é responsável por capturar a exceção (caso ocorra) e permitir que seja “tratada”, retornando alguma mensagem informativa, executando alguma função específica etc.
+
+2. Erros não tratados podem interromper o funcionamento de um programa e “explodir” em pontos não previstos da execução, fazendo com que o programa se comporte de forma errática e dificultando a identificação dos pontos de falha.
+
+> O uso do try/catch auxilia no controle dos pontos de falha, direcionando os erros para onde possam ser devidamente capturados e tratados.
+
+### Aula 3 - Faça como eu fiz: identificando e tratando erros
+
+Nesta aula, foi feita uma alteração no arquivo index.js para adicionar um bloco try/catch que trata erros ao ler um arquivo e exibe mensagens personalizadas dependendo do tipo de erro. Além disso, foi criada uma função trataErros para lidar com erros específicos, como ENOENT (no entity).
+
+Opinião do instrutor
+
+- Adicionando bloco try…catch
+- Abra o arquivo index.js.
+- Adicione um bloco try...catch logo após a chamada da função fs.readFile.
+- Dentro do bloco try, verifique se há erro e lance uma exceção (throw erro) caso exista.
+- Chame a função contaPalavras passando o texto lido como parâmetro.
+- No bloco catch, verifique se o erro possui o código ENOENT e exiba a mensagem 'erro que esperava' caso positivo.
+- Caso contrário, exiba a mensagem 'outro erro'.
+- Salve o arquivo.
+
+Criando a função trataErros  
+Crie a função trataErros no arquivo funcoesErro.js. No arquivo index.js, importe a função trataErros e utilize para tratar os erros ao ler um arquivo, substituindo a lógica anterior de tratamento de erros.
+
+arquivo: funcoesErro.js
+
+- Crie uma função chamada trataErros.
+- Verifique se o erro possui o código ENOENT.
+- Se o código for ENOENT, lance um novo erro com a mensagem 'Arquivo não encontrado'.
+- Caso contrário, retorne a mensagem 'Erro na aplicação'.
+- Exporte a função trataErros.
+
+arquivo: index.js
+
+- Importe a função trataErros do arquivo funcoesErro.js.
+- Substitua a lógica de tratamento de erros dentro do bloco try...catch.
+- Chame a função trataErros passando o erro como argumento.
+- Remova a verificação do código de erro dentro do bloco catch.
+- Remova a impressão das mensagens de erro específicas.
+
+### Aula 3 - Para saber mais: links da aula
+
+Confira abaixo a lista de links utilizados durante a aula e/ou links complementares ao conteúdo:
+
+Documentação do MDN: [objeto Error](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Error)
+
+### Aula 3 -  - Vídeo 5
+### Aula 3 -  - Vídeo 6
