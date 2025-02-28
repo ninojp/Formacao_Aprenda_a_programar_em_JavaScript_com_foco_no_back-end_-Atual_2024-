@@ -2696,9 +2696,752 @@ Nessa aula, você aprendeu:
 
 ## Aula 5 - O NPM e sua bibliotecas
 
-### Aula 5 -  - Vídeo 1
-### Aula 5 -  - Vídeo 2
-### Aula 5 -  - Vídeo 3
-### Aula 5 -  - Vídeo 4
-### Aula 5 -  - Vídeo 5
-### Aula 5 -  - Vídeo 6
+### Aula 5 - Instalando libs externas - Vídeo 1
+
+Transcrição  
+Nossa biblioteca alcançou a funcionalidade básica e já temos nosso MVP. No entanto, quando nos deparamos com problemas adicionais que não estão relacionados à funcionalidade principal, como procedemos?
+
+Para ilustrar isso, vamos usar o exemplo do terminal.
+
+> node src/cli.js arquivos/texto-kanban.txt ./resultados
+
+Ao abrir o terminal, observamos que o comando node requer quatro argumentos: o próprio node, o arquivo a ser executado por ele, o arquivo de entrada (input) que desejamos processar e o local onde desejamos armazenar o resultado.
+
+Vemos que há muitos passos a serem seguidos em sequência. Mas por que essa sequência é necessária? É importante lembrar que ao utilizar process.argv, ele retorna um array. E um array requer que os elementos estejam na ordem correta, pois é uma lista ordenada.
+
+Imagine o cenário em que distribuímos essa biblioteca, e muitas pessoas começam a utilizá-la, mas algumas dessas pessoas trocam a ordem dos comandos. Isso causaria problemas, já que o texto que deveria ser recebido para processamento seria interpretado como o texto que o node deveria acessar, resultando em erros no programa.
+
+Esse é um problema. Organizar os comandos de uma linha de comando é um problema comum na programação, especialmente para quem trabalha com bibliotecas. Felizmente, existem várias bibliotecas disponíveis para resolver esse tipo de problema.
+
+> Biblioteca commander.js
+
+Para resolver essa questão, vamos utilizar uma biblioteca de terceiros chamada commander.js.
+
+Commander.js
+
+Faremos a instalação dessa biblioteca em nosso projeto e a utilizaremos em nosso código para lidar com os comandos de forma mais organizada.
+
+Instalando a biblioteca  
+Vamos entender como fazer isso. Primeiro, vamos ao terminal; pressionamos "Ctrl + C" para limpar a linha de comando e, em seguida, inserimos um comando específico: npm install commander com dois “m”.
+
+> npm install commander
+
+Após pressionar "Enter", o terminal informa que adicionou um package (pacote) ao projeto.
+
+added 1 package, and audited 2 packages in 71ms
+
+found 0 vulnerabilities
+
+Ao examinar a pasta do projeto, notamos o surgimento de uma nova pasta que discutiremos posteriormente, juntamente com uma breve explicação sobre o npm, mais adiante, chamada node_modules. Dentro da pasta node_modules, encontramos a pasta commander, onde estão os arquivos da biblioteca externa que vamos utilizar.
+
+Vamos abordar como usar bibliotecas externas, ou seja, códigos criados por outras pessoas. Nesse caso, é fundamental consultar a documentação para entender como instalar e utilizar a biblioteca, já que cada uma possui métodos e formas de uso específicas.
+
+Na documentação do commander, temos como instalar e utilizar essa biblioteca no projeto. Vamos lá!
+
+Ao utilizar uma biblioteca, o primeiro passo é importá-la. No arquivo cli.js, que geralmente é o ponto de entrada do projeto, faremos a importação da biblioteca Commander, usando a instrução import { Command } from 'commander', similar ao que fizemos com o fs. O autocomplete deve facilitar isso ao reconhecer a biblioteca e sugerir a importação correta.
+
+cli.js
+
+```JavaScript
+// código omitido
+import { Command } from 'commander';
+// código omitido
+```
+
+Para utilizar essa biblioteca, após a importação, o primeiro passo é criar uma constante chamada de program e usar a palavra-chave new seguida de Command com "C" maiúsculo, entre parênteses vazios, e finalizar com um ponto e vírgula.
+
+cli.js
+
+```JavaScript
+// código omitido
+import { Command } from 'commander';
+
+const program = new Command();
+// código omitido
+```
+
+Dessa forma, criamos uma nova instância da classe Command. Essencialmente, estamos instanciando toda a funcionalidade da biblioteca e armazenando-a na variável program.
+
+Na próxima linha, chamamos os métodos dessa biblioteca que desejamos usar. Então, chamamos program. Pulamos a linha e, então, colocamos qual é a versão da biblioteca que estamos usando no momento, que é 0.0.1. Nossa biblioteca está bem incipiente, então dizemos que ela está na versão 0.0.1, ainda bem no começo, e encadeamos com outro método, program.version('0.0.1').option.
+
+```JavaScript
+// código omitido
+import { Command } from 'commander';
+
+const program = new Command();
+
+program
+    .version('0.0.1')
+    .option()
+// código omitido
+```
+
+Aqui começamos a configurar as opções que desejamos incluir na linha de comando. Precisamos especificar basicamente duas opções. Os dois primeiros comandos são referentes ao node e ao arquivo. Os dois últimos são específicos do que queremos usar, o arquivo que desejamos carregar e o local para onde desejamos direcionar a saída.
+
+Então, mencionamos que a primeira opção é a opção texto. Como podemos inserir isso no código? Começamos abrindo uma string com aspas, -t em minúsculas, que é o identificador que escolhemos para texto. Em seguida, -t, --texto, que é o nome que atribuímos a essa opção.
+
+Entre os sinais de maior que e menor que, incluímos a informação string, indicando que essa opção é do tipo string, embora também pudéssemos passar valores booleanos, numéricos, entre outros.
+
+```JavaScript
+// código omitido
+import { Command } from 'commander';
+
+const program = new Command();
+program
+    .version('0.0.1')
+    .option('-t, --texto <string>')
+// código omitido
+```
+
+Fora da string, adicionamos uma vírgula para separar as informações. Assim, temos a primeira string com três informações. O segundo parâmetro de option() é outra string, onde abrimos as aspas. Vamos entender para que isso será utilizado. Mas, afinal, o que é esse comando? Trata-se do caminho do texto a ser processado.
+
+```JavaScript
+// código omitido
+import { Command } from 'commander';
+
+const program = new Command();
+program
+  .version('0.0.1')
+  .option('-t, --texto <string>', 'caminho do texto a ser processado')
+
+// código omitido
+```
+
+Agora, encadeamos esse .option() com outro .option() para passarmos o segundo comando que mencionamos, que é onde desejamos salvar o resultado. Chamamos isso de destino. Então, abrimos outra string e passamos -d para destino, seguido de vírgula e --destino, o nome que atribuímos, também do tipo string.
+
+Agora, saímos dessa string e abrimos uma segunda, o segundo parâmetro, que desta vez é a descrição. Isso representa o caminho da pasta onde o arquivo de resultados será salvo. Portanto, digitamos 'caminho da pasta onde salvar o arquivo de resultados'.
+
+```JavaScript
+// código omitido
+import { Command } from 'commander';
+
+const program = new Command();
+program
+  .version('0.0.1')
+  .option('-t, --texto <string>', 'caminho do texto a ser processado')
+  .option('-d, --destino <string>', 'caminho da pasta onde salvar o arquivo de resultados')
+// código omitido
+```
+
+Agora que definimos as opções desejadas, o próximo passo é especificar a ação (action) que desejamos que ocorra com base nesses comandos.
+
+Especificando a ação
+Isso é feito através de program.version.option.option.action, que também é parte do commander.
+
+```JavaScript
+// código omitido
+import { Command } from 'commander';
+
+const program = new Command();
+program
+  .version('0.0.1')
+  .option('-t, --texto <string>', 'caminho do texto a ser processado')
+  .option('-d, --destino <string>', 'caminho da pasta onde salvar o arquivo de resultados')
+    .action()
+// código omitido
+```
+
+A action é uma função de retorno (callback), o que significa que ela receberá um parâmetro que chamaremos de options. Para cada option que essa função receber, usaremos uma arrow function com chaves para definir o que acontecerá dentro dela.
+
+O que ocorrerá dentro dessa função? Dentro finalizamos as avaliações do que será inserido pela linha de comando. Criaremos uma constante (const) e dentro dela teremos dois objetos: um chamado texto e outro chamado destino, que, coincidentemente, são os nomes dos comandos que definimos anteriormente, e isso será igual à options.
+
+Em seguida, faremos uma verificação usando um if. Se não houver a entrada de texto e destino, ou seja, se !texto || !destino. Isto é, se alguma dessas informações não for recebida pela linha de comando, abriremos um bloco de código dentro do nosso if para exibir uma mensagem de erro usando console.error. A mensagem do console.error será "'Erro: favor inserir caminho de origem e destino'".
+
+```JavaScript
+// código omitido
+const program = new Command();
+program
+  .version('0.0.1')
+  .option('-t, --texto <string>', 'caminho do texto a ser processado')
+  .option('-d, --destino <string>', 'caminho da pasta onde salvar o arquivo de resultados')
+  .action((options) => {
+    const { texto, destino } = options;
+    if (!texto || !destino) {
+      console.error('erro: favor inserir caminho de origem e destino')
+    }
+    })
+// código omitido
+```
+
+Além disso, há mais duas linhas importantes a serem mencionadas aqui, que são parte da documentação do comando: program.help(). Vamos ver o help em ação. Para isso, basta utilizar parênteses () após help, já que se trata de um método, e depois colocarmos return.
+
+```JavaScript
+// código omitido
+const program = new Command();
+program
+  .version('0.0.1')
+  .option('-t, --texto <string>', 'caminho do texto a ser processado')
+  .option('-d, --destino <string>', 'caminho da pasta onde salvar o arquivo de resultados')
+  .action((options) => {
+    const { texto, destino } = options;
+    if (!texto || !destino) {
+      console.error('erro: favor inserir caminho de origem e destino')
+        program.help();
+        return;
+    }
+    })
+// código omitido
+```
+
+Lembram do return que utilizamos anteriormente para evitar a exibição completa do stack trace em caso de erro? Esse é o mesmo return sendo utilizado aqui.
+
+Conclusão e Próximos Passos  
+Agora enfrentamos um problema: tudo o que foi discutido até aqui não está sendo utilizado nas funções, pois até o momento elas ainda estão utilizando o process.argv. Vamos agora entender como implementar todas essas configurações dentro das funções que usam esses argumentos da linha de comando.
+
+### Aula 5 - Implementando libs externas - Vídeo 2
+
+Transcrição  
+Finalizando a implementação do commander para gerenciar linha de comando, o readFile está solto no código, por enquanto. Vamos fazer com ele agora o mesmo que fizemos com o writeFile e colocá-lo dentro de uma função.
+
+Implementando libs externas
+Para começar, vamos criar uma function chamada processaArquivo().
+
+E o que é necessário para funcionar? Dos mesmos parâmetros que o readFile precisava anteriormente. O caminho do texto, que chamaremos de texto, e o caminho onde será salvo, que chamaremos de destino, para ficar igual ao que colocamos no commander.
+
+Dentro dessa função, vamos colocar o fs.readFile(), usando "Alt + Seta para cima". E, agora, corrigiremos os parâmetros. Por enquanto, o readFile() está recebendo o link, que agora será texto. É o link para receber o texto .txt.
+
+E, dentro do readFile(), já estamos chamando contaPalavras(texto) e criaESalvaArquivo(resultado, endereco).
+
+Devemos trocar os parâmetros de criaESalvaArquivos(), pois agora ele não recebe mais endereco, ele tem que receber destino - que era o que vinha da linha de comando, onde queríamos salvar o novo arquivo com os resultados.
+
+cli.js:
+
+```JavaScript
+function processaArquivo(texto, destino) {
+  fs.readFile(texto, 'utf-8', (erro, texto) => {
+    try {
+      if (erro) throw erro
+      const resultado = contaPalavras(texto);
+      criaESalvaArquivo(resultado, destino)
+    } catch(erro) {
+      trataErros(erro);
+    }
+  })
+}
+```
+
+Após essas alterações, precisamos executar processaArquivo() em algum lugar.
+
+Antes de executar processaArquivo(), pode ser que você tenha se perguntado: writeFile é uma função assíncrona e readFile é síncrona, uma vez que usamos .promises no writeFile, mas não no readFile? Não.
+
+O readFile também é uma função assíncrona do Node.
+
+Se você quisesse fazer esses processos de forma síncrona, também poderia colocar um Sync no final do nome do método, mas só utilizamos esse tipo de processamento de forma síncrona em contextos muito específicos. Normalmente queremos que isso seja assíncrono mesmo.
+
+A diferença é que fs.readFile() utiliza outra forma de lidar com o código assíncrono no JavaScript, que é utilizando callbacks.
+
+Então, as funções callbacks não são apenas funções que colocamos dentro de outras. No caso de código assíncrono, ela também é utilizada para resolver internamente esse código.
+
+Confira o material extra para saber mais sobre diferenças entre callbacks e promises.
+
+Não costumamos utilizar callbacks mais. A forma mais moderna é utilizar promises, até porque callbacks podem ficar mais complexos de se ler do que promessas.
+
+Agora, vamos finalizar chamando o processaArquivo(). Onde vamos chamar essa função para executá-la? Dentro de program.action(), onde já tínhamos feito uma verificação de erro com if .
+
+Dentro do action(), vamos adicionar um try-catch para, caso ocorra algum erro no processamento, esse erro seja pego e lançado para fora.
+
+Basta colocar o bloco try-catch, onde o catch começa recebendo o erro e dando apenas um console.log() da string "ocorreu um erro no processamento".
+
+Em seguida, acrescentamos uma vírgula e digitamos erro, caso você queira mandar o objeto inteiro o erro para o console.
+
+E no try, devemos chamar a função processaArquivo(), a qual precisa receber os dois parâmetros que agora estamos gerenciando usando o commander, que é texto e destino.
+
+Mas, antes disso, tem um detalhe que precisamos fazer e não tem relação com o commander, e, sim, com o Node. Vamos precisar instalar uma biblioteca extra do próprio Node.
+
+No topo do arquivo, depois do import fs, vamos importar path from 'path'. Como também é uma biblioteca nativa do Node, não precisamos instalá-la externamente, basta referenciá-la.
+
+import path from 'path';
+
+```JavaScript
+program
+  .version('0.0.1')
+  .option('-t, --texto <string>', 'caminho do texto a ser processado')
+  .option('-d, --destino <string>', 'caminho da pasta onde salvar o arquivo de resultados')
+  .action((options) => {
+    const { texto, destino } = options;
+
+    if (!texto || !destino) {
+      console.error('erro: favor inserir caminho de origem e destino')
+      program.help();
+      return;
+    }
+
+    try {
+      processaArquivo();
+    } catch (erro) {
+      console.log('ocorreu um erro no processamento', erro);
+    }
+  })
+```
+
+O path é uma biblioteca também muito importante, porque o Node a usa para fazer gerenciamento de caminhos relativos e absolutos de todos os arquivos que são referenciados dentro do programa.
+
+Então, a biblioteca commander precisa resolver os arquivos que vamos mandar internamente antes de utilizar esses caminhos. Como isso será feito?
+
+Antes do try, vamos criar duas constantes, uma que vamos chamar de caminhoTexto, que será igual a biblioteca path e o método .resolve() para resolver o caminho que vamos passar dentro do terminal. Esse método recebe texto.
+
+E a segunda const será caminhoDestino, que também será igual path.resolve(), recebendo destino. Só que agora com o caminho onde queremos salvar o resultado.
+
+De onde estão vindo texto e destino? Estão vindo da linha 15, onde pegamos options, que é do commander. Ele está sendo recebido por parâmetro em action().
+
+Chamamos a sintaxe de envolver duas variáveis em chaves de desestruturação, é uma ferramenta do JavaScript.
+
+Estamos recebendo de options alguns objetos e pegando duas propriedades, texto e destino, e salvando em duas variáveis separadas. São elas que estamos passando para dentro do path.
+
+Agora, sim, podemos executar a função processaArquivo(), recebendo, caminhoTexto e caminhoDestino. Depois, podemos colocar um console.log(), dizendo "texto processado com sucesso".
+
+E essa última parte é muito importante. Para essa biblioteca commander funcionar, não podemos esquecer de, depois que chamamos todos os métodos dela nesse encadeamento, chamar outro método específico, que é program.parse().
+
+É um método que não recebe nenhum parâmetro, só abre e fecha parênteses. Parse significa converter, pois vai pegar tudo isso e converter para que consigamos utilizar na linha de comando.
+
+```JavaScript
+program
+  .version('0.0.1')
+  .option('-t, --texto <string>', 'caminho do texto a ser processado')
+  .option('-d, --destino <string>', 'caminho da pasta onde salvar o arquivo de resultados')
+  .action((options) => {
+    const { texto, destino } = options;
+
+    if (!texto || !destino) {
+      console.error('erro: favor inserir caminho de origem e destino')
+      program.help();
+      return;
+    }
+
+    const caminhoTexto = path.resolve(texto);
+    const caminhoDestino = path.resolve(destino);
+
+    try {
+      processaArquivo(caminhoTexto, caminhoDestino);
+      console.log('texto processado com sucesso');
+    } catch (erro) {
+      console.log('ocorreu um erro no processamento', erro);
+    }
+  })
+program.parse();
+```
+
+Podemos deletar as três constantes (caminhoArquivo, link e endereco) que estavam recebendo via process.argv e criando aquele array. Não precisamos mais delas.
+
+Testando o código  
+Para testar, vamos salvar o arquivo e abrir um novo terminal. Qual a diferença para o comando anterior?
+
+No comando anterior, só passávamos as informações uma depois das outras:
+
+node src/cli.js arquivos/texto-kanban.txt ./resultados
+Copiar código
+O que estamos fazendo com o commander? Estamos assinalando cada um desses comandos com uma flag, chamamos isso de option ou flag.
+
+Tanto faz usar -t e -d ou --texto e --destino, basta colocá-los na frente da informação. Irá funcionar da mesma forma, porque colocamos as duas formas em option().
+
+Agora, nosso comando vai ficar da seguinte forma: node src/cli.js -t, espaço, seguido da informação de onde está vindo o texto. Depois dela, -d de destino, espaço e a informação do destino.
+
+> node src/cli.js -t arquivos/texto-kanban.txt -d ./resultados
+
+Dessa forma, estamos usando flags para identificar o argumento que está chegando. E não faz diferença a ordem deles, porque eles vão estar identificados pela flag.
+
+Ao dar "Enter", recebemos as seguintes mensagens no terminal:
+
+texto processado com sucesso
+
+arquivo criado
+
+Acessando resultado.txt, conferimos que identificou ocorrências das palavras "scrum" e "kanban".
+
+Nosso caso de sucesso está funcionando. Podemos limpar o terminal para testar o caso de erro.
+
+Vamos tirar uma das opções. Nesse caso, apagamos /.resultados.
+
+> node src/cli.js -t arquivos/texto-kanban.txt -d
+
+error: option '-d, --destino <string>' argument missing
+
+Recebemos um erro indicando que está faltando o argumento --destino do tipo string.
+
+Se apagarmos totalmente a flag, inclusive, o -d, ele vai dar outro erro ainda mais completo.
+
+> node src/cli.js -t arquivos/texto-kanban.txt
+
+erro: favor inserir caminho de origem e destino
+
+Usage: cli [options]
+
+Options:
+
+-V, --version output the version number
+-t, --texto <string> caminho do texto a ser processado
+-d, --destino <string> camiho da pasta onde salvar o arquivo de resultados
+-h, --help display help for command
+Isso porque colocamos essa condição no commander na linha 17. Se não tem texto ou não tem destino, nós mesmos passamos esse erro.
+
+Quando usamos bibliotecas, queremos que a solução venha mais completa. Inclusive, ela dá até as opções possíveis de comandos, como --texto do tipo string ou comando --destino do tipo string.
+
+Conclusão  
+Existem outras bibliotecas de linha de comando, mas a commander é uma das mais usadas. Existem outras mais complexas, outras mais simples.
+
+Basicamente, a biblioteca resolveu dois problemas, tanto sobre a linha de comando quanto sobre avisar de uma forma mais completa se algo deu errado.
+
+Argumento de linha de comando também é uma daquelas funcionalidades que vamos usar para o resto da vida em desenvolvimento. Por isso, é importante já começar a praticar agora, pois trabalharemos com isso todos os dias.
+
+A seguir, finalizaremos com uma última funcionalidade interessante de outra biblioteca de terceiros.
+
+### Aula 5 - Para saber mais: Callbacks vs Promises
+
+Durante o curso praticamos com duas formas de se trabalhar com código assíncrono em JavaScript: callbacks e promises.
+
+**Callbacks**  
+
+Vamos relembrar o primeiro método de file system que utilizamos, o readFile():
+
+```JavaScript
+ fs.readFile(texto, 'utf-8', (erro, texto) => {
+   try {
+     if (erro) throw erro
+     const resultado = contaPalavras(texto);
+     criaESalvaArquivo(resultado, destino)
+   } catch(erro) {
+     trataErros(erro);
+   }
+ })
+```
+
+Ao consultarmos a documentação do Node.js sobre o método callback, temos a informação que fs.readFile asynchronously reads the entire contents of a file ou lê assíncronamente todo o conteúdo de um arquivo (em tradução livre).
+
+Mas se já existe esse método, qual o motivo de existir o método adicional fs.promises.readFile() e também o método síncrono fs.readFileSync()?
+
+Funções callback são a forma “pré-ES6” de o JavaScript manejar operações assíncronas. Internamente, o funcionamento de uma função callback envolve a chamada (ou execução) da função interna após a finalização da função mais externa, quando os dados resultantes são passados como parâmetro.
+
+O ES6 (EcmaScript 6 ou, ainda, JavaScript 2015) foi uma das atualizações mais importantes da linguagem e implementou diversas funcionalidades do que chamamos de “JavaScript moderno”.
+
+Por exemplo:
+
+```JavaScript
+fs.readFile('/pasta/texto.txt', (erro, texto) => {
+  if (erro) throw erro;
+  console.log(texto);
+});
+```
+
+No código acima, o método fs.readFile é executado com o parâmetro '/pasta/texto.txt'. Após o término desse primeiro processamento, os dados retornados pelo método são passados via parâmetro (texto em caso de sucesso ou erro em caso de erro) para dentro da função callback anônima.
+
+Dessa forma, é possível afirmar que a função callback “aguarda” a finalização da função externa para somente então executar com os dados recebidos por parâmetro.
+
+Promises  
+O ES6 trouxe a funcionalidade Promise (ou promessa), um objeto que representa a eventual resolução de um processamento assíncrono.
+
+Vamos relembrar o método fs.promises.writeFile() usado no curso:
+
+> await fs.promises.writeFile(arquivoNovo, textoPalavras);
+
+Este método faz o processamento assíncrono baseado em promessas. Ou seja, ao invés de uma função callback, a função pode receber apenas os parâmetros necessários. O uso do async/await (ou then) possibilitará a resolução das promessas e retorno dos dados esperados (ou do erro).
+
+Qual método utilizar?  
+As promessas são a forma mais “moderna” de trabalhar com operações assíncronas em JavaScript, possibilitando a escrita de código mais limpo, legível e desacoplado.
+
+Callbacks ainda podem ser (e são) utilizadas, especialmente em contextos nos quais as funções devem executar tarefas mais simples, ou seja, sem tratamento complexo de erro e sem encadeamento de funções. Além disso, há muitas bibliotecas que utilizam “código legado” composto por funções callback, que ainda podem ser utilizadas.
+
+Já Promises, além de serem a opção mais atual e moderna, têm uma forma mais estruturada de fazer o tratamento de erros com try/catch, uma estrutura que facilita o encadeamento de funções quando necessário (com o uso do then) e também permitem código mais limpo e organizado com async/await. Assim, podem ser utilizadas de forma mais produtiva quando é necessário lidar com fluxos assíncronos mais complexos e tratamento de erros mais robusto.
+
+### Aula 5 - Para saber mais: argumentos de linha de comando
+
+O terminal e seus comandos são as nossas ferramentas principais enquanto devs back-end (embora também se utilize bastante no front-end!). É através dele que damos ordens ao sistema sobre o que executar, de que forma e com quais parâmetros, além de muitos outros usos como rodar scripts, testes, configurações etc.
+
+Durante o curso praticamos para entender como um programa JavaScript pode compreender estes comandos e utilizá-los internamente.
+
+Além do [artigo sobre o que é CLI](https://www.alura.com.br/artigos/cli-interface-linha-comandos) que já indicamos anteriormente, é importante saber que os comandos também têm padrões próprios. Conhecendo esses padrões podemos tirar melhor proveito das ferramentas de CLI e compreender melhor seus usos.
+
+Um exemplo é o --help. Grande parte das ferramentas mais estruturadas têm por padrão um comando --help que mostra uma lista de todos os comandos possíveis da ferramenta.
+
+Você pode fazer o teste com o Node.js, executando node --help no terminal. O resultado deverá ser uma lista extensa de comandos do Node.js que podem ser executados, incluindo o -v ou --version que usamos para conferir qual a versão que estamos utilizando.
+
+O Commander, lib que utilizamos para criar nossos próprios comandos, implementa o --help por padrão! Faça o teste.
+
+Para saber mais sobre padrões de CLI, você pode conferir mais no [guia de estilo para CLI da Heroku](https://devcenter.heroku.com/articles/cli-style-guide) e neste artigo da [Atlassian sobre princípios de design para CLIs](https://blog.developer.atlassian.com/10-design-principles-for-delightful-clis/) (ambos em inglês).
+
+Além dos padrões, você também pode se familiarizar mais com termos técnicos utilizados, como flags, options/opções e argumentos.
+
+### Aula 5 - Decorando o terminal - Vídeo 3
+
+Vamos finalizar instalando mais uma biblioteca externa para continuarmos praticando. Existe um problema muito comum que muitas vezes é resolvido no terminal.
+
+Quando o terminal está exibindo muito texto, fica um pouco difícil capturar onde estão as informações mais importantes. Por exemplo, um erro, porque é um bloco denso de texto.
+
+Existe uma biblioteca que nos ajuda a resolver isso de alguma forma? Por exemplo, colocar alguns sinais ou cores no terminal, que é quase sempre preto e branco? Sim, existe.
+
+O nome dessa famosa biblioteca é Chalk. Praticamente todo mundo a utiliza, porque serve como uma forma de assinalar especialmente sucessos e falhas quando trabalhamos com linha de comando. Normalmente, para esses casos, são usadas as cores verde e vermelho.
+
+Vamos fazer uns testes com essa biblioteca para entender como ela funciona.
+
+Decorando o terminal  
+No terminal, instalaremos essa biblioteca, já que ela é externa:
+
+> npm install chalk
+
+added 1 package and audited 3 packages in 701ms
+
+É uma biblioteca com pouco código e instalou apenas um pacote de código. Ou seja, ela não tem dependências externas. Ela, por si, não utiliza outras bibliotecas em seu funcionamento.
+
+Sempre que usamos uma biblioteca externa é preciso conferir a documentação. Te convidamos a ler a documentação do Chalk e usar todas as opções que ela te oferece em seu programa. Nesse curso, utilizaremos apenas algumas.
+
+Primeiramente, queremos usar o chalk no CLI, porque vamos colorir os resultados na linha de comando. Em cli.js, vamos importar chalk from 'chalk'.
+
+cli.js:
+
+> import chalk from 'chalk';
+
+O uso dela é bem sucinto. Basta procurar as partes onde temos console.error() ou console.log() e queremos colorir essas mensagens.
+
+Por exemplo, na linha 29, temos um console.log() no try-catch de program.action(). Queremos colorir essa mensagem "texto processado com sucesso" de verde.
+
+Dentro do console.log(), vamos adicionar chalk para chamar a biblioteca. Também chamaremos algum método específico dela.
+
+No caso do Chalk, os métodos são os nomes das cores disponíveis. Como queremos pintar esse texto de verde, chamamos o método chalk.green() e envolvemos o texto entre parênteses.
+
+Podemos fazer isso também com o console.error(), que está na linha 19, dentro do if de program.action(). Basta chamar chalk.red() dentro do console para pintar o texto do terminal de vermelho.
+
+```JavaScript
+program
+  .version('0.0.1')
+  .option('-t, --texto <string>', 'caminho do texto a ser processado')
+  .option('-d, --destino <string>', 'caminho da pasta onde salvar o arquivo de resultados')
+  .action((options) => {
+    const { texto, destino } = options;
+
+    if (!texto || !destino) {
+      console.error(chalk.red('erro: favor inserir caminho de origem e destino'))
+      program.help();
+      return;
+    }
+
+    const caminhoTexto = path.resolve(texto);
+    const caminhoDestino = path.resolve(destino);
+
+    try {
+      processaArquivo(caminhoTexto, caminhoDestino);
+      console.log(chalk.green('texto processado com sucesso'));
+    } catch (erro) {
+      console.log('ocorreu um erro no processamento', erro);
+    }
+  })
+```
+
+Podemos testar para verificar se funcionou.
+
+Testando o código 
+Vamos abrir o terminal, chamar novamente os métodos. Vamos repetir o último comando, que era o caso de falha, pois faltava um argumento.
+
+> node src/cli.js -t arquivos/texto-kanban.txt
+
+erro: favor inserir caminho de origem e destino
+
+O texto do erro é tingido de vermelho. Agora, apesar de recebermos um monte de texto, rapidamente identificamos onde está o erro.
+
+Se você quiser dar um aviso, por exemplo, você usa as cores padrão de aviso, como o amarelo.
+
+Também podemos testar o caso de sucesso, acrescentando a flag -d e o ./resultados.
+
+> node src/cli.js -t arquivos/texto-kanban.txt -d ./resultados
+
+texto processado com sucesso
+
+arquivo criado
+
+O texto de sucesso veio tingido de verde.
+
+Essa é a implementação básica do Chalk. É uma biblioteca muito utilizada. Você pode verificar a documentação e testar todos os outros casos de uso para identificar as informações no seu terminal.
+
+O que é npm?
+Vamos finalizar discutindo o que é esse tal de npm e também o que é essa pasta "node_modules", que apareceu na raiz do projeto.
+
+Note que a documentação do Chalk está dentro do npm.
+
+O npm é um repositório de código específico, assim como o GitHub é um repositório de código. Porém o npm é um Node Package Manager (Gerenciador de Pacotes do Node).
+
+Ou seja, desde a biblioteca mais específica até o framework mais completo, pode ser hospedado dentro desse repositório de código que é específico do Node.
+
+As linguagens têm os seus gerenciadores (managers) específicos. O Node trabalha basicamente com o npm e com o outro chamado yarn.
+
+Confira as atividades para saber mais informações sobre esses gerenciadores.
+
+Por padrão, o npm é instalado junto com o Node, por isso que o comando npm install funcionou.
+
+Basicamente, usamos o comando npm para o Node acessar esse repositório na internet, remotamente, e puxar o nome da biblioteca que queremos.
+
+Essa biblioteca tem um código executável e esse pacote de código que faz a biblioteca funcionar vem para dentro do seu projeto, na pasta "node_modules".
+
+Se abrirmos essa pasta, vamos encontrar as pastas "chalk" e "commander", que são as duas bibliotecas que instalamos. Como são bibliotecas muito pequenas, elas não precisaram de outras bibliotecas para funcionar.
+
+Mas, é comum que, dependendo da complexidade do seu código e da sua biblioteca, ela precise de várias outras e todo esse grande pacote de código vai parar dentro da pasta "node_modules".
+
+É por isso que conseguimos utilizar no código chalk e os métodos de Chalk, além de fazer um new Command() e usar os métodos de Commander.
+
+Esse código passa a fazer parte do pacote do nosso código através da pasta "node_modules". Ademais, o npm e o Node gerenciam isso tudo de forma transparente internamente.
+
+A pasta "node_modules" só interessa localmente, onde o projeto está instalado e rodando. E, além disso, ela pode ficar muito grande, dependendo da complexidade do código.
+
+Por isso, é importante que você crie um arquivo chamado .gitignore na raiz do seu projeto. Dentro dela, você colocará uma única informação, por enquanto, que é o nome da pasta "node_modules".
+
+.gitignore:
+
+node_modules
+
+Dessa forma, se você quiser salvar o seu projeto no GitHub, a pasta "node_modules" não vai ser incluída. Ela fica localmente, porque só interessa onde o projeto está instalado.
+
+Se você for depois reinstalar esse projeto em outro computador, você vai reinstalar tudo novamente, puxar do repositório e criar uma nova pasta "node_modules".
+
+Conclusão  
+Nesse curso, exploramos muitos conteúdos importantes sobre desenvolvimento web back-end, desde trabalhar com a linha de comando até código assíncrono e como interagir com o sistema de arquivos do computador, além de lógica de programação.
+
+### Aula 5 - Para saber mais: NPM, pacotes e dependências
+
+Sempre que vamos trabalhar com um projeto em Node.js do zero, uma das primeiras coisas que fazemos é criar um arquivo package.json utilizando o comando npm init; assim como para todas as instalações de libs externas utilizamos o comando npm install <nome do pacote>.
+
+O NPM é o que chamamos de gerenciador de pacotes, sendo NPM o acrônimo de Node Package Manager ou Gerenciador de Pacotes do Node.
+
+Mas o que são exatamente estes gerenciadores?  
+Gerenciadores de pacotes são repositórios de código aberto nos quais devs disponibilizam soluções para o uso da comunidade. Estas soluções são programas que outras pessoas desenvolveram e que utilizamos para ganhar tempo no desenvolvimento de nosso próprio código, e vão desde libs (bibliotecas) pequenas e específicas até frameworks com vários recursos prontos. Pacote é como chamamos o conjunto do código que determinada lib ou framework utiliza para executar.
+
+Algumas dessas bibliotecas são criadas por times de desenvolvimento para resolver algum problema específico que tiveram que enfrentar. Depois elas são disponibilizadas para que outras pessoas com o mesmo contratempo aproveitem e também utilizem. Outras são disponibilizadas por empresas de software que utilizam as plataformas dos gerenciadores (como o NPM) para a distribuição de suas soluções de código. Por serem de código aberto, isso significa que você também pode criar e publicar a sua lib para outras pessoas baixarem e instalarem em seus projetos.
+
+Além do NPM, outro gerenciador muito utilizado em projetos Node.js é o [Yarn](https://yarnpkg.com/), criado em 2016 com a proposta de resolver algumas questões do NPM, especialmente as relacionadas à performance e segurança. Hoje, ambos os gerenciadores são bastante utilizados, porém, o NPM ainda é o gerenciador padrão disponibilizado com a instalação do Node.js.
+
+Instalação local vs global  
+Estes pacotes de código podem ser instalados localmente, estando disponíveis somente para o projeto no qual foi instalado através da pasta node_modules, e globalmente, sendo instalados em um diretório geral do NPM e ficando disponíveis para todos os projetos em seu computador, sem a necessidade de instalar separadamente em cada projeto.
+
+Na maior parte das vezes, você vai utilizar a opção local, com os comandos npm install <nome do pacote> ou yarn add <nome do pacote>, pois fica mais fácil gerenciar a versão das libs que utilizamos e é muito comum que um pacote que instalamos “puxe” um ou vários outros pacotes auxiliares que ele precisa para funcionar internamente, o que pode acabar “inflando” a pasta global do node_modules. O ideal é não poluir este diretório global com libs que em alguns casos serão utilizadas em somente um projeto.
+
+Já algumas libs e frameworks mais complexas vão solicitar que a instalação seja feita globalmente para funcionar. Sempre vale a pena consultar a documentação de cada uma. Para fazer uma instalação global de pacotes, utilizamos os comandos npm install -g <nome do pacote> ou yarn add global <nome do pacote>. Novamente, recomendamos que essa opção só seja utilizada quando indicada de forma expressa na documentação do framework ou biblioteca.
+
+> A recomendação é que a instalação de pacotes seja feita sempre localmente (sem o -g) e que a instalação global só seja feita em casos específicos – normalmente a documentação da ferramenta vai informar se isso é necessário.
+
+O NPM e o Yarn têm algumas pequenas diferenças nos comandos e na forma como lidam com os pacotes. Você pode ler a documentação do [NPM](https://docs.npmjs.com/) e do [Yarn](https://yarnpkg.com/) para ter mais informações sobre como os comandos funcionam em cada um.
+
+### Aula 5 - Para saber mais: versões de bibliotecas e softwares
+
+As versões dos softwares que usamos – sejam bibliotecas, frameworks, runtimes como o Node.js e mesmo os navegadores – são importantes. Softwares em uso constante estão em evolução constante, e mesmo quando não há a implementação de novas funcionalidades sempre existem bugs para resolver e coisas a melhorar.
+
+Todos os softwares que trabalhamos em nosso curso, inclusive o próprio Node.js e o NPM, têm algo em comum: trabalham com o conceito de versionamento semântico.
+
+Você já deve ter notado que as sequências numéricas das versões de todos eles seguem o mesmo padrão de três números separados por pontos, por exemplo 1.0.0 (a versão inicial que o package.json cria) ou 20.11.0 (última versão recomendada do Node.js no momento em que este texto foi escrito). O que significa cada número desta sequência?
+
+O versionamento semântico utiliza os seguintes critérios:
+
+1. O primeiro número da sequência (o 20 em 20.11.0) se refere a breaking changes, ou seja, atualizações de versão que têm potencial para “quebrar” códigos que utilizem as versões anteriores. Ou seja, uma aplicação que utiliza códigos (métodos, funções etc.) da versão 18.X.X de determinada lib pode deixar de funcionar com a versão 20.X.X, pois haverá diferenças significativas entre as versões. Estas atualizações são conhecidas como major (ou “maiores”, em tradução livre).
+2. O número do meio (o 11 em 20.11.0) se refere a novas funcionalidades adicionadas, mas que não causam “quebra” em relação a códigos das versões anteriores. Este tipo de atualização é conhecida como minor (ou “menores”).
+3. O último número (o 0 em 20.11.0) se refere à correção de código: resolução de bugs, melhoramento de performance ou alterações similares que não alteram as funcionalidades atuais (com exceção da correção de bugs) nem introduzem novas. É conhecida como patch (que pode ser traduzido como “remendo”).
+
+À medida que um sistema ou biblioteca cresce, se integra com outras, resolve bugs e adiciona funcionalidades, mais importante se torna a adoção de um padrão que documente essas mudanças, especialmente com relação às breaking changes. Uma atualização não planejada em toda uma funcionalidade baseada nesta biblioteca, em outro sistema, pode quebrar completamente. Por isso a convenção é tão importante e é seguida à risca por todo e qualquer time de desenvolvimento.
+
+Você pode descobrir mais sobre a [convenção Semantic Versioning](https://semver.org/) na página oficial.
+
+### Aula 5 - Linha de comando com Node.js
+
+Durante o curso aprendemos como o Node.js pode capturar comandos inseridos no terminal e utilizá-los internamente em uma aplicação, através da propriedade process.argv.
+
+Também aprendemos que configurar comandos de terminal é uma necessidade comum e que, para isso, existem algumas bibliotecas específicas que podem ser utilizadas, como a Commander.
+
+Relembrando tudo que praticamos com o terminal durante o curso, assinale as alternativas corretas:
+
+Alternativa correta:  
+Um programa que utiliza process.argv para receber e processar comandos deve garantir que cada instrução seja recebida sempre na mesma ordem, caso contrário o programa não funcionará como esperado.
+
+> O resultado de process.argv é um array com todos os dados recebidos através da linha de comando, separados por espaço. Por se tratar de uma lista ordenada, comandos recebidos fora da ordem esperada serão passados fora de ordem para dentro do programa.
+
+Alternativa correta:  
+O uso de flags antes da informação, por exemplo -d ou --destino, permite que os parâmetros sejam passados ao programa em qualquer ordem.
+
+> O uso de --destino ou --texto em nossa biblioteca garante que tanto a opção --texto ./arquivos/texto.txt --destino ./resultados como --destino ./resultados --texto ./arquivos/texto.txt funcionem da mesma forma, pois a biblioteca Commander identificará cada informação através da flag e não da posição no array, como era o caso com o uso de process.argv.
+
+Alternativa correta:  
+Como o resultado da execução do process.argv é um array, podemos utilizar process.argv[2] e process.argv[3], respectivamente, para dar instruções específicas ao programa.
+
+> Por se tratar de um array de strings podemos capturar o retorno das posições 2 e 3 e utilizar os dados de diversas formas.
+
+### Aula 5 - Faça como eu fiz: bibliotecas externas
+
+Nesta aula, utilizamos a [biblioteca Commander](https://www.npmjs.com/package/commander) para organizar os comandos de entrada. Também foi adicionada a funcionalidade de processar o arquivo de texto de forma assíncrona e tratar possíveis erros durante o processo. Por fim, utilizamos cores para melhorar a leitura do terminal com a [biblioteca Chalk](https://www.npmjs.com/package/chalk).
+
+Opinião do instrutor
+
+Instalando a biblioteca Commander  
+No arquivo .gitignore, adicionamos a linha node_modules para ignorar essa pasta no controle de versão. Instalamos a biblioteca Commander com npm install commander. Por fim, no arquivo src/cli.js, implementamos um comando para receber opções de texto e destino, exibindo um erro caso não sejam fornecidos.
+
+Processando o texto assincronamente
+
+arquivo src/cli.js:
+
+- Ajuste a lógica para processar o arquivo de texto de forma assíncrona.
+- Crie a função processaArquivo que recebe o caminho do arquivo de texto e o caminho de destino.
+- Dentro da função processaArquivo, leia o arquivo de texto de forma assíncrona.
+- No callback da leitura do arquivo, verifique se houve algum erro.
+- Em caso de erro, trate-o utilizando a função trataErros.
+- Se a leitura for bem-sucedida, conte as palavras duplicadas e crie e salve o arquivo de resultado.
+- Adicione a chamada da função processaArquivo dentro do bloco de código do comando program.
+- Atualize as variáveis caminhoTexto e caminhoDestino para utilizar o path.resolve.
+- Adicione um bloco try...catch para capturar erros durante o processamento do arquivo.
+- Exiba mensagens de sucesso ou erro ao final do processamento do arquivo.
+
+### Aula 5 - Para saber mais: próximos passos: como usar a lib?
+
+Comentamos algumas vezes durante o curso como as bibliotecas são muitas vezes disponibilizadas pela comunidade para resolver problemas comuns. A princípio, qualquer pessoa pode publicar uma biblioteca no NPM caso ela responda a alguns critérios.
+
+Porém, neste curso não iremos abordar a publicação da biblioteca em repositórios (como o NPM). O processo de publicação exige diversos requisitos específicos de configuração, rastreio correto de versionamento, além de [boas práticas como testes](https://cursos.alura.com.br/course/nodejs-testes-unitarios-integracao), que não serão tratadas nesta formação.
+
+Além disso, uma vez publicada, o processo de retirada da biblioteca do NPM não é tão sucinto quanto remover um repositório do nosso perfil do GitHub e deve seguir algumas regras.
+
+Porém, caso você queira disponibilizar a biblioteca como “pública”, ela pode ser clonada a partir do seu repositório no GitHub e executada por qualquer computador que tenha o Node.js instalado. Você pode [escrever um README bacana](https://www.alura.com.br/artigos/escrever-bom-readme) para explicar como a biblioteca funciona e dar exemplos de uso. Ela também pode ser utilizada em conjunto com um front-end para fornecer uma interface de uso no navegador.
+
+Caso tenha interesse em saber mais sobre o processo de publicação de uma biblioteca no NPM, confira os passos do processo na [documentação oficial](https://docs.npmjs.com/creating-and-publishing-scoped-public-packages), assim como as informações sobre as possíveis opções para [retirar uma biblioteca do repositório](https://docs.npmjs.com/unpublishing-packages-from-the-registry).
+
+### Aula 5 - Para saber mais: links da aula
+
+Confira abaixo a lista de links utilizados durante a aula e/ou links complementares ao conteúdo:
+
+NPM: [commander](https://www.npmjs.com/package/commander)
+NPM: [chalk](https://www.npmjs.com/package/chalk)
+Alura+: [o que é desestruturação em JavaScript, com exemplos](https://cursos.alura.com.br/extra/alura-mais/destructuring-em-js-c308)
+
+### Aula 5 - Projeto final do curso
+
+Você pode [baixar o zip](https://github.com/alura-cursos/3709-nodejs-lib/archive/refs/heads/aula-5.zip) ou acessar o link do [repositório da aula 5 no GitHub!](https://github.com/alura-cursos/3709-nodejs-lib/tree/aula-5)
+
+### Aula 5 - O que aprendemos?
+
+Nessa aula, você aprendeu:
+
+- O que é o NPM e como funciona um gerenciador de pacotes;
+- Como utilizar o NPM para criar o esqueleto de um novo projeto Node.js e seu arquivo principal de configuração, o package.json;
+- Como instalar bibliotecas externas, importá-las e utilizá-las em seus projetos;
+- O que é a pasta node_modules e para que ela serve.
+
+### Aula 5 - Para ir mais fundo
+
+Techguide: [Node.js](https://techguide.sh/pt-BR/path/nodejs/)
+> Guia com referência de temas e ferramentas para auxiliar na sua trilha de estudos
+
+Livro: [JavaScript Eloquente 2ª edição(pt)](https://github.com/braziljs/eloquente-javascript) (disponível gratuitamente)
+Livro: [Eloquent JavaScript 4ª edição(Eng)](https://eloquentjavascript.net/) (disponível gratuitamente em Inglês)
+> Um dos livros mais usados no aprendizado de JavaScript no mundo.
+
+Site: [JavaScript.info](https://javascript.info/)
+> Repositório de tutoriais de JavaScript com diversos casos e exemplos. Contém muito conteúdo voltado para front-end, porém, vários exemplos de fundamentos podem ser aproveitados fora do navegador.
+
+Livro: [Primeiros passos com Node.js](https://www.casadocodigo.com.br/products/livro-primeiros-passos-node) (pago)
+> Pratique JavaScript com foco em Node.js do básico até as primeiras aplicações.
+
+Livro: [JavaScript, the definitive guide](https://www.oreilly.com/library/view/javascript-the-definitive/9781491952016/) (pago, disponível em português)
+> Principal guia de referência técnica em JavaScript, aborda as especificações da linguagem em sua totalidade.
+
+### Aula 5 - Conclusão - Vídeo 4
+
+Transcrição  
+Parabéns por ter concluído mais este curso de JavaScript!
+
+O que aprendemos?  
+Neste curso, abordamos muitos aspectos importantes sobre desenvolvimento web back-end com JavaScript. Praticamos bastante a lógica de programação, especialmente a manipulação de arrays e de objetos. Compreendemos o que é código assíncrono e por que ele é importante na programação atual, além de como interagir com o código assíncrono em JavaScript.
+
+Praticamos o tratamento de erros, que são ocorrências comuns. Aprendemos a usar bibliotecas externas, como implementá-las, como instalar uma biblioteca em nosso programa e utilizar os códigos dela. Aprendemos a utilizar o file system para interagirmos com o sistema de arquivos do nosso computador. E também como utilizar a linha de comando e o que está por trás dos comandos que inserimos no terminal.
+
+Ao avaliar o curso, deixe seu comentário, compartilhando o que achou positivo ou sugerindo melhorias. Caso não tenha concluído as atividades, recomendo retornar e revisá-las. O curso oferece conteúdo extra cuidadosamente preparado para complementar o material do vídeo.
+
+É fundamental realizar os exercícios propostos, engaje na nossa comunidade no Discord e também aproveitar para esclarecer suas dúvidas no fórum. Estamos ansiosos para receber seu feedback e esperamos vê-lo no próximo curso!
