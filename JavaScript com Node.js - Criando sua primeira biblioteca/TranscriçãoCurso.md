@@ -1735,5 +1735,970 @@ Confira abaixo a lista de links utilizados durante a aula e/ou links complementa
 
 Documentação do MDN: [objeto Error](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Error)
 
-### Aula 3 -  - Vídeo 5
-### Aula 3 -  - Vídeo 6
+## Aula 4 - Import/Export e Promessas
+
+### Aula 4 - Importação e exportação em JS - Vídeo 1
+
+Transcrição  
+Aproveitando a pausa que fizemos para lidar com tratamento de erros e começar a organizar melhor o nosso projeto, vamos continuar nesse processo de organização.
+
+> Arquivo cli.js
+
+Nosso arquivo index.js está muito poluído e com muitas linhas de código, executando muitas tarefas diferentes sozinho. Ele precisa ser melhor estruturado. E, nesse processo, vamos aprender algo muito importante sobre JavaScript: a importação e exportação de módulos.
+
+Como podemos separar as funcionalidades que estão sendo executadas nesse arquivo?
+
+Parte do código no index.js está realizando a lógica de contagem de palavras, mas outra parte dele, como o readFile, não está fazendo isso. O readile está lidando com a entrada de dados. Então, podemos começar a separação por isso.
+
+Dentro de src, vamos criar outro arquivo chamado cli.js. CLI é a sigla para Command Line Interface (Interface de Linha de Comando, o que vamos entender melhor mais adiante).
+
+Vamos transferir para o cli.js o import do fs, que está na linha 1 do index.js, e o import do trataErros, que está na linha 2. Então, vamos recortar essas linhas e colar no arquivo desejado.
+
+cli.js
+
+```JavaScript
+const fs = require('fs');
+const trataErros = require('./erros/funcoesErro');
+```
+
+Toda a parte que captura o array no process.argv e obtém nosso link no index.js também será transferida para o cli.js.
+
+```JavaScript
+const caminhoArquivo = process.argv;
+const link = caminhoArquivo[2];
+```
+
+Por fim, vamos transferir a função fs.readfile para o cli.js.
+
+```JavaScript
+fs.readFile(link, 'utf-8', (erro, texto) => {
+    try {
+        if (erro) throw erro;
+        contaPalavras(texto);
+    } catch(erro) {
+        trataErros(erro);
+    }
+});
+```
+
+Agora, as funções que realizam a lógica do nosso contador estão separadas e localizadas no index.js. Mais adiante pensaremos no que fazer com elas.
+
+Importação e exportação mais modernas  
+O padrão do JavaScript é trabalhar com vários arquivos especializados e com poucas funções dentro deles, exportando e importando esses arquivos entre si. Importamos essas funções da mesma forma que importamos nossa função de erro e a biblioteca fs.
+
+Até agora, temos usado require para importar o que queríamos, como módulos e funções, e module.exports para exportar. Essa é a forma "nativa" do Node.js de lidar com a importação e exportação de módulos, nesse processo de organizar nosso código de forma compartimentada. No entanto, essa forma é aceita apenas no Node.js.
+
+O JavaScript tem outra forma de lidar com a importação e exportação que é aceita tanto no Node.js mais moderno, como na versão 20 que estamos usando, quanto nos navegadores. Essa forma mais moderna e amplamente utilizada é usando import e export.
+
+Configuração no package.json
+Para trabalhar com essa versão mais moderna de importação e exportação de módulos, precisamos adotar um certo processo.
+
+No terminal, na pasta raiz do projeto (e não dentro de src), vamos executar o seguinte comando:
+
+> npm init –y
+
+O terminal informará que escreveu um arquivo chamado package.json na pasta do projeto.
+
+O arquivo package.json é um arquivo manifesto. Ele contém tudo que a aplicação precisa para executar, incluindo todas as dependências, bibliotecas usadas, scripts, detalhes de configuração e assim por diante.
+
+Este é o arquivo principal e, normalmente, o primeiro que verificamos quando recebemos um projeto em Node, para entender o que o projeto faz e usa.
+
+Precisamos desse arquivo agora para fazer uma configuração específica necessária para usar a importação e exportação moderna de módulos.
+
+Dentro do package.json, em qualquer ponto do objeto declarado no arquivo, como logo após a propriedade main, vamos adicionar a seguinte informação: "type": "module". Isso informa ao Node que esse projeto utiliza a forma moderna de importação e exportação de arquivos.
+
+> package.json
+
+```JavaScript
+{
+  "name": "nodejs-lib",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
+```
+
+Esse é o primeiro procedimento necessário para a importação e exportação de arquivos funcionar.
+
+Podemos fechar o arquivo package.json por enquanto. Ainda vamos falar bastante sobre ele nesse e nos próximos cursos.
+
+Importando e exportando trataErros()  
+Agora, podemos refatorar nosso código para deixá-lo mais moderno. No arquivo cli.js, onde temos importações, vamos substituir const fs = require('fs') por import fs from 'fs'.
+
+Faremos o mesmo com trataErros, substituindo const trataErros = require('./erros/funcoesErro') por import trataErros from './erros/funcoesErro.js'. Note que, ao usar esse formato, precisamos incluir a extensão do arquivo na importação.
+
+cli.js
+
+```JavaScript
+import fs from 'fs';
+import trataErros from './erros/funcoesErro.js';
+```
+
+Agora, precisamos voltar ao nosso arquivo funcoesErro.js para substituir a exportação antiga com module.exports pela moderna.
+
+Como trataErros() é a única função dentro desse arquivo e, portanto, a única que pode ser exportada, vamos adicionar um export default (que significa "exportação padrão") antes da palavra-chave function que declara a função.
+
+funcoesErro.js
+
+```JavaScript
+export default function trataErros(erro) {
+    if (erro.code === 'ENOENT') {
+        throw new Error('Arquivo não encontrado');
+    } else {
+        return 'Erro na aplicação';
+    }
+}
+```
+
+Com isso, estamos dizendo que esse arquivo só tem uma função que será exportada. Exportamos funcoesErro e a sua função já está sendo importada em outro lugar!
+
+Importando e exportando contaPalavras()  
+Além disso, temos que exportar a função contaPalavras(), que está dentro de readFile, e importá-la também no cli.js.
+
+No index.js, vamos adicionar apenas um export antes de function contaPalavras para exportá-la, já que ela não é a única função no arquivo.
+
+index.js
+
+```JavaScript
+export function contaPalavras(texto) {
+    const paragrafos = extraiParagrafos(texto)
+    const contagem = paragrafos.flatMap(paragrafo => {
+        if (!paragrafo) return [];
+        return verificaPalavrasDuplicadas(paragrafo);
+    })
+    console.log(contagem);
+}
+```
+
+Ou seja, não é uma exportação padrão. Podemos exportar várias funções desse arquivo index.js, como extraiParagrafos(), limpaPalavras(), etc. Para isso, precisaríamos apenas adicionar a palavra-chave export antes de suas declarações.
+
+Então, no cli.js, onde essa função é importada, ela precisa ser especificada dentro de um objeto. Para isso, vamos adicionar o seguinte no topo do arquivo:
+
+cli.js
+
+> import { contaPalavras } from './index.js';
+
+Tudo está importado e exportado corretamente.
+
+Podemos voltar ao terminal e testar novamente. Podemos testar o caminho feliz dessa vez.
+
+Agora, em vez de src/index, usamos src/cli, pois mudamos o nome do arquivo para cli.js, que agora é nosso ponto de entrada.
+
+> node src/cli.js arquivos/texto-web.txt
+
+Tudo continua funcionando! Isso significa que as funções necessárias foram exportadas e importadas com sucesso.
+
+Conclusão  
+Abordamos exemplos de duas formas de fazer a exportação, com export default e apenas export, mas existem mais formas de trabalhar com módulos em JavaScript.
+
+Deixaremos um artigo sobre um assunto na seção de links desta aula, bastante completo e extenso, contando inclusive a história dessa mudança, com mais exemplos de como fazer a importação e exportação de módulos. Recomendamos vivamente a leitura!
+
+Isso é algo com que você se deparará muito durante sua vida como pessoa desenvolvedora, pois importamos e exportamos muitos módulos, todos os dias.
+
+Agora que nosso projeto está mais organizado e moderno, podemos continuar adicionando novas funcionalidades!
+
+### Aula 4 - Criando e salvando arquivos - Vídeo 2
+
+Transcrição  
+Retornando às implementações e funcionalidades, seria interessante se, ao invés de simplesmente exibir um objeto ou um array de objetos no console, a pessoa usuária da biblioteca pudesse receber esses dados de uma forma mais legível. Talvez passando isso para outro arquivo que pudéssemos enviar por e-mail para ela acessar.
+
+Se pensamos em uma solução que envolve criar um arquivo com os resultados, vamos usar o FS (o File System, ou Sistema de Arquivos), módulo integrado do Node. Além do readFile, o FS possui um método chamado writeFile para fazermos isso!
+
+Nós poderíamos simplesmente passar o readFile, que já está no arquivo cli.js, para writeFile, e fazer as devidas alterações.
+
+No entanto, vamos aproveitar essa nova implementação para abordar um conceito muito importante em JavaScript: o código assíncrono.
+
+Retornando dados e resultados
+Antes de começarmos a implementar o nosso writeFile, precisamos fazer uma alteração na função contaPalavras, que é quem pega esse array de objetos e exibe na tela com o console.log.
+
+Para essa função realmente enviar os dados para fora, precisamos fazer com que ela retorne os dados que estão na variável contagem, usando a palavra-chave return. Afinal, o console.log só exibe os dados, mas não os retira da função.
+
+Então, nossa função com essa alteração ficará assim:
+
+index.js
+
+```JavaScript
+export function contaPalavras(texto) {
+    const paragrafos = extraiParagrafos(texto);
+    const contagem = paragrafos.flatMap(paragrafo => {
+        if (!paragrafo) return [];
+        return verificaPalavrasDuplicadas(paragrafo);
+    });
+    return contagem;
+}
+```
+
+Agora podemos voltar para o arquivo cli.js e pensar em como queremos implementar essa funcionalidade de criar um arquivo e salvar dados dentro dele.
+
+Função para criar e salvar o arquivo
+Ao invés de passar o fs.ReadFile diretamente no arquivo, vamos criar uma função (usando a palavra-chave function) que chamaremos de criaESalvaArquivo.
+
+O que precisamos passar para essa função para ela criar e salvar um arquivo? Primeiramente, a lista de palavras que ela precisa escrever nesse arquivo novo. Então, vamos passar listaPalavras como parâmetro.
+
+Essa função também precisa saber onde esses arquivos vão ser criados. No Desktop? Na pasta "Meus documentos"? Não sabemos, e a função também não sabe ainda. Então, precisamos passar esse local para a função por meio de um parâmetro, que podemos chamar de endereco.
+
+cli.js
+
+```JavaScript
+function criaESalvaArquivo(listaPalavras, endereco) { 
+
+}
+```
+
+Agora, vamos implementar o corpo dessa função.
+
+Primeiramente, precisamos pensar em como passar esse endereço para dentro da função.
+
+Vamos criar uma const chamada arquivoNovo. Ela vai receber como valor uma dupla de acentos graves (crases) para concatenar um texto com template strings.
+
+Entre esses acentos, adicionamos um cifrão e chaves, que vão receber o endereco, ou seja, o caminho para o diretório em que o arquivo será criado. Depois das chaves, adicionamos /resultado.txt.
+
+Nesse primeiro momento, estamos deixando fixo o nome desse arquivo que vamos criar. Ou seja, o nome será sempre resultado.txt, apenas por enquanto, para fazermos o primeiro teste. Depois você pode dinamizá-lo também.
+
+Sendo assim, arquivoNovo vai ter seu endereço recebido por parâmetro, concatenado com esse novo arquivo chamado resultado.txt que vamos criar, resultando em:
+
+```JavaScript
+function criaESalvaArquivo(listaPalavras, endereco) {
+    const arquivoNovo = `${endereco}/resultado.txt`;
+}
+```
+
+Em seguida, para fazermos o nosso writeFile, vamos já colocá-lo dentro de um bloco try/catch. Então, vamos criar o bloco try com chaves (try {}) e escrever catch depois dele, passando o erro para o catch entre parênteses (catch(erro)). Por enquanto, deixaremos os dois vazios.
+
+Dentro do try, precisamos primeiramente receber a nossa lista de palavras. Então, vamos criar uma const nova aqui dentro, chamada textoPalavras.
+
+Mas, por que criar uma nova variável textoPalavras, se poderíamos só pegar o parâmetro listaPalavras que a função vai receber e capturar o nosso array de objetos?
+
+Porque arrays e objetos são propriedades do JavaScript. O txt não entende esse formato de dado, porque não é uma string. Então, não podemos passá-lo diretamente assim como não conseguimos usar o require para acessar um arquivo .txt.
+
+Sendo assim, antes de passar arrays e objetos para dentro de um arquivo de texto, precisamos converter. Vamos fazer isso com o métofo JSON.stringify(), o mesmo que usamos no curso de objetos. Passamos para ele a nossa listaPalavras, que vai ser recebida por parâmetro.
+
+Essa parte de conversão do texto também pode estar fora do bloco try, porque ela não é um ponto de falha, normalmente. Ela é só uma conversão que acontece internamente na aplicação.
+
+```JavaScript
+function criaESalvaArquivo(listaPalavras, endereco) {
+    const arquivoNovo = `${endereco}/resultado.txt`;
+    const textoPalavras = JSON.stringify(listaPalavras);
+    try {
+        
+    } catch (erro) {
+
+    }
+}
+```
+
+Agora, vamos para o nosso File System (Sistema de Arquivos). Vamos chamar o método fs.promises para, então, chamar o writeFile, resultando em fs.promises.writeFile(). O fs.writeFile não será chamado diretamente, e entenderemos o motivo daqui a pouco.
+
+O writeFile precisa de dois parâmetros para funcionar. O primeiro parâmetro é o endereço onde ele vai salvar esse arquivo, que já colocamos na variável arquivoNovo - então, ela será nosso primeiro parâmetro.
+
+O segundo parâmetro é o que ele vai colocar dentro desse arquivo. No caso, é o nosso textoPalavras.
+
+WriteFile é um método que não retorna nada, porque ele simplesmente escreve um arquivo, ele não tem dado para retornar. Então, logo depois dele, só para manter a tradição, vamos colocar um console.log e escrever a mensagem "Arquivo criado", só para termos um retorno de que a função foi executada, por enquanto.
+
+Também vamos deixar o nosso catch de erro mais simplificado por enquanto também. Vamos inserir apenas um throw erro para, se acontecer algum erro, ele ser lançado para fora, capturado pelo catch e lançado para o terminal para entendermos.
+
+Então, nossa função está assim:
+
+```JavaScript
+function criaESalvaArquivo(listaPalavras, endereco) {
+    const arquivoNovo = `${endereco}/resultado.txt`;
+    const textoPalavras = JSON.stringify(listaPalavras);
+    try {
+        fs.promises.writeFile(arquivoNovo, textoPalavras);
+        console.log('arquivo criado');
+    } catch (erro) {
+        throw erro;
+    }
+}
+```
+
+Mas, antes de passarmos para o restante do código e executar para criar o arquivo em algum lugar, precisamos adicionar dois elementos importantes nessa função.
+
+Primeiramente, antes da palavra chave function, vamos acrescentar a palavra-chave async, resultando em async function criaESalvaArquivo.
+
+Em seguida, dentro do bloco try, vamos acrescentar a palavra-chave await antes de fs.promises.writeFile, resultando em await fs.promises.writeFiles.
+
+```JavaScript
+async function criaESalvaArquivo(listaPalavras, endereco) {
+    const arquivoNovo = `${endereco}/resultado.txt`;
+    const textoPalavras = JSON.stringify(listaPalavras);
+    try {
+        await fs.promises.writeFile(arquivoNovo, textoPalavras);
+        console.log('arquivo criado');
+    } catch (erro) {
+        throw erro;
+    }
+}
+```
+
+Essas duas palavras-chave têm a ver com o código assíncrono que mencionamos anteriormente. Vamos entendê-las melhor daqui a pouco.
+
+Chamando a função para criar e salvar um arquivo  
+Tem dois outros pontos que precisamos ajustar no cli. O primeiro é executar a função criaESalvaArquivo em algum lugar, porque ainda não está sendo executada em ponto nenhum.
+
+Podemos fazer isso dentro do readFile, porque essa função pode ler e processar um arquivo, que é o que já está acontecendo em contaPalavras, e depois salvar um arquivo com esse conteúdo.
+
+Então, dentro readFile, na linha de contaPalavras, vamos criar uma const que chamaremos de resultado para guardar, justamente, o resultado do nosso contaPalavras, que é o nosso array de objetos.
+
+Em seguida, vamos chamar a função criaESalvaArquivo, passando como parâmetros a nossa lista de palavras, que está dentro de resultado, e o endereco do arquivo a ser salvo.
+
+```JavaScript
+fs.readFile(link, 'utf-8', (erro, texto) => {
+    try {
+        if (erro) throw erro;
+        const resultado = contaPalavras(texto);
+        criaESalvaArquivo(resultado, endereco);
+    } catch(erro) {
+        trataErros(erro);
+    }
+});
+```
+
+Passaremos esse endereço da mesma forma que estamos passando todos os outros dados: por meio da linha de comando.
+
+E se já estamos criando, lá no topo desse arquivo, uma const link para guardar o caminho do arquivo de texto original, o .txt, podemos criar mais uma, logo abaixo.
+
+Ela se chamará const endereco e receberá caminhoDoArquivo no índice 3. Com isso, lá no terminal, adicionaremos o endereço em si, que poderá ser qualquer diretório da máquina onde queremos salvar esse arquivo.
+
+> const endereco = caminhoArquivo[3];
+
+Como a variável endereco está sendo declarada globalmente, podemos passá-la para dentro da chamada de criaEsalvaArquivo no readFile(), como já fizemos.
+
+Teste de criação de arquivo de resultados  
+Antes de continuar, vamos fazer um teste, porque escrevemos bastante código sem testar.
+
+No terminal, vamos chamar o seguinte comando: começaremos com node para executar src/cli.js; em terceiro lugar, passamos o endereço do arquivo que queremos processar, que está em arquivos/texto-web.txt; em quarto lugar, passamos o endereço de onde vamos salvar esse arquivo.
+
+Para facilitar o teste, vamos criar um diretório especificamente para isso na raiz do projeto, que chamaremos de resultados.
+
+Então, passamos o endereço dessa pasta como caminho: ./resultados. Nosso comando ficará assim:
+
+> node src/cli.js arquivos/texto-web.txt ./resultados/
+
+Vamos executá-lo.
+
+Recebemos a mensagem "Arquivo criado" no terminal, o que nos indica que deu tudo certo!
+
+Vamos verificar abrindo a pasta resultados. De fato, o arquivo resultado.txt foi criado!
+
+Mas, se abrirmos o arquivo resultado.txt, teremos literalmente o array de objetos transformado em uma string.
+
+resultado.txt
+
+```JavaScript
+[{"httpsdeve-lopermozillaorgptbdocslearngettingstartedwiththewebhowthewebworks":1,"como":1,"web":1,"funciona":1},{"como":1,"web":1,"funciona":1,"oferece":1,"uma":2,"visão":1,"simplificada":1,"que":1,"acontece":1,"quando":1... 
+//string omitida
+```
+
+Isso foi o que pedimos, mas não funciona muito bem para quem vai usar o nosso contador, porque está em um formato muito difícil de ler.
+
+Ou seja, o que pedimos deu certo, pois estamos recebendo um .txt de resultado, mas precisamos formatar melhor essa saída.
+
+Mas antes de arrumar a saída, vamos entender um pouco mais sobre o que são essas tais promessas.
+
+### Aula 4 - Promessas - Vídeo 3
+
+Transcrição  
+Para entendermos o que são as promessas, mencionadas anteriormente, precisamos compreender o que é código síncrono e código assíncrono, ou programação síncrona e assíncrona, ou processamento síncrono e assíncrono.
+
+**Código síncrono**  
+O código síncrono se configura quando temos operações que precisam ocorrer uma após o outra, em sequência. As operações as instruções que o programa vai seguir, como fazer um cálculo, exibir uma string, processar uma string e assim por diante.
+
+Nesse caso, começamos com uma operação, finalizamos, passamos para a próxima, finalizamos, passamos para a próxima, e assim sucessivamente.
+
+O problema é que a execução de um processo bloqueia a execução do restante do código enquanto ela está ocorrendo.
+
+Por exemplo, se temos que processar uma string de 10 mil linhas, o restante do código da aplicação fica bloqueado enquanto esse processamento não termina.
+
+Podemos pensar no código síncrono como comunicação via rádio: enquanto estamos enviando uma mensagem, falando, a outra pessoa que está na outra ponta não consegue falar. Ou seja, ela não consegue nos interromper para se comunicar.
+
+Ela tem que esperar terminarmos de falar, anunciar que terminamos de falar, para então ela poder nos responder. E enquanto ela está nos respondendo, temos que esperar a resposta dela terminar, porque não conseguimos interromper, para depois responder.
+
+Ou seja: recebemos uma mensagem, mandamos uma resposta; recebemos uma mensagem, mandamos uma resposta. Sempre nessa ordem.
+
+**Código assíncrono**  
+Já o código assíncrono, ou as operações assíncronas, ocorrem quando os processos de um programa acontecem cada um no seu próprio tempo, sem bloquear a execução do restante do código.
+
+Então, o programa não fica travado, por exemplo, enquanto a nossa string de 10 mil linhas está sendo processada. O restante do programa continua sendo executado no seu tempo.
+
+Os processos que estão relacionados a essa operação, por exemplo, a conversão dessa string, estão, no seu tempo, esperando terminar. Quando acabar o processamento daquela string, teremos o resultado da operação atrelada a ela. No entnto, o restante do código não está parado ou bloqueado.
+
+Podemos pensar no código assíncrono como comunicação entre mensageiros de celular, como o WhatsApp ou o Telegram. Nesse caso, podemos ir mandando mensagens seguidas sem esperar que a outra pessoa responda. No momento que a outra pessoa puder ou quiser, ela nos responde.
+
+Temos que pensar que nas comunicações assíncronas, por exemplo, uma troca de mensagens de WhatsApp, a resposta pode nem chegar. E o código assíncrono tem que lidar com todos esses casos, tanto quando recebe uma mensagem de volta, quanto quando a mensagem que esperamos receber nunca chega.
+
+**Código síncrono versus Código assíncrono**  
+Quando passamos esse conceito para código, conseguimos abstrair o fluxo num esquema.
+
+No código assíncrono, temos a primeira requisição no início da execução. Uma requisição pode ser, por exemplo, um pedido de um dado para o banco de dados. Então, temos que fazer esse pedido para o banco de dados e os esperamos. Não importa o tamanho dos dados que vão chegar, nem o tempo que eles vão demorar para serem processados.
+
+Em seguida, fazemos uma segunda requisição, outro processo no nosso programa, e esperamos isso acontecer. Enquanto isso, fica tudo travado.
+
+![alt text](image-1.png)
+
+Diagrama de fluxo representando o funcionamento de um código síncrono com as palavras 'CÓDIGO SÍNCRONO' em letras maiúsculas e verdes no topo. Há duas setas verticais pretas conectando quatro retângulos. Os retângulos contêm texto, alternando entre 'REQUISIÇÃO 1' em fundo verde claro e 'RESPOSTA 1' em fundo verde mais escuro, seguidos por 'REQUISIÇÃO 2' em fundo laranja claro e 'RESPOSTA 2' em fundo laranja mais escuro. As setas indicam a sequência de processamento de cima para baixo.
+No código assíncrono, fazemos uma requisição de uma base de 2 milhões de usuários para um banco de dados, por exemplo. Enquanto isso, o nosso programa está sendo executado. Quando a operação no banco de dados é finalizada e chegam os dados solicitados, temos a resposta aguardada. Então o programa pode fazer o que precisa fazer com a resposta.
+
+![alt text](image-2.png)
+
+Fluxograma simplificado de código assíncrono com setas direcionais mostrando o processo de 'Requisição 1' seguindo para 'Programa' várias vezes até chegar a 'Resposta 1', com o título 'CÓDIGO ASSÍNCRONO' na parte superior.
+
+**Casos de uso do código assíncrono**  
+Os casos comuns de uso de código assíncrono, hoje em dia, são principalmente:
+
+- Leitura e manipulação de arquivos em disco (hospedados em memória), que é o que estamos fazendo no nosso programa;
+- Comunicação entre cliente e servidor, quando estamos em um computador pedindo dados para outro computador, em outro lugar;
+- Operações em bancos de dados.
+
+Por que é importante começarmos a trabalhar com código assíncrono nesse momento?
+
+Porque leitura e manipulação de arquivos, comunicação entre cliente e servidor e operações em bancos de dados são três das principais operações diárias em desenvolvimento web. Tudo que fizermos vai envolver uma ou mais dessas operações.
+
+Promessas e estados de promessa  
+Então, chegamos às tais das promessas.
+
+"Promessa" é o termo usado pelo JavaScript para um tipo de objeto dessa linguagem, feito para encapsular e lidar com essas operações assíncronas.
+
+O objeto promise representa os possíveis estados de uma promessa. Mas quais são os estados de uma promessa?
+
+Lembrando do WhatsApp, uma mensagem fica pendente enquanto não obtém um fechamento, um retorno de resposta. Ou seja, enquanto mandamos todas as nossas mensagens no WhatsApp e não temos a resposta da pessoa para quem mandamos, podemos dizer que essa promessa está pendente (pending), pois não sabemos ainda o que vai ser dela. Ela pode se cumprir ou não.
+
+Um dos estados de resolução da promessa, depois que ela deixa de ser pendente, é estar resolvida (fulfilled), concluída com sucesso.
+
+No caso de código, por exemplo: se fizemos uma requisição de determinados dados para um banco de dados, como dados de clientes ou produtos, a promessa resolvida se dá quando esses dados chegam para o nosso computador, cliente, e são resolvidas com sucesso.
+
+O terceiro caso se dá quando essa comunicação falha de alguma forma, afinal, são pontos críticos: temos que conectar com o banco, pedir os dados da forma certa, e precisamos ter acesso a eles. Esse é o estado de promessa rejeitada (rejected). Ou seja, é o caso de erro - como erro na conexão com o banco, na nossa requisição, etc.
+
+Então, uma promessa pode estar:
+
+- Pendente, esperando resolução, esperando o processamento acontecer;
+- Resolvida, quando ela se resolve com sucesso e temos os dados;
+- Rejeitada, quando não se resolve, resultando no caso de erro.
+
+Agora que entendemos o conceito de promessas, vamos continuar praticando-as no nosso código.
+
+### Aula 4 - Then, async e await - Vídeo 4
+
+Transcrição  
+Revisaremos a função que criamos anteriormente para salvar um arquivo com os resultados.
+
+Para que a função criaESalvaArquivo processasse corretamente e retornasse um arquivo txt, utilizamos duas palavras-chave: async e await.
+
+Essa dupla de termos são utilizadas para indicar ao interpretador que existem operações assíncronas nesse trecho de código.
+
+Mas, como utilizamos async e await? O async é sempre adicionado na declaração da função. Então, na função criaESalvaArquivo, adicionamos async antes.
+
+Já o await é adicionado na linha onde executaremos o método assíncrono, que no caso é o fs.promises.readFile(). Adicionamos await antes disso.
+
+Mencionamos anteriormente que writeFile é uma exceção, porque não retorna nenhum dado. Mas, caso estivéssemos retornando algum dado, teríamos que ter uma constante retorno para salvar esses dados.
+
+Nesse exemplo, o await estaria à direita do atribuidor de variável, ou seja, à direita do igual antes da chamada da função. No caso, não precisamos dessa constante retorno, porque writeFile não retorna nada.
+
+Caso você já tenha se deparado com algum tipo de código assíncrono, pode ter encontrado essa resolução feita de outra forma, utilizando outra função que é o then.
+
+**Resolução de promessas usando .then()**  
+
+Vamos entendê-la um pouco melhor. Para isso, copiamos toda a função criaESalvaArquivo, da linha 19 até a 28, e colamos logo abaixo. Feito isso, comentamos a função que criamos anteriormente adicionando // em todas as linhas de código.
+
+Primeiramente, apagamos async e await, pois se trata de outra forma que não utiliza essas duas palavras-chave. Também apagamos o try e catch, pois não vamos utilizá-los e o console.log() Você pode estar se perguntando, mas como trataremos os erro? Descobriremos em breve.
+
+Feito isso, o que sobra são as duas constantes e a chamada assíncrona para fs.promises.writeFile(). Após essa chamada, encadearemos a chamada da outra função o .then(). Como também é uma função callback, nos parênteses, criamos outra função () => {}.
+
+Objeto promise  
+Para entendermos p romessas em JavaScript, existe o objeto promise. A documentação do MDN diz que ele representa a eventual conclusão ou falha de uma operação assíncrona em seu valor resultante.
+
+Isso significa que métodos assíncronos, como o writeFile, não retornam dados finais. Sempre nos perguntamos o que a função retorna, podendo ser um array, um objeto, um booleano.
+
+Métodos assíncronos baseados em promessa retornam objetos promise como esse. Não conseguimos abrir esse objeto e tirar os dados de dentro dele, porque é uma representação de uma conclusão que ainda não sabemos se vai acontecer.
+
+Nesse caso, o próprio .then() é a função responsável por fazer a conclusão dessa promessa, como rejeitado ou com sucesso. É dentro dessa função callback do .then() que colocamos o processamento feito com o resultado da promessa.
+
+Então, se sua promessa retorna um JSON com vários dados, é dentro do .then() que dizemos o que faremos com esse JSON. E ele é recebido no parâmetro, então, nos parênteses de .then() passamos json.
+
+No caso do writeFile, ele não retorna nada, então o .then() não precisa processar nada. Podemos colocar apenas o console.log() dizendo arquivo criado.
+
+```JavaScript
+//Código omitido
+function criaESalvaArquivo(listaPalavras, endereco) {
+ const arquivoNovo = `${endereco}/resultado.txt`;
+ const textoPalavras = JSON.stringify(listaPalavras);
+ fs.promises.writeFile(arquivoNovo, textoPalavras)
+     .then(() => {
+         console.log('arquivo criado');
+     })
+```
+
+E o catchque removemos do try catch, como fazemos caso a promessa seja rejeitada? Usaremos outra forma do catch, que é outra função encadeada.
+
+Na linha abaixo, passamos .catch(), que também é uma função callback. Então, passamos outros parênteses e dentro erro seguido da arrow function => {}. Nas chaves, podemos apenas lançar o erro que será recebido por parâmetro throw erro.
+
+Além disso, o .then() também tem outra fase nessa resolução, que é o .finally(). Abaixo, passamos .finally() que é onde colocamos código que queremos que seja executado, independente de dar sucesso ou falha.
+
+Então, independente de conseguir os dados ou de receber uma promessa rejeitada, o .finally() sempre acontece. Ele é muito útil, por exemplo, para fechar conexões com bancos de dados. Como esse não é o nosso caso, nos parênteses chamamos uma função callback () => {}, sem parâmetro nenhum, e passamos console.log('operação finalizada').
+
+```JavaScript
+//Código omitido
+ function criaESalvaArquivo(listaPalavras, endereco) {
+   const arquivoNovo = `${endereco}/resultado.txt`;
+   const textoPalavras = JSON.stringify(listaPalavras);
+   fs.promises.writeFile(arquivoNovo, textoPalavras)
+     .then(() => {
+       console.log('arquivo criado');
+     })
+     .catch((erro) => {
+       throw erro
+     })
+     .finally(() => console.log('operação finalizada'))
+ }
+```
+
+Vamos testar. Para isso, deletamos o arquivo resultado.txt que salvamos anteriormente para conferir se aparece um novo documento na pasta.
+
+Abrimos um novo terminal e pressionamos a seta para cima para rodarmos o mesmo comando. Pelo console deu certo, aparece a mensagem de "Arquivo criado, operação finalizada".
+
+Deu tudo certo! Conseguimos resolver tanto utilizando o .then() quanto utilizando o async await. Então, qual é a diferença entre essas duas formas?
+
+**Entendendo a diferença entre .then() e assync await**  
+
+A diferença principal é que a sintaxe do async await é mais simplificada, o chamamos inclusive de açúcar sintático. É quando temos uma forma de fazer uma coisa, mas criamos uma camada em cima dela para simplificar a aplicação.
+
+Então é mais fácil de aplicar em códigos para transformar código síncrono em código assíncrono. Se tiramos o async await da função, ela fica uma função JavaScript normal igual várias outras que escrevemos.
+
+Ao contrário do .then(), que tem uma sintaxe própria, esse método de encadeamento de métodos, pode fazer com que o código fique um pouco mais complexo de se escrever e de se entender. Então, ambas as formas funcionam, elas têm outras particularidades. É importante praticar bastante com todos os casos, porém, basicamente, a diferença principal é essa.
+
+Preferimos pessoalmente usar o async await justamente porque ele torna a leitura e a escrita do código mais fluida do que o .then().
+
+O .then() é mais antigo, então é muito mais fácil encontrar exemplos de código com o .then(), mas agora que sabemos em que parte do código está acontecendo o que, conseguimos fazer essa transposição e usar o açúcar sintático do async await em cima do .then().
+
+Disponibilizamos nas atividades um artigo bem completo sobre async await e sobre .then(), além de explicações e vários outros exemplos de uso. Recomendamos fortemente que você leia.
+
+Isso te ajudará a entender melhor os casos de aplicação e como utilizamos o .then() para resolver promessas que, nesse caso específico do writeFile, não tínhamos um retorno para trabalhar.
+
+O próximo passo será finalizar as nossas funcionalidades. Até o vídeo seguinte!
+
+### Aula 4 - Para saber mais: Promise.all e new Promise
+
+Durante esta aula estamos dando nossos primeiros passos na prática de código assíncrono em JavaScript, usando o conceito e a estrutura de promessas.
+
+Uma boa parte do que fazemos em desenvolvimento web, hoje em dia, utiliza código assíncrono, pois várias funcionalidades são ligadas a conexão com bases de dados ou manipulação de arquivos, entre outros casos.
+
+Além do .then() e do async/await, que são necessários quando nosso código executa métodos ou funções definidas como assíncronas (como no caso dos métodos fs.promises.writeFile ou fs.promises.readFile do Node.js), existem outras formas de se trabalhar com promessas.
+
+**Promise.all**  
+
+No nosso projeto recebemos o endereço de um arquivo .txt por vez e processamos apenas este arquivo usando o método fs.readFile().
+
+E o que aconteceria se, ao invés de apenas um arquivo, tivéssemos uma lista de diversos arquivos para serem processados?
+
+Aqui entra um dos métodos de promessas do JavaScript, o Promise.all().
+
+Este método recebe um iterável, como um array, e retorna uma única promessa após todos os itens no array forem percorridos. O conteúdo dessa única promessa, após resolvida, é um array com os valores esperados (em caso de sucesso). O método irá retornar uma promessa rejeitada caso qualquer um dos itens do array não se resolva com sucesso.
+
+Vamos analisar o exemplo:
+
+```JavaScript
+async function lerMultiplosArquivos(arrayDeCaminhos) {
+ try {
+ const arrayDePromessas = arrayDeCaminhos
+   .map((caminho) => fs.promises.readFile(caminho, "utf-8")
+ );
+   const listaDeDados = await Promise.all(arrayDePromessas);
+   return listaDeDados;
+ } catch (erro) {
+   throw erro;
+ }
+}
+```
+
+Confira os passos da função lerMultiplosAquivos:
+
+A função recebe como parâmetro um array de caminhos de arquivo.
+
+O código arrayDeCaminhos.map() vai executar o método fs.promises.readFile() para cada um dos caminhos. Nesse momento, como não usamos then nem async/await, o valor retornado para cada um e guardado na variável arrayDePromessas será literalmente um array contendo objetos Promise ainda não resolvidos.  
+A partir deste array de promessas, o método Promise.all se encarrega de resolver cada uma delas e retornar o resultado esperado para dentro da variável listaDeDados.
+
+Executando a função utilizando then:
+
+```JavaScript
+const caminhos = [
+ "./arquivos/texto-kanban.txt",
+ "./arquivos/texto-web.txt",
+ "./arquivos/texto-aprendizado.txt",
+];
+
+lerMultiplosArquivos(caminhos)
+ .then((conteudoDosArquivos) => {
+   console.log(conteudoDosArquivos);
+   // Aqui podem ser processados os conteúdos de cada arquivo
+ })
+ .catch((erro) => {
+   console.error('Erro ao ler arquivos', erro.message);
+ });
+```
+
+Ou podemos refatorar a função para usar async/await:
+
+```JavaScript
+const caminhos = [
+ "./arquivos/texto-kanban.txt",
+ "./arquivos/texto-web.txt",
+ "./arquivos/texto-aprendizado.txt",
+];
+
+async function lerMultiplosArquivos(arrayDeCaminhos) {
+ const arrayDePromessas = arrayDeCaminhos.map(
+   async (caminho) => await fs.promises.readFile(caminho, "utf-8")
+ );
+ const conteudosDosArquivos = await Promise.all(arrayDePromessas);
+ return conteudosDosArquivos;
+}
+
+lerMultiplosArquivos(caminhos);
+```
+
+Esse método é bastante útil quando é necessário interagir com mais de um arquivo (por exemplo, todos os arquivos em uma pasta) ou quando devemos acessar diversas URLs.
+
+O construtor Promise()  
+Quando há métodos que sabemos que retornam promessas (por exemplo, o fs.promises.writeFile) e precisamos utilizá-los em nosso código, usamos then ou async/await. Isso serve tanto para métodos nativos do Node.js ou de diversas outras bibliotecas e frameworks que vamos usar no dia a dia para buscar dados em bancos de dados, acessar URLs, manipular arquivos, fazer grandes processamentos de muitos dados, operações em nuvem etc.
+
+Além disso, podemos também usar o construtor Promise() para escrever do zero nossas próprias promessas e também indicar como resolvê-las.
+
+O Promise também é usado para resolver casos de encadeamento de promessas mais complexas ou para interagir com bibliotecas e APIs que usam callbacks em seus métodos assíncronos ao invés do objeto Promise.
+
+Vamos ver um exemplo de função que recebe um valor booleano (true ou false) e com base nesse valor retorna uma new Promise() rejeitada ou realizada.
+
+```JavaScript
+function promessa(bool) {
+ const x = bool;
+ return new Promise((resolve, reject) => {
+   if (!x) {
+     reject(new Error("falha na promessa"));
+   }
+   resolve("sucesso na promessa");
+ });
+}
+
+function exibeResposta(textoResult) {
+ console.log(textoResult);
+}
+
+promessa(true)
+ .then((texto) => exibeResposta(texto))
+// sucesso na promessa
+```
+
+Veja que a função promessa() cria uma nova promessa a partir do construtor new Promise() e com dois parâmetros: resolve e reject. Promise() precisa trabalhar sempre com estes dois parâmetros, que devem ser invocados após a resolução (com ou sem sucesso).
+
+Neste caso, passamos um texto como parâmetro de cada um deles. Quando executamos a função promessa(true) este valor é carregado através das promessas até ser passado para a função exibeResposta(textoResult), que por fim vai exibir a mensagem correta. No caso de promessa(false), além da mensagem “falha na promessa” o Node.js também vai lançar no terminal a stack trace do objeto Error.
+
+Assim, concluímos que sempre temos que ter em mente os estados possíveis de qualquer promessa em JavaScript:
+
+Promessas podem ser concluídas de duas formas: fulfilled (realizada, completa) ou rejected (rejeitada). Isso equivale a duas situações possíveis: a promessa se concretizou (retornou os dados ou executou o código que deveria) ou não.
+Promessas que não estão fulfilled nem rejected estão pending (pendentes), ou seja, ainda não é possível saber o resultado final porque o processamento ainda não foi concluído.
+
+Após a finalização do processamento, a promessa passa para o estado de settled (concluída), independente do resultado.
+Uma vez que a promessa está settled seu resultado não se altera mais, ou seja, uma promessa que se concluiu como rejected não muda mais para o estado de fulfilled e vice-versa.
+
+Não esqueça de praticar com outros exemplos!
+
+### Aula 4 - Adicionando funcionalidades - Vídeo 5
+
+Transcrição  
+É hora de voltarmos ao arquivo resultado.txt e organizarmos a saída de arquivo.
+
+Uma rede de objetos JavaScript, só faz sentido no contexto do código. O que a pessoa desenvolvedora precisa é algo muito mais simples do que isso. Como, por exemplo, que no parágrafo 1, as palavras repetidas são JavaScript e computador. Então, fechamos o resultado.txt.
+
+Como podemos pegar esse array de objetos e transformar em um texto mais simples? Nós já manipulamos bastante objeto e array nesse curso.
+
+**Criando helper functions**  
+Na pasta "src", criamos um novo arquivo chamado helpers.js. Nele, criaremos algumas helper functions, funções mais simples que fazem algumas coisas específicas que não estão relacionadas com a funcionalidade principal.
+
+Por exemplo, não vão contar palavras, nem input e output. Então, vamos colocá-las para o código ficar um pouco mais separado.
+
+Precisamos resolver duas coisas, primeiro remover as ocorrências de palavras contadas só uma vez por parágrafo e também fazer a lista simples.
+
+Contagem de palavras  
+Começaremos pela contagem de palavras. Para isso, criamos uma function chamada filtraOcorrencias() recebendo um paragrafo. Lembrando que estamos sempre trabalhando com um array de parágrafos. Então, se cada parágrafo é um objeto, usaremos uma função que é o Object.keys(), que aprendemos no curso de objetos.
+
+```JavaScript
+function filtraOcorrencias(paragrafo) {
+  Object.keys()
+}
+```
+
+Essa função pega um objeto e retorna um array com todas as chaves desse objeto. Lembrando que a propriedade é chave e valor. As chaves, no nosso caso, são nada mais do que as próprias palavras. Então, teremos um array de palavras. Passamos nos parênteses paragrafo.
+
+Para cada parágrafo, teremos um array de palavras. O que podemos fazer com esse array de palavras? Filtrar essas palavras passando .filter(). Agora temos um array, não é mais um objeto.
+
+Nisso, para cada chave desse array, que é uma palavra, acessaremos o paragrafo novamente, na chave da palavra correspondente. Ficando chave => paragrafo[chave]. Após, verificamos o objeto parágrafo, na propriedade JavaScript, se o valor é maior do que um > 1.
+
+Estamos usando um filtro, então, se o resultado dessa avaliação for true, essa palavra no objeto paragrafo, será filtrada. Já se for 1, o filtro desconsiderará. Não podemos esquecer de retornar, então, no início dessa linha passamos return.
+
+O que teremos no final é um array apenas de palavras, que são as chaves no objeto parágrafo, e apenas filtradas com as propriedades de palavras que tinham um valor maior do que 1.
+
+Filtrando as ocorrências  
+Agora filtraremos as ocorrências e montaremos o texto final. Na linha abaixo criamos outra function chamada montaSaidaArquivo() e recebendo listaPalavras. Abrimos chaves, pois depois chamaremos essa nova função na função principal.
+
+Como montamos uma string a partir desse objeto? Na linha abaixo, dentro da função, criamos uma let e a nomeamos de textoFinal. Adicionamos o sinal de igual e aspas simples, uma string vazia. Vamos incrementando a string uma linha por vez.
+
+Se listaPalavras é um array de objetos, então, passamos abaixo listaPalavras.forEach(), pois é iteração de array sem retorno. Ele receberá por parâmetro um objeto paragrafo. Fora dos parênteses, passamos a arrow function => {}.
+
+```JavaScript
+//Código omitido
+function montaSaidaArquivo(listaPalavras) {
+  let textoFinal = '';
+  listaPalavras.forEach((paragrafo, indice) => {
+    })
+}
+```
+
+Agora temos um forEach que percorrerá o array de parágrafos, ou seja, cada ocorrência é um parágrafo inteiro. Então, agora criamos uma nova const chamada duplicadas e chamamos a função filtraOcorrencias() recebendo paragrafo.
+
+Lembrando que filtraOcorrencias é uma função que está esperando receber um objeto, cada objeto parágrafo que chegará dentro do forEach.
+
+Após filtrar as ocorrências, esperamos que tenha dentro de duplicadas um array apenas com as palavras, que é o resultado do filtraOcorrencias.
+
+Para transformar esse array em texto, usaremos o método .join() que transformará arrays em strings. Como separador, abrimos uma string, passamos vírgula e um espaço ', '. Assim, o JavaScript pegará cada item desse array, separar em uma string, colocando uma vírgula e um espaço.
+
+Fizemos o .join(), assim, para cada parágrafo já temos uma lista de palavras, como "JavaScript, computador". Agora, montaremos a string que vai dentro da let textoFinal.
+
+Então, no fim do código, passamos textoFinal, incrementamos com +=, e montamos a string final usando o template string, o acento agudo. Entre eles, escrevemos palavras duplicadasno parágrafo.
+
+Como contamos a quantidade de parágrafos? Todos os métodos callback de array do JavaScript, têm o parâmetro principal, que é o elemento da vez, e um segundo parâmetro opcional, que é o índice que está sendo trabalhado naquele momento.
+
+Então, em listaPalavras.forEach(), adicionamos vírgula e passamos indice. Como é um array de parágrafos, cada parágrafo está em ordem, ou seja, o primeiro parágrafo está no índice 0, o segundo está no índice 1, o terceiro está no índice 2 e assim por diante.
+
+Sendo assim, na linha de código de textoFinal, adicionamos após a string ${indice + 1}. Adicionamos o + 1, pois se não o colocar, o primeiro parágrafo será o 0, que é o índice do array e não queremos isso.
+
+Quando estamos usando acento agudo, conseguimos quebrar a linha se quisermos. Nesse caso, pressionamos "Alt + Z" para o JavaScript passar o código para a linha de baixo, quando fica muito comprido.
+
+Na mesma linha de código, adicionamos dois pontos :seguido de ${duplicadas} \n. Com o \n o JavaScript pula uma linha, afinal, estamos fazendo template string e podemos fazer isso. Por fim, passamos return textoFinal.
+
+Nesse caso, estamos usando helpers.js, e queremos chamar a função montaSaidaArquivo() em outro lugar. Então, temos que exportar essa função passando, fora das chaves, export { montaSaidaArquivo }.
+
+Essa é outra forma de fazermos a exportação de arquivos.
+
+O código completo fica da seguinte forma:
+
+helpers.js
+
+```JavaScript
+function filtraOcorrencias(paragrafo) {
+  return Object.keys(paragrafo).filter(chave => paragrafo[chave] > 1)
+}
+function montaSaidaArquivo(listaPalavras) {
+  let textoFinal = '';
+  listaPalavras.forEach((paragrafo, indice) => {
+    const duplicadas = filtraOcorrencias(paragrafo).join(', ');
+    textoFinal += `palavras duplicadas no parágrafo ${indice + 1}: ${duplicadas} \n`
+  })
+  return textoFinal;
+}
+export { montaSaidaArquivo };
+```
+
+Após, acessamos o arquivo cli.js. No topo, fazemos o import passando import { montaSaidaArquivo } from './helpers.js'.
+
+cli.js
+
+```JavaScript
+import fs from 'fs';
+import trataErros from './erros/funcoesErro.js';
+import { contaPalavras } from './index.js';
+import { montaSaidaArquivo } from './helpers.js';
+
+Código omitido
+```
+
+Queremos chamar essa função no criaESalvaArquivo(), que é onde estamos montando o nosso objeto. Então, o JSON.stringify() que usamos próximo à linha 22, não precisamos mais. Então, apagamos e substituímos por montaSaidaArquivo() recebendo listaPalavras, que era o que estava sendo recebido anteriormente para montar o JSON.
+
+Código omitido
+
+```JavaScript
+async function criaESalvaArquivo(listaPalavras, endereco) {
+  const arquivoNovo = `${endereco}/resultado.txt`;
+  const textoPalavras = montaSaidaArquivo(listaPalavras);
+  try {
+    await fs.promises.writeFile(arquivoNovo, textoPalavras);
+    console.log('arquivo criado');
+  } catch(erro) {
+    throw erro;
+  }
+}
+Código omitido
+```
+
+Salvamos o arquivo. Para testar, abrimos o terminal e pressionamos "Seta para cima" para usarmos o comando anterior. Feito isso, o arquivo é criado.
+
+Acessamos o arquivo resultado.txt e notamos que deu certo. Ele substituiu, o arquivo txt que já existia, por uma lista de palavras duplicadas no parágrafo.
+
+palavras duplicadas no parágrafo 1:
+
+palavras duplicadas no parágrafo 2:
+
+palavras duplicadas no parágrafo 3: uma
+
+palavras duplicadas no parágrafo 4:
+
+palavras duplicadas no parágrafo 5:
+
+palavras duplicadas no parágrafo 6:
+
+palavras duplicadas no parágrafo 7: dispositivos, web, seu, conectado
+
+palavras duplicadas no parágrafo 8: cliente, uma, para
+
+Como desafio, você deverá fazer o tratamento para suprimir o resultado quando não há nenhuma palavra duplicada no parágrafo.
+
+Podemos, inclusive, fazer um novo teste com outro arquivo. Para isso, no terminal, passamos o comando node src/cli.js arquivos/texto-kanban.txt ./resultados.
+
+Feito isso, o resultado é maior e podemos ver os outros resultados funcionando.
+
+palavras duplicadas no parágrafo 1:
+
+palavras duplicadas no parágrafo 2:
+
+palavras duplicadas no parágrafo 3: que, você, tenha
+
+palavras duplicadas no parágrafo 4:
+
+palavras duplicadas no parágrafo 5:
+
+palavras duplicadas no parágrafo 6:
+
+palavras duplicadas no parágrafo 7:
+
+palavras duplicadas no parágrafo 8:
+
+palavras duplicadas no parágrafo 9:
+
+palavras duplicadas no parágrafo 10:
+
+palavras duplicadas no parágrafo 11:
+
+palavras duplicadas no parágrafo 12: que, estão
+
+palavras duplicadas no parágrafo 13: que
+
+palavras duplicadas no parágrafo 14: kanban
+
+palavras duplicadas no parágrafo 15:
+
+palavras duplicadas no parágrafo 16:
+
+palavras duplicadas no parágrafo 17: scrum, por, quadro, que, alguns
+
+palavras duplicadas no parágrafo 18:
+
+palavras duplicadas no parágrafo 19: sistema, para
+
+palavras duplicadas no parágrafo 20:
+
+palavras duplicadas no parágrafo 21: modelo, kanban, para, desenvolvimento, software, pensamento, com, método
+
+palavras duplicadas no parágrafo 22:
+
+palavras duplicadas no parágrafo 23: anderson, método, kanban, com, palavra, “k”, dos
+
+palavras duplicadas no parágrafo 24: kanban, como, método, que, forma, framework, implementação
+
+palavras duplicadas no parágrafo 25: uma, metodologia, método, kanban
+
+palavras duplicadas no parágrafo 26:
+
+palavras duplicadas no parágrafo 27: kanban, que, entrega, valor
+
+//Retorno omitido
+
+Repare que a palavra "Kanban" está sendo repetida várias vezes por parágrafo. Sabendo disso, a pessoa que escreveu o texto pode analisá-lo e reescrevê-lo.
+
+A funcionalidade principal já está aplicada, deixaremos alguns desafios para você refazer, além de aplicar algumas melhorias.
+
+A seguir vamos para a parte final do curso. Até lá!
+
+### Aula 4 - Exportando módulos
+
+Quando programamos em Javascript com Node.js, muito provavelmente nosso código ficará espalhado por diversos arquivos que funcionarão separadamente. Um recurso possibilita que arquivos .js sejam "enxergados'' por outros arquivos.
+
+Com base nisso, marque as alternativas corretas:
+
+Resposta: O Node.js também trabalha com outro formato de exportação de módulos, conhecido como CommonJS ou CJS, que utiliza a função require() e o objeto global exports.
+
+> O CJS é conhecido como a “forma do Node.js” fazer exportações e importações de módulos. Porém, a partir do ES6, o JavaScript passou a contar com uma maneira unificada de trabalhar com módulos, o ESM, que utiliza import e export.
+
+### Aula 4 - Faça como eu fiz: criando e salvando arquivo e adicionando funcionalidades
+
+Nesta aula, foi adicionada a funcionalidade de criar e salvar um arquivo com os resultados obtidos da contagem de palavras. Também foi adicionada uma função criaESalvaArquivo que recebe uma lista de palavras e um endereço, converte a lista em formato JSON, e salva em um arquivo de texto no endereço especificado. Além disso, foi desenvolvida uma funcionalidade que identifica palavras duplicadas em cada parágrafo de um texto e gera um arquivo de saída com essas informações.
+
+**Opinião do instrutor**  
+
+Criar e salvar arquivo  
+Foi criada uma função assíncrona que recebe a lista de palavras contadas e o endereço do arquivo a ser salvo, transforma a lista em formato JSON, escreve o arquivo no diretório especificado e exibe uma mensagem de confirmação.
+
+arquivo src/cli.js:
+
+- Importe a função criaESalvaArquivo no início do arquivo.
+- Atribua o terceiro argumento passado na linha de comando a uma constante chamada endereco.
+- Após chamar a função contaPalavras, atribua o resultado a uma constante chamada resultado.
+- Chame a função criaESalvaArquivo passando o resultado e o endereço como argumentos.
+
+arquivo src/index.js:
+
+- Modifique a função contaPalavras para retornar a contagem de palavras ao invés de exibi-la no console.
+
+Função criaESalvaArquivo
+
+- Crie uma função criaESalvaArquivo que receba listaPalavras e endereco como parâmetros.
+- Dentro da função, defina a variável arquivoNovo com o caminho completo para o novo arquivo a ser criado.
+- Converta a listaPalavras em formato JSON e armazene em textoPalavras.
+- Utilize fs.promises.writeFile para escrever o conteúdo de textoPalavras no arquivo especificado por arquivoNovo.
+- Adicione um bloco .then() para exibir a mensagem 'arquivo criado' quando a operação for bem-sucedida.
+- Adicione um bloco .catch() para tratar e lançar qualquer erro que ocorra durante a escrita do arquivo.
+- Adicione um bloco .finally() para exibir a mensagem 'operação finalizada' independentemente do resultado da operação.
+
+Identificar palavras duplicadas  
+Foi criada uma função montaSaidaArquivo no arquivo helpers.js que filtra as palavras duplicadas em cada parágrafo e formata o texto de saída. Além disso, houve uma modificação no arquivo cli.js para utilizar essa nova função ao salvar o arquivo de resultado.
+
+arquivo helpers.js:
+
+- Crie uma função chamada filtraOcorrencias que recebe um parágrafo e retorna as palavras duplicadas desse parágrafo.
+- Implemente a função montaSaidaArquivo que recebe a lista de palavras duplicadas em cada parágrafo e formata o texto de saída com as informações sobre as palavras duplicadas em cada parágrafo.
+
+arquivo cli.js:
+
+- Importe a função montaSaidaArquivo no início do arquivo.
+- Modifique a variável textoPalavras para chamar a função montaSaidaArquivo ao invés de usar JSON.stringify.
+- Certifique-se de que a função montaSaidaArquivo está sendo utilizada corretamente ao salvar o arquivo de resultado.
+
+### Aula 4 - Para saber mais: links da aula
+
+Confira abaixo a lista de links utilizados durante a aula e/ou links complementares ao conteúdo:
+
+Artigo: [Guia de importaçã e exportação de módulos em JS](https://www.alura.com.br/artigos/guia-importacao-exportacao-modulos-javascript)
+Artigo: [async/await: o que é e como usar](https://www.alura.com.br/artigos/async-await-no-javascript-o-que-e-e-quando-usar)
+Documentação do MDN: [objeto Promise](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Promise)
+
+### Aula 4 - O que aprendemos?
+
+Nessa aula, você aprendeu:  
+
+- O que é programação assíncrona e sua importância para viabilizar processos complexos como operações com bancos de dados;
+- As formas que o JavaScript utiliza para trabalhar com código assíncrono, como callbacks e promessas;
+- O que são promessas, quais são os estados possíveis de uma promessa e o que é o objeto Promise;
+- A resolver promessas utilizando then e async/await e as diferenças entre estes métodos.
+
+## Aula 5 - O NPM e sua bibliotecas
+
+### Aula 5 -  - Vídeo 1
+### Aula 5 -  - Vídeo 2
+### Aula 5 -  - Vídeo 3
+### Aula 5 -  - Vídeo 4
+### Aula 5 -  - Vídeo 5
+### Aula 5 -  - Vídeo 6

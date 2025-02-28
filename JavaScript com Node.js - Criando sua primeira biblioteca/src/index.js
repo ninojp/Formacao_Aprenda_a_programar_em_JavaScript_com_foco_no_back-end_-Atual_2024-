@@ -1,28 +1,6 @@
 'use strict';
-const fs = require('node:fs');
-const trataErros = require('./funcoesErro/funcoesErro.js');
-// O process.argv é uma instrução do NODE, esta propriedade retorna um array contendo os 
-//argumentos de linha de comando passados ​​quando o processo Node.js foi iniciado. 
-// O primeiro elemento será process.execPath. Veja process.argv0, se o acesso ao valor original de argv[0] é necessário. 
-// O segundo elemento será o caminho para o arquivo JavaScript que está sendo executado. 
-// Os elementos restantes serão quaisquer argumentos de linha de comando adicionais.
-const caminhoArquivo = process.argv;
-const linkArquivo = caminhoArquivo[2]
 
-fs.readFile(linkArquivo, 'utf-8', (erro, texto) => {
-    try {
-        if(erro) throw erro;//O THROW assim como o RETURN, interrompe a execução do código!
-        //Por isso FOI USADO o bloco TRY-CATCH para capturar o erro e tratar, sem necessáriamente interromper a execução do código
-        contaPalavras(texto);
-    } catch (erro) {
-        // if(erro.code === 'ENOENT') console.log('ERRO! esperado: ', erro);
-        // else console.log('Outro erro!', erro);
-        console.log(trataErros(erro));
-    };
-});
-//--------------------------------------------------------------------------
-
-function contaPalavras(texto){
+export function contaPalavras(texto){
     const arrayObjtsParagrafos = extraiParagrafo(texto);
     const contaPalavraParagrafo = arrayObjtsParagrafos.flatMap((paragrafo) => {
         if(!paragrafo) return [];
@@ -36,7 +14,8 @@ function contaPalavras(texto){
     //     if (paragrafo) { return [...acum, verificaPalavrasDuplicadas(paragrafo)]; };
     //     return acum;
     // }, []);
-    console.log(contaPalavraParagrafo);
+    // console.log(contaPalavraParagrafo);
+    return contaPalavraParagrafo;
 };
 //--------------------------------------------------------------------------
 
