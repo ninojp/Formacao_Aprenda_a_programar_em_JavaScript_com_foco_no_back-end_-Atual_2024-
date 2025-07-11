@@ -1,0 +1,12 @@
+{
+  "name": "programacao-oobj",
+  "version": "1.0.0",
+  "description": "Nada a declarar kkkk",
+  "license": "ISC",
+  "author": "NinoJP",
+  "type": "module",
+  "main": "herancaPrototipo.js",
+  "scripts": {
+    "test": "teste"
+  }
+}

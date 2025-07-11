@@ -1469,9 +1469,660 @@ Nessa aula, você aprendeu:
 
 ## Aula 03 - Classes e Herança
 
-### Aula 03 -  - Vídeo 1
-### Aula 03 -  - Vídeo 2
-### Aula 03 -  - Vídeo 3
-### Aula 03 -  - Vídeo 4
-### Aula 03 -  - Vídeo 5
-### Aula 03 -  - Vídeo 6
+### Aula 03 - Projeto da aula anterior
+
+Você pode [baixar o zip](https://github.com/alura-cursos/3710-javascript-oo/archive/refs/heads/aula-2.zip) ou acessar o link do [repositório da aula 2 no GitHub!](https://github.com/alura-cursos/3710-javascript-oo/tree/aula-2)
+
+### Aula 03 - Estrutura da classe - Vídeo 1
+
+Transcrição  
+Vamos finalmente entender a forma mais comum de outras linguagens trabalharem com orientação a objetos, que é a sintaxe de classe.
+
+Estrutura da classe  
+Vamos criar um novo arquivo, chamado User.js, com a primeira letra em maiúsculo. Lembrando que as classes são baseadas no protótipo e elas não existiam nas primeiras versões do JavaScript.
+
+Como criamos uma classe? Primeiramente, vamos utilizar a palavra-chave class seguida de seu nome. Nesse caso, vamos chamá-la de User com "U" maiúsculo.
+
+A classe, em si, não leva parâmetros, então, abrimos chaves diretamente e declaramos tudo dentro dela.
+
+User.js:
+
+```JavaScript
+class User {
+
+}
+```
+
+Construtor  
+Como fizemos no new.js para criar um novo objeto, para fazer um modelo? Utilizamos os parâmetros e os passamos como contexto via this. Faremos o mesmo na classe User.
+
+No entanto, as classes utilizam uma função especial para construir seus modelos. Essa função especial se chama constructor(), pois é o construtor da classe. Portanto, quando estiver criando seus métodos dentro de uma classe, você não pode usar esse nome dessa função, porque ela é uma função específica.
+
+Nesse construtor, vamos abrir e fechar parênteses para colocar todas as propriedades que a classe deve ter.
+
+Segundo o diagrama UML, o User precisa ter:
+
+- nome: string;
+- email: string;
+- nascimento: date;
+- role: string;
+- ativo: bool.
+
+Como passamos isso para o constructor da classe? Via parâmetro e em ordem - como tudo o que fazemos com parâmetros no JavaScript. Entre os parênteses, o construtor terá nome, email, nascimento, role e ativo.
+
+No caso do ativo, como definimos que todos as pessoas usuárias criadas sempre entram no sistema como ativo = true, podemos já deixar esse parâmetro declarado como ativo igual a true, como fazemos em funções do JavaScript.
+
+```JavaScript
+class User {
+  constructor(nome, email, nascimento, role, ativo = true)
+}
+```
+
+Agora, vamos abrir as chaves do constructor, pois será onde definiremos o que fazemos com esses parâmetros. Será igual à função construtora, usando o this novamente.
+
+Sempre em uma nova linha, faremos this.nome igual a nome, this.email igual a email, this.nascimento igual a nascimento, this.role igual a role e this.ativo igual a ativo.
+
+O this significa que terá um contexto interno sendo aplicado quando houver a criação de objetos a partir da classe User.
+
+```JavaScript
+class User {
+  constructor(nome, email, nascimento, role, ativo = true) {
+    this.nome = nome
+    this.email = email
+    this.nascimento = nascimento
+    this.role = role
+    this.ativo = ativo
+  }
+}
+```
+
+Além disso, devemos pensar que sempre recebemos o role via string. Assim, podemos receber uma string "estudante", "admin", "docente", etc.
+
+Como estamos criando uma classe User que será a base das outras, podemos dizer que se esse parâmetro for recebido, vamos passar o valor dele para dentro de this.role, ou seja, para o contexto desse valor de role que estará dentro do objeto.
+
+Se nada for passado, podemos dizer que o role será "estudante" por padrão - ou seja, todo mundo que não é admin, nem é docente, será estudante. Então, após this.role = role passamos também uma string "estudante" através de um pipe duplo (||), que é operador OU no JavaScript.
+
+```JavaScript
+class User {
+  constructor(nome, email, nascimento, role, ativo = true) {
+    this.nome = nome
+    this.email = email
+    this.nascimento = nascimento
+    this.role = role || "estudante"
+    this.ativo = ativo
+  }
+}
+```
+
+Agora, já sabemos todos os parâmetros que precisamos receber.
+
+Métodos  
+Lembrando que os objetos, além de propriedades que definem as características, eles têm comportamentos que são os métodos. Então, já podemos criar o método exibirInfos().
+
+Qual é a diferença entre a função construtora e a classe? Quando criamos métodos em uma classe, só passamos o nome desse método. Isto é, passamos apenas exibirInfos - não escrevemos function em lugar nenhum.
+
+Em seguida, abrimos e fechamos parênteses vazios, pois não tem nenhum parâmetro.
+
+Dentro das chaves, já podemos retornar algo, como fizemos anteriormente. Para isso, escrevemos return e abrimos uma template string por meio de crases. Nela, vamos criar o primeiro placeholder (${}) que será this.nome seguido de vírgula e o segundo placeholder this.email.
+
+```JavaScript
+class User {
+  constructor(nome, email, nascimento, role, ativo = true) {
+    this.nome = nome
+    this.email = email
+    this.nascimento = nascimento
+    this.role = role || "estudante"
+    this.ativo = ativo
+  }
+
+  exibirInfos() {
+    return `${this.nome}, ${this.email}`
+  }
+}
+```
+
+Apesar de usar a sintaxe de classe, ela ainda é muito parecida com a função construtora, já que foi construída com base nela.
+
+Agora, já criamos o usuário base contendo um constructor(), a função exibirInfos() e todas as propriedades, assim como aparecia no diagrama.
+
+Instância da classe  
+Vamos testar a nossa classe recém-criada. Como instanciamos uma classe, isto é, como criamos uma nova instância de User?
+
+No mesmo arquivo, mas fora da classe, vamos criar uma const chamada novoUser que vai ser igual a new User(), passando os parâmetros que precisamos entre os parênteses.
+
+Da mesma forma da função construtora, vamos passar uma string com o nome "Juliana", uma string com o e-mail "j@j.com" e, por fim, uma string com uma data de nascimento, "2024-01-01".
+
+Lembrando que os demais parâmetros já estão definidos. Se não passarmos nenhum role, ele assume automaticamente o papel de "estudante" e todos as pessoas usuárias no sistema entram como ativo = true.
+
+Agora, vamos dar um console.log() tanto no objeto novoUser criado quanto na função exibirInfos através de novoUser.exibirInfos().
+
+```JavaScript
+const novoUser = new User('Juliana', 'j@j.com', '2024-01-01')
+console.log(novoUser);
+console.log(novoUser.exibirInfos());
+```
+
+Vamos salvar o arquivo com "Ctrl + S" e abrir um novo terminal integrado, clicando em "Terminal > New Terminal" no menu superior.
+
+```JavaScript
+node User.js
+```
+
+Com o comando node User.js, recebemos um objeto. Não um objeto qualquer, como o valor de uma variável. Recebemos um objeto do tipo User. Logo abaixo, também foi impresso o resultado do console.log() na função exibirInfos, que é Juliana, j@j.com. Isso significa que o código funcionou.
+
+```JavaScript
+User {
+    nome: 'Juliana',
+    email: 'j@j.com',
+    nascimento: '2024-01-01',
+    role: 'estudante',
+    ativo: true
+}
+Juliana, j@j.com
+```
+
+Agora vem o que realmente queríamos mostrar para você e o motivo de se estudar a herança de protótipo, sendo que atualmente tudo é feito com classe e ninguém mais usa funções construtoras.
+
+Vamos fazer um novo console.log(), passando o User, que é o nome da classe que acabamos de criar, .prototype, que é o protótipo, e .isPrototypeOf(). Entre os parênteses, vamos passar novoUser, que foi a instância que acabamos de criar.
+
+Vamos comentar os console.log() anteriores para que o terminal fique mais limpo.
+
+```JavaScript
+const novoUser = new User('Juliana', 'j@j.com', '2024-01-01')
+// console.log(novoUser);
+// console.log(novoUser.exibirInfos());
+
+console.log(User.prototype.isPrototypeOf(novoUser));
+```
+
+Após salvar o arquivo e executar o comando node User.js, recebemos apenas um true (verdadeiro).
+
+```JavaScript
+node User.js
+```
+
+true
+
+Ou seja, a nossa classe é uma capa, um açúcar sintático, em cima da herança de protótipo. Além de ser uma classe, o User tem, internamente, uma propriedade prototype.
+
+A partir de prototype, conseguimos chamar um método específico de protótipo, que é o isPrototypeOf(). Ou seja, o que perguntamos para o JavaScript? Se User é protótipo de novoUser. Sabemos que sim, porque foi com base na classe User que criamos o novoUser. Basicamente, tiramos uma cópia dessa classe com os dados de uma nova pessoa usuária.
+
+Como todos os métodos começando com is, por padrão, ele sempre vai retornar true ou false. Nesse caso, ele retornou true.
+
+Sempre que você tiver dúvidas com relação à cadeia de protótipo (ou entre classes e subclasses), você pode recorrer à herança de protótipo que está rodando por trás de toda a sintaxe de classe do JavaScript. Isso vai funcionar também para o TypeScript.
+
+Próximos passos  
+Criamos a nossa primeira classe e, a seguir, vamos continuar mostrando tudo que conseguimos fazer com as classes.
+
+### Aula 03 - Herança de classe - Vídeo 2
+
+Transcrição  
+Já criamos a nossa primeira classe, a classe User. Ela já tem tudo o que previmos, por enquanto, no diagrama, que são todas as propriedades, o construtor que possibilita a construção de uma instância e a função exibirInfos().
+
+No entanto, temos outros tipos de usuário no nosso sistema, como admin e docente, que também precisam tanto das propriedades, quanto do método exibirInfos() - além de funções que são específicas desses tipos de usuário.
+
+Como resolvemos esse dilema usando classes?
+
+Exportação da classe User  
+Dentro do arquivo User.js, vamos exportar esse módulo para conseguirmos utilizar a classe User em outras partes do código. Antes de class, vamos escrever export default e salvar o arquivo.
+
+User.js:
+
+```JavaScript
+export default class User {
+        // código omitido…
+}
+```
+
+Não vamos entrar em detalhes sobre importação e exportação de módulos, pois já exploramos com bastante detalhes no curso anterior, que é pré-requisito. Porém, vamos deixar mais material, caso você queira revisitar o tópico.
+
+Para a importação e a exportação funcionarem, precisamos avisar o JavaScript que estamos utilizando essa sintaxe para fazer importação e exportação de módulos. Por isso, vamos abrir o terminal integrado para fazer as instalações necessárias.
+
+Dentro da pasta do projeto, vamos passar o comando npm init –y de "yes".
+
+```JavaScript
+npm init –y
+```
+
+Com isso, foi criado um arquivo package.json dentro da raiz do nosso projeto.
+
+Vamos abrir esse arquivo package.json para adicionar uma informação nesse JSON. Pode ser depois da linha 5, onde está a chave main, ainda que a ordem não faça muita diferença.
+
+Vamos criar um novo par de chave valor. Usamos aspas duplas, porque é um JSON. A chave será type e o valor será module.
+
+package.json:
+
+```JavaScript
+{
+  "name": "js-oo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "User.js",
+  "type": "module",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
+```
+
+Só isso. Salvamos e fechamos o arquivo. Com isso, conseguimos utilizar a classe User em outros pontos do código, em outros arquivos.
+
+Herança de classe  
+Agora, vamos criar um novo arquivo chamado Admin.js com "A" maiúsculo.
+
+Note que criamos os arquivos e as classes com a primeira letra maiúscula. Isso é padrão de criação de classes, não só do JavaScript.
+
+Quando criamos a função construtora, usamos também o mesmo padrão de primeira letra maiúscula - isso significa que estamos criando uma classe.
+
+Para conseguir utilizar as informações da classe User, devemos primeiramente importá-la dentro de Admin.
+
+Na primeira linha, vamos fazer um import User, com "U" maiúsculo. O JavaScript já sabe a localização do arquivo e autocompleta com from "./User". Só precisamos adicionar um .js no final da string do nome do arquivo, porque, às vezes, o autocompletar não coloca isso, mas é necessário.
+
+Admin.js:
+
+```JavaScript
+import User from "./User.js";
+```
+
+Agora podemos criar a classe Admin, colocando a palavra-chave class e Admin com "A" maiúsculo.
+
+E como fazemos para juntar Admin com User e dizer que Admin vai utilizar partes de User? Vamos usar uma outra palavra-chave que é extends. Assim, ficará class Admin extends User, que já estava importado no topo do arquivo.
+
+Como é uma classe, não tem parâmetro, portanto, só abre e fecha chaves.
+
+```JavaScript
+class Admin extends User {
+
+}
+```
+
+Agora, vamos passar para dentro de Admin o que queremos que ele herde. Preste atenção no termo herdar.
+
+Queremos que a classe Admin herde algumas propriedades de User. Se estamos iniciando um objeto com propriedades definidas, vamos usar um construtor. Por isso, vamos criar uma função constructor().
+
+Dentro dos parâmetros de constructor, dentro dos parênteses, passaremos todas as propriedades que queremos que Admin tenha. Como estabelecemos no diagrama, Admin, User e Docente terão as mesmas propriedades principais.
+
+Então, o Admin vai precisar de nome, email, nascimento, role e ativo. Aí, abre e fecha as chaves.
+
+Se estamos criando uma classe Admin, estamos partindo do princípio que todos os usuários desse tipo serão usuários Admin. Portanto, podemos já deixar o parâmetro role declarado.
+
+Vamos declarar que o role sempre será igual a string "admin". Assim, todos os usuários vão entrar já com esse valor, não precisamos passar isso por parâmetro, pois está pré-definido.
+
+Além disso, ativo também será igual a true, pois queremos que todas as pessoas cujo papel seja Admin também venham por padrão no sistema como usuários ativos.
+
+```JavaScript
+class Admin extends User {
+  constructor(nome, email, nascimento, role = "admin", ativo = "true") {
+
+  }
+}
+```
+
+Mas como fazer para reaproveitar código? Se passamos tudo para o parâmetro do construtor, também teremos que fazer this para todas as propriedades dentro do construtor do Admin? Não, não precisa.
+
+Agora, vamos utilizar outra ferramenta que é o super. Dentro do constructor, vamos chamar a função super(). Entre os parênteses, vamos passar os parâmetros que queremos reutilizar de User. Nesse caso, vamos passar nome, email, nascimento, role e ativo.
+
+```JavaScript
+class Admin extends User {
+  constructor(nome, email, nascimento, role = "admin", ativo = "true") {
+    super(nome, email, nascimento, role, ativo)
+  }
+}
+```
+
+Quando trabalhamos com orientação a objetos, muitas vezes utilizamos dois tipos de nomenclatura. Podemos falar tanto de classes parent e children (ou seja, classes pais e filhas), quanto de superclasse e subclasse.
+
+O super vem de superclasse. Em outras palavras, indicamos que a definição do que será feito com esses parâmetros estão na superclasse de Admin. Qual é a superclasse de Admin? É User, a classe base de onde Admin está herdando tudo o que ele precisa.
+
+O que será feito dessas propriedades? Elas vão para o this ou será aplicada alguma lógica interna com elas? Isso está definido dentro do construtor da superclasse. É por isso que usamos, dentro do construtor da subclasse Admin, a função super().
+
+Mas é preciso passar de novo nome, email, nascimento, etc? Sim, porque nem sempre queremos utilizar todas as propriedades. Nesse caso, queremos que todos os usuários tenham as mesmas propriedades, mas não é necessário sempre. Se fosse estabelecido que Admin só precisa do nome e email da superclasse, não precisaríamos passar o resto.
+
+Criação de nova instância  
+Nesse momento, vamos instanciar uma subclasse Admin para testar. Vamos criar uma nova const, embaixo da classe, chamada novoAdmin que será igual ao operador new Admin() com "A" maiúsculo.
+
+Entre os parênteses, da mesma forma que fizemos com o User, passamos as informações que queremos. Vamos definir que o novoAdmin se chama "Rodrigo", o e-mail dele é "r@r.com" e o nascimento dele é "2024-01-01".
+
+Não precisamos passar mais nada, porque ele vai entrar com o role de "admin" e com o ativo de true.
+
+Além disso, chamaremos um console.log() para mostrar o objeto novo Admin e outro console.log() para executar o método novoAdmin.exibirInfos().
+
+```JavaScript
+const novoAdmin = new Admin("Rodrigo", "r@r.com", "2024-01-01")
+console.log(novoAdmin);
+console.log(novoAdmin.exibirInfos());
+```
+
+Após salvar o arquivo, abrimos o terminal integrado e executamos o arquivo:
+
+```JavaScript
+node Admin.js
+```
+
+Funcionou da mesma forma que funcionou com o User. Temos agora um objeto do tipo Admin, com todos os dados. Também foi retornado o resultado do método exibirInfos(), que é o nome e o e-mail desse usuário.
+
+```JavaScript
+Admin {
+    nome: 'Rodrigo',
+    email: 'r@r.com',
+    nascimento: '2024-01-01',
+    role: 'admin',
+    ativo: true
+}
+Rodrigo, r@r.com
+```
+
+Além herdar o construtor da classe, ou seja, o que é feito dos parâmetros que a subclasse Admin está recebendo no momento em que criamos uma nova instância com os dados do Rodrigo, Admin também herdou o método exibirInfos().
+
+Afinal, não foi preciso declarar esse método dentro de Admin. Ele veio a partir da superclasse, que é a classe User de onde herdamos as propriedades e também os métodos.
+
+Próximos passos  
+A herança de classe é um dos conceitos mais importantes em orientação ao objeto. Ela não serve só para reaproveitar código, mas também para que as entidades do sistema façam sentido entre si. Ou seja, os usuários podem ser estudantes, admins e docentes, mas todos ainda são usuários do sistema.
+
+A herança possibilita a criação de uma lógica e de regras que façam sentido.
+
+No diagrama, existe um método criarCurso() em Admin, que não existe em User. Então, vamos entender como implementar isso logo em seguida.
+
+### Aula 03 - Para saber mais: módulos
+
+Nos cursos anteriores abordamos de forma mais abrangente a questão da importação e exportação de módulos em JavaScript.
+
+Caso sinta necessidade, você pode relembrar como funciona a importação/exportação de módulos no formato CJS (Common JavaScript), utilizando require e module.exports ou no formato ESM (EcmaScript Modules), utilizando import e export, consultando nosso [artigo sobre o assunto](https://www.alura.com.br/artigos/guia-importacao-exportacao-modulos-javascript).
+
+### Aula 03 - Adicionando métodos - Vídeo 3
+
+Transcrição  
+Segundo o diagrama, o papel Admin precisa de um método criarCursos() que o User básico, que definimos como estudante, não terá.
+
+Como implementamos esse novo método?
+
+Adição de novos métodos  
+Da mesma forma que criamos métodos na classe User, podemos criar um na classe Admin.
+
+Dentro da classe Admin, abaixo do construtor, vamos criar o método criarCurso() e passar alguns parâmetros para ele. Vamos dizer que ele vai receber dois parâmetros: nomeCurso e qtdVagas.
+
+Depois dos parâmetros, abrimos e fechamos chaves. Para continuar com os testes, vamos retornar uma string criada com essas duas informações. Para isso, escrevemos return e abrimos uma template string para informar "curso X criado com X vagas". No lugar de X, vamos colocar os placeholders de nomeCurso e qtdVagas, respectivamente.
+
+Admin.js:
+
+```JavaScript
+class Admin extends User {
+  constructor(nome, email, nascimento, role = "admin", ativo = "true") {
+    super(nome, email, nascimento, role, ativo)
+  }
+
+  criarCurso(nomeCurso, qtdVagas) {
+    return `curso ${nomeCurso} criado com ${qtdVagas} vagas.`
+  }
+}
+```
+
+Vamos testar com o novoAdmin, que já está criado, podemos manter os mesmos dados do Rodrigo.
+
+E aí, vamos modificar o segundo console.log(). Ao invés de exibirInfos(), vamos chamar a função criarCursos().
+
+Assim, console.log() recebe novoAdmin.criarCurso(). Entre os parênteses, podemos passar os parâmetros como se fosse uma função usual. Vamos passar uma string "JavaScript" para ser o nome do curso e o segundo dado será o número de vagas, 20.
+
+```JavaScript
+const novoAdmin = new Admin("Rodrigo", "r@r.com", "2024-01-01")
+console.log(novoAdmin);
+console.log(novoAdmin.criarCurso('JavaScript', 20));
+```
+
+Para testar novamente, vamos abrir o terminal integrado e escrever o seguinte comando:
+
+```JavaScript
+node Admin.js
+```
+
+Foram retornados os mesmos dados do Admin que estavam anteriormente e, embaixo, recebemos a frase do console.log().
+
+```JavaScript
+true
+Admin {
+    nome: 'Rodrigo',
+    email: 'r@r.com',
+    nascimento: '2024-01-01',
+    role: 'admin',
+    ativo: true
+}
+curso JavaScript criado com 20 vagas.
+```
+
+Também apareceu um true no terminal, que veio lá de User.js, porque embaixo da classe tem um console.log() do User.prototype.isPrototypeOf(). Vamos apenas comentar essa linha para a resposta não ficar aparecendo no terminal toda hora.
+
+User.js:
+
+```JavaScript
+// console.log(User.prototype.isPrototypeOf(novoUser));
+```
+
+Criação de Docente  
+Agora que treinamos bastante, podemos criar o último tipo de usuário que é o docente.
+
+Criaremos um novo arquivo na raiz do projeto chamado Docente.js com "D" maiúsculo. Inclusive, podemos copiar alguns dados de Admin. Podemos copiar tanto a linha 1, onde importamos o User, quanto a base da classe.
+
+Colamos a importação e toda a classe Admin dentro de Docente.js, porque ambos estão herdando do mesmo usuário base, o User. Então, precisamos importá-lo em Docente também.
+
+Agora, a classe se chamará Docente, com "D" maiúsculo, e continuará a herdar de User, ou seja, extends User.
+
+O construtor vai receber os mesmos parâmetros, porém o role, ao invés de ser igual a "admin", será igual a "docente". O super ainda receberá os mesmos dados.
+
+Só que Docente não tem o método criarCurso().
+
+Docente.js:
+
+```JavaScript
+import User from "./User.js";
+
+class Docente extends User {
+  constructor(nome, email, nascimento, role = "docente", ativo = "true") {
+    super(nome, email, nascimento, role, ativo)
+  }
+
+  criarCurso(nomeCurso, qtdVagas) {
+    return `curso ${nomeCurso} criado com ${qtdVagas} vagas.`
+  }
+}
+```
+
+De acordo com o diagrama, o método criarCurso() é exclusivo de Admin, enquanto o Docente tem outro método exclusivo, que se chama aprovarEstudante(). Definimos que admins não aprovam estudantes, apenas docentes.
+
+Na classe Docente, podemos substituir o método criarCurso() pelo método aprovarEstudante(). O que precisamos receber como parâmetro? Podemos dizer que recebe estudante, que é o nome da pessoa, e também recebe o curso no qual essa pessoa foi aprovada.
+
+No corpo do método, vamos retornar um texto também. Vamos dar um return informando "estudante X passou no curso X", substituindo X pelo placeholder de estudante e curso que virão do parâmetro.
+
+Além disso, podemos passar mais uma informação nessa template string. Vamos acrescentar uma vírgula depois do placeholder de curso e dizer quem foi responsável pelo curso. Para isso, vamos passar o texto "responsável" e abrir outro placeholder para usar uma informação do próprio Docente. Passaremos que o responsável é this.nome.
+
+Com esse this.nome, testamos se Docente está herdando as definições de propriedades que estão no construtor de User, e também se o contexto está certo. Afinal, esperamos que this.nome retorne o nome de Docente, não o nome de User.
+
+```JavaScript
+class Docente extends User {
+  constructor(nome, email, nascimento, role = "docente", ativo = "true") {
+    super(nome, email, nascimento, role, ativo)
+  }
+  aprovarEstudante(estudante, curso) {
+    return `estudante ${estudante} passou no curso de ${curso}, responsável ${this.nome}.`
+  }
+}
+```
+
+Vamos testar esse código. Embaixo da classe Docente, vamos instanciar a nova classe.
+
+Para isso, vamos criar uma const chamada novaDocente que será igual ao new Docente(). Entre os parênteses, vamos passar os dados do docente. Nesse caso, vamos informar que o nome dela é "Ana", o e-mail é "a@a.com", a data de nascimento será mesma das outras, "2024-01-01". Os outros dados já estão sendo recebidos.
+
+Na próxima linha, faremos um console.log() para chamar o método aprovarEstudante(). Para isso, é preciso chamar novaDocente, que é o contexto, ou seja, a instância da classe Docente, seguido de .aprovarEstudante().
+
+Agora, passamos os parâmetros do método aprovarEstudante(). Vamos dizer que a estudante "Juliana" passou no curso de "JavaScript".
+
+```JavaScript
+const novaDocente = new Docente("Ana", "a@a.com", "2024-01-01")
+console.log(novaDocente.aprovarEstudante('Juliana', 'JavaScript'));
+```
+
+Para verificar se deu tudo certo, salvamos e chamamos um novo terminal integrado.
+
+```JavaScript
+node Docente.js
+```
+
+estudante Juliana passou no curso de JavaScript, responsável Ana.
+
+Foram recebidas tanto as definições do que foi passado por parâmetro, quanto o this.nome no contexto de novaDocente. E quem que é a novaDocente? É uma instância da classe Docente que tem "Ana" como nome, ademais dos outros dados.
+
+Cada parte da informação veio de onde ela deveria vir.
+
+Conclusão  
+Nessa aula, entendemos como funciona tanto a sintaxe de classe, quanto a herança de classe, que é realmente um dos conceitos mais importantes de orientação a objeto.
+
+Três questões que são importantes frisar. Primeiro, métodos próprios e construtores não são obrigatórios.
+
+Nem sempre uma classe vai precisar de construtor para ser instanciada, e nem toda classe vai precisar de métodos próprios. Mais adiante no curso, vamos conhecer alguns casos de classes que não vão precisar de construtor.
+
+Segundo, ao contrário de funções nomeadas, as classes não são hoisted. Ou seja, não conseguimos instanciar uma classe antes de declará-la.
+
+Por exemplo, receberíamos um erro de referência se tentássemos criar uma novaDocente antes da parte do código onde criamos a classe Docente. Isso porque as classes não são "jogadas para cima".
+
+ReferenceError: Cannot access 'Docente' before initialization
+
+O erro, em inglês, informa que não é possível acessar Docente antes da inicialização dessa classe.
+
+Terceiro, toda classe em JavaScript segue implicitamente o que chamamos de modo estrito. É como se tivesse no topo do arquivo um string escrito "strict mode". Implicitamente, todas as classes são criadas dessa forma.
+
+Não vamos entrar em detalhes sobre o que é o modo estrito, mas vamos deixar material extra para você dar uma conferida.
+
+Vamos continuar evoluindo alguns conceitos principais da orientação a objetos com JavaScript.
+
+### Aula 03 - Para saber mais: strict mode
+
+O modo estrito do JavaScript serve para impedir que alguns comportamentos da linguagem causem “falhas silenciosas” (ou seja, falhas que não resultam em lançamento de erros pelo programa) e corrigir alguns outros que podem induzir bugs potenciais e comportamentos inesperados.
+
+JavaScript é uma linguagem que não tem breaking changes, ou seja, não é possível corrigir certos comportamentos não desejados retirando o código das novas versões, pois há o risco de quebrar código que já está rodando em sites e aplicações na internet.
+
+O modo estrito é uma forma de ajudar a contornar alguns destes comportamentos sem que o código “não estrito” deixe de funcionar. Essa política não se aplica tanto para aplicações back-end que rodam em servidores (em que é possível controlar melhor as versões utilizadas pelo interpretador), mas é extremamente importante nos navegadores, em que o código é interpretado no lado “cliente” da requisição e não há como ter controle sobre as versões de navegador dos usuários.
+
+Para saber mais sobre o strict mode do JavaScript e por que ele existe, você pode conferir este [Alura+](https://www.youtube.com/watch?v=-iiSEKTotyg) e a [documentação do MDN](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Strict_mode).
+
+### Aula 03 - Classes e herança - Exercício
+
+Nesta aula conhecemos a sintaxe de classe e estudamos alguns dos principais conceitos da orientação a objetos: o que são classes, de que forma são utilizadas e como funciona a herança de classe.
+
+Vamos observar a classe User criada anteriormente:
+
+```JavaScript
+class User {
+  constructor(nome, email, nascimento, role, ativo = true) {
+    this.nome = nome
+    this.email = email
+    this.nascimento = nascimento
+    this.role = role || "estudante"
+    this.ativo = ativo
+  }
+
+  exibirInfos() {
+    return `${this.nome}, ${this.email}`
+  }
+}
+```
+
+A partir da classe User, analise as situações e códigos a seguir e assinale as alternativas corretas:
+
+Resposta:  
+As classes não são a forma nativa do JavaScript trabalhar com orientação a objetos e foram desenvolvidas sobre o modelo de protótipo. Assim, o código a seguir retornará true:
+
+const novoUser = new User('Juliana', 'j@j.com', '2024-01-01')
+console.log(User.prototype.isPrototypeOf(novoUser));
+
+> É possível verificar a presença do modelo de protótipo sendo utilizado “por baixo” da implementação da classe, usando o método isPrototypeOf.
+
+Resposta:  
+A classe User define um construtor de classe (constructor) e é a partir dele que a classe recebe os dados necessários para criar uma nova instância. Assim, o código abaixo resultará em undefined, undefined.
+
+const novoUser = new User()
+console.log(novoUser.exibirInfos());
+
+> Sem ter os dados necessários recebidos por parâmetros pelo construtor, a classe não tem como criar uma nova instância com os dados e tanto this.nome quanto this.email não têm como trazer nenhuma informação, resultando em undefined.
+
+### Aula 03 - Mão na massa: criando classes
+
+Durante a aula, aprendemos como transformar nossos objetos em classes.
+
+Lembrando que os objetos, por sua vez, foram criados a partir de um diagrama inicial, no qual definimos tipos de usuários para o sistema.
+
+Agora você pode praticar a análise de diagramas UML, como o que usamos no curso, para criar suas próprias classes, expandindo o que vamos fazer durante o curso:
+
+![alt text](image-2.png)
+
+Utilize o que aprendemos até agora sobre herança de classes para criar os métodos próprios para cada tipo de usuário.
+
+Opinião do instrutor
+
+Examinando o diagrama, podemos rascunhar nossas classes:
+
+```JavaScript
+class User {
+ constructor(nome, email, nascimento, role, ativo = true) {
+   this.nome = nome
+   this.email = email
+   this.nascimento = nascimento
+   this.role = role || "estudante"
+   this.ativo = ativo
+ }
+
+ criarPerfil() {
+   //lógica interna
+ }
+
+ apagarPerfil() {
+   //lógica interna
+ }
+
+ exibirInfos() {
+   // lógica interna
+ }
+
+ //outros métodos
+}
+```
+
+Você pode pensar em alguma lógica simplificada para testar os métodos, como foi feito durante a aula.
+
+Analise também quais métodos deverão ser herdados e quais são exclusivos de cada subclasse. Por exemplo:
+
+```JavaScript
+class Docente extends User {
+ constructor() { //propriedades necessárias
+   // propriedades necessárias vindas da superclasse
+ }
+ aprovarEstudante() { //parâmetros necessários
+   //lógica interna
+ }
+  //outros métodos
+}
+```
+
+Bons estudos!
+
+### Aula 03 - O que aprendemos?
+
+Nessa aula, você aprendeu:
+
+- O que são e como funcionam as classes, que são elementos essenciais para se trabalhar com orientação a objetos em grande parte das linguagens de programação voltadas para este paradigma. As classes fornecem um modelo para a criação de cópias (instâncias) de objetos que compartilham dos mesmos tipos de propriedades e métodos.
+- Como criar subclasses que herdam propriedades e métodos de uma superclasse e como reaproveitar estas propriedades e métodos da superclasse através da função super(). Isso tem relação com o conceito de herança de classe, que é importante para trabalhar com orientação a objetos.
+- Como uma subclasse pode ter propriedades e métodos próprios, além dos recebidos da superclasse, e como declarar isso no código criando novos métodos.
+- A praticar a sintaxe de classe com JavaScript, criando classes, subclasses, propriedades, construtores e métodos.
+
+## Aula 04 - Encapsulamento
+
+### Aula 04 -  - Vídeo 1
+### Aula 04 -  - Vídeo 2
+### Aula 04 -  - Vídeo 3
+### Aula 04 -  - Vídeo 4
+### Aula 04 -  - Vídeo 5
+### Aula 04 -  - Vídeo 6
