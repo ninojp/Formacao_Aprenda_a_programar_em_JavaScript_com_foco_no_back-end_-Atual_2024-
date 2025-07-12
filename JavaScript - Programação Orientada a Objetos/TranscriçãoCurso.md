@@ -2120,9 +2120,1274 @@ Nessa aula, você aprendeu:
 
 ## Aula 04 - Encapsulamento
 
-### Aula 04 -  - Vídeo 1
-### Aula 04 -  - Vídeo 2
-### Aula 04 -  - Vídeo 3
-### Aula 04 -  - Vídeo 4
-### Aula 04 -  - Vídeo 5
-### Aula 04 -  - Vídeo 6
+### Aula 04 - Atributos privados - Vídeo 1
+
+Transcrição  
+Já discutimos sobre objeto, classe e herança. Agora, abordaremos outro conceito principal da orientação a objetos, que é o encapsulamento.
+
+O que é encapsulamento?  
+Encapsulamento é a ação de ocultar métodos e propriedades.
+
+E ocultar de quem? Do restante do código, pois normalmente não queremos que as propriedades do usuário e alguns métodos dentro da classe sejam acessados externamente. Vamos fazer alguns testes para compreender melhor.
+
+Vamos ao código.
+
+Criando o arquivo index.js  
+Na raiz do nosso projeto, criamos um arquivo chamado index.js para reunir todas as nossas classes e permitir que elas interajam entre si. Para isso, selecionamos o primeiro ícone na parte superior esquerda que representa "New File" ("Novo arquivo").
+
+Somos redirecionados para o arquivo index.js que está vazio.
+
+Exportando as Classes  
+Clicamos na classe Admin.js do lado esquerdo, exportaremos as classes Admin e Docente. Na classe Admin.js, adicionamos um export default antes de class Admin extends User e salvamos.
+
+Admin.js
+
+```JavaScript
+// código omitido
+
+export default class Admin extends User {
+
+// código omitido
+
+ }
+
+// código omitido
+```
+
+Na classe Docente.js, faremos o mesmo, adicionamos um export default antes de class.
+
+Docente.js
+
+```JavaScript
+// código omitido
+
+export default class Docente extends User {
+
+// código omitido
+
+  }
+
+// código omitido
+```
+
+No arquivo index.js que acabamos de criar, importamos essas classes.
+
+Importando as Classes no index.js
+Para isso, digitamos import User from "./User.js", depois import Admin from "./Admin.js" e, por fim, o import Docente from "./Docente.js".
+
+index.js
+
+```JavaScript
+import User from "./User.js"
+import Admin from "./Admin.js"
+import Docente from "./Docente.js"
+```
+
+Criando um novo usuário  
+O que podemos fazer agora? Já que está tudo importado, podemos criar uma constante. Criaremos um novo usuário para continuarmos testando. Essa constante se chamará novoUser e atribuímos a ela um novo objeto User(), passando os dados do usuário: a string "Juliana", o e-mail "j@j.com", e a data de nascimento "2024-01-01". O restante dos dados será preenchido automaticamente.
+
+index.js
+
+```JavaScript
+import User from "./User.js"
+import Admin from "./Admin.js"
+import Docente from "./Docente.js"
+
+const novoUser = new User("Juliana", "j@j.com", "2024-01-01")
+```
+
+Podemos fazer um console.log() normal para testar se as importações e exportações estão funcionando. Passamos novoUser.exibirInfos().
+
+index.js
+
+```JavaScript
+import User from "./User.js"
+import Admin from "./Admin.js"
+import Docente from "./Docente.js"
+
+const novoUser = new User("Juliana", "j@j.com", "2024-01-01")
+console.log(novoUser.exibirInfos());
+```
+
+Executando o Código
+Abrimos o terminal clicando em "Terminal > Novo Terminal" na parte superior. Nele, rodamos o comando node index.js.
+
+```JavaScript
+node index.js
+```
+
+com o comando node index.js. Isso exibirá todos os console.log() que declaramos em Admin e Docente, além do chamado do método exibirInfos().
+
+Voltamos tanto em Admin quanto em Docente e comentamos as linhas onde criamos novas instâncias e chamamos os console.log(), para que eles não atrapalhem no terminal.
+
+Docente.js
+
+```JavaScript
+// código omitido
+
+//const novoAdmin = new Admin("Rodrigo", "r@r.com", "2024-01-01")
+//console.log(novoAdmin);
+//console.log(novoAdmin.criarCurso('JavaScript', 20));
+```
+
+Admin.js
+
+```JavaScript
+// código omitido
+
+//const novoAdmin = new Admin("Rodrigo", "r@r.com", "2024-01-01")
+//console.log(novoAdmin);
+//console.log(novoAdmin.criarCurso('JavaScript', 20));
+
+// código omitido
+```
+
+Depois de salvar as mudanças em Docente e Admin, voltamos para o index.js. Podemos fazer um novo teste com node index.js, e verificar que está tudo funcionando corretamente e que todas as importações foram bem-sucedidas.
+
+Juliana, j@j.com
+
+Abordaremos agora sobre o encapsulamento.
+
+Encapsulamento  
+O que significa uma propriedade ou um método ser acessado ou alterado fora da classe? O que conseguimos fazer aqui é acessar novoUser.nome, que é uma propriedade da pessoa usuária, e modificar seu valor. Por exemplo, podemos alterar o nome da pessoa usuária de Juliana para Márcia.
+
+Adicionamos um console.log() em novoUser.exibirInfos() e também em novoUser.nome, acessando diretamente a propriedade nome, para verificar o que acontece.
+
+index.js
+
+```JavaScript
+import User from "./User.js"
+import Admin from "./Admin.js"
+import Docente from "./Docente.js"
+
+const novoUser = new User("Juliana", "j@j.com", "2024-01-01")
+console.log(novoUser.exibirInfos());
+
+novoUser.nome = "Márcia"
+console.log(novoUser.exibirInfos());
+console.log(novoUser.nome);
+```
+
+Lembrando que instanciamos nosso usuário como Juliana.
+
+No terminal, rodamos node index.js e obtemos:
+
+Juliana, j@j.com
+
+Márcia, j@j.com
+
+Márcia
+
+O que antes era Juliana agora é Márcia, tanto no método exibirInfos() quanto na própria propriedade nome que chamamos diretamente no console.log() que é apenas o Márcia.
+
+Então, ao acessar diretamente a classe, conseguimos obter informações como o nome. Geralmente, isso não é desejável e pode representar um risco em diversas situações.
+
+Por exemplo, ao acessar dados de uma pessoa usuária em um sistema bancário dessa maneira, ou até mesmo modificar um saldo ao acessar um método de depósito fora da classe. Ampliando nossos exemplos, essas práticas geralmente não são recomendadas.
+
+Queremos que o uso da classe, que o uso das propriedades de usuário, fiquem restritos onde eles pertencem dentro da classe. Quando falamos alterar, é ser alterado também por outras partes do sistema que podem, até não de forma intencional, criar bugs.
+
+Então, inadvertidamente, ocorreu a troca de nome ou valor de uma propriedade em uma classe onde isso não deveria acontecer. É por isso que o encapsulamento é importante.
+
+Em JavaScript, geralmente implementamos encapsulamento usando duas ferramentas. Uma delas é através de atributos privados e a outra através de métodos acessores. Vamos começar explorando os atributos privados e implementando-os aqui.
+
+Atributos privados  
+No JavaScript, indicamos que um atributo ou propriedade de uma classe é privada utilizando #. Portanto, no construtor da classe User.js, vamos testar isso com o atributo nome. Em vez de usar this.nome, usaremos this.#nome.
+
+Antes do construtor, entre a declaração da classe e o construtor, é necessário configurar isso externamente. Adicionamos #nome fora da classe.
+
+User.js
+
+```JavaScript
+export default class User {
+  #nome
+  constructor(nome, email, nascimento, role, ativo = true) {
+    this.#nome = nome
+    this.email = email
+    this.nascimento = nascimento
+    this.role = role || "estudante"
+    this.ativo = ativo
+  }
+// código omitido
+}
+```
+
+Então, declaramos a propriedade com #.
+
+Agora podemos ir para o nosso método exibirInfos(). Ele já está indicando que nome não existe mais, sugerindo que deveríamos usar #nome, e é exatamente isso que desejamos fazer.
+
+User.js
+
+```JavaScript
+// código omitido
+
+  exibirInfos() {
+    return `${this.#nome}, ${this.email}`
+  }
+}
+
+// código omitido
+```
+
+Agora podemos testar no index.js. Temos o new User() como Juliana. Vamos exibir as informações de novoUser usando novoUser.exibirInfos(). Deixamos nosso teste: novoUser.nome = "Marcia", para ver o que acontece quando tentamos alterar.
+
+Abrimos um novo terminal e executamos o comando node index.js. Como retorno, temos:
+
+Juliana, j@j.com
+
+Juliana, j@j.com
+
+Márcia
+
+Agora ele trouxe Juliana como nossa primeira saída no console.log(), j@j.com. Em seguida, alteramos novoUser.nome para Márcia e chamamos exibirInfos(), que continua retornando Juliana, j@j.com. No entanto, novoUser.nome agora é Marcia. Parece que há algo estranho acontecendo aqui, porque ele alterou novoUser.nome para Márcia, o que não era esperado.
+
+Portanto, há um detalhe importante agora. Vamos fechar o terminal por enquanto.
+
+Na classe User, #nome e nome não são mais a mesma propriedade. Lembre-se, em objetos no JavaScript, quando usamos a sintaxe objeto.propriedade = valor, o JavaScript verifica se a propriedade existe. Se existir, ele troca o valor; se não existir, ele cria a propriedade.
+
+index.js
+
+```JavaScript
+import User from "./User.js"
+import Admin from "./Admin.js"
+import Docente from "./Docente.js"
+
+const novoUser = new User("Juliana", "j@j.com", "2024-01-01")
+console.log(novoUser.exibirInfos());
+
+novoUser.nome = "Márcia"
+console.log(novoUser.exibirInfos());
+console.log(novoUser.nome);
+```
+
+O que aconteceu na linha 8 (novoUser.nome = "Márcia"), onde declaramos novoUser.nome? Ele criou uma nova propriedade nome na nossa classe com o valor "Marcia". Ou seja, nome com "#" (privado) e nome sem "#" são propriedades diferentes. Portanto, é importante ter cuidado ao programar com atributos privados, pois o JavaScript não trata nome e #nome como iguais.
+
+Como podemos testar se isso está funcionando? No arquivo index.js, voltamos para #nome, onde atribuímos "Márcia": novoUser.#nome = "Márcia".
+
+O VSC já apresenta um erro (sublinhado na cor vermelha em #nome), indicando que a propriedade não é acessível fora da classe devido ao identificador de propriedade privada. Prosseguiremos com o teste mesmo assim, considerando que talvez o VSC não tenha avisado.
+
+Mantemos o resto do código como está e realizamos um novo teste. Em vez de usar novoUser.nome, vamos tentar exibir novoUser.#nome.
+
+index.js
+
+```JavaScript
+import User from "./User.js"
+import Admin from "./Admin.js"
+import Docente from "./Docente.js"
+
+const novoUser = new User("Juliana", "j@j.com", "2024-01-01")
+console.log(novoUser.exibirInfos());
+
+novoUser.#nome = "Márcia"
+console.log(novoUser.exibirInfos());
+console.log(novoUser.#nome);
+```
+
+Testando o código e SyntaxError  
+Executamos o comando node index.js no terminal e esperamos por um erro. Quando o erro ocorrer, ele nos avisará que se trata de um erro de sintaxe, conforme esperado.
+
+SyntaxError: Private field '#nome' must be declared in an enclosing class
+
+O campo #nome é privado e deve ser declarado dentro de uma classe, não fora dela.
+
+Portanto, o erro que ocorreu era esperado, tudo está funcionando conforme o esperado. Não conseguimos nem alterar o valor do nome nem acessá-lo de fora da classe. A propriedade não está mais acessível, então não podemos determinar qual é o valor de nome ou de qualquer outra informação sensível, como o saldo bancário, a menos que isso seja feito dentro da classe.
+
+Comentamos as linhas erradas dentro do arquivo index.js apenas para deixá-las marcadas no código, mas não desejamos executá-las.
+
+index.js
+
+```JavaScript
+import User from "./User.js"
+import Admin from "./Admin.js"
+import Docente from "./Docente.js"
+
+const novoUser = new User("Juliana", "j@j.com", "2024-01-01")
+console.log(novoUser.exibirInfos());
+
+// novoUser.#nome = "Márcia"
+console.log(novoUser.exibirInfos());
+// console.log(novoUser.#nome);
+```
+
+Vamos voltar em User.js agora para deixar todos os atributos privados. No construtor, adicionaremos # em nome, email, nascimento, role e ativo, assim: this.#nome, this.#email, etc.
+
+Não podemos esquecer de declarar essas coisas por fora do construtor para que elas possam ser identificadas. Então, fora do construtor, digitamos: #email, #nome, #nascimento, #role e #ativo.
+
+User.js
+
+```JavaScript
+export default class User {
+  #nome
+  #email
+  #nascimento
+  #role
+  #ativo
+  constructor(nome, email, nascimento, role, ativo = true) {
+    this.#nome = nome
+    this.#email = email
+    this.#nascimento = nascimento
+    this.#role = role || "estudante"
+    this.#ativo = ativo
+  }
+
+// código omitido
+```
+
+Agora tudo está identificado, e no nosso método exibirInfos(), precisamos corrigir para retornar this.#nome e this.#email.
+
+User.js
+
+```JavaScript
+// código omitido
+
+  exibirInfos() {
+    return `${this.nome}, ${this.email}`
+  }
+}
+
+// código omitido
+```
+
+Testamos novamente no nosso index.js. Se testarmos só novoUser.exibirInfos(), abrir o novo terminal e executar node index.js,** tudo continua funcionando perfeitamente**.
+
+Juliana, j@j.com
+
+Juliana, j@j.com
+
+Podemos comentar um dos console.log de exibirInfos().
+
+index.js
+
+```JavaScript
+import User from "./User.js"
+import Admin from "./Admin.js"
+import Docente from "./Docente.js"
+
+const novoUser = new User("Juliana", "j@j.com", "2024-01-01")
+console.log(novoUser.exibirInfos());
+
+// novoUser.#nome = "Márcia"
+// console.log(novoUser.exibirInfos());
+// console.log(novoUser.#nome);
+```
+
+É importante notar que o Node começou a implementar a sintaxe de # para campos privados na versão 12 e concluiu na versão 16. Portanto, se você estiver usando uma versão muito antiga, essa funcionalidade pode não estar disponível.
+
+Certifique-se de usar pelo menos a versão 18 para garantir que essa sintaxe esteja implementada e funcionando corretamente. Idealmente, você deve estar na mesma versão que eu, que é a 20, para evitar problemas.
+
+Antes da introdução do # no JavaScript, havia uma convenção para campos protegidos usando o underline. Não vamos discutir isso aqui, mas deixaremos essa informação como material extra para você explorar, pois essa sintaxe pode aparecer em código legado ou em fóruns na internet.
+
+Conclusão e Próximos Passos  
+O TypeScript inclui algumas implementações adicionais para gerenciar acesso, como atributos privados, públicos e protegidos. Vamos explorar esses conceitos mais detalhadamente no final do curso. Por enquanto, no JavaScript, podemos proteger atributos e métodos conforme veremos.
+
+Vamos agora realizar mais alguns testes para entender como podemos proteger métodos.
+
+### Aula 04 - Métodos privados - Vídeo 2
+
+Transcrição  
+Continuando no tema de encapsulamento, podemos proteger métodos da mesma forma que protegemos propriedades, ou seja, limitando seu acesso fora da classe. Isso é útil quando queremos preservar lógicas críticas para o sistema, como operações financeiras envolvendo dinheiro, saldo ou depósitos.
+
+Quando queremos restringir o acesso indevido aos parâmetros e ao retorno de um método, especialmente quando contém lógicas internas críticas ao sistema, buscamos evitar que tanto os parâmetros quanto o valor retornado sejam acessados externamente à classe onde o método está definido.
+
+O princípio é o mesmo: podemos usar a sintaxe de cerquilha. Como podemos fazer isso se nossas propriedades são privadas? Vamos tentar.
+
+Estamos no arquivo User.js.
+
+Criando o método #montaObjUser()  
+Criaremos um novo método privado usando o símbolo cerquilha (#). Chamaremos este método de #montaObjUser(), dentro da nossa classe User, sem a necessidade de parâmetros. Nele, vamos simplesmente retornar um objeto montado a partir das propriedades privadas.
+
+Utilizamos o return() para retornar um objeto com as propriedades nome, email, nascimento, role e ativo. Em JavaScript, para fazer isso, englobamos essas propriedades entre parênteses e usamos o valor correspondente de this para cada uma delas: return { nome: this.#nome, email: this.#email, nascimento: this.#nascimento, role: this.#role, ativo: this.#ativo });.
+
+User.js
+
+```JavaScript
+// código omitido
+
+#montaObjUser() {
+    return ({ 
+    nome: this.#nome, 
+    email: this.#email, 
+    nascimento: this.#nascimento, 
+    role: this.#role, 
+    ativo: this.#ativo,
+})
+
+// código omitido
+```
+
+Temos o nosso objeto pronto. Adicionamos uma vírgula após ativo por convenção.
+
+Agora podemos usá-lo fora da nossa classe. Quando tentamos instanciar no index.js, criamos um novo user. Se dermos um console.log() em novoUser, em vez de usar exibirInfos(), vamos manter comentado e dar um console.log() em novoUser.#montaObjUser().
+
+O Visual Studio Code já está indicando que #montaObjUser() é um método privado.
+
+```JavaScript
+import User from "./User.js"
+import Admin from "./Admin.js"
+import Docente from "./Docente.js"
+
+const novoUser = new User("Juliana", "j@j.com", "2024-01-01")
+console.log(novoUser.#montaObjUser());
+//console.log(novoUser.exibirInfos());
+
+// novoUser.#nome = "Márcia"
+// console.log(novoUser.exibirInfos());
+// console.log(novoUser.#nome);
+```
+
+Se tentarmos rodar o node index.js, observamos o erro de campo privado, pois não podemos acessá-lo fora da classe.
+
+Então, podemos fazer o mesmo que fizemos com as propriedades: remover o # na declaração dentro da classe e também onde estamos chamando no index.js.
+
+index.js
+
+```JavaScript
+// código omitido
+
+console.log(novoUser.montaObjUser());
+
+// código omitido
+```
+
+User.js
+
+```JavaScript
+// código omitido
+
+montaObjUser() {
+    return ({ 
+    nome: this.#nome, 
+    email: this.#email, 
+    nascimento: this.#nascimento, 
+    role: this.#role, 
+    ativo: this.#ativo ,
+})
+
+// código omitido
+```
+
+Se executarmos novamente no terminal com o node index.js, veremos nosso objeto literal corretamente.
+
+```JavaScript
+{
+
+ nome: 'Juliana',
+ 
+ email: 'j@j.com',
+ 
+ nascimento: '2024-01-01',
+ 
+ role: 'estudante',
+ 
+ ativo: true
+}
+```
+
+Como podemos chamar um método privado dentro da nossa classe para executar a lógica necessária?
+
+Fechamos o terminal. Desejamos que montaObjUser() seja privado, acessível apenas dentro da classe, então vamos colocar o sinal de cerquilha nele novamente.
+
+User.js
+
+```JavaScript
+// código omitido
+
+#montaObjUser() {
+    return ({ 
+    nome: this.#nome, 
+    email: this.#email, 
+    nascimento: this.#nascimento, 
+    role: this.#role, 
+    ativo: this.#ativo ,
+})
+
+// código omitido
+```
+
+Quanto ao exibirInfos, o que faremos com ele?
+
+Antes de retornarmos, vamos criar uma constante chamada objUser, que será igual a this.#montaObjUser(). Agora, em vez de usar this.#nome no nosso retorno, usaremos objUser.nome, e no outro espaço reservado do retorno, usaremos objUser.email.
+
+User.js
+
+```JavaScript
+// código omitido
+
+exibirInfos() {
+  const objUser = this.#montaObjUser();
+  return `${objUser.nome}, ${objUser.email}`;
+}
+
+// código omitido
+```
+
+O que fizemos aqui? Dentro da classe User, estamos acessando um método privado dela, o que é permitido porque estamos dentro da classe.
+
+Pegamos o retorno desse método, que é um objeto, e o armazenamos em uma constante objUser que acabamos de criar. Agora, em vez de retornar diretamente o resultado de uma lógica interna da nossa classe, retornamos um objeto.
+
+Chamamos o método da classe, passamos os parâmetros necessários para obter um objeto, e a partir desse objeto (objUser), acessamos suas propriedades como faríamos normalmente em um objeto: objUser.nome e objUser.email.
+
+No arquivo index.js, não estamos mais usando novoUser.montaObjUser(), mas sim chamando novamente o exibirInfos(), o método que acabamos de modificar.
+
+index.js
+
+```JavaScript
+import User from "./User.js"
+import Admin from "./Admin.js"
+import Docente from "./Docente.js"
+
+const novoUser = new User("Juliana", "j@j.com", "2024-01-01")
+console.log(novoUser.exibirInfos());
+
+// novoUser.#nome = "Márcia"
+// console.log(novoUser.exibirInfos());
+// console.log(novoUser.#nome);
+```
+
+Executamos novamente o comando node index.js no terminal para verificar se tudo está funcionando como esperado.
+
+Juliana, j@j.com
+
+Mas aqui, ainda estamos na super classe, na User. Vamos testar o que acontece com as subclasses que estão herdando de User, se tudo continua funcionando normalmente.
+
+Testando subclasses  
+No arquivo Admin.js, onde tínhamos comentado as nossas instâncias, vamos remover os comentários.
+
+Admin.js
+
+```JavaScript
+// código omitido
+const novoAdmin = new Admin("Rodrigo", "r@r.com", "2024-01-01")
+//console.log(novoAdmin);
+//console.log(novoAdmin.criarCurso('JavaScript', 20));
+```
+
+Nosso novo administrador, Rodrigo, está aqui. Vamos descomentar o console.log(novoAdmin) e inserir exibirInfos().
+
+Admin.js
+
+```JavaScript
+// código omitido
+const novoAdmin = new Admin("Rodrigo", "r@r.com", "2024-01-01")
+console.log(novoAdmin.exibirInfos());
+//console.log(novoAdmin.criarCurso('JavaScript', 20));
+```
+
+No terminal, executamos o script diretamente a partir do arquivo Admin.js em vez de iniciar a partir do index.js, para ganhar um pouco mais de velocidade. Portanto, vamos digitar node Admin.js e confirmar que o Rodrigo continua funcionando.
+
+```JavaScript
+node Admin.js
+```
+
+Retorno do comando:
+
+Rodrigo, r@r.com
+
+Então, estamos passando as propriedades privadas para dentro de Admin. Vamos agora adicionar um novo método em Admin para realizar outro teste. Logo após criarCurso(), vamos criar um método específico para retornar apenas o nome.
+
+Criando o método exibeNome()  
+Digitamos exibeNome apenas para realizar um teste e garantir que tudo continue sendo acessado normalmente. Criamos o método exibeNome , onde pedimos para retornar ${this.#nome} dentro de um placeholder.
+
+Admin.js
+
+```JavaScript
+// código omitido
+
+exibeNome() {
+ return `${this.#nome}`
+}
+// código omitido
+```
+
+O Visual Studio Code já mostrou um aviso em #nome. Ao passarmos o mouse por cima, obtemos a seguinte mensagem em inglês:
+
+Property '#nome' is not accessible outside class 'User' because it has a private identifier. (" A propriedade '#nome' não é acessível fora da classe 'User' porque possui um identificador privado. ")
+
+Mas podemos continuar testando mesmo assim. Vamos agora testar além de exibirInfos(), utilizando console.log(novoAdmin.exibeNome()).
+
+Admin.js
+
+```JavaScript
+// código omitido
+
+const novoAdmin = new Admin("Rodrigo", "r@r.com", "2024-01-01")
+console.log(novoAdmin.exibirInfos());
+console.log(novoAdmin.exibeNome());
+//console.log(novoAdmin.criarCurso('JavaScript', 20));
+```
+
+Esperamos que falhe. Então, ao executar node Admin.js, ocorreu um erro: o Private Field '#Nome' é um campo privado que precisa ser declarado dentro de uma classe.
+
+SyntaxError: Private field '#nome' must be declared in enclosing class
+
+Mesmo se corrigirmos isso, ao criar uma nova instância de Admin com os dados de Rodrigo e mover essas chamadas para dentro de index.js, o erro persistirá.
+
+Para isso, teclamos "Ctrl + X" no seguinte trecho de código dentro do arquivo Admin.js:
+
+```JavaScript
+const novoAdmin = new Admin("Rodrigo", "r@r.com", "2024-01-01")
+console.log(novoAdmin.exibirInfos());
+console.log(novoAdmin.exibeNome());
+```
+
+E posteriormente colamos no arquivo index.js:
+
+```JavaScript
+// novoUser.#nome = "Márcia"
+// console.log(novoUser.exibirInfos());
+// console.log(novoUser.#nome);
+
+const novoAdmin = new Admin("Rodrigo", "r@r.com", "2024-01-01")
+console.log(novoAdmin.exibirInfos());
+console.log(novoAdmin.exibeNome());
+```
+
+Quando movemos tudo para dentro de index, ao executar node index.js, o mesmo erro ocorre novamente.
+
+SyntaxError: Private field '#nome' must be declared in enclosing class
+
+Com isso, observamos que campos privados são eficazes em impedir que outras partes do código acessem propriedades e métodos que não deveriam. No entanto, eles são tão restritivos que nem mesmo subclasses ou classes filhas, que teoricamente poderiam acessar esses campos privados, conseguem fazê-lo.
+
+Por exemplo, a classe Admin não consegue acessar a propriedade de nome herdada da classe User, mostrando o alto nível de proteção proporcionado pelos campos privados.
+
+Conclusão e Próximos Passos  
+Precisamos resolver isso porque haverá situações no seu projeto em que será necessário criar métodos específicos dentro de uma subclasse que precisam acessar propriedades como nome, e-mail, etc., que são herdados da superclasse.
+
+Vamos concluir essa seção sobre encapsulamento aprendendo como acessar essas propriedades usando métodos próprios.
+
+### Aula 04 - Getters - Vídeo 3
+
+Transcrição  
+Exploramos as propriedades e métodos privados. Agora, vamos abordar a última parte do encapsulamento: os getters e setters, também chamados de métodos acessores.
+
+Já discutimos a importância de não expor para fora da classe tanto métodos quanto propriedades que julgamos que não devem ser acessados pelo restante do sistema. Também aprendemos que métodos privados realmente protegem e as subclasses que às vezes precisam acessar uma propriedade privada para utilizar um método próprio, não conseguem.
+
+No arquivo Admin.js e vamos deletar esse exibeNome() porque não está funcionando e não é dessa forma que vamos utilizá-lo. E no User.js, iremos criar nossa primeira solução para pegar, por exemplo, o nome. Vamos criar a funcionalidade em User, não vamos criar em Admin.
+
+Primeiro porque é de User que estão vindo as informações que estão privadas; e segundo porque como ela é a superclasse, vamos disponibilizar algumas informações que as subclasses podem utilizar.
+
+Após o construtor, criamos um novo método. Antes de definir o método nome, adicionamos a palavra-chave get. Assim, get nome() é declarado com parênteses vazios e sem parâmetros. Nele, simplesmente retornamos this.#nome, que é nossa propriedade privada.
+
+User.js
+
+```JavaScript
+// código omitido
+
+get nome() {
+    return this.#nome
+}
+
+// código omitido
+```
+
+O que é o get? Get é uma palavra-chave que usamos para criar um tipo especial de método que é somente leitura. Utilizamos o mesmo nome da propriedade para esse método, não por coincidência, tem uma razão de ser.
+
+Vamos testar para verificar se isso está funcionando. Vamos ao arquivo index.js, temos nosso novoAdmin criado com os dados do Rodrigo, etc. Comentamos o console.log(novoAdmin.exibeNome()); usando duas barras, //. Adicionaremos um console.log() em novoAdmin.nome.
+
+index.js
+
+```JavaScript
+// código omitido
+
+// novoUser.#nome = "Márcia"
+// console.log(novoUser.exibirInfos());
+// console.log(novoUser.#nome);
+
+const novoAdmin = new Admin("Rodrigo", "r@r.com", "2024-01-01")
+console.log(novoAdmin.nome);
+// console.log(novoAdmin.exibeNome());
+```
+
+Vamos testar agora para verificar se tudo está funcionando. No terminal, executamos node index.js. Obtemos:
+
+Rodrigo
+
+Agora ele exibiu o nome, que anteriormente não estava sendo exibido porque a propriedade não existia e poderia ser criada com um valor, se necessário.
+
+O que mudou? Criamos um método acessor usando a palavra-chave get, que permite acessar uma propriedade externamente. Note que ao usar get, o método nome não é chamado com parênteses quando o usamos no console.log(novoAdmin.nome).
+
+Chamamos como se fosse uma propriedade, ou seja, usamos a sintaxe de objetos para acesso de propriedades. Quando chamamos novoAdmin.nome de fora da nossa classe, não fica claro que isso não é apenas uma propriedade simples; na verdade, é uma função específica conhecida como getter: get nome().
+
+Por quê? Porque quem está fora da classe não precisa saber dos detalhes internos da implementação. É por isso que a sintaxe é diferente, e isso é uma prática inteligente.
+
+Então, para quem está fora da classe, é como se estivesse acessando uma propriedade normal. Mas internamente, estamos limitando o acesso usando um método acessor do tipo get, conhecido como getter, que é o que chamamos.
+
+User.js
+
+```JavaScript
+// código omitido
+
+get nome() {
+    return this.#nome
+}
+
+// código omitido
+```
+
+Estamos simplesmente retornando o #nome, mas esse método poderia conter toda uma lógica interna de validação, restrição do que deve ser exibido, como combinar nome e sobrenome, ou outras lógicas necessárias para o projeto.
+
+Agora podemos refazer o método exibirInfos(). Vamos excluir o método montaObjUser() do arquivo User.js, que foi utilizado apenas para mostrar erros e não será mais necessário.
+
+Trecho removido:
+
+```JavaScript
+#montaObjUser() {
+    return ({ 
+    nome: this.#nome, 
+    email: this.#email, 
+    nascimento: this.#nascimento, 
+    role: this.#role, 
+    ativo: this.#ativo,
+})
+```
+
+Antes de reescrever o exibirInfos(), precisamos criar métodos acessores para todas as propriedades que desejamos tornar disponíveis fora da classe.
+
+Criando métodos acessores para as propriedades
+Então, criamos o método get nome(). Agora vamos copiar nosso getter e colá-lo para email, nascimento, role e ativo. Assim, teremos get Email usando "Ctrl + D" para selecionar termos iguais, depois get nascimento() substituindo nome por nascimento, e por último get role() e get ativo().
+
+User.js
+
+```JavaScript
+// código omitido
+
+get nome() {
+    return this.#nome
+}
+
+get email() {
+    return this.#email
+}
+
+get nascimento() {
+    return this.#nascimento
+}
+
+get role() {
+    return this.#role
+}
+
+get ativo() {
+    return this.#ativo
+}
+
+// código omitido
+```
+
+Com isso, conseguimos disponibilizar as propriedades.
+
+Suponhamos que preferimos disponibilizar apenas o email e o nome, e não todas essas propriedades, porque as demais são utilizadas internamente na lógica da nossa classe. É por isso que usamos getters separados para isso.
+
+Precisamos criar um getter para cada propriedade? Sim, precisamos. Existem alguns motivos para isso, como mencionamos antes. É uma boa prática de orientação a objetos que enfatiza a responsabilidade única. Portanto, cada getter com o método na classe realiza uma tarefa muito específica.
+
+Pode parecer estranho fazer tudo separadamente, mas isso evita acoplamento. Ou seja, podemos pegar apenas as informações que precisamos, sem ficar presa a um método que retorna um monte de coisas desnecessárias. Assim, conseguimos extrair apenas o que é importante para nós.
+
+Isso também se deve à forma como o método é chamado. Lembre-se de que os getters são acessados como se fossem propriedades. Se acessarmos .nome, esperamos receber o nome. Da mesma forma, se acessarmos .role, esperamos receber o role, e assim por diante.
+
+Também é bom usar acessores, mesmo que não deixemos nossas propriedades como privadas. Isso é uma boa prática porque limita os pontos de acesso à nossa classe. Isso facilita identificar onde exatamente no sistema nossa classe está sendo acessada.
+
+Estamos expondo partes específicas da nossa classe. Por que fazemos isso? Porque ao acessarem .nome, outras partes do sistema não estão mais acessando a propriedade diretamente; estão utilizando o getter.
+
+Próximos Passos  
+Do mesmo modo que transformamos essas propriedades em propriedades somente leitura através de getters, precisamos também controlar como essas propriedades podem ser modificadas. Isso é o que vamos abordar a seguir com os setters.
+
+### Aula 04 - Setters - Vídeo 4
+
+Transcrição  
+Para finalizarmos o assunto do encapsulamento, tratamos de campos privados e métodos acessores, especificamente o método get, usado para realizar leituras apenas. Ele nos permite acessar informações de propriedades dentro de uma classe.
+
+Método Set  
+E se precisarmos alterar o valor de nome dentro da nossa classe? Para permitir essa funcionalidade, vamos utilizar um tipo diferente de método acessor chamado set, semelhante ao get, mas utilizado para definir valores.
+
+São os chamados setters (definidores), usados para atribuir um novo valor a uma propriedade específica.
+
+Como as propriedades da nossa classe User são privadas, não podemos simplesmente modificar usando a sintaxe .propriedade = dado. Como podemos fazer isso?
+
+Implementando o Setter  
+Abaixo dos get, adicionamos um sete na sequência inserimos nome(). Lembrando que o identificador tem o mesmo nome da propriedade.
+
+Uma coisa importante: os getters nunca levam nenhum parâmetro porque nós só os acessamos. Portanto, quando usamos get, acessamos sem definir parâmetros.
+
+O set sempre aceita apenas um parâmetro, que é o dado que desejamos modificar. Por exemplo, no caso de um set nome(), o parâmetro será chamado novoNome, que é o que queremos modificar. Então, abrimos e fechamos chaves e, dentro delas, passamos apenas this.#nome = novoNome, de forma bem sucinta.
+
+User.js
+
+```JavaScript
+// código omitido
+
+set nome(novoNome) {
+    this.#nome = novoNome
+
+}
+// código omitido
+```
+
+Agora podemos testar no index.js.
+
+Testando no index.js  
+Comentamos o nosso novoAdmin no arquivo index.js por enquanto e focamos em novoUser.
+
+index.js
+
+```JavaScript
+// código omitido
+
+// const novoAdmin = new Admin("Rodrigo", "r@r.com", "2024-01-01")
+// console.log(novoAdmin.nome);
+
+// código omitido
+```
+
+Já temos um user chamado Juliana declarado, então podemos usá-lo. Chamamos console.log(novoUser.exibirInfos()) e, em seguida, deletamos a chamada repetida de novoUser.exibirInfos() que está logo abaixo.
+
+Vamos usar o método exibirInfos() para verificar se está tudo correto. Em seguida, trocamos o nome do nosso usuário acessando novoUser.nome = "Julia". Depois, chamamos console.log(novoUser.nome) novamente para confirmar se a mudança foi bem-sucedida.
+
+index.js
+
+```JavaScript
+// código omitido
+
+console.log(novoUser.exibirInfos());
+novoUser.nome = "Julia"
+console.log(novoUser.nome);
+
+// código omitido
+```
+
+Salvamos o arquivo.
+
+Abrimos um novo terminal em "Terminal > Novo Terminal" e rodamos o seguinte comando:
+
+```JavaScript
+node index.js
+```
+
+Como retorno, obtivemos um erro.
+
+O retorno abaixo foi parcialmente transcrito:
+
+ReferenfeError: ObjUser is not defined.
+
+Já sabemos o que está acontecendo aqui. Vamos fechar o terminal e corrigir o método exibirInfos() no nosso User.js, que ficou errado e não foi corrigido anteriormente.
+
+User.js
+
+```JavaScript
+// código omitido
+
+  exibirInfos() {
+     //const objUser = this.#montaObjUser()
+    return `${objUser.nome}, ${objUser.email}`
+  }
+}
+// código omitido
+```
+
+Deletamos a linha onde criávamos o objUser que está comentada, porque ele não existe mais. No retorno, voltamos a acessar this.nome e this.email.
+
+User.js
+
+```JavaScript
+// código omitido
+
+  exibirInfos() {
+    return `${this.nome}, ${this.email}`
+  }
+}
+
+// código omitido
+```
+
+Salvamos os ajustes.
+
+Lembre-se que agora os nossos this.nome e this.email se referem aos getters, e não mais às nossas propriedades privadas.
+
+Abrimos o terminal novamente e rodamos o comando node index.js.
+
+Juliana, j@j.com
+
+Julia
+
+Obtivemos os dados do nosso user no exibirInfos(). Ele trocou o nome para Júlia, e no console.log(novoUser.nome), ele exibiu o novo resultado para nós. Lembrando que estamos utilizando os dois métodos acessores que definimos: o setter em novoUser.nome = "Julia" e o getter em console.log(novoUser.nome).
+
+Outra coisa interessante é que, assim como na sintaxe do get, para fazermos a chamada de forma diferente, acessamos como se fosse uma propriedade e não um método; o mesmo acontece com o set.
+
+Então, se voltarmos ao User.js, apesar de set ser uma função que recebe um parâmetro, na chamada do index.js, isso é feito com um operador de atribuição igual (novoUser.nome = "Julia"). É como se estivéssemos acessando normalmente um objeto através da propriedade de nome e passando um novo valor para ele.
+
+Em outras palavras, quem acessa essa classe externamente não sabe que nome é um setter. Funciona como um limitador de acesso; a atribuição ocorre como se fosse um objeto normal. Ou seja, para quem está fora da classe, não fica claro o que está sendo exposto ou não.
+
+Mas se estamos permitindo a alteração do nome com um set no User.js, por que colocamos o nome como uma propriedade privada? Não é necessário. Aqui está o detalhe de por que é importante usarmos esses métodos acessores.
+
+Validação no Setter  
+Dentro da nossa função set nome() para o caso do set, podemos implementar uma lógica interna. Por exemplo, podemos realizar uma verificação inicial para determinar se a pessoa que está acessando tem permissão adequada, autenticar a ação ou validar os dados de entrada.
+
+Assim, antes de efetuar a mudança de nome, verificamos se é possível realizar essa operação, se as condições são satisfatórias e se o nome atende aos critérios estabelecidos.
+
+Dentro do set nome(), faremos um teste simples. Vamos usar um if() para verificar se novoNome é uma string vazia (""). Se for, lançaremos um erro usando throw new Error('formato do nome não é válido').
+
+Se tudo estiver correto e não entrar no if(), ele permitirá a alteração aqui.
+
+User.js
+
+```JavaScript
+// código omitido
+
+  set nome(novoNome) {
+    if (novoNome === "") {
+      throw new Error('formato do nome não é válido')
+    }
+    this.#nome = novoNome
+  }
+
+// código omitido
+```
+
+Voltarmos ao nosso index.js e definimos que novoUser.nome é uma string vazia.
+
+index.js
+
+```JavaScript
+// código omitido
+
+console.log(novoUser.exibirInfos());
+novoUser.nome = ""
+console.log(novoUser.nome);
+
+// código omitido
+```
+
+Podemos testar nossa lógica interna no terminal digitando node index.js.
+
+O retorno abaixo foi parcialmente transcrito:
+
+Error: formato do nome não é válido
+
+Funcionou conforme o esperado, pois gerou o erro "O formato do nome não é válido".
+
+Então, no código do User.js, lembrando que nos cursos que envolvem pré-requisitos, lidamos bastante com o lançamento de erros. Não entraremos em detalhes aqui, mas esse conceito é abordado nos cursos sobre pré-requisitos.
+
+Quando uma informação não está de acordo com o esperado, não apenas a registramos na propriedade de nome, mas também lançamos um erro que interrompe a execução da nossa aplicação.
+
+Em outras palavras, o setter não apenas modifica uma propriedade, mas também executa todas as ações necessárias quando há qualquer alteração de informação: verifica se a alteração é permitida, realiza validações, entre outras operações.
+
+Por exemplo, se recebermos um conjunto de informações contendo nome e sobrenome combinados de uma fonte externa e precisarmos separá-los dentro do nosso sistema, podemos realizar essa operação através do método set, usando uma lógica interna adequada, entre outras abordagens.
+
+Esse exemplo de como separar nome e sobrenome usando o setter será incluído nas atividades extras.
+
+Se estamos usando um set para definir propriedades, ainda precisamos do construtor de classe? Sim, porque as funções do construtor e do setter têm propósitos distintos.
+
+O setter opera dentro do conceito de encapsulamento que estamos adotando, onde ele permite apenas que o conteúdo definido no set seja modificado externamente à classe, sendo a única maneira de alterar esses conteúdos.
+
+Aqui estamos realizando uma alteração. Portanto, ao pensar sempre no set, não o utilizamos para atribuir valores a propriedades, mas sim para definir novos valores para propriedades já estabelecidas. Quando utilizamos o set? Utilizamos quando necessitamos efetivamente modificar algo em um objeto, em uma instância de classe que já foi previamente definida.
+
+Em outras palavras, inicialmente definimos um novoUser onde o construtor é necessário. Depois, se precisarmos alterar algo dentro dessa instância de user que criamos, como a instância da Juliana, utilizamos o setter para especificar como isso pode ser realizado.
+
+Em resumo, esses métodos acessores (getters e setters) encapsulam a classe, ocultando suas propriedades e métodos para que sejam manipulados externamente conforme a classe determina. Elas garantem que o acesso às propriedades seja controlado pela classe, permitindo ou proibindo alterações conforme necessário. Dessa forma, utilizamos métodos e propriedades privadas para manter a integridade do objeto.
+
+Conclusão  
+É isso sobre o encapsulamento. Agora, vamos concluir com mais alguns conceitos importantes para começarmos com orientação a objetos em JavaScript.
+
+### Aula 04 - Para saber mais: atributos privados com _
+
+Até recentemente, o JavaScript não tinha a opção de usar atributos privados com #. Em vez disso, atributos privados tinham um _ como prefixo como convenção, indicando se tratar de atributos privados. Vamos ver alguns exemplos de como essa convenção funcionava.
+
+Podemos entender “convenção” como um “acordo”. A comunidade dev adotou a sintaxe _variavel (com o _ antes do nome) como um aviso no código de que se trata de uma propriedade ou método privado que não deve ser chamado ou modificado fora da classe. Porém, incluir o _ não produz nenhuma modificação sintática no código, ou seja, os atributos na prática continuam se comportando como propriedade ou método normal (público) e ainda podem ser acessados livremente.
+
+Lembrando que propriedades e métodos públicos são aqueles que podem ser acessados a partir de qualquer parte do código; os privados são acessados apenas “por dentro” da classe.
+
+Além da convenção, existem algumas formas de fazer um atributo se comportar como privado. Vamos ver alguns exemplos, começando por uma classe totalmente pública:
+
+```JavaScript
+class User {
+ role = '';
+
+ constructor(nome) {
+   this.nome = nome;
+   console.log(`Criado novo usuário: ${nome}` );
+ }
+}
+// criar o usuário
+let novoUser = new User('Rodrigo');
+
+// modificar o role
+novoUser.role = 'admin';
+console.log(novoUser.role) // admin
+```
+
+Agora vamos “proteger” as propriedades nome e role, marcando com o prefixo _ e também modificando um pouco a estrutura da classe:
+
+```JavaScript
+class User {
+ _role = '';
+
+ set role(tipoRole) {
+   if (tipoRole !== 'admin') {
+     tipoRole = 'estudante'
+   }
+   this._role = tipoRole
+ }
+
+ get role() {
+   return this._role
+ }
+
+ constructor(nome) {
+   this._nome = nome;
+ }
+}
+```
+
+Ao criarmos a classe, condicionamos o acesso aos getters e setters. Ao criarmos a instância e executarmos os métodos:
+
+```JavaScript
+// criar o usuário
+let novoUser = new User('Rodrigo');
+
+// modificar o role
+novoUser.role = 'admin'; // acessando via setter
+console.log(novoUser.role) // admin
+
+// tentar incluir um role não existente
+novoUser.role = 'gerente';
+console.log(novoUser.role) // estudante
+```
+
+Propriedades do tipo “apenas leitura” (read-only)  
+A partir do momento em que usamos getters ou setters em uma classe, as operações ficam dependentes entre si. Uma classe que utiliza getters para acessar propriedades vai precisar necessariamente de setters para modificá-las. Por exemplo:
+
+```JavaScript
+class User {
+  constructor(nome) {
+   this._nome = nome
+ }
+
+ get nome(){
+   return this._nome
+ }
+}
+```
+
+No exemplo acima, criamos uma classe com apenas um construtor para receber um valor para a propriedade nome e um getter para nome.
+
+Vamos instanciar a classe e tentar atualizar nome:
+
+```JavaScript
+// criar o usuário
+let novoUser = new User('Rodrigo');
+console.log(novoUser.nome) //usando o getter
+
+novoUser.nome = 'Mariana'
+console.log(novoUser.nome) //não é modificado, continua 'Rodrigo'
+```
+
+O setter não foi implementado, então a propriedade não é modificada.
+
+Usando métodos
+É possível emular os getters e setters com funções. As funções são mais flexíveis do que get/set (podem aceitar argumentos diferentes, por exemplo).
+
+```JavaScript
+class User {
+ _nome = '';
+
+ setNome(nome) {
+   this._nome = nome;
+ }
+
+ getNome() {
+   return this._nome;
+ }
+}
+```
+
+Nesse caso, suprimimos o construtor e passamos toda a responsabilidade para setName(). Vamos executar:
+
+```JavaScript
+const novoUser = new User()
+novoUser.setNome('Rodrigo');
+console.log(novoUser.getNome()); //Rodrigo
+```
+
+A convenção do prefixo _ para atributos privados têm sido usada há muito tempo e, apesar da funcionalidade de atributos privados com # já ter sido implementada, você ainda pode encontrar a forma anterior com frequência.
+
+### Aula 04 - Mão na massa: outro exemplo de setter
+
+Vamos fazer mais um exercício com setters.
+
+Podemos supor que, na classe User, seja necessário separar as propriedades de nome e sobrenome dos usuários, pois a base de dados guarda cada uma dessas informações em campos separados. Porém, em todas as comunicações que levam o nome do usuário, nome e sobrenome devem aparecer juntos.
+
+Uma forma de resolver isso seria através do setter de nome. Vamos alterar um pouco a classe User para receber, no construtor, #nome e #sobrenome:
+
+```JavaScript
+default class User {
+ #nome
+ #sobrenome
+ // restante das propriedades
+```
+
+E alteramos também no construtor:
+
+```JavaScript
+ constructor (nome, sobrenome, email, nascimento, role, ativo = true) {
+   this.#nome = nome
+   this.#sobrenome = sobrenome
+   // restante das propriedades
+```
+
+A questão agora é que nome e sobrenome devem ser unidos no getter (para serem “mandados” para fora da classe como um único dado) e separados no setter, pois o método sempre receberá um nome completo, e #nome e #sobrenome são propriedades diferentes que estão salvas no banco em campos separados.
+
+Começando pelo setter:
+
+```JavaScript
+ set nome(novoNome) {
+   if (novoNome === '') {
+     throw new Error('formato não válido')
+   }
+   let [nome, ...sobrenome] = novoNome.split(" ")
+   sobrenome = sobrenome.join(' ')
+   this.#nome = nome
+   this.#sobrenome = sobrenome
+ }
+```
+
+Aqui pegamos uma string única e separamos em nome e sobrenome, para que cada propriedade possa ser atualizada. Fizemos isso utilizando os métodos do JavaScript split() e join para manipular strings e arrays.
+
+Atualizamos agora os getters:
+
+```JavaScript
+ get nome() {
+   return this.#nome
+ }
+
+ get sobrenome() {
+   return this.#sobrenome
+ }
+```
+
+Testando no console:
+
+```JavaScript
+const novoUser = new User('Juliana', 'Souza', 'j@j.com', '2021-01-01')
+console.log(novoUser.nome) //'Juliana'
+novoUser.nome = 'Juliana Silva Souza'
+console.log(novoUser.nome) //'Juliana'
+console.log(novoUser.sobrenome) //'Silva Souza'
+```
+
+Por fim, podemos juntar as duas propriedades para retornar o nome completo:
+
+```JavaScript
+ get nome() {
+   return `${this.#nome} ${this.#sobrenome}`
+ }
+```
+
+Opinião do instrutor
+
+Vamos esclarecer aqui que os métodos de string do JavaScript servem para este exemplo, mas caso precise separar nomes de uma forma mais segura é sempre possível usar [expressões regulares](https://cursos.alura.com.br/course/expressoes-regulares-buscas-validacoes-substituicoes-textos).
+
+Esta situação de nomes e sobrenomes é somente um exemplo de manipulação de propriedades e/ou validações que podem fazer parte do código das propriedades assessoras.
+
+### Aula 04 - Para saber mais: assessores são sempre necessários?
+
+Durante a aula conhecemos os chamados assessores, ou métodos que dão acesso a determinadas propriedades. Os getters retornam valores e os setters definem valores. Mas será que estes métodos são sempre necessários, em todas as classes?
+
+Assim como a função constructor(), os assessores podem ser utilizados somente quando as funcionalidades são realmente necessárias. Por exemplo, um getter pode ser utilizado para retornar um dado da classe de uma forma específica (juntando nome e sobrenome como vimos na atividade anterior, ou qualquer outro caso). Um setter é útil quando se deseja executar algum código sempre que alguma propriedade é definida ou sofre alguma modificação, por exemplo, códigos que façam validação de campos. Os assessores também atuam na segurança de uma classe, encapsulando dados quando necessário.
+
+Durante a prática do desenvolvimento com classes, você terá a oportunidade de praticar cada caso e também ver situações onde os assessores não são necessários, ou o constructor(). Como dizemos para quase tudo em programação, “depende”!
+
+### Aula 04 - Para saber mais: getters e setters com funções
+
+Na atividade sobre atributos privados com _, estudamos um exemplo de código onde, ao invés de get e set, foram utilizadas funções para esse papel:
+
+```JavaScript
+class User {
+ _nome = '';
+
+ setNome(nome) {
+   this._nome = nome;
+ }
+
+ getNome() {
+   return this._nome;
+ }
+}
+```
+
+É possível usar métodos como assessores, como visto acima. Porém, há algumas vantagens na utilização de get/set:
+
+Apesar de serem métodos, a sintaxe para uso do get e set é a mesma que utilizamos para acessar/modificar propriedades públicas normalmente, o que faz sentido com a ideia do encapsulamento de “expôr” somente o que é necessário da classe. Por outro lado, na forma acima, os métodos são acessados com a sintaxe usual de execução de função (usando parênteses).
+
+Por exemplo, usando funções como assessores teríamos as seguintes chamadas de método:
+
+```JavaScript
+const nome = novoUser.getNome() //getter
+novoUser.setNome('Pedro') //setter
+novoUser.exibeInfos() // método normal
+```
+
+Utilizando get e set:
+
+```JavaScript
+const nome = novoUser.nome //getter
+novoUser.nome = 'Pedro' //setter
+novoUser.exibeInfos() // método normal
+```
+
+Dessa forma, o uso de get/set ajuda na legibilidade.
+
+Além disso, os assessores têm, em si mesmos, limitações quanto aos parâmetros aceitos: get não aceita nenhum parâmetro e set aceita apenas um parâmetro (referente ao dado que será definido), o que ajuda a garantir que não irão receber parâmetros “inesperados” que podem causar bugs. O mesmo comportamento pode ser implementado em métodos normais, por meio de validações, porém isso torna o desenvolvimento menos ágil.
+
+Na verdade (como em vários outros aspectos do desenvolvimento com JavaScript) não há consenso quanto ao uso de métodos normais no lugar de assessores, e você vai encontrar as mais diversas opiniões sobre esse assunto. Como há outras linguagens de programação que não têm assessores e utilizam funções como getters/setters, pessoas que já desenvolvem nestas linguagens podem transferir sua experiência para o JavaScript. Porém, agora que você já conhece os dois casos, já fica mais fácil identificar e ler códigos que implementam o encapsulamento das duas formas.
+
+### Aula 04 - Propriedades públicas e privadas - Exercício
+
+Você está trabalhando em um sistema de gerenciamento de usuários e pediu a um colega que implementasse uma classe para o usuário padrão. Como todo cadastro de usuários sempre envolve dados sensíveis, a especificação da classe pede que as propriedades sejam privadas.
+
+Um tempo depois, você recebe o seguinte código:
+
+```JavaScript
+class User {
+ #nome
+ #email
+ #cpf
+  constructor(nome, email, cpf) {
+   this.#nome = nome
+   this.#email = email
+   this.#cpf = cpf
+ }
+
+ get nome() {
+   return this.nome
+ }
+}
+```
+
+Você tem a impressão de que seu colega se distraiu na implementação, mas resolve testar e conferir.
+
+Se executarmos o código abaixo para testar a classe:
+
+```JavaScript
+const novoUser = new User('Carol', 'c@c.com', '12312312312')
+console.log(novoUser.nome)
+```
+
+Qual será o resultado?
+
+Resposta:  
+O terminal exibirá um erro do tipo RangeError: Maximum call stack size exceeded.
+
+> Você notou que o get retorna não a propriedade #nome, mas sim nome. Embora sejam consideradas como variáveis diferentes pelo JavaScript, esse código irá resultar em um stack overflow, pois a propriedade nome sendo chamada dentro do getter get nome() (ambas com a mesma nomenclatura) faz com que o getter seja chamado dentro dele mesmo, de forma recursiva, causando o “estouro” na pilha de processos do Node.js.
+
+## Aula 05 - Polimorfismo
+
+### Aula 05 - Projeto da aula anterior
+
+Você pode [baixar o zip](https://github.com/alura-cursos/3710-javascript-oo/archive/refs/heads/aula-4.zip) ou acessar o link do [repositório da aula 4 no GitHub](https://github.com/alura-cursos/3710-javascript-oo/tree/aula-4)!
+
+### Aula 05 -  - Vídeo 1
+### Aula 05 -  - Vídeo 2
+### Aula 05 -  - Vídeo 3
+### Aula 05 -  - Vídeo 4
+### Aula 05 -  - Vídeo 5
+### Aula 05 -  - Vídeo 6
+### Aula 05 -  - Vídeo 7
+### Aula 05 -  - Vídeo 8
