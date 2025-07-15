@@ -1,8 +1,8 @@
 import User from "./User.js";
 
 export default class Docente extends User {
-    constructor(nome, sobreNome, email, nascimento, cpf, role='Docente', ativo=true) {
-        super(nome, sobreNome, email, nascimento, cpf, role, ativo);
+    constructor(nome, sobreNome, email, nascimento, role='Docente', ativo=true, cpf) {
+        super(nome, sobreNome, email, nascimento, role, ativo);
         this.cpf = cpf;//Nova propriedade exclusiva de Docente
     };
     aprovarEstudante(nomeEstudante, curso) {//Nova função(método) exclusivo de Docente
