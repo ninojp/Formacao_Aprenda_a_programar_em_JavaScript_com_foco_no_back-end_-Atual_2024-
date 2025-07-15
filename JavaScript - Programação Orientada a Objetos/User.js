@@ -1,5 +1,5 @@
 export default class User {
-    // Propriedades #privadas, não acessíveis fora da classe
+    //Encapsulamento: Propriedades #privadas, não acessíveis fora da classe
     #nome; #sobreNome; #email; #nascimento; #role; #ativo;
     constructor(nome, sobreNome, email, nascimento, role, ativo = true) {
         this.#nome = nome;
@@ -53,11 +53,30 @@ export default class User {
     //         ativo: this.#ativo
     //     });
     // };
+
+    // exibirInfos() {
+    //     return `O ${this.role}, ${this.nome} tem o E-Mail: ${this.email}!`;
+    // Internamente podemos acessar as propriedades privadas, criar um objeto e retornar para fora da clase ...
+    // const objUser = this.#montarObjetoUser();
+    // return `O ${objUser.role}, ${objUser.nome} tem o E-Mail: ${objUser.email}!`;
+    // };
+
+    //Overload = sobrecarga de métodos, onde o mesmo método pode ter diferentes implementações dependendo dos parâmetros passados.
     exibirInfos() {
-        return `O ${this.role}, ${this.nome} tem o E-Mail: ${this.email}!`;
-        // Internamente podemos acessar as propriedades privadas, criar um objeto e retornar para fora da clase ...
-        // const objUser = this.#montarObjetoUser();
-        // return `O ${objUser.role}, ${objUser.nome} tem o E-Mail: ${objUser.email}!`;
+        if (this.role === "Estudante") {
+            return `Dados estudante: ${this.nome}`
+        }
+        if (this.role === "Admin") {
+            return `Dados admin: ${this.nome}, ${this.role}`
+        }
+        if (this.role === "Docente") {
+            return `Dados docente: ${this.nome}, ${this.email}`
+        }
+    }
+    //Método estático, não precisa de instância para ser chamado
+    //pode ter o mesmo nome de um método de instância, mas não pode acessar propriedades de instância.
+    static exibirInfos(nome, email) {
+        return `Nome: ${nome}, Email: ${email}`;
     };
 };
 // const novoUser = new User('Nino', 'n@n.com', '25/04/81');

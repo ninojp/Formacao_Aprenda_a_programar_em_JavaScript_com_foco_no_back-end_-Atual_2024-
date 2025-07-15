@@ -1,9 +1,13 @@
 import User from "./User.js";
 
 export default class Admin extends User {
-    constructor(nome, email, nascimento, role='Admin', ativo=true) {
-        super(nome, email, nascimento, role, ativo);
+    constructor(nome, sobreNome, email, nascimento, role = 'Admin', ativo = true) {
+        super(nome, sobreNome, email, nascimento, role, ativo);
     };
+    //Polimorfismo: Sobrescrevendo o método exibirInfos da classe User
+    exibirInfos() {
+        return `O ${this.nome}, tem o Email: ${this.email} ele é ${this.role}`;
+    }
     criarCurso(nomeCurso, qtdVagas) {
         return `Curso de ${nomeCurso} criado com ${qtdVagas} vagas.`;
     }

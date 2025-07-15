@@ -3383,11 +3383,806 @@ O terminal exibirá um erro do tipo RangeError: Maximum call stack size exceeded
 
 Você pode [baixar o zip](https://github.com/alura-cursos/3710-javascript-oo/archive/refs/heads/aula-4.zip) ou acessar o link do [repositório da aula 4 no GitHub](https://github.com/alura-cursos/3710-javascript-oo/tree/aula-4)!
 
-### Aula 05 -  - Vídeo 1
-### Aula 05 -  - Vídeo 2
-### Aula 05 -  - Vídeo 3
-### Aula 05 -  - Vídeo 4
-### Aula 05 -  - Vídeo 5
-### Aula 05 -  - Vídeo 6
-### Aula 05 -  - Vídeo 7
-### Aula 05 -  - Vídeo 8
+### Aula 05 - Polimorfismo - Vídeo 1
+
+Transcrição  
+Até o momento, discutimos quatro dos cinco princípios fundamentais da orientação a objetos: os objetos em si e a forma como o JavaScript trabalha com eles; as classes; herança; e encapsulamento. Nosso último tópico é polimorfismo. O que é polimorfismo e para que ele serve?
+
+Polimorfismo  
+Polimorfismo pode ser traduzido como a habilidade de se transformar em coisas diferentes. Ou seja, a depender do contexto, podemos dizer que um objeto se comporta de maneiras diferentes.
+
+Vamos pensar em uma pessoa. Uma pessoa pode ser estudante em uma escola, funcionária em um trabalho, ou um membro específico da família. Para cada uma dessas situações, a pessoa vai se comportar de uma forma diferente. O princípio é o mesmo quando falamos de comportamento de objetos.
+
+Você pode pensar: isso não é a mesma coisa que herança, em que temos estudantes, administradores, e docentes? Não exatamente. Vamos fazer alguns testes no código para entender melhor.
+
+Criando um novo administrador  
+Com o arquivo index.js aberto, vamos apagar alguns testes anteriores, que estavam comentados entre as linhas 10 e 16.
+
+index.js:
+
+```JavaScript
+import User from "./User.js"
+import Admin from "./Admin.js"
+import Docente from "./Docente.js"
+
+const novoUser = new User("Juliana", "j@j.com", "2024-01-01")
+console.log(novoUser.exibirInfos());
+novoUser.nome = "Juliana"
+console.log(novoUser.nome);
+```
+
+Na linha 5, temos o novoUser definido como "Juliana". Após o console.log(), a partir da linha 7, podemos remover as linhas de código e criar um novo administrador para testar.
+
+Começaremos criando uma const na linha 8 chamada novoAdmin, que será igual a new Admin(), passando as informações necessárias entre parênteses: o nome "Rodrigo"; o e-mail "r@r.com"; e a data de nascimento "2024-01-01".
+
+Com o método console.log() na linha 9, podemos passar novoAdmin.exibirInfos() entre parênteses. Dessa forma, conseguiremos comparar os retornos no terminal.
+
+```JavaScript
+// código omitido
+const novoUser = new User("Juliana", "j@j.com", "2024-01-01")
+console.log(novoUser.exibirInfos());
+
+const novoAdmin = new Admin("Rodrigo", "r@r.com", "2024-01-01")
+console.log(novoAdmin.exibirInfos());
+```
+
+Comparando retornos no terminal
+Com o terminal aberto, vamos executar o seguinte comando:
+
+```JavaScript
+node index.js
+```
+
+O retorno é exatamente o mesmo:
+
+```JavaScript
+Juliana, j@j.com
+Rodrigo, r@r.com
+```
+
+Isso é herança de classe: da superclasse User, a classe Admin recebe o método exibirInfos() e faz uso dele em um contexto específico. Por isso temos o contexto da pessoa usuária Juliana e o contexto da pessoa usuária Rodrigo.
+
+No entanto, pode ser que no seu código, projeto ou produto, você queira exibir informações, tanto de administrador quanto de estudante, mas seja necessário fazer com que exibirInfos() se comporte de forma diferente, retornando coisas diferentes.
+
+Muitas vezes, não queremos que o retorno de um método seja o mesmo para a superclasse e as subclasses. Dito isso, vamos fazer mais um teste.
+
+Criando o método exibirInfos()  
+Vamos abrir o arquivo Admin.js e criar outro método que também chamaremos de exibirInfos(), na linha 8.
+
+Admin.js:
+
+```JavaScript
+import User from "./User.js";
+
+export default class Admin extends User {
+  constructor(nome, email, nascimento, role = "admin", ativo = "true") {
+    super(nome, email, nascimento, role, ativo)
+  }
+
+  exibirInfos() {
+
+  }
+
+  criarCurso(nomeCurso, qtdVagas) {
+    return `curso ${nomeCurso} criado com ${qtdVagas} vagas.`
+  }
+}
+// console.log(novoAdmin.criarCurso('JavaScript', 20));
+```
+
+No escopo de exibirInfos(), podemos copiar do arquivo User.js o retorno de exibirInfos(), que por enquanto é nome e email na linha 43. Feito isso, vamos colar em Admin.js na linha 9.
+
+Trecho a ser copiado de User.js:
+
+```JavaScript
+return `${this.nome}, ${this.email}`
+```
+
+No arquivo Admin.js, precisaremos ajustar esse return.
+
+Quando queremos exibir os dados de uma pessoa usuária, a ideia é exibir nome e e-mail. Porém, quando queremos exibir os dados de um administrador, o objetivo é acrescentar algumas informações, como, por exemplo, que essa é uma pessoa usuária administradora.
+
+No método exibirInfos() que acabamos de criar no arquivo Admin.js, vamos adicionar essa informação na template string, com um novo conjunto de cifrão e chaves (${}) contendo this.role.
+
+Admin.js:
+
+```JavaScript
+// código omitido
+
+exibirInfos() {
+  return `${this.nome}, ${this.email}, ${this.role}`
+}
+
+// código omitido
+```
+
+Executando no terminal  
+Após salvar as alterações, vamos voltar ao arquivo index.js, abrir um novo terminal em "Terminal > New Terminal", e rodar o seguinte comando:
+
+```JavaScript
+node index.js
+```
+
+Retorno do comando:
+
+```JavaScript
+Juliana, j@j.com
+Rodrigo, r@r.com, admin
+```
+
+Note que, para a execução do método, continua sendo o método exibirInfos(), mas agora, a pessoa usuária Juliana retornou uma série de informações, enquanto Rodrigo retornou outra.
+
+Ou seja, a pessoa usuária base trouxe um tipo de informação e as pessoas usuárias administradoras trouxeram outros tipos. Porém, o método é o mesmo.
+
+Criando a constante infos  
+É possível fazer essa refatoração de outra forma. De volta ao arquivo Admin.js, no método exibirInfos() da linha 8, podemos trazer o resultado do método exibirInfos() da superclasse.
+
+Para isso, no escopo do exibirInfos() da classe Admin, vamos criar uma const chamada infos, que será igual a super.exibirInfos().
+
+Porém, agora vamos retornar outra informação: uma string escrito "admin" hardcoded, seguido de um traço (-), e em vez de retornar this.nome, this.email e this.role, retornaremos apenas infos.
+
+Admin.js:
+
+```JavaScript
+// código omitido
+exibirInfos() {
+  const infos = super.exibirInfos()
+  return `admin - ${infos}`;
+}
+// código omitido
+```
+
+Testando o código
+De volta ao arquivo index.js, vamos executar o mesmo comando:
+
+```JavaScript
+node index.js
+```
+
+Retorno do comando:
+
+```JavaScript
+Juliana, j@j.com
+admin - Rodrigo, r@r.com
+```
+
+Funcionou como esperado, então o método exibirInfos() executado a partir da superclasse trouxe as informações-base da superclasse, mas a implementação que fizemos na classe Admin executa o método exibirInfos() que veio da superclasse User, guarda as informações em uma variável, e assim, podemos modificar o retorno do método.
+
+Dessa forma, o método não retorna mais o mesmo que a superclasse, mas sim informações específicas para pessoas administradoras: primeiro informamos que é "admin"; depois passamos dados com infos.
+
+Utilizamos um exemplo específico, mas ele se aplica a qualquer lógica que você queira implementar. A partir deste exemplo, você pode abstrair conforme o caso do seu projeto.
+
+O que é override?  
+Quando alteramos o comportamento de um método, nada impede de refazer a lógica com base na lógica da superclasse e modificar o retorno.
+
+Portanto, quando definimos uma lógica diferente interna para o método exibirInfos(), o nome é o mesmo, mas eles não interferem uns nos outros.
+
+O que criamos foi um método chamado override, ou seja, uma sobrescrita de método. A classe base User.js tem um método exibirInfos() para o contexto dela, e sobrescrevemos o mesmo método com um novo comportamento.
+
+Todos esses termos, como comportamento e sobrescrita, são usados frequentemente em orientação a objetos.
+
+Agora, o método exibirInfos() de Admin.js tem um comportamento próprio específico para esse caso.
+
+Parece um pouco contraproducente, pois no final, temos dois métodos exibirInfos(), mas nesse caso, queremos ter um método base, e quando for necessário que uma subclasse estabeleça um comportamento diferente, ela deve poder fazer isso sobrescrevendo o método original. Logo, ainda temos o método original funcionando normalmente.
+
+Para as partes do código que executam a função, no arquivo index.js onde é feito o uso dos métodos, o método exibirInfos() é o mesmo. Quem está fora da classe, não sabe que a implementação interna é diferente.
+
+Independentemente de exibir informações de uma pessoa usuária ou de um administrador, chamamos o método e o restante do código sequer sabe que a implementação interna é diferente, só recebe o que precisa.
+
+Conclusão  
+Em resumo, herança é quando uma classe deriva de outra e herda as propriedades e os métodos dessa classe, enquanto polimorfismo é quando o sistema é capaz de decidir quando a lógica interna de um método é modificada.
+
+Por exemplo: a depender do contexto onde o método é executado (no contexto de User, no contexto de Admin, e assim por diante), podemos ter comportamentos diferentes, ou seja, a lógica interna de um método é modificada, o que pode modificar o seu retorno, entre outros fatores.
+
+Isso não é tudo sobre polimorfismo, então continuaremos explorando formas de trabalhar com ele e as implicações delas para o JavaScript!
+
+### Aula 05 - Adaptando polimorfismo ao JS - Vídeo 2
+
+Transcrição  
+Dos conceitos que apresentamos até agora, o polimorfismo é um pouco mais complexo, pois há várias formas de implementá-lo, de acordo com a linguagem usada e com o que queremos fazer.
+
+No caso do JavaScript, devido à maneira como a linguagem foi criada e desenvolvida, existem algumas limitações para se trabalhar com polimorfismo.
+
+Adaptando polimorfismo ao JavaScript  
+Para exemplificar, vamos observar a classe Admin. Ela tem um método chamado criarCurso() que recebe dois parâmetros: nomeCurso e qtdVagas. Mas, o que isso tem a ver com polimorfismo?
+
+O que é assinatura de função?  
+Uma das formas mais usuais de implementar polimorfismo é utilizando algo que, em programação, chamamos de assinatura de função (function signature).
+
+A assinatura é um conjunto de informações composto, primeiramente, pelo nome da função (neste caso, criarCurso()).
+
+Depois, pelo conjunto de parâmetros que ela recebe e o tipo de dado que vem no parâmetro (criarCurso() tem dois parâmetros: nomeCurso, uma string; e qtdVagas, um number).
+
+Além disso, a assinatura pode incluir o tipo do retorno. Em criarCurso(), por exemplo, o retorno é uma string, então sempre sabemos que será uma string contendo alguma informação.
+
+A assinatura de função permite que algumas linguagens, como Java (a qual muitas vezes associamos à orientação a objetos), consiga utilizar a assinatura para termos uma mesma função definida com parâmetros diferentes.
+
+Dessa forma, a linguagem consegue implementar, internamente, comportamentos separados de acordo com os parâmetros que a função irá receber.
+
+Assim, na prática, podemos ter duas funções com o mesmo nome, algo que o JavaScript não permite. No caso do arquivo Admin.js, há duas funções criarCurso(), que recebem parâmetros diferentes, ou seja, assinaturas diferentes, e, internamente, têm outras lógicas.
+
+Essa é uma forma de modificar o comportamento de um método ou função: modificando a entrada, isto é, a assinatura, e dentro dele, de acordo com a assinatura, é modificada também a lógica interna.
+
+O JavaScript não consegue trabalhar com assinatura de função e usar essa forma de modificar métodos, pois ao contrário do Java, ele é uma linguagem dinamicamente e fracamente tipada, e não é compilada. O Java faz todas essas verificações em tempo de compilação, mas o JavaScript não consegue.
+
+Deixaremos mais informações sobre tipagem forte, tipagem fraca, e tipagem dinâmica nos links das atividades, onde você poderá acessar um artigo bastante completo.
+
+O que precisamos saber no momento é que, no caso do JavaScript, se quisermos implementar a forma mais usual de polimorfismo, baseada na assinatura, precisamos fazer algumas adaptações.
+
+Redeclarando o método exibirInfos()  
+Com o arquivo User.js aberto, vamos acessar o método exibirInfos() entre as linhas 42 e 44 e comentá-lo para manter guardado no código.
+
+Em seguida, iremos redeclará-lo, então na linha 46, criaremos novamente exibirInfos(). Ele não irá receber parâmetros, assim como o anterior.
+
+User.js:
+
+```JavaScript
+// código omitido
+// exibirInfos() {
+//   return `${this.nome}, ${this.email}`
+// }
+
+exibirInfos() {
+
+}
+// código omitido
+```
+
+Para simular o comportamento de receber outros parâmetros e se comportar de maneira diferente, faremos algumas condicionais no escopo do próprio método exibirInfos().
+
+Criando condicionais  
+Digamos que se this.role for igual a "estudante", ou seja, se esse método for chamado a partir de qualquer instância onde role seja "estudante" (if (this.role === "estudante")), vamos querer retornar algumas informações pertinentes a estudante.
+
+Sendo assim, na linha 47, no escopo do bloco if, adicionaremos um return seguido de uma string contendo a mensagem "dados estudante:" hardcoded, seguida de ${this.nome} para retornar apenas o nome da pessoa estudante. É somente disso que precisamos para o primeiro caso.
+
+```JavaScript
+// código omitido
+exibirInfos() {
+  if (this.role === "estudante") {
+    return `dados estudante: ${this.nome}`
+  }
+}
+// código omitido
+```
+
+Podemos continuar fazendo esse tipo de verificação condicional com base nas outras subclasses. Na linha 50, faremos outro if, dizendo que se this.role for igual a "admin", queremos outro comportamento ao executar exibirInfos().
+
+Vamos copiar a linha de return do bloco if anterior e colar na linha 51, no escopo de "admin", para depois substituir com os dados desejados. Agora queremos que retorne "dados admin:" seguido de ${this.nome} e um segundo placeholder ${this.role}, para sabermos se é "admin" de fato.
+
+```JavaScript
+// código omitido
+exibirInfos() {
+  if (this.role === "estudante") {
+    return `dados estudante: ${this.nome}`
+  }
+  if (this.role === "admin") {
+    return `dados admin: ${this.nome}, ${this.role}`
+  }
+}
+// código omitido
+```
+
+Por fim, adicionaremos a subclasse "docente" com uma última verificação: se this.role for igual a "docente", retornaremos "dados docente:" com os placeholders this.nome e this.email.
+
+```JavaScript
+// código omitido
+exibirInfos() {
+  if (this.role === "estudante") {
+    return `dados estudante: ${this.nome}`
+  }
+  if (this.role === "admin") {
+    return `dados admin: ${this.nome}, ${this.role}`
+  }
+  if (this.role === "docente") {
+    return `dados docente: ${this.nome}, ${this.email}`
+  }
+}
+// código omitido
+```
+
+Criando a constante novaDocente  
+Após salvar, vamos acessar o arquivo index.js, onde foram criadas as instâncias. Já temos instâncias criadas para User() e para Admin(). Vamos duplicar a instância de Admin() na linha 11 e, a partir desse trecho, criar a constante novaDocente.
+
+Essa const será igual a new Docente(), onde informaremos que a pessoa se chama "Ana", cujo e-mail é "a@a.com" e a data de nascimento é "2024-01-01".
+
+Por fim, alteramos o conteúdo do console.log() para novaDocente.exibirInfos().
+
+index.js:
+
+```JavaScript
+import User from "./User.js"
+import Admin from "./Admin.js"
+import Docente from "./Docente.js"
+
+const novoUser = new User("Juliana", "j@j.com", "2024-01-01")
+console.log(novoUser.exibirInfos());
+
+const novoAdmin = new Admin("Rodrigo", "r@r.com", "2024-01-01")
+console.log(novoAdmin.exibirInfos());
+
+const novaDocente = new Docente("Ana", "a@a.com", "2024-01-01")
+console.log(novaDocente.exibirInfos());
+```
+
+Com isso, temos o mesmo método exibirInfos() sendo executado a partir de contextos diferentes, isto é, a partir de instâncias e subclasses diferentes.
+
+Executando no terminal
+No terminal, podemos testar se deu tudo certo com o seguinte comando:
+
+```JavaScript
+node index.js
+```
+
+Retorno do comando:
+
+```JavaScript
+dados estudante: Juliana
+admin - dados admin: Rodrigo, admin
+dados docente: Ana, a@a.com
+```
+
+Note que na superclasse veio "dados estudante", que é a pessoa usuária padrão. Em "admin", havíamos implementado uma sobrescrita de método e ela permaneceu na classe Admin, por isso os dados ficaram um pouco diferentes do que gostaríamos. Para melhorar o resultado, podemos comentar o método exibirInfos() entre as linhas 8 e 11 do arquivo Admin.js.
+
+Admin.js:
+
+```JavaScript
+import User from "./User.js";
+
+export default class Admin extends User {
+  constructor(nome, email, nascimento, role = "admin", ativo = "true") {
+    super(nome, email, nascimento, role, ativo)
+  }
+
+  // exibirInfos() {
+  //   const infos = super.exibirInfos()
+  //   return `admin - ${infos}`;
+  // }
+
+  criarCurso(nomeCurso, qtdVagas) {
+    return `curso ${nomeCurso} criado com ${qtdVagas} vagas.`
+  }
+}
+
+// console.log(novoAdmin.criarCurso('JavaScript', 20));
+```
+
+Feito isso, vamos executar novamente node index.js.
+
+```JavaScript
+node index.js
+```
+
+Retorno do comando:
+
+```JavaScript
+dados estudante: Juliana
+dados admin: Rodrigo, admin
+dados docente: Ana, a@a.com
+```
+
+Agora "dados admin" vem do método da superclasse. Assim como "dados admin", temos "dados docente" funcionando corretamente ao final do retorno.
+
+Modificando comportamentos por parâmetro  
+De volta ao arquivo User.js, nesse caso específico de exibirInfos(), utilizamos contexto para definir a lógica interna e mudar o comportamento do método.
+
+No entanto, isso também poderia ser feito a partir de um parâmetro. Poderíamos passar o role via parâmetro para exibirInfos() na linha 46, e fazer a mesma lógica interna de: pegar o parâmetro recebido; fazer a verificação do tipo do parâmetro e dos dados recebidos; e a partir disso, criar condicionais para definir qual será o comportamento interno do método pertinente.
+
+User.js:
+
+```JavaScript
+// código omitido
+
+exibirInfos(role) {
+  // código omitido
+}
+
+// código omitido
+```
+
+O que fizemos foi apenas um exemplo, e a partir dele, você pode abstrair para o que o seu projeto precisa.
+
+Conhecendo o conceito de overloading  
+Essa forma de modificar o comportamento de um método se chama overloading, ou seja, sobrecarga. Temos function overloading (sobrecarga de função), method overloading (sobrecarga de método), e conforme explicado antes, o JavaScript não consegue implementar da forma mais "natural".
+
+Modificar o comportamento de um método a partir da verificação, isto é, das condicionais, tem um lado não tão bom: da maneira como a verificação foi implementada, o método ficou muito acoplado, pois há bastante informação hardcoded para ser verificada.
+
+Nesse caso, o role precisa ser uma string "estudante", por exemplo, e se adicionarmos outra subclasse com outro tipo de pessoa usuária, será necessário adicionar mais uma condicional em exibirInfos().
+
+No nosso projeto, a estratégica aplicada com a sobrescrita da função exibirInfos(), nos casos específicos onde a subclasse precisa de outro comportamento, pode ser o mais indicado.
+
+Dito isso, deixaremos o exemplo do arquivo User.js como fizemos antes:
+
+// código omitido
+
+```JavaScript
+exibirInfos() {
+  if (this.role === "estudante") {
+    return `dados estudante: ${this.nome}`
+  }
+  if (this.role === "admin") {
+    return `dados admin: ${this.nome}, ${this.role}`
+  }
+  if (this.role === "docente") {
+    return `dados docente: ${this.nome}, ${this.email}`
+  }
+}
+
+// código omitido
+```
+
+Reforçamos que, a depender da forma como fazemos as verificações dos parâmetros, o código pode ficar um pouco mais acoplado do que desejado.
+
+Conforme dito anteriormente, essa forma que o JavaScript não consegue implementar, de ter assinaturas de função e, a partir delas, modificar o comportamento, é chamado de overloading.
+
+Conclusão  
+A partir desse ponto, especialmente em relação ao polimorfismo, há algumas coisas que o TypeScript irá solucionar, trazendo mais funcionalidades para ajudar o JavaScript a implementar, pois já sabemos que o JavaScript tem limitações ligadas à forma como a linguagem foi pensada.
+
+Deixaremos materiais extra com informações sobre o que é TypeScript, um conjunto de funcionalidades que adicionamos ao JavaScript, e como ele pode ajudar a expandir o uso do JavaScript com orientação a objetos, devido às funcionalidades extras que estão mais alinhadas à forma como outras linguagens usualmente trabalham com orientação a objetos.
+
+Na sequência, finalizaremos o conteúdo com alguns detalhes sobre implementação de classes em JavaScript!
+
+### Aula 05 - Para saber mais: próximos passos - TS e SOLID
+
+A partir deste momento, você já pode utilizar princípios da orientação a objetos em vários projetos, inclusive conferindo como elas são utilizadas em projetos e frameworks na [formação de APIs com Node.js e Express](https://cursos.alura.com.br/formacao-node-js-express).
+
+Porém, é possível se aprofundar ainda mais nos estudos focando somente em orientação a objetos, indo além do que o JavaScript implementa nativamente. Estamos falando aqui do famoso TypeScript e dos princípios SOLID.
+
+TypeScript e a orientação a objetos  
+Por ter sido pensada inicialmente tendo como foco a herança de protótipo, não há em JavaScript várias ferramentas importantes na orientação a objetos “clássica”. Porém é possível contornar essa questão utilizando TypeScript.
+
+O TypeScript é o que chamamos de superset, ou seja, um pacote de funcionalidades extras que é “adicionado” ao JavaScript e que permite a adição de diversas funcionalidades ao código. As mais importantes são relacionadas à [tipagem](https://www.alura.com.br/artigos/o-que-sao-as-tipagens-estatica-e-dinamica-em-programacao), mas também foram adicionadas diversas ferramentas que fazem muita diferença na implementação de um projeto orientado a objetos, como interfaces, modificadores de acesso, classes abstratas, entre outros.
+
+SOLID  
+SOLID é um acrônimo para cinco princípios de design de software com orientação a objetos, visando manutenção, legibilidade, escalabilidade e boas práticas em geral:
+
+- S: Single responsibility principle (princípio da responsabilidade única).
+- O: Open/closed principle (princípio do aberto/fechado).
+- L: Liskov substitution principle (princípio da substituição de Liskov).
+- I: Interface segregation principle (princípio da segregação de interface).
+- D: Dependency inversion principle (princípio da inversão de dependência).
+- O estudo e prática dos princípios SOLID são o próximo passo para aperfeiçoar seus conhecimentos em orientação a objetos.
+
+Próximos passos  
+Se você quer mergulhar mais fundo em orientação a objetos, agora que já tem os fundamentos, os próximos passos são:
+
+1. O estudo de TypeScript, como utilizar esse superset e suas funcionalidades extras. Confira os cursos de [API com TypeScript](https://cursos.alura.com.br/course/typescript-construcao-api-tipagem-segura) e [erros e validações com TypeScript](https://cursos.alura.com.br/course/typescript-desenvolvendo-validacoes-tratando-erros), ambos parte da [formação de Nest.js](https://cursos.alura.com.br/formacao-nest-js);
+2. Caso você já tenha alguma familiaridade com o TypeScript, pode conferir a [formação de boas práticas em Node.js com TypeScript](https://cursos.alura.com.br/formacao-boas-praticas-node-js-typescript), na qual abordamos com detalhes os princípios SOLID e boas práticas relacionadas a orientação a objetos com TypeScript.
+Bons estudos!
+
+### Aula 05 - Métodos estáticos - Vídeo 3
+
+Transcrição  
+Se você já realizou testes e praticou com frameworks ou bibliotecas externas, pode estar com uma dúvida.
+
+Nesses casos, você provavelmente nunca precisou criar nada com new e tudo funcionou. Então, sempre é preciso instanciar uma classe para usar os métodos? Ou podemos apenas criar métodos que não dependam nem de uma nova instância com new, nem, por exemplo, de um construtor de classe como utilizamos no user?"
+
+Criando um método estático  
+Para entendermos isso, faremos um teste. Suponhamos que, dentro da classe user, queremos criar um novo método para poderem ser feitas algumas simulações no sistema utilizando dados fictícios. Como a simulação de um novo curso, novo usuário, plano de assinatura, entre outros.
+
+No arquivo User.js, criaremos abaixo de exibirInfos(), próximo à linha 59, uma nova classe chamada exibirInfos.
+
+Você pode estar se perguntando: mas não foi dito que o JavaScript não permite que tenhamos duas classes com o mesmo nome?
+
+Porém, antes de exibirInfos(), adicionamos a palavra-chave static. Agora podemos passar alguns parâmetros para o usuário fictício, porque ele não virá de nenhuma instância de usuário.
+
+Nos parênteses, passamos nome, email. Fora, adicionamos chaves e dentro passamos return ``` ${nome}, ${email}```. Não tem this, pois não queremos trabalhar com uma instância específica e sim um contexto. Sendo assim, só entra o dado do parâmetro.
+
+User.js
+
+```JavaScript
+//Código omitido
+static exibirInfos(nome, email) {
+    return `${nome}, ${email}`
+    }
+}
+//Código omitido
+```
+
+Testanto o método estático  
+Feito isso, abrimos o index.js. Comentaremos o novoAdmin e novaDocente adicionando // no início de todas as linhas. Assim deixamos o terminal um pouco mais limpo de informações.
+
+Após, na linha 8, abaixo de const novoUser, passamos const dadosFicticios = User.exibirInfos('Cassio', 'c@c.com'). Abaixo, chamamos o console.log(dadosFicticios) para exibir os dados.
+
+index.js
+
+```JavaScript
+//Código omitido
+const dadosFicticios = User.exibirInfos('Cassio', 'c@c.com')
+console.log(dadosFicticios);
+```
+
+Na barra de menu superior, clicamos em "Terminal > New terminal". Após, passamos o comando node index.js. Assim, temos o retorno abaixo:
+
+dados estudantes: Juliana Cassio, c@c.com
+
+Temos os dados da estudante Juliana e o retorno dos nossos dados genéricos. Então, repare que, usamos a palavra-chave static e isso tornou exibirInfos(), executado a partir de uma instância, diferente de exibirInfos(), executado a partir de user.
+
+Nesse caso, pode ter o mesmo nome, pois ExibirInfos agora tem uma versão static, é um método estático. Porém, nesse caso trocaremos o nome para um mais descritivo. Nesse caso static exibirInfosGenericas().
+
+User.js
+
+```JavaScript
+//Código omitido
+
+static exibirInfosGenericas(nome, email) {
+    return `${nome}, ${email}`
+    }
+}
+//Código omitido
+```
+
+Após, voltamos em Index.js e na linha 8, mudamos para User.exibirInfosGenericas().
+
+```JavaScript
+//Código omitido
+const dadosFicticios = User.exibirInfosGenericas('Cassio', 'c@c.com')
+console.log(dadosFicticios);
+```
+
+Abrimos o terminal e rodamos o comando node index.js. Feito isso, notamos que continua funcionando.
+
+Métodos estáticos  
+Métodos estáticos são precisamente métodos que não necessitam de uma nova instância, como a new, nem dependem de um construtor de classe. Você pode até usar construtores em métodos estáticos, mas não é uma prática que utilizamos.
+
+Também é possível ter propriedades estáticas fora do construtor. Se você quiser, pode passar a propriedade estática dentro da sua classe, porém, não dentro do construtor, onde ela passa a pertencer a uma instância específica.
+
+Então, você notou que no método estático nós não utilizamos o this, e no caso da nossa chamada de exibir informações genéricas, o contexto é a própria classe user. Portanto, é a partir dela que fazemos a chamada.
+
+Métodos estáticos também são chamados de métodos de classe, justamente porque eles não pertencem a uma instância específica, pertencem à própria classe.
+
+Normalmente, usamos métodos estáticos para implementar funcionalidades que não dependem de uma instância específica, que são da classe como um todo.
+
+Por exemplo, configurações que a classe sempre precisa ter, não precisam depender de uma instância. Portanto, é por isso que muitas vezes durante a sua rotina de desenvolvimento, você vai se deparar com métodos que você não precisa instanciar, basta chamar e ele funciona.
+
+Vai depender de cada caso se será necessário uma instância ou não.
+
+A partir de agora, com o que estudamos neste curso, você já consegue criar suas próprias classes nos projetos e também fazer uso de bibliotecas, frameworks, dependências externas que utilizem classes. Para isso, analise a documentação para conferir como fazer a implementação.
+
+Você já sabe o que são propriedades, métodos e instâncias. Além disso, sabe o que acontece quando criamos uma nova instância utilizando o new, o que precisamos passar para construir a classe.
+
+Lembrando que: especialmente falando em polimorfismo, o JavaScript tem algumas limitações. Por isso, recomendamos que se você deseja continuar os estudos em orientação a objetos, foque em TypeScript.
+
+Assim, você aprenderá novos conteúdos e conseguirá fazer outras implementações, não só do polimorfismo, como herança, interfaces e outras coisas muito importantes na orientação a objetos.
+
+Por enquanto, nós ficamos por aqui. Te esperamos no último vídeo!
+
+### Aula 05 - Faça como eu fiz: praticando polimorfismo com args
+
+Durante a aula, fizemos testes com algumas possibilidades para se aplicar polimorfismo utilizando JavaScript.
+
+Em um dos exemplos, modificamos o comportamento interno do método com base no contexto de execução:
+
+```JavaScript
+  exibirInfos() {
+    if (this.role === "estudante") {
+      return `dados estudante: ${this.nome}`
+    }
+    if (this.role === "admin") {
+      return `dados admin: ${this.nome}, ${this.role}`
+    }
+    if (this.role === "docente") {
+      return `dados docente: ${this.nome}, ${this.email}`
+    }
+  }
+```
+
+Uma das formas mais usuais de se fazer essa adaptação é verificando os dados recebidos via parâmetro. Neste exemplo, vamos modificar o comportamento padrão do método exibirInfos para exibir tipos diferentes de informações a partir do que é especificado por parâmetro:
+
+```JavaScript
+ exibirInfos(tipoInfo) {
+   if (tipoInfo === "basic") {
+     return `dados básicos: ${this.nome}`
+   }
+   if (tipoInfo === "complete") {
+     return `dados completos: ${this.nome}, ${this.email}, ${this.nascimento}`
+   }
+ }
+```
+
+Em seguida podemos criar a instância e testar:
+
+```JavaScript
+const novoUser = new User('Juliana', 'j@j.com', '2024-01-01')
+console.log(novoUser.exibirInfos('basic'));
+console.log(novoUser.exibirInfos('complete'));
+```
+
+O resultado no terminal deve ser os dados “básicos” (apenas o nome), seguido dos dados completos (nome, email e data de nascimento):
+
+```JavaScript
+dados básicos: Juliana
+dados completos: Juliana, j@j.com, 2024-01-01
+```
+
+Usando o objeto arguments  
+Em JavaScript, arguments é um objeto “array-like” presente em todas as funções e que corresponde a uma lista de argumentos passados para uma função ou método no momento da execução.
+
+Por exemplo, no método novoUser.exibirInfos('basic') o objeto arguments pode ser consultado da seguinte forma:
+
+```JavaScript
+ exibirInfos(tipoInfo) {
+   console.log(arguments);
+   if (tipoInfo === "basic") {
+     return `dados básicos: ${this.nome}`
+   }
+   if (tipoInfo === "complete") {
+     return `dados completos: ${this.nome}, ${this.email}, ${this.nascimento}`
+   }
+ }
+```
+
+Executando o código novamente, temos o resultado no console:
+
+```JavaScript
+[Arguments] { '0': 'basic' }
+dados básicos: Juliana
+[Arguments] { '0': 'complete' }
+dados completos: Juliana, j@j.com, 2024-01-01
+```
+
+Sendo um objeto “array-like”, é possível iterar e acessar os parâmetros a partir de sua posição, como em qualquer array.
+
+Refatorando a função:
+
+```JavaScript
+ exibirInfos() {
+   const infoSelecionada = arguments[0]
+   console.log('tipo de info selecionada', infoSelecionada);
+ }
+```
+
+Testando o método com a instância e as chamadas:
+
+```JavaScript
+const novoUser = new User('Juliana', 'j@j.com', '2024-01-01')
+novoUser.exibirInfos('basic')
+novoUser.exibirInfos('complete')
+```
+
+Obtemos o seguinte retorno, vindo direto do objeto arguments:
+
+```JavaScript
+tipo de info selecionada basic
+tipo de info selecionada complete
+```
+
+A partir do que já estudamos sobre objetos, é possível utilizar o objeto arguments para refatorar o código, retirando as condicionais e organizando os possíveis retornos em um objeto:
+
+```JavaScript
+ exibirInfos() {
+   const tipos = {
+     basic: `dados básicos: ${this.nome}`,
+     complete: `dados completos: ${this.nome}, ${this.email}, ${this.nascimento}`
+   }
+   return tipos[arguments[0]]
+ }
+```
+
+Testando novamente:
+
+```JavaScript
+const novoUser = new User('Juliana', 'j@j.com', '2024-01-01')
+console.log(novoUser.exibirInfos('basic'))
+console.log(novoUser.exibirInfos('complete'))
+```
+
+Obtemos os retornos desejados, modificando o comportamento interno do método baseado nos dados recebidos via parâmetro:
+
+```JavaScript
+dados básicos: Juliana
+dados completos: Juliana, j@j.com, 2024-01-01
+```
+
+Ainda há muito mais possibilidades de uso para este padrão, chamado de rest parameters (parâmetros rest). Você pode conferir mais exemplos no [MDN](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Functions/rest_parameters).
+
+Opinião do instrutor
+
+Não deixe de testar os exemplos!
+
+Caso precise de ajuda, acesse o nosso Discord e o fórum do curso!
+
+### Aula 05 - Sobre polimorfismo com JavaScript
+
+Durante a aula, estudamos algumas formas de implementar técnicas de polimorfismo em JavaScript, considerando as características da linguagem.
+
+Considere o código abaixo:
+
+```JavaScript
+export default class User {
+  #nome
+  #email
+  #nascimento
+  #role
+  #ativo
+  constructor(nome, email, nascimento, role, ativo = true) {
+    this.#nome = nome
+    this.#email = email
+    this.#nascimento = nascimento
+    this.#role = role || "estudante"
+    this.#ativo = ativo
+  }
+  get nome() {
+    return this.#nome
+  }
+  get email() {
+    return this.#email
+  }
+  get nascimento() {
+    return this.#nascimento
+  }
+  get role() {
+    return this.#role
+  }
+  get ativo() {
+    return this.#ativo
+  }
+  exibirInfos() {
+    // Implementação do método
+  }
+}
+```
+
+A partir da classe User, qual seria a melhor maneira de implementar o polimorfismo para exibir as informações dos usuários de forma que respeite as especificidades de cada tipo de usuário (estudante, docente e admin), mantendo o código o mais limpo e eficiente possível?
+
+Alternativa correta  
+Sobrescrever o método exibirInfos em subclasses específicas para cada tipo de usuário.
+
+> Ao utilizarmos a chamada method overriding (sobrescrita de método), cada tipo de usuário pode ter uma implementação específica do método exibirInfos que respeite suas particularidades, mantendo o código organizado, menos desacoplado e seguindo o princípio da responsabilidade única.
+
+### Aula 05 - Para saber mais: links da aula
+
+Confira abaixo a lista de links utilizados durante a aula e/ou links complementares ao conteúdo:
+
+- Artigo da Alura sobre [tipagem estática e dinâmica em programação](https://www.alura.com.br/artigos/o-que-sao-as-tipagens-estatica-e-dinamica-em-programacao);
+- Artigo sobre a [diferença entre herança e polimorfismo](https://www.geeksforgeeks.org/difference-between-inheritance-and-polymorphism/) abordando diversas linguagens (em inglês).
+
+### Aula 05 - Projeto final do curso
+
+Você pode [baixar o zip](https://github.com/alura-cursos/3710-javascript-oo/archive/refs/heads/aula-5.zip) ou acessar o [link do repositório da aula 5 no GitHub](https://github.com/alura-cursos/3710-javascript-oo/tree/aula-5)!
+
+### Aula 05 - O que aprendemos?
+
+Nessa aula, você aprendeu:
+
+- Que chamamos de polimorfismo a alteração de um método de uma classe para que, na subclasse, o mesmo método tenha comportamentos diferentes do método executado no contexto da superclasse;
+- Qual a diferença entre polimorfismo e herança de classe, e como o polimorfismo também é uma ferramenta para desenvolver código - legível e desacoplado;
+- O que são métodos estáticos, qual a diferença entre os métodos instanciados e os estáticos, e em que casos podem ser utilizados.
+
+### Aula 05 - Para ir mais fundo
+
+1. [Techguide: Node.js](https://techguide.sh/pt-BR/path/nodejs/)
+
+> Guia com referência de temas e ferramentas para auxiliar na sua trilha de estudos.
+
+2. Livro: [JavaScript Eloquente](https://github.com/braziljs/eloquente-javascript) (disponível gratuitamente)
+
+> Um dos livros mais usados no aprendizado de JavaScript no mundo.
+
+3. Site: [JavaScript.info](https://javascript.info/)
+
+> Repositório de tutoriais de JavaScript com diversos casos e exemplos. Possui muito conteúdo voltado para front-end, porém, vários exemplos de fundamentos podem ser aproveitados fora do navegador.
+
+4. Livro: [Primeiros passos com Node.js](https://www.google.com/search?q=Primeiros+passos+com+Node.js+Jo%C3%A3o+Rubens&sourceid=chrome&ie=UTF-8) (pago)
+
+> Pratique JavaScript com foco em Node.js do básico até as primeiras aplicações.
+
+5. Livro: JavaScript: o guia definitivohttps://www.google.com/search?q=JavaScript%3A+O+Guia+Definitivo&sourceid=chrome&ie=UTF-8 (pago, disponível em português)
+
+> Principal guia de referência técnica em JavaScript, aborda as especificações da linguagem em sua totalidade.
+
+### Aula 05 - Conclusão - Vídeo
+
+Transcrição  
+Parabéns por concluir mais um curso de Javascript!
+
+Agora, vamos relembrar tudo o que aprendemos.
+
+Primeiro, entendemos como o Javascript é internamente. Compreendemos como funciona o paradigma original do Javascript, que é a herança de protótipo e a cadeia de protótipo, e como essa é a forma original do Javascript trabalhar com orientação a objetos.
+
+Depois, passamos para a orientação a objetos com classes. Estudamos classes, herança de classe, encapsulamento e polimorfismo, que são conceitos fundamentais para se trabalhar com orientação a objetos. Aprendemos, particularmente, como o Javascript trabalha com estes conceitos. Dessa forma, concluímos o curso.
+
+Não deixe de fazer uma avaliação contando o que você gostou e o que podemos melhorar.
+
+Caso ainda não tenha concluído os exercícios ou conferido as atividades extras, esse é o momento para complementar seu aprendizado. Lembrando que o Fórum e o Discord estão sempre disponíveis para te ajudar.
+
+Até o próximo curso!
